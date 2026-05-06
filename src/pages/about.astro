@@ -1,0 +1,241 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import headshot from '../assets/long-headshot.webp';
+
+const title = 'About Long Nguyen — engineer, founder of RDTS | Rubber Duck Tech Solutions';
+const description = 'I\'m Long. Nearly a decade writing production software, since 2018 — before LLMs could ship usable code. Now building custom AI software for teams past Zapier and n8n. Solo studio in Missouri.';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Long Nguyen',
+  url: 'https://rubberducktechsolutions.com/about',
+  image: 'https://rubberducktechsolutions.com/long-headshot.jpg',
+  jobTitle: 'Founder & Engineer',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    legalName: 'Long Win LLC',
+    url: 'https://rubberducktechsolutions.com',
+  },
+  knowsAbout: [
+    'Anthropic Claude API',
+    'OpenAI API',
+    'Custom AI agents',
+    'MCP servers',
+    'Workflow automation',
+    'Astro',
+    'TypeScript',
+    'Node.js',
+    'PostgreSQL',
+    'Supabase',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'MO',
+    addressCountry: 'US',
+  },
+  sameAs: [
+    'https://www.linkedin.com/in/long-nguyen-a3b6326a/',
+    'https://github.com/LongPNguyen',
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} schema={personSchema}>
+  {/* HERO */}
+  <section class="section-dark">
+    <div class="container-x pt-20 lg:pt-28 pb-12 lg:pb-16">
+      <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-center">
+        <div class="col-span-12 lg:col-span-8">
+          <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Available · 1 of 2 slots · 2026 Q2</span></div>
+          <h1 class="display-h1 mb-6 max-w-[18ch]">
+            I'm <span class="accent-saffron">Long</span>.<br/>
+            I build AI software<br/>
+            that actually <span class="underline-saffron">ships</span><span class="cursor"></span>
+          </h1>
+          <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
+            Solo founder of RDTS. Nearly a decade writing production software — started in 2018,
+            before Midjourney existed and well before LLMs could ship usable code. Spent the agency
+            years as the in-house dev ops leads called when their no-code stack stopped scaling.
+            Went solo to build the software those teams actually needed.
+          </p>
+        </div>
+        <div class="hidden lg:flex col-span-4 justify-end">
+          <div class="relative w-full max-w-[300px] aspect-[4/5] overflow-hidden rounded-soft border border-ink-border">
+            <Image
+              src={headshot}
+              alt="Long Nguyen, founder of Rubber Duck Tech Solutions"
+              widths={[300, 600]}
+              sizes="(min-width: 1024px) 300px, 100vw"
+              format="webp"
+              quality={82}
+              class="w-full h-full object-cover object-[70%_center]"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* STORY */}
+  <Section tone="cream" label="The story">
+    <div class="grid grid-cols-12 gap-x-12 gap-y-8">
+      <div class="col-span-12 lg:col-span-8 lg:col-start-3">
+        <div class="prose-rdts">
+          <p>
+            I started writing software for a living in 2018 — before Midjourney existed, before
+            ChatGPT existed, before LLMs could write usable code. I came up traditional: real backends,
+            real frontends, real databases, no AI lifting the keyboard for me. By the time the first
+            useful LLMs landed in 2022 I had four years of production-grade code under my belt and a
+            very clear sense of what AI was good for and what it wasn't.
+          </p>
+
+          <p>
+            I spent those early years as the in-house web developer at two marketing
+            agencies — first as a junior, then as the engineer the founder went to when something had
+            to actually work. Both shops sold creative work as the headline product. Both quietly
+            depended on whatever automation glue I could rig up to make the operational side stay
+            standing.
+          </p>
+
+          <p>
+            The pattern was the same at both. A content lead would buy Zapier. They'd build something
+            brilliant. Around month three, the bill would spike. By month four, they'd be exporting
+            CSVs to make the data move the way they needed. By month six, I'd get a Slack: "is there
+            a way to make this less broken?" By month nine, we'd be running Code by Zapier nodes that
+            should have been a small Node.js service.
+          </p>
+
+          <p>
+            Eventually I figured out that the wall those teams kept hitting wasn't a Zapier problem.
+            It was the same wall any no-code tool builds in front of you the moment your work has
+            actual logic in it. Custom branching. Real database joins. Cost predictability. Multi-step
+            AI calls. Anything that needs to behave correctly under pressure.
+          </p>
+
+          <p>
+            That wall has a door in it, and the door is custom code. Not a 12-month enterprise build.
+            A two-week, one-engineer build that solves the specific bottleneck and ships with the
+            source code in your repo.
+          </p>
+
+          <p>
+            That's RDTS. It's me, working solo, charging fixed prices, building real software for
+            content teams that outgrew their no-code stack. <a href="/talk">Talk to the duck</a> if
+            you want to hear what that looks like for your specific problem.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* WHAT I BELIEVE */}
+  <Section tone="dark" label="What I believe">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {[
+        ['No-code is great until it isn\'t.', 'Zapier and n8n are the right tools for a real range of jobs. The pitch isn\'t "no-code is bad." It\'s "you graduated, here\'s what comes next."'],
+        ['Source code transfers to you.', 'I don\'t build "your software, hosted by us." I build your software, deployed wherever you want, with the repo in your hands. Take it anywhere later.'],
+        ['Pricing is a feature.', 'You should know what something costs before you book a call. The three tiers are visible on every page for a reason.'],
+        ['Solo, on purpose.', 'No agency layer between you and the engineer. The person you talk to first is the person writing your code. That\'s the entire point.'],
+        ['Specific over generic.', 'I tell you which Anthropic model I\'d use, which database, which deployment target — and why. You hire me for opinions, not vibes.'],
+        ['Honest no-list.', 'There\'s work I\'m wrong for. Mobile apps, ML training, equity-only deals. I\'ll refer you out instead of taking the job and disappointing you.'],
+      ].map(([head, body]) => (
+        <div class="card-dark p-6">
+          <h3 class="text-[18px] font-semibold tracking-tight2 text-bone mb-2">{head}</h3>
+          <p class="text-[14px] text-bone-dim leading-[1.6]">{body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  {/* CREDIBILITY MARKERS */}
+  <Section tone="cream" label="The receipts">
+    <div class="grid grid-cols-12 gap-x-8 gap-y-10">
+      <div class="col-span-12 lg:col-span-5">
+        <h2 class="display-h2 mb-5">Real builds.<br/>Not lorem ipsum.</h2>
+        <p class="text-[15px] text-coal-dim leading-[1.65] max-w-[44ch] mb-6">
+          The clearest signal of "is this person actually a working engineer?" is real software with
+          real users. Three projects worth pointing at:
+        </p>
+      </div>
+
+      <div class="col-span-12 lg:col-span-7 space-y-5">
+        <div class="card-cream p-6">
+          <div class="flex items-baseline justify-between mb-2">
+            <h3 class="text-[24px] font-semibold tracking-tight2 text-coal">ClipMango</h3>
+            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">solo · ongoing</span>
+          </div>
+          <p class="text-[15px] text-coal-dim leading-[1.65]">
+            AI music video pipeline. Multi-model orchestration across Claude (lyric understanding),
+            OpenAI (generation), and Seedance (video). Production-grade lip-sync, beat-detection,
+            shot-by-shot prompt engineering. Strongest demo of what's actually possible end-to-end.
+          </p>
+        </div>
+
+        <div class="card-cream p-6">
+          <div class="flex items-baseline justify-between mb-2">
+            <h3 class="text-[24px] font-semibold tracking-tight2 text-coal">Lee De Card</h3>
+            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">lead dev · 2024</span>
+          </div>
+          <p class="text-[15px] text-coal-dim leading-[1.65]">
+            AI-driven creator booking platform. Calendar integration, automated outreach, intake
+            workflows. Built on a small team where I owned the engineering side end-to-end.
+          </p>
+        </div>
+
+        <div class="card-cream p-6">
+          <div class="flex items-baseline justify-between mb-2">
+            <h3 class="text-[24px] font-semibold tracking-tight2 text-coal">Dragon Wagons</h3>
+            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">site + tooling · 2024</span>
+          </div>
+          <p class="text-[15px] text-coal-dim leading-[1.65]">
+            Marketing site + content automation backend. The kind of "we need a real engineer for the
+            ops layer behind our public-facing site" project that's a textbook RDTS engagement.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* CONTACT / CTA */}
+  <Section tone="dark">
+    <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-center">
+      <div class="col-span-12 lg:col-span-7">
+        <div class="label mb-4">Reach me</div>
+        <h2 class="display-h2 mb-5">
+          Easiest way<br/>
+          is to <span class="accent-saffron">talk</span>.
+        </h2>
+        <p class="text-[16px] text-bone-dim leading-[1.65] max-w-[58ch] mb-7">
+          Free 5-minute conversation with the duck — the custom AI scoping agent I built — or with me
+          directly. Tell me what you're trying to build and you'll leave with a scoped tier and a
+          fixed price.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="/talk" class="btn btn-primary">Talk to the duck</a>
+          <a href="/contact" class="btn btn-outline-light">Email instead</a>
+        </div>
+      </div>
+      <div class="col-span-12 lg:col-span-5">
+        <div class="card-dark p-6">
+          <div class="label label--dim mb-4">Vitals</div>
+          <dl class="space-y-3 text-[14px]">
+            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Name</dt><dd class="text-bone font-medium">Long Nguyen</dd></div>
+            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Studio</dt><dd class="text-bone font-medium">RDTS / Long Win LLC</dd></div>
+            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Based</dt><dd class="text-bone font-medium">Missouri, US</dd></div>
+            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Working solo</dt><dd class="text-bone font-medium">Yes</dd></div>
+            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Tier range</dt><dd class="text-bone font-medium">$1.5K – Custom</dd></div>
+            <div class="flex justify-between gap-4"><dt class="text-bone-mute">Best for</dt><dd class="text-bone font-medium text-right">content teams<br/>outgrowing no-code</dd></div>
+          </dl>
+          <div class="flex gap-3 mt-5 pt-4 border-t border-ink-border">
+            <a href="https://www.linkedin.com/in/long-nguyen-a3b6326a/" target="_blank" rel="noopener" class="btn btn-outline-light text-[13px] py-2 px-4">LinkedIn</a>
+            <a href="https://github.com/LongPNguyen" target="_blank" rel="noopener" class="btn btn-outline-light text-[13px] py-2 px-4">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,96 @@
+---
+const { pathname } = Astro.url;
+const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+
+const links = [
+  { href: '/solutions/n8n-alternative',     label: 'Solutions' },
+  { href: '/services/ai-developer-for-hire', label: 'Services' },
+  { href: '/pricing',                        label: 'Pricing' },
+  { href: '/about',                          label: 'About' },
+  { href: '/contact',                        label: 'Contact' },
+];
+---
+
+<nav
+  class="sticky top-0 z-40 pt-3 pb-1 px-3 sm:px-5"
+  aria-label="Primary"
+>
+  <div class="mx-auto max-w-[1280px] bg-ink/95 backdrop-blur-md border border-ink-border rounded-pill flex items-center justify-between pl-5 pr-3 sm:pl-6 sm:pr-4 h-[58px] shadow-pill-dark">
+    <a
+      href="/"
+      class="flex items-center gap-2.5 group"
+      aria-label="Rubber Duck Tech Solutions, home"
+    >
+      <img src="/logo-rdts-duck.webp" alt="" width="44" height="44" class="w-11 h-11 object-contain shrink-0 self-center" />
+      <span class="font-sans font-bold text-bone text-[19px] tracking-tight2 group-hover:text-saffron transition-colors">RDTS</span>
+    </a>
+
+    <div class="hidden lg:flex items-center gap-7 text-[14px] font-medium text-bone-dim">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={[
+            'transition-colors',
+            isActive(l.href) ? 'text-saffron' : 'hover:text-bone',
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+    </div>
+
+    <a
+      href="/talk"
+      class="hidden sm:inline-flex items-center gap-2 bg-saffron hover:bg-saffron-light text-coal font-semibold rounded-pill px-5 py-2.5 text-[14px] transition-colors"
+    >
+      Talk to the duck
+    </a>
+
+    <button
+      type="button"
+      class="lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-1 text-bone"
+      aria-label="Open menu"
+      aria-expanded="false"
+      data-menu-trigger
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" class="w-5 h-5" aria-hidden="true">
+        <line x1="3" y1="7"  x2="21" y2="7" />
+        <line x1="3" y1="13" x2="21" y2="13" />
+        <line x1="3" y1="19" x2="21" y2="19" />
+      </svg>
+    </button>
+  </div>
+
+  {/* Mobile drawer */}
+  <div
+    id="mobile-menu"
+    class="lg:hidden hidden mt-2 mx-auto max-w-[1280px] bg-ink card-dark rounded-card overflow-hidden"
+    aria-hidden="true"
+  >
+    <ul class="divide-y divide-ink-border">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="block px-5 py-4 text-bone hover:text-saffron text-[16px] font-medium">
+            {l.label}
+          </a>
+        </li>
+      ))}
+      <li class="p-4">
+        <a href="/talk" class="btn btn-primary w-full">Talk to the duck</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const trigger = document.querySelector('[data-menu-trigger]') as HTMLButtonElement | null;
+  const menu = document.getElementById('mobile-menu');
+  if (trigger && menu) {
+    trigger.addEventListener('click', () => {
+      const open = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden');
+      menu.setAttribute('aria-hidden', open ? 'true' : 'false');
+      trigger.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  }
+</script>

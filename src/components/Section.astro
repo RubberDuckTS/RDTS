@@ -1,0 +1,46 @@
+---
+/**
+ * Alternating dark / cream section wrapper.
+ *
+ *   <Section tone="dark">…</Section>
+ *   <Section tone="cream">…</Section>
+ *
+ * Provides consistent vertical rhythm + container width.
+ * Use `label` to render the // section label at the top.
+ */
+interface Props {
+  tone?: 'dark' | 'cream';
+  label?: string;
+  id?: string;
+  class?: string;
+  /** Tighten top padding (used right under nav) */
+  tight?: boolean;
+}
+
+const {
+  tone = 'cream',
+  label,
+  id,
+  class: className = '',
+  tight = false,
+} = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={[
+    'section',
+    tone === 'dark' ? 'section-dark' : 'section-cream',
+    tight && 'pt-12 lg:pt-20',
+    className,
+  ]}
+>
+  <div class="container-x">
+    {label && (
+      <div class:list={['label mb-5 lg:mb-7', tone === 'dark' ? '' : 'label--coal']}>
+        <span>{label}</span>
+      </div>
+    )}
+    <slot />
+  </div>
+</section>

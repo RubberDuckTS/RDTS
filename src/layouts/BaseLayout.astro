@@ -1,0 +1,187 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** OG image absolute URL or path under public/. Defaults to a sensible one. */
+  ogImage?: string;
+  /** Canonical URL path (e.g., "/solutions/n8n-alternative"). Defaults to current pathname. */
+  canonical?: string;
+  /** Schema.org JSON-LD object — page-specific. */
+  schema?: object | object[];
+  /** noindex flag (for placeholder pages). */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/logo-rdts.webp',
+  canonical: canonicalProp,
+  schema,
+  noindex = false,
+} = Astro.props;
+
+const SITE = 'https://rubberducktechsolutions.com';
+const canonicalPath = canonicalProp ?? Astro.url.pathname;
+const canonicalUrl  = new URL(canonicalPath, SITE).toString();
+const ogImageUrl    = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE).toString();
+
+// Always include Organization schema; merge with page-specific schema.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Rubber Duck Tech Solutions',
+  alternateName: 'RDTS',
+  legalName: 'Long Win LLC',
+  url: SITE,
+  logo: `${SITE}/logo-rdts.webp`,
+  description: 'Custom AI software for content teams who outgrew Zapier and n8n.',
+  founder: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressRegion: 'MO',
+    addressCountry: 'US',
+  },
+  sameAs: [
+    'https://www.linkedin.com/in/long-nguyen-a3b6326a/',
+    'https://github.com/LongPNguyen',
+  ],
+};
+
+const schemas = schema
+  ? (Array.isArray(schema) ? [orgSchema, ...schema] : [orgSchema, schema])
+  : [orgSchema];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+    <meta name="author" content="Long Nguyen" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="color-scheme" content="dark light" />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content="Rubber Duck Tech Solutions" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Rubber Duck Tech Solutions" />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="Rubber Duck Tech Solutions" />
+
+    {/* Favicons */}
+    <link rel="icon" type="image/webp" href="/logo-rdts-duck.webp" />
+    <link rel="apple-touch-icon" href="/logo-rdts-duck.webp" />
+
+    {/* Schema.org JSON-LD */}
+    {schemas.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+
+    {/* Theme color matches dark hero bg */}
+    <meta name="theme-color" content="#0E1116" />
+  </head>
+  <body class="antialiased bg-ink text-bone">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-saffron focus:text-coal focus:px-3 focus:py-2 focus:rounded-pill focus:font-medium focus:text-sm"
+    >
+      Skip to main content
+    </a>
+
+    <Nav />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    {/* === FOOTER === */}
+    <footer class="section-dark border-t border-ink-border">
+      <div class="container-x py-14 lg:py-20">
+        <div class="grid grid-cols-12 gap-x-6 gap-y-10">
+          <div class="col-span-12 lg:col-span-5">
+            <div class="flex items-center gap-3 mb-4">
+              <img src="/logo-rdts-duck.webp" alt="" width="44" height="44" class="w-11 h-11 object-contain shrink-0" />
+              <div>
+                <div class="font-bold text-bone text-[18px] tracking-tight2">RDTS</div>
+                <div class="text-bone-mute text-[13px]">Rubber Duck Tech Solutions</div>
+              </div>
+            </div>
+            <p class="text-bone-dim text-[14px] leading-relaxed max-w-[40ch] mb-5">
+              Custom AI software for content teams who outgrew Zapier and n8n.
+              Built solo by Long Nguyen.
+            </p>
+            <p class="text-bone-mute text-[12px] leading-relaxed max-w-[40ch]">
+              A trade name of Long Win LLC, registered in Missouri.
+            </p>
+          </div>
+
+          <div class="col-span-6 lg:col-span-3">
+            <div class="label label--dim mb-4">Solutions</div>
+            <ul class="space-y-2 text-[14px] text-bone-dim">
+              <li><a href="/solutions/n8n-alternative" class="hover:text-saffron transition-colors">n8n alternative</a></li>
+              <li><a href="/solutions/n8n-vs-zapier" class="hover:text-saffron transition-colors">n8n vs Zapier</a></li>
+              <li><a href="/solutions/zapier-alternative" class="hover:text-saffron transition-colors">Zapier alternative</a></li>
+              <li><a href="/services/ai-developer-for-hire" class="hover:text-saffron transition-colors">Hire an AI developer</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-6 lg:col-span-2">
+            <div class="label label--dim mb-4">Studio</div>
+            <ul class="space-y-2 text-[14px] text-bone-dim">
+              <li><a href="/about" class="hover:text-saffron transition-colors">About</a></li>
+              <li><a href="/pricing" class="hover:text-saffron transition-colors">Pricing</a></li>
+              <li><a href="/contact" class="hover:text-saffron transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-12 lg:col-span-2">
+            <div class="label label--dim mb-4">Status</div>
+            <div class="status-pill mb-4">
+              <span class="status-pill__dot"></span>
+              <span>Available</span>
+            </div>
+            <p class="text-bone-mute text-[12px] leading-relaxed mb-5">
+              1 of 2 slots open<br/>2026 Q2
+            </p>
+            <div class="flex gap-4 text-bone-mute text-[12px]">
+              <a href="https://www.linkedin.com/in/long-nguyen-a3b6326a/" target="_blank" rel="noopener" class="hover:text-saffron transition-colors">LinkedIn</a>
+              <a href="https://github.com/LongPNguyen" target="_blank" rel="noopener" class="hover:text-saffron transition-colors">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-ink-border mt-12 pt-6 flex flex-col sm:flex-row justify-between gap-3 text-[12px] text-bone-mute">
+          <span>© 2026 Long Win LLC</span>
+          <span class="font-mono">// shipped from Missouri</span>
+        </div>
+      </div>
+    </footer>
+
+    {/* Analytics — Vercel Analytics + Speed Insights. ~1KB combined, cookie-free. */}
+    <Analytics />
+    <SpeedInsights />
+  </body>
+</html>

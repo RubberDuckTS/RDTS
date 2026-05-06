@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Hire an AI developer who actually ships | Long Nguyen / RDTS';
+const description = 'Fixed-price AI developer for hire — Claude API, OpenAI, custom agents. Source code yours, no marketplace bidding, no agency layers. Solo engineer in MO.';
+
+const canonical = '/services/ai-developer-for-hire';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Hire an AI developer who actually ships',
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://rubberducktechsolutions.com/services/ai-developer-for-hire',
+  },
+  datePublished: '2026-05-05',
+  dateModified: '2026-05-05',
+};
+
+const faqs = [
+  {
+    q: 'How experienced are you as an AI developer for hire?',
+    a: 'Nearly a decade writing production software, since 2018 — back when LLMs could not yet ship usable code. Spent the agency years as the in-house dev ops leads called when their workflow stack hit a wall. Since going solo as RDTS I have shipped real production AI software — including ClipMango, a multi-model AI music video pipeline, and a creator booking platform with AI-assisted matching. I work full time on Anthropic Claude (frontier and small variants), OpenAI GPT models, MCP servers, and the Claude Agent SDK. No bench, no offshore handoff — you talk to the engineer who writes the code.',
+  },
+  {
+    q: 'What is your availability and turnaround time?',
+    a: 'I typically start new builds within one to two weeks of the discovery call. The A1 tier ($1,500) ships in about a week. The S3 tier ($3,500) ships in two to four weeks depending on integrations. I run one to two builds at a time so deadlines are real, not aspirational. If I cannot start in your window I will say so on the first call.',
+  },
+  {
+    q: 'Will you sign an NDA?',
+    a: 'Yes. I sign mutual NDAs before any scoping conversation that touches sensitive data, prompts, customer lists, or proprietary workflows. If you have a standard NDA on hand, send it. If not, I have a short one that works for most engagements.',
+  },
+  {
+    q: 'Do I own the source code and the IP?',
+    a: 'Yes. Every engagement transfers full source code and IP rights to you on final payment. You get the GitHub repo, the deploy keys, the prompt files, the schema migrations — everything. No platform lock-in, no licensed black box, no per-seat fee on top. If you want to fire me and hand the codebase to another engineer next quarter, the codebase is structured so that works.',
+  },
+  {
+    q: 'Do you offer ongoing support after launch?',
+    a: 'Yes, optionally. After ship I include a short bug-fix window at no charge. Beyond that I offer a monthly retainer for ongoing builds, model upgrades, and feature work — scoped per client. Some clients want one tool and disappear. Some keep me on for new pipelines every month. Both are fine.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'AI Developer for Hire',
+  description: 'Custom AI software development. Claude API integration, custom agents, AI workflow apps. Fixed pricing.',
+  provider: { '@type': 'Organization', name: 'Rubber Duck Tech Solutions' },
+  areaServed: { '@type': 'Country', name: 'US' },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      minPrice: '1500',
+      priceCurrency: 'USD',
+    },
+  },
+};
+
+const buildCategories = [
+  {
+    title: 'Custom AI agents',
+    body: 'Claude or OpenAI agents that do real work — research, draft, classify, decide. Built with the Claude Agent SDK or raw API calls when that is the right tool. Tool use, structured output, retry logic, and guardrails included. Not a chatbot wrapper. An agent that ships output your team would have written by hand.',
+  },
+  {
+    title: 'MCP servers and Claude Agent SDK',
+    body: 'I write Model Context Protocol servers that plug your internal tools into Claude Code, Claude Desktop, and custom agents. If your team lives inside Claude already, an MCP server gives the model first-class access to your data and actions — without scraping, without brittle browser automation, without leaking credentials into a prompt.',
+  },
+  {
+    title: 'AI-powered web apps',
+    body: 'Full-stack applications where AI is a feature, not the marketing. Next.js or Astro on the front, Node and Postgres or Supabase on the back, model calls wired in where they earn their keep. Auth, billing, file storage, queueing — all the boring pieces that turn a demo into software customers actually pay for.',
+  },
+  {
+    title: 'Internal AI dashboards',
+    body: 'Content teams hire me to build the dashboard their agency or in-house ops team actually wants — bulk classification, prompt libraries, generation queues, cost tracking, output review. Tailored to your workflow. You stop paying per-seat for a SaaS that does 30% of what you need and start owning the tool that does 100%.',
+  },
+  {
+    title: 'Workflow automation in real code',
+    body: 'If you have outgrown Zapier or n8n, this is the lane. I rebuild your most-used flows as a real codebase — typed, tested, deployable, debuggable. No 47-step zaps, no broken nodes, no per-task surcharge. Migrate the heaviest workflows first, leave the simple ones in their tool, ship in weeks.',
+  },
+  {
+    title: 'AI integrations into existing software',
+    body: 'You already have a CRM, a CMS, a content database, an internal admin panel. I drop AI capabilities into what you already run — semantic search, auto-tagging, draft generation, summarization, translation. Behind your existing auth, in your existing UI, on your existing infra.',
+  },
+];
+
+const processSteps = [
+  {
+    label: 'Step 01',
+    title: 'Talk',
+    body: 'Free 30-minute call. You describe the problem in your own words — no scoping form, no qualification grid. I ask questions to find the smallest valuable build. If your project does not fit what I do, I tell you on that call and point you at someone better. No pitch deck, no follow-up sequence.',
+  },
+  {
+    label: 'Step 02',
+    title: 'Scope',
+    body: 'I send back a one-page scope inside 48 hours: what gets built, what does not, which tier (A1, S3, or custom), the timeline, and the deliverables. Fixed price. If you want changes, we change it before we start, not halfway through. Once you sign, the scope is the contract.',
+  },
+  {
+    label: 'Step 03',
+    title: 'Build',
+    body: 'I build solo, in your GitHub org if you have one or a fresh repo I transfer at the end. You see commits as they land and a working preview link by the end of week one. Mid-build check-ins are async — Loom and a shared doc — unless you want a weekly call. No status meetings for the sake of meetings.',
+  },
+  {
+    label: 'Step 04',
+    title: 'Ship',
+    body: 'On ship day you get the production deploy, the source code, a README that another engineer can pick up cold, and a 30-minute walkthrough recording. A short bug-fix window is included. After that you can take the code in-house, hand it to your team, or keep me on monthly retainer for the next build.',
+  },
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, serviceSchema]}>
+
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="status-pill mb-8">
+        <span class="status-pill__dot"></span>
+        <span>Available — taking 1–2 builds this month</span>
+      </div>
+      <h1 class="display-h1 mb-8">
+        Hire an AI developer<br />who actually <span class="accent-saffron">ships</span><span class="cursor">_</span>
+      </h1>
+      <p class="text-bone-dim text-lg lg:text-xl max-w-3xl mb-10 leading-relaxed">
+        I am Long Nguyen, the engineer behind Rubber Duck Tech Solutions. If you are looking to hire an AI developer for a real production build — Claude API integration, a custom agent, an internal dashboard, a workflow tool that replaces a stack of SaaS — this page tells you exactly how I work, what it costs, and why I do not bid on Upwork. Solo engineer, fixed price, source code yours on day one.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/talk" class="btn btn-primary">Tell me what you're building</a>
+        <a href="/pricing" class="btn btn-outline-light">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <Section tone="cream" label="Who I am">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Solo engineer, two agency stints, real projects shipped</h2>
+      <p>
+        Before RDTS, I spent years as the in-house dev inside two marketing agencies. That is where I learned what content teams actually need from software — and how badly most agencies and freelancers miss it. I am not an ex-creator who picked up code last year. I have been writing production software since 2018 — pre-LLM, pre-Midjourney — and I happened to spend a long stretch of that inside content shops.
+      </p>
+      <p>
+        I run RDTS — Rubber Duck Tech Solutions, the trade name of Long Win LLC, registered in Missouri — as a solo practice. No bench, no offshore subcontractors, no project managers in the way. When you hire me, you get me. The engineer on the call is the engineer writing the code and the engineer responding to bugs at 11pm before launch.
+      </p>
+      <p>
+        My current default stack is Anthropic Claude (the frontier model for content reasoning, a smaller Claude variant for high-volume classification), OpenAI's flagship GPT where it specifically wins, MCP servers and the Claude Agent SDK for tool-using agents, Node and TypeScript on the server, Postgres or Supabase for data, and Astro or Next.js on the front. I built ClipMango — an end-to-end AI music video pipeline that orchestrates lyric segmentation, keyframe generation, and Seedance video models — entirely solo. I built and shipped Lee De Card, a creator booking platform, and Dragon Wagons, a content automation backend, the same way.
+      </p>
+      <p>
+        If you want <a href="/about" class="link-coal">more about my background</a>, the about page goes deeper. If you want to skip ahead and talk, <a href="/talk" class="link-coal">book a call</a>.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="dark" label="What I build (and ship)">
+    <h2 class="display-h2 mb-12">What hiring an AI developer actually gets you</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {buildCategories.map(cat => (
+        <article class="card-dark p-7 lg:p-8">
+          <h3 class="display-h3 mb-4">{cat.title}</h3>
+          <p class="text-bone-dim leading-relaxed">{cat.body}</p>
+        </article>
+      ))}
+    </div>
+    <div class="mt-12">
+      <p class="text-bone-dim max-w-3xl leading-relaxed">
+        Most engagements are some mix of these. A typical S3 build for me looks like a custom AI agent plus a small internal dashboard plus an integration into the client's existing CMS. If you have <a href="/solutions/zapier-alternative" class="link-saffron">outgrown Zapier</a> or you are <a href="/solutions/n8n-alternative" class="link-saffron">running into n8n's ceiling</a>, both pages explain how I migrate those flows into real code.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="cream" label="Why not Upwork or Toptal">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Why not just hire an AI developer on Upwork or Toptal</h2>
+      <p>
+        Honest answer: for the right job, you should. If you need a 4-hour script to clean up a CSV, posting on Upwork or Fiverr is the right move. I do not compete on $25 one-offs and you should not pay me solo-engineer prices for one.
+      </p>
+      <p>
+        Where the marketplace model breaks down is real software. The bid model rewards the lowest bid, not the best engineer, which means you spend your time filtering scammers and re-interviewing juniors with stolen portfolios. Even when you find a good freelance AI developer, the platform incentivizes them to disappear at the end of the contract — Upwork penalizes off-platform continuity, so the moment your project ships, your engineer's incentive is to be done. There is no second engagement, no model upgrade six months later, no "hey can you fix that integration that broke when Anthropic shipped a new SDK." You are starting over with a stranger every time.
+      </p>
+      <p>
+        Toptal and Arc.dev solve part of this with vetted talent, and they are better than the open marketplaces. The problem there is the agency layer — you are paying retail-plus-margin to a middleman, your engineer often has three other clients, and the source code patterns are whatever the placement engineer happens to like that month. Continuity exists in theory. In practice, when your engineer rolls off, the next one starts the codebase tour from scratch.
+      </p>
+      <p>
+        My pitch is the opposite of all of that. Fixed price you can see on <a href="/pricing" class="link-coal">the pricing page</a> before we ever talk. One engineer who knows your codebase end to end. Source code, IP, repos, deploy keys — yours on ship day. If you want to fire me and bring it in-house, the codebase is structured so any competent Node engineer can take it over in an afternoon. If you want to keep me on retainer for the next pipeline, that is also there.
+      </p>
+      <p>
+        I will not pretend I am the right hire for every job. If your build is genuinely 6 hours of work, hire someone on Upwork. If you need a team of 5 and a PM, hire an agency. If you need one focused engineer to build one real piece of AI software end to end, that is the lane I built RDTS for.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="dark" label="What hiring me looks like">
+    <h2 class="display-h2 mb-12">From first call to shipped software</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {processSteps.map(step => (
+        <article class="card-dark p-7 lg:p-8">
+          <div class="label label--dim mb-3">{step.label}</div>
+          <h3 class="display-h3 mb-4">{step.title}</h3>
+          <p class="text-bone-dim leading-relaxed">{step.body}</p>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section tone="cream" label="Tech stack I default to">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">The stack I default to (and why)</h2>
+      <p>
+        I am model-agnostic in theory and very opinionated in practice. For most production AI work, I default to the <strong>Anthropic API</strong>: the frontier Claude model for anything that needs strong reasoning, content judgment, or long-context document work, and a smaller Claude variant for high-volume classification, tagging, and lightweight extraction where the frontier is overkill on cost. I reach for <strong>OpenAI's flagship GPT</strong> when it specifically wins — image understanding in a few niches, certain structured-output cases, and as a fallback when an Anthropic incident hits.
+      </p>
+      <p>
+        For agents, I use the <strong>Claude Agent SDK</strong> when the workflow is actually agentic and the raw Anthropic API when it is not. Most "AI agents" people ask for are really one or two prompted calls with tool use — those do not need a full agent loop and pretending they do makes the system slower and more expensive. When agents are the right answer, I write <strong>MCP servers</strong> for them so the tool surface is reusable across Claude Code, Claude Desktop, and custom agents.
+      </p>
+      <p>
+        On the application side: Node and TypeScript on the server (boring, debuggable, hireable), Postgres or Supabase for data (Supabase when you want auth and storage in the same place, raw Postgres when you do not), Astro for marketing sites, Next.js for apps that need real client interactivity, and Vercel for deploys. No vendor lock-in stack. Every choice picks the option another engineer can take over without a six-week ramp.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="cream" label="Pricing">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Fixed pricing, on the page, before we talk</h2>
+      <p>
+        Three tiers cover most of what I do. <strong>Tier A1</strong> is $1,500 and ships in about a week — one sharp tool. A custom Claude classifier wired into your CMS. A prompt-management dashboard your team uses daily. A specific automation that replaces 6 fragile zaps. Tightly scoped, deeply useful.
+      </p>
+      <p>
+        <strong>Tier S3</strong> is $3,500 and ships in two to four weeks. This is the full-pipeline tier — multi-step AI workflow, internal dashboard for the team running it, integration with one or two existing systems, deployed and documented. Most of my best work lives here.
+      </p>
+      <p>
+        <strong>Custom</strong> is for builds that genuinely do not fit the tiers — multi-month engagements, ongoing retainer work, or projects with serious infra and compliance requirements. Scoped on a call, priced honestly, billed monthly.
+      </p>
+      <p>
+        Full breakdown including what is included, what is not, and the deliverable list is on <a href="/pricing" class="link-coal">the pricing page</a>. If your project is a poor fit for these tiers, <a href="/talk" class="link-coal">tell me on a call</a> — I would rather refer you to the right person than sell you the wrong package.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="cream" label="FAQ">
+    <h2 class="display-h2 mb-10">Common questions about hiring an AI developer</h2>
+    <div class="space-y-4 max-w-3xl">
+      {faqs.map(item => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="cursor-pointer flex justify-between items-start gap-6">
+            <span class="display-h3">{item.q}</span>
+            <span class="text-saffron text-2xl leading-none transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div class="mt-5 text-coal-dim leading-relaxed">
+            {item.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <div class="label label--dim mb-6">Next step</div>
+        <h2 class="display-h2 mb-8">
+          Tell me what you're <span class="accent-saffron">building</span>
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          A 30-minute call, no scoping form, no slide deck. You describe the problem, I tell you whether I am the right hire, and if I am, you get a one-page scope inside 48 hours. If I am not, I point you at someone who is. You can also see ClipMango and the rest of the projects on <a href="/work" class="link-saffron">the work page</a>.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Book a call</a>
+          <a href="/pricing" class="btn btn-outline-light">See pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

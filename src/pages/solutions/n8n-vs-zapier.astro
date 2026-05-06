@@ -1,0 +1,370 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'n8n vs Zapier — which one breaks first at your scale? | RDTS';
+const description = 'A no-bullshit comparison of n8n vs Zapier. Both have a ceiling. I show you which one hits it first and when to skip both for custom code.';
+const canonical = '/solutions/n8n-vs-zapier';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'n8n vs Zapier — which one breaks first at your scale?',
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://rubberducktechsolutions.com/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://rubberducktechsolutions.com/',
+  },
+  datePublished: '2026-05-06',
+  dateModified: '2026-05-06',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://rubberducktechsolutions.com/solutions/n8n-vs-zapier',
+  },
+};
+
+const faqs = [
+  {
+    q: 'n8n vs Zapier — which one is actually cheaper?',
+    a: 'Depends on volume. Zapier is cheaper to start (free tier, then ~$30/mo) and gets brutal once you cross 10K tasks/month because pricing is per-task. n8n is cheaper at scale if you self-host (server cost only) but you pay in DevOps time. Their cloud tier is execution-based, which is more forgiving than per-task. For most content teams hitting six-figure runs, self-hosted n8n wins on raw cost — until you factor in the engineer keeping it alive.',
+  },
+  {
+    q: 'Is n8n a real Zapier alternative or just for developers?',
+    a: 'It is a real alternative, but the floor is higher. If you have someone on your team comfortable with JSON, expressions, and occasional self-hosting, n8n will do everything Zapier does plus deeper branching and custom code blocks. If your operator is a non-technical marketer who needs templates and a clean UI, Zapier is still easier. n8n rewards technical curiosity. Zapier rewards never wanting to touch a terminal.',
+  },
+  {
+    q: 'What about Make vs Zapier or make.com vs Zapier?',
+    a: 'Make (formerly Integromat) sits between the two. More visual than n8n, more powerful than Zapier, cheaper than both at scale. Its scenario model handles branching better than Zapier and the per-operation pricing is more honest than per-task. Same ceiling though — once you need real database joins, multi-model AI routing, or multi-tenant client work, Make hits the same wall as the other two. The "skip both" argument applies equally to Make.',
+  },
+  {
+    q: 'When should I just write custom code instead of picking between n8n vs Zapier?',
+    a: 'Three signals: (1) your monthly Zapier or Make bill is creeping past $300 and climbing, (2) you have at least one workflow that branches three or more times deep, (3) you want to route between AI models — Claude for reasoning, GPT for vision, something cheaper for bulk. Hit two of three and custom code is cheaper inside six months. The hard part is finding someone who builds it without locking you into a retainer.',
+  },
+  {
+    q: 'Do you build on n8n or do you only do custom code?',
+    a: 'I have built and maintained both. Most of what I ship now is custom — Node, Postgres, the Claude API, hosted on Vercel — because that is where my clients end up after they outgrow the no-code tier. But I will tell you honestly when n8n or Zapier is the right answer. If a $30/mo Zapier zap solves your problem, I will not invoice you $1,500 to rebuild it.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- 1. HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="status-pill mb-8">
+        <span class="status-pill__dot"></span>
+        <span>Taking on 2 builds in May</span>
+      </div>
+      <h1 class="display-h1 max-w-5xl">
+        <span class="label label--dim block mb-4">// Comparison</span>
+        n8n vs <span class="underline-saffron">Zapier</span> — which one breaks first at your scale?<span class="cursor"></span>
+      </h1>
+      <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
+        Most n8n vs Zapier comparisons are written by people trying to sell you n8n. I am not. I am the engineer
+        content teams call after they have already burned a year on one of these tools and hit the ceiling. Both work.
+        Both have a wall. The only honest question is which wall you hit first — and whether you should be on
+        either platform at all.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk" class="btn btn-primary">Talk to the duck</a>
+        <a href="#comparison" class="btn btn-outline-light">See the comparison table</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. THE HONEST TAKE -->
+  <Section tone="cream" label="The honest take">
+    <div class="prose-rdts max-w-3xl">
+      <h2>I have watched both fail at content agencies. Here is the pattern.</h2>
+      <p>
+        Before going solo I spent years as the in-house dev inside two marketing agencies, sitting next to the ops leads
+        who built the Zapier zaps. I wrote the Python scripts that picked up where Zapier ran out of room. Then I
+        rebuilt the same flows in n8n when the per-task bills got loud. Same teams. Same problems. Two different
+        tools. The failure mode was almost identical.
+      </p>
+      <p>
+        Here is what actually happens. A content team starts with a five-step Zapier zap — new client form, send
+        Slack message, create Notion page, draft Loom email, post to Asana. It works. Six months later they have
+        forty zaps, three of them are duplicated for different clients, two of them are silently failing because
+        a Zapier node deprecated, and the bill is $480/month. Someone says "we should move to n8n" because they
+        read a Reddit thread. They self-host n8n on a $20 droplet. Three months later the droplet falls over during
+        a client launch and nobody knows how to redeploy it.
+      </p>
+      <p>
+        That is the loop. Zapier hides the complexity until the bill makes it visible. n8n exposes the complexity
+        and trusts you to handle it. Neither one is bad. They are tuned for different operators. The mistake is
+        thinking the choice between them is the only choice.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 3. COMPARISON TABLE -->
+  <Section tone="dark" label="Comparison" id="comparison">
+    <div class="prose-rdts max-w-3xl mb-12">
+      <h2>Zapier vs n8n vs custom code — feature by feature</h2>
+      <p>
+        This is the comparison most articles skip because they only have two columns. The third column is what
+        you graduate into. I included it so you can see where the platforms cap out. If your needs only fill the
+        first two columns, you do not need me. If your needs spill into the third, that is the conversation worth
+        having.
+      </p>
+    </div>
+    <div class="overflow-x-auto -mx-4 px-4">
+      <table class="w-full text-left border-collapse min-w-[720px]">
+        <thead>
+          <tr class="border-b border-ink-border">
+            <th class="py-4 pr-6 text-bone-dim font-mono text-sm uppercase tracking-wider">Feature</th>
+            <th class="py-4 pr-6 text-bone-dim font-mono text-sm uppercase tracking-wider">Zapier</th>
+            <th class="py-4 pr-6 text-bone-dim font-mono text-sm uppercase tracking-wider">n8n</th>
+            <th class="py-4 text-bone-dim font-mono text-sm uppercase tracking-wider">Custom code</th>
+          </tr>
+        </thead>
+        <tbody class="text-bone">
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Pricing model</td>
+            <td class="py-4 pr-6 text-bone-dim">Per task — gets brutal past 10K/mo</td>
+            <td class="py-4 pr-6 text-bone-dim">Free self-hosted, ~$20/mo cloud starter</td>
+            <td class="py-4 text-bone-dim">Server cost only — flat $5–50/mo</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Hosting / DevOps</td>
+            <td class="py-4 pr-6 text-bone-dim">Fully managed</td>
+            <td class="py-4 pr-6 text-bone-dim">Self-host or cloud — DevOps burden if self</td>
+            <td class="py-4 text-bone-dim">Vercel + Supabase, hands-off</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Debugging</td>
+            <td class="py-4 pr-6 text-bone-dim">Run history, basic logs</td>
+            <td class="py-4 pr-6 text-bone-dim">Execution log, can step through</td>
+            <td class="py-4 text-bone-dim">Real logs, real stack traces, real tests</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Branching depth</td>
+            <td class="py-4 pr-6 text-bone-dim">Paths — fine to 2 levels, painful past that</td>
+            <td class="py-4 pr-6 text-bone-dim">Switch + IF — handles deep branching</td>
+            <td class="py-4 text-bone-dim">Native control flow, unlimited</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Multi-model AI routing</td>
+            <td class="py-4 pr-6 text-bone-dim text-saffron-shadow">Locked to bundled providers</td>
+            <td class="py-4 pr-6 text-bone-dim">Possible but verbose</td>
+            <td class="py-4 text-bone-dim">Native — Claude, GPT, Gemini side by side</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Source code ownership</td>
+            <td class="py-4 pr-6 text-bone-dim">No — locked in Zapier</td>
+            <td class="py-4 pr-6 text-bone-dim">Workflow JSON exportable</td>
+            <td class="py-4 text-bone-dim">Yes — full repo, MIT-style transfer</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Vendor lock-in</td>
+            <td class="py-4 pr-6 text-bone-dim">High</td>
+            <td class="py-4 pr-6 text-bone-dim">Medium — open source softens it</td>
+            <td class="py-4 text-bone-dim">None</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Real database joins</td>
+            <td class="py-4 pr-6 text-bone-dim">No</td>
+            <td class="py-4 pr-6 text-bone-dim">Postgres node helps, still awkward</td>
+            <td class="py-4 text-bone-dim">SQL, indexes, the whole stack</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Multi-tenant client setup</td>
+            <td class="py-4 pr-6 text-bone-dim">Duplicate zaps per client — messy</td>
+            <td class="py-4 pr-6 text-bone-dim">Possible with discipline</td>
+            <td class="py-4 text-bone-dim">Designed in from day one</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Custom integrations</td>
+            <td class="py-4 pr-6 text-bone-dim">Webhook + Code by Zapier (limited)</td>
+            <td class="py-4 pr-6 text-bone-dim">HTTP node + JS code blocks</td>
+            <td class="py-4 text-bone-dim">Whatever the API supports</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Time to first working flow</td>
+            <td class="py-4 pr-6 text-bone-dim">15 minutes</td>
+            <td class="py-4 pr-6 text-bone-dim">1–2 hours</td>
+            <td class="py-4 text-bone-dim">3–5 days (Tier A1 build)</td>
+          </tr>
+          <tr>
+            <td class="py-4 pr-6 font-medium">Best fit</td>
+            <td class="py-4 pr-6 text-bone-dim">Solo founder, simple flows</td>
+            <td class="py-4 pr-6 text-bone-dim">Technical operator, mid-volume</td>
+            <td class="py-4 text-bone-dim">Content teams at scale, agencies</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <!-- 4. WHEN ZAPIER WINS -->
+  <Section tone="cream" label="When Zapier wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>When Zapier is the right answer in the n8n vs Zapier debate</h2>
+      <p>
+        I will not pretend Zapier is bad. It is the most polished no-code automation comparison winner for a real
+        slice of the market and I send people back to it weekly. If you are a solo founder, a two-person agency,
+        or an ops lead at a small SMB without anyone technical on the team, Zapier is built for you in a way n8n
+        is not.
+      </p>
+      <p>
+        Use Zapier if your flows are mostly linear — trigger fires, three or four steps, done. Use it if your team
+        speaks fluent SaaS but freezes at the words "self-host" or "environment variable". Use it if you genuinely
+        will never push past 5,000 tasks a month, because at that volume the bill stays under $50 and the time
+        savings are real.
+      </p>
+      <p>
+        Zapier also wins on integration count. They have spent over a decade building first-party integrations
+        with every CRM, every form builder, every email tool. n8n has caught up on the popular ones but Zapier
+        still has the long tail. If your stack is heavy on niche SaaS — small CRMs, regional payroll, obscure
+        helpdesk tools — Zapier likely already has the connector. n8n you might be writing the HTTP request
+        yourself.
+      </p>
+      <p>
+        And Zapier's templates are genuinely good. A non-technical operator can browse the gallery, find a flow
+        that matches their problem, and ship it in an afternoon. n8n has templates too, but they assume you can
+        read JSON expressions. Zapier assumes you cannot, which is the right assumption for most of the people
+        on Zapier.
+      </p>
+      <p>
+        If that is you, just use Zapier — do not hire me. The flows you would build with me cost $1,500 minimum
+        in <a href="/pricing">my Tier A1 bracket</a>, and a $30/mo Zapier subscription does the same job until
+        you hit a wall I have not seen you hit yet. <a href="/solutions/zapier-alternative">If you have already
+        chosen Zapier and the bills are climbing</a>, that is a different conversation.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 5. WHEN N8N WINS -->
+  <Section tone="dark" label="When n8n wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>When n8n wins the Zapier vs n8n call</h2>
+      <p>
+        n8n is the better choice when you have someone on the team who is comfortable in a terminal. That is the
+        single biggest filter. Once you clear it, n8n outclasses Zapier on most of the dimensions that actually
+        matter for an automation platform comparison at the mid tier.
+      </p>
+      <p>
+        Pick n8n if your flows have real branching. Switch nodes, conditional routes, loops over arrays — n8n
+        handles all of this with a fraction of the visual sprawl Zapier needs to do the same thing. Zapier paths
+        get unreadable past two levels of nesting. n8n stays legible because the canvas is built around branching
+        as a first-class concept.
+      </p>
+      <p>
+        Pick n8n if you want self-hosting. Some clients of mine cannot put customer data through Zapier's cloud
+        for compliance reasons. n8n on a private VPS solves that. The hosting burden is real — you are now the
+        person who keeps the server alive — but for regulated content workflows or anything touching PHI, the
+        tradeoff is worth it.
+      </p>
+      <p>
+        Pick n8n if Zapier's per-task pricing is the thing that woke you up at 3am. n8n's cloud tier is
+        execution-based and self-hosted is effectively flat. A flow that runs 50,000 times a month costs the same
+        as one that runs 500 times when you self-host. Zapier punishes scale. n8n shrugs at it.
+      </p>
+      <p>
+        Pick n8n if you need code blocks. The JavaScript and Python nodes in n8n are first-class and let you do
+        the 20% of logic that does not fit a template without leaving the canvas. Zapier's Code by Zapier exists
+        but is more constrained — fewer libraries, harder to debug, smaller execution window.
+      </p>
+      <p>
+        Where n8n still loses is at the very top end — multi-model AI routing across providers, real Postgres
+        joins on millions of rows, multi-tenant client architecture. <a href="/solutions/n8n-alternative" class="link-saffron">If
+        you have already chosen n8n and now hitting limits</a>, the next jump is custom code, not a different
+        platform.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 6. WHEN CUSTOM CODE WINS -->
+  <Section tone="cream" label="When custom code wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>When you should skip the n8n vs Zapier question entirely</h2>
+      <p>
+        There is a third option most comparison articles never mention because they are sponsored by one of the
+        two platforms. The third option is: you do not pick between Zapier or n8n at all. You skip the workflow
+        automation tool category and have someone build the thing in code.
+      </p>
+      <p>
+        I know how that sounds. "Custom code" reads as expensive, slow, locked-in. It is the opposite once you
+        cross a certain threshold of complexity. Below the threshold, no-code wins on speed and price. Above it,
+        no-code is more expensive in total cost of ownership and slower to change. The threshold is closer than
+        most people think.
+      </p>
+      <p>
+        Concrete signals you have crossed it. Your Zapier or Make bill is over $300/month and rising. You have at
+        least one flow that branches three levels deep. You want to route between AI models — say Claude
+        for the reasoning step, GPT for the vision step, a cheaper model for bulk classification. You are
+        running the same workflow for multiple clients and are duplicating zaps to keep their data separate. You
+        need to join data across two databases that your no-code tool does not natively connect to.
+      </p>
+      <p>
+        Hit two of those and you are paying the no-code tax without getting the no-code benefit. The tool is no
+        longer faster to change than code, because every change requires touching forty branches. The bill is no
+        longer cheaper than a server, because your usage scaled past the breakeven point months ago.
+      </p>
+      <p>
+        ClipMango is the example I point to. It is an AI music video pipeline I built solo — multi-model, lyric
+        transcription, beat detection, segment QA, all stitched together. I prototyped the first version in n8n.
+        It worked for a demo and broke the moment I needed proper retry logic on failed segments and routing
+        between Seedance and Grok based on shot type. Three weeks later it was a Node app with Postgres, hosted
+        on Vercel, costing me $40/month to run. The n8n version would have been north of $200/month at the same
+        usage and impossible to debug. <a href="/work" class="link-coal">You can see ClipMango here</a>. Same
+        story for Lee De Card and the Dragon Wagons content backend — both started in no-code and graduated.
+      </p>
+      <p>
+        This is the work I do. Tier A1 is $1,500 for one sharp tool — usually a single flow that has outgrown
+        Zapier or n8n. Tier S3 is $3,500 for a full pipeline — multi-step, multi-model, with a UI your operators
+        actually use. <a href="/services/ai-developer-for-hire">You can hire me directly</a> instead of locking
+        into an agency retainer. Source code transfers to you. No vendor in the middle.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 7. FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="cursor-pointer font-medium text-coal text-lg list-none flex justify-between items-start gap-4">
+            <span>{f.q}</span>
+            <span class="text-saffron-deep flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-4 text-coal-dim leading-relaxed">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 8. FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-24">
+      <span class="label label--dim">// Last call</span>
+      <h2 class="display-h2 mt-6 max-w-3xl">Still not sure? <span class="accent-saffron">Talk to the duck.</span></h2>
+      <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
+        I will not push you toward custom code if Zapier solves your problem. Bring me the flow you are stuck on
+        — the one bleeding tasks, or the one your operator stopped trusting — and I will tell you straight whether
+        to fix it in n8n, fix it in Zapier, or rebuild it. Free 30-minute call. If we end up working together,
+        Tier A1 starts at $1,500 and Tier S3 at $3,500. No retainers unless you want one.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk" class="btn btn-primary">Book the call</a>
+        <a href="/pricing" class="btn btn-outline-light">See pricing first</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

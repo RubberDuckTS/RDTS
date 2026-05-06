@@ -1,0 +1,63 @@
+---
+/**
+ * RDTS Duck — friendly silhouette mark.
+ *
+ * Used as a small icon in the nav, footer, and as a decorative
+ * accent. Saffron-filled, dark outline. Faces right by default.
+ */
+interface Props {
+  size?: number;
+  class?: string;
+  ariaHidden?: boolean;
+}
+
+const { size = 32, class: className = '', ariaHidden = true } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 100 100"
+  width={size}
+  height={size}
+  xmlns="http://www.w3.org/2000/svg"
+  class={`duck ${className}`}
+  aria-hidden={ariaHidden}
+  role={ariaHidden ? undefined : 'img'}
+>
+  {/* Body */}
+  <ellipse cx="46" cy="62" rx="34" ry="20" fill="#FFC83D" />
+  {/* Belly highlight */}
+  <ellipse cx="40" cy="58" rx="22" ry="10" fill="#FFD970" opacity="0.55" />
+  {/* Wing */}
+  <path
+    d="M 28 60 Q 46 50 60 64 Q 48 72 28 68 Z"
+    fill="#E5A700"
+    opacity="0.85"
+  />
+  {/* Head */}
+  <circle cx="66" cy="40" r="18" fill="#FFC83D" />
+  {/* Head highlight */}
+  <circle cx="60" cy="34" r="9" fill="#FFD970" opacity="0.55" />
+  {/* Beak */}
+  <path d="M 82 40 L 96 36 L 86 50 Z" fill="#E5A700" />
+  {/* Eye */}
+  <circle cx="70" cy="36" r="2.5" fill="#1A1410" />
+  <circle cx="71" cy="35" r="0.8" fill="#FFFFFF" />
+  {/* Outline (subtle, only on edges) */}
+  <ellipse
+    cx="46"
+    cy="62"
+    rx="34"
+    ry="20"
+    fill="none"
+    stroke="rgba(26, 20, 16, 0.18)"
+    stroke-width="0.8"
+  />
+  <circle
+    cx="66"
+    cy="40"
+    r="18"
+    fill="none"
+    stroke="rgba(26, 20, 16, 0.18)"
+    stroke-width="0.8"
+  />
+</svg>

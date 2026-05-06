@@ -1,0 +1,347 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+
+const title = 'Talk to the duck — free 5-minute project scoping | RDTS';
+const description = 'Tell the duck what you\'re building. Get a one-page spec with timeline, tier, and a fixed price. No deck, no funnel, no signup.';
+---
+
+<BaseLayout title={title} description={description} noindex={false}>
+  <section class="section-dark">
+    <div class="container-x pt-20 lg:pt-28 pb-12">
+      <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-center">
+        <div class="col-span-12 lg:col-span-7">
+          <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Free · ~5 min · no signup</span></div>
+          <h1 class="display-h1 mb-6 max-w-[18ch]">
+            Tell the duck<br/>
+            what you're <span class="accent-saffron">building</span><span class="cursor"></span>
+          </h1>
+          <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
+            Free five-minute conversation with the duck — the custom AI scoping agent I built.
+            It asks 3–4 clarifying questions, then locks a one-page spec with timeline, tier,
+            and a fixed price. Drop your email at the end and I'll follow up within a business day.
+          </p>
+        </div>
+        <div class="hidden lg:flex col-span-5 justify-end items-center">
+          <img src="/logo-rdts-duck.webp" alt="Rubber Duck Tech Solutions" width="500" height="500" class="w-full max-w-[260px] aspect-square object-contain drop-shadow-2xl" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Section tone="cream" label="Scope sheet builder">
+    <div class="grid grid-cols-12 gap-4 lg:gap-6">
+
+      {/* === Conversation panel === */}
+      <div class="col-span-12 lg:col-span-7 card-cream overflow-hidden flex flex-col">
+        <div class="border-b border-cream-border px-5 py-3 flex items-center justify-between bg-cream-light">
+          <div class="flex items-center gap-3">
+            <span class="status-pill__dot"></span>
+            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Session · scope mode</span>
+          </div>
+          <span id="rev-counter" class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">Rev A · draft</span>
+        </div>
+
+        <div class="p-6 lg:p-7 flex-1 flex flex-col">
+          {/* Message thread — populated by JS. flex-col-reverse with reversed children
+              keeps the newest message anchored to the bottom, empty space at top. */}
+          <div id="thread" class="flex flex-col justify-end space-y-5 mb-5 flex-1 min-h-[280px] overflow-y-auto">
+            <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
+              <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
+              <span>Hey — what are you trying to build? One paragraph is plenty.</span>
+            </div>
+          </div>
+
+          {/* Composer */}
+          <form id="composer" class="border-t border-cream-border pt-4 mt-auto">
+            <label for="scope-input" class="sr-only">Tell the duck what you're building</label>
+            <textarea
+              id="scope-input"
+              class="w-full min-h-[120px] bg-cream-light border border-cream-border p-4 text-[15px] text-coal font-sans resize-y focus:outline-none focus:border-saffron-shadow rounded-soft placeholder:text-coal-mute/70"
+              placeholder="e.g. I run a content agency. 8 clients on monthly retainers, each posting 4 videos a week. Right now my team manually transcribes, repurposes into 3 platforms, schedules — 6 hours/client/week. I want to cut that to 1."
+              required
+              maxlength="4000"
+            ></textarea>
+            <div class="flex items-center justify-between gap-3 pt-3">
+              <span id="composer-status" class="font-mono text-[11px] tracking-[0.06em] text-coal-mute">
+                ⌘ + Enter to send
+              </span>
+              <button id="send-btn" type="submit" class="btn btn-dark text-[14px] py-3 px-5">
+                Send →
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* === Live spec sheet === */}
+      <div class="col-span-12 lg:col-span-5 flex flex-col">
+      <aside class="card-cream overflow-hidden flex flex-col">
+        <div class="border-b border-cream-border px-5 py-3 flex items-center justify-between bg-cream-light">
+          <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Spec sheet · live</span>
+          <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">auto</span>
+        </div>
+        <div class="p-6 lg:p-7 flex-1 flex flex-col">
+          <div id="spec-fields" class="space-y-5 flex-1">
+            {[
+              ['Project name', 'project_name', 'awaiting input…'],
+              ['Tier (proposed)', 'tier', 'awaiting input…'],
+              ['Timeline', 'timeline', 'awaiting input…'],
+              ['Price', 'price_range', 'awaiting input…'],
+              ['Summary', 'summary', 'awaiting input…'],
+              ['Integrations', 'integrations', 'awaiting input…'],
+              ['Out of scope', 'out_of_scope', 'awaiting input…'],
+            ].map(([label, key, val]) => (
+              <div>
+                <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-1">{label}</div>
+                <div data-spec-field={key} class="font-mono text-[13px] text-coal-mute italic">{val}</div>
+              </div>
+            ))}
+          </div>
+          <hr class="border-cream-border my-5" />
+
+          {/* Lead form (hidden until ready) */}
+          <form id="lead-form" class="hidden flex-col gap-3">
+            <div>
+              <label for="lead-name" class="font-mono text-[10px] tracking-spec uppercase text-coal-mute">Name</label>
+              <input id="lead-name" name="name" type="text" required maxlength="200"
+                class="w-full bg-cream-light border border-cream-border px-3 py-2 text-[14px] text-coal rounded-soft mt-1 focus:outline-none focus:border-saffron-shadow"/>
+            </div>
+            <div>
+              <label for="lead-email" class="font-mono text-[10px] tracking-spec uppercase text-coal-mute">Email</label>
+              <input id="lead-email" name="email" type="email" required maxlength="200"
+                class="w-full bg-cream-light border border-cream-border px-3 py-2 text-[14px] text-coal rounded-soft mt-1 focus:outline-none focus:border-saffron-shadow"/>
+            </div>
+            <div>
+              <label for="lead-company" class="font-mono text-[10px] tracking-spec uppercase text-coal-mute">Company <span class="opacity-60">(optional)</span></label>
+              <input id="lead-company" name="company" type="text" maxlength="200"
+                class="w-full bg-cream-light border border-cream-border px-3 py-2 text-[14px] text-coal rounded-soft mt-1 focus:outline-none focus:border-saffron-shadow"/>
+            </div>
+            {/* Honeypot — bots will fill this, humans won't see it */}
+            <input id="lead-honeypot" name="website" type="text" tabindex="-1" autocomplete="off"
+              class="absolute left-[-9999px] opacity-0 pointer-events-none" aria-hidden="true"/>
+            <button id="lead-submit" type="submit" class="btn btn-primary text-[13px] mt-1">
+              Email this spec to me
+            </button>
+            <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener"
+               class="btn btn-outline-dark text-[13px]">
+              Book a call instead
+            </a>
+            <p id="lead-error" class="hidden text-[12px] text-red-700 font-mono"></p>
+          </form>
+
+          {/* Pre-ready state */}
+          <div id="lead-prompt" class="text-[12px] font-mono text-coal-mute italic">
+            // submit + book buttons appear once the spec locks
+          </div>
+
+          {/* Success state */}
+          <div id="lead-success" class="hidden">
+            <div class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow mb-2">Sent</div>
+            <p class="text-[14px] text-coal-dim leading-[1.6] mb-4">
+              Spec is in your inbox. I'll read mine within a business day and reply directly.
+            </p>
+            <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener" class="btn btn-primary text-[13px]">
+              Book a call now →
+            </a>
+          </div>
+        </div>
+      </aside>
+      </div>
+
+    </div>
+
+    <div class="mt-10 text-[13px] font-mono tracking-[0.05em] text-coal-mute max-w-[78ch]">
+      // privacy: the duck reads only what you type here. transcript + name + email go to me
+      (long) when you hit submit. nothing else.
+      prefer email? <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@rubberducktechsolutions.com</a>
+    </div>
+  </Section>
+
+  <Section tone="dark">
+    <div class="text-center max-w-[640px] mx-auto">
+      <h2 class="display-h2 mb-5">
+        Or skip the duck.
+      </h2>
+      <p class="text-[16px] text-bone-dim leading-[1.65] mb-8">
+        Email reaches me direct. I read everything and reply within a business day.
+      </p>
+      <a href="mailto:long@rubberducktechsolutions.com" class="btn btn-primary">long@rubberducktechsolutions.com</a>
+    </div>
+  </Section>
+
+  <script is:inline>
+    /* === /talk page client logic ===
+     * State:
+     *   messages — full chat history sent to /api/scope each turn
+     *   spec — latest spec from API
+     *   transcript — { role: 'duck' | 'visitor', text } for /api/lead
+     */
+    (function () {
+      const messages = [];      // { role: 'user' | 'assistant', content }
+      const transcript = [];    // { role: 'duck' | 'visitor', text }
+      let currentSpec = null;
+      let readyForLead = false;
+      let turnCount = 0;
+
+      const thread = document.getElementById('thread');
+      const composer = document.getElementById('composer');
+      const input = document.getElementById('scope-input');
+      const sendBtn = document.getElementById('send-btn');
+      const composerStatus = document.getElementById('composer-status');
+      const revCounter = document.getElementById('rev-counter');
+      const leadPrompt = document.getElementById('lead-prompt');
+      const leadForm = document.getElementById('lead-form');
+      const leadError = document.getElementById('lead-error');
+      const leadSubmit = document.getElementById('lead-submit');
+      const leadSuccess = document.getElementById('lead-success');
+
+      function appendMessage(role, text) {
+        const wrap = document.createElement('div');
+        wrap.className = 'flex gap-3 text-[15px] leading-[1.65]';
+        const tag = document.createElement('span');
+        tag.className = 'font-mono text-[10px] tracking-spec uppercase shrink-0 mt-0.5';
+        const body = document.createElement('span');
+        body.className = role === 'duck' ? 'text-coal-dim' : 'text-coal';
+        body.textContent = text;
+        if (role === 'duck') {
+          tag.classList.add('text-saffron-shadow');
+          tag.textContent = 'Duck ' + String(++duckTurnIndex).padStart(2, '0');
+        } else {
+          tag.classList.add('text-coal-mute');
+          tag.textContent = 'You ' + String(++visitorTurnIndex).padStart(2, '0');
+        }
+        wrap.appendChild(tag);
+        wrap.appendChild(body);
+        thread.appendChild(wrap);
+        thread.scrollTop = thread.scrollHeight;
+      }
+      let duckTurnIndex = 1;       // intro counts as Duck 01
+      let visitorTurnIndex = 0;
+
+      function renderSpec(spec) {
+        if (!spec) return;
+        const fields = {
+          project_name: spec.project_name,
+          tier: spec.tier && spec.tier_reason ? spec.tier + ' — ' + spec.tier_reason : spec.tier,
+          timeline: spec.timeline,
+          price_range: spec.price_range,
+          summary: spec.summary,
+          integrations: Array.isArray(spec.integrations) && spec.integrations.length ? spec.integrations.join(', ') : null,
+          out_of_scope: Array.isArray(spec.out_of_scope) && spec.out_of_scope.length ? spec.out_of_scope.join('; ') : null,
+        };
+        for (const key in fields) {
+          const el = document.querySelector('[data-spec-field="' + key + '"]');
+          if (!el) continue;
+          if (fields[key]) {
+            el.textContent = fields[key];
+            el.classList.remove('text-coal-mute', 'italic');
+            el.classList.add('text-coal');
+          } else {
+            el.textContent = 'awaiting input…';
+            el.classList.add('text-coal-mute', 'italic');
+            el.classList.remove('text-coal');
+          }
+        }
+      }
+
+      function showLeadForm() {
+        leadPrompt.classList.add('hidden');
+        leadForm.classList.remove('hidden');
+        leadForm.classList.add('flex');
+      }
+
+      function setBusy(busy) {
+        sendBtn.disabled = busy;
+        input.disabled = busy;
+        sendBtn.classList.toggle('opacity-50', busy);
+        composerStatus.textContent = busy ? 'duck is thinking…' : '⌘ + Enter to send';
+      }
+
+      async function sendTurn(userText) {
+        messages.push({ role: 'user', content: userText });
+        transcript.push({ role: 'visitor', text: userText });
+        appendMessage('visitor', userText);
+        input.value = '';
+        setBusy(true);
+
+        try {
+          const res = await fetch('/api/scope', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages }),
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || ('Server error ' + res.status));
+          }
+          const data = await res.json();
+          messages.push({ role: 'assistant', content: JSON.stringify(data) });
+          transcript.push({ role: 'duck', text: data.message });
+          appendMessage('duck', data.message);
+          // spec: null means "soft fallback — don't overwrite the live spec"
+          if (data.spec) {
+            currentSpec = data.spec;
+            renderSpec(currentSpec);
+          }
+          readyForLead = !!data.ready_for_lead;
+          turnCount = data.turn_count || (turnCount + 1);
+          revCounter.textContent = 'Rev ' + String.fromCharCode(65 + Math.min(turnCount, 25)) + ' · ' + (readyForLead ? 'ready' : 'draft');
+          if (readyForLead) showLeadForm();
+        } catch (err) {
+          appendMessage('duck', 'The duck hit a snag (' + err.message + '). Try again, or email long@rubberducktechsolutions.com directly.');
+        } finally {
+          setBusy(false);
+          input.focus();
+        }
+      }
+
+      composer.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text || sendBtn.disabled) return;
+        sendTurn(text);
+      });
+
+      // ⌘/Ctrl + Enter to send
+      input.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+          e.preventDefault();
+          composer.requestSubmit();
+        }
+      });
+
+      // Lead form submit
+      leadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        leadError.classList.add('hidden');
+        const honeypot = document.getElementById('lead-honeypot').value;
+        const name = document.getElementById('lead-name').value.trim();
+        const email = document.getElementById('lead-email').value.trim();
+        const company = document.getElementById('lead-company').value.trim();
+        if (!name || !email || !currentSpec) return;
+
+        leadSubmit.disabled = true;
+        leadSubmit.textContent = 'Sending…';
+        try {
+          const res = await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, company, honeypot, spec: currentSpec, transcript }),
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || ('Server error ' + res.status));
+          }
+          leadForm.classList.add('hidden');
+          leadSuccess.classList.remove('hidden');
+        } catch (err) {
+          leadError.textContent = 'Send failed: ' + err.message;
+          leadError.classList.remove('hidden');
+          leadSubmit.disabled = false;
+          leadSubmit.textContent = 'Email this spec to me';
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

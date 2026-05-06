@@ -1,0 +1,404 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+
+const title = 'RDTS — Custom AI software for teams who outgrew n8n and Zapier';
+const description = 'Built solo by Long Nguyen — nearly a decade writing production software, since 2018. Custom AI software for teams past n8n and Zapier. Fixed pricing ($1.5K–$3.5K), real source code that\'s yours to keep.';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Rubber Duck Tech Solutions',
+  url: 'https://rubberducktechsolutions.com',
+  description,
+};
+
+const pillars = [
+  {
+    no: '01',
+    href: '/solutions/n8n-alternative',
+    title: 'n8n alternative',
+    desc: 'You hit the wall n8n hits at scale: latency, debugging, model routing, custom integrations. I rebuild the load-bearing parts in real code.',
+    metric: '1K–10K searches/mo',
+    growth: '+900% YoY',
+  },
+  {
+    no: '02',
+    href: '/solutions/n8n-vs-zapier',
+    title: 'n8n vs Zapier',
+    desc: 'Stuck choosing between two no-code platforms that will break at the same bottleneck eventually. I show you when to skip both.',
+    metric: '1K–10K searches/mo',
+    growth: '+900% YoY',
+  },
+  {
+    no: '03',
+    href: '/solutions/zapier-alternative',
+    title: 'Zapier alternative',
+    desc: 'Per-task pricing punishing you. Zaps breaking quietly. Custom code workarounds duct-taped on top. Time to graduate from Zapier.',
+    metric: '100–1K searches/mo',
+    growth: 'rising',
+  },
+  {
+    no: '04',
+    href: '/services/ai-developer-for-hire',
+    title: 'Hire an AI developer',
+    desc: 'Need a real engineer for a real build, not an agency layer. Custom Claude / OpenAI integrations. Fixed price, source-code-yours.',
+    metric: 'premium buyer',
+    growth: '$80+ CPC',
+  },
+];
+
+const works = [
+  { name: 'ClipMango',    role: 'Solo build · ongoing',     tag: 'AI music video pipeline · multi-model · production' },
+  { name: 'Lee De Card',  role: 'Lead dev · 2024',          tag: 'AI-driven creator booking platform' },
+  { name: 'Dragon Wagons',role: 'Site + tooling · 2024',    tag: 'Marketing site + content automation backend' },
+];
+
+const steps = [
+  { no: '01', title: 'Talk', detail: 'Free 5-minute conversation. Walk me through what you\'re trying to build. No deck, no funnel, no sales call.' },
+  { no: '02', title: 'Scope', detail: 'I send a one-page spec: tier, fixed price, timeline, and exactly what\'s out of scope. Sign or pass — no pressure.' },
+  { no: '03', title: 'Build', detail: 'Solo build. Daily commits to a shared repo so you watch progress. No agency status meetings.' },
+  { no: '04', title: 'Ship', detail: 'Deploy to your hosting. Source code transfers to you. 30-day support included on Tier S3 and Custom.' },
+];
+
+const faqs = [
+  {
+    q: 'Why hire a custom developer when I already use Zapier or n8n?',
+    a: 'When the no-code stack works, keep using it — that\'s the right tool for shallow workflows. RDTS only makes sense once you\'re hitting limits: per-task pricing blowing up your monthly bill, custom code workarounds bolted onto Zaps, complex branching no-code can\'t express, model routing across multiple LLMs, real database joins, or integrations that don\'t exist as official connectors. At that point, three weeks of custom code beats a year of Zap maintenance.',
+  },
+  {
+    q: 'What does the $1,500 starter tier actually include?',
+    a: 'One sharp tool with one input and one output. Examples: an AI transcript cleaner that takes raw video and returns shippable posts; a content idea pipeline that takes a brief and returns 20 ranked angles; a repurposer that takes a podcast and returns three platform-specific edits. One week to build, deployed to your hosting, you keep the source code.',
+  },
+  {
+    q: 'Can you migrate my existing Zapier or n8n workflow?',
+    a: 'Yes — that\'s the most common project. I audit what you have, identify the load-bearing flows that don\'t need to migrate, rewrite the ones that do in real code, and run them in parallel for two weeks before cutting over. You keep your no-code stack for the simple stuff.',
+  },
+  {
+    q: 'Do you build with Claude, OpenAI, or something else?',
+    a: 'Whatever fits. I build a lot on Anthropic\'s Claude API (strong on long-context reasoning, content judgment). OpenAI when their flagship specifically wins. Gemini when the price/perf for the task lines up. Multi-model routing when the workload spans them. The right choice depends on your task — I don\'t default-pick.',
+  },
+  {
+    q: 'Who actually does the work?',
+    a: 'Long Nguyen — me, solo. Nearly a decade writing production software, since 2018 (back when LLMs couldn\'t ship usable code). Spent the agency years as the in-house dev ops leads called when their no-code stack stopped scaling. The person you talk to first is the person writing the code. No AE layer, no PM, no junior dev.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} schema={websiteSchema}>
+  {/* === HERO (DARK) === */}
+  <section class="section-dark relative overflow-hidden">
+    {/* Subtle saffron radial accent */}
+    <div
+      class="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.08]"
+      style="background: radial-gradient(circle, #FFC83D 0%, transparent 65%);"
+      aria-hidden="true"
+    />
+
+    <div class="container-x pt-24 lg:pt-36 pb-20 lg:pb-32 relative">
+      <div class="status-pill mb-7 lg:mb-8">
+        <span class="status-pill__dot"></span>
+        <span>Available · 1 of 2 slots · 2026 Q2</span>
+      </div>
+
+      <h1 class="display-h1 max-w-[20ch] mb-6 lg:mb-8">
+        Custom AI software<br/>
+        for teams past <span class="accent-saffron">n8n and Zapier</span><span class="cursor"></span>
+      </h1>
+
+      <p class="text-[18px] lg:text-[20px] text-bone-dim leading-[1.55] max-w-[60ch] mb-10">
+        Code beats no-code when AI is in the loop. I'm Long &mdash; nearly a decade writing
+        production software, started in 2018 (before Midjourney existed and well before LLMs
+        could ship usable code). I'm the dev your ops lead calls when the no-code stack hits a wall.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 mb-14 lg:mb-20">
+        <a class="btn btn-primary" href="/talk">
+          Talk to the duck →
+        </a>
+        <a class="btn btn-outline-light" href="#what-i-build">
+          What I build
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6 text-bone-dim border-t border-ink-border pt-8 max-w-[820px]">
+        <div>
+          <div class="font-mono text-[11px] tracking-spec uppercase text-bone-mute mb-1">Tier A1</div>
+          <div class="text-[20px] lg:text-[22px] text-bone font-semibold">$1.5K</div>
+          <div class="text-[12px] text-bone-mute">~1 wk · one tool</div>
+        </div>
+        <div>
+          <div class="font-mono text-[11px] tracking-spec uppercase text-bone-mute mb-1">Tier S3</div>
+          <div class="text-[20px] lg:text-[22px] text-bone font-semibold">$3.5K</div>
+          <div class="text-[12px] text-bone-mute">2–4 wk · full pipeline</div>
+        </div>
+        <div>
+          <div class="font-mono text-[11px] tracking-spec uppercase text-bone-mute mb-1">Custom</div>
+          <div class="text-[20px] lg:text-[22px] text-bone font-semibold">scoped</div>
+          <div class="text-[12px] text-bone-mute">monthly · full app</div>
+        </div>
+        <div>
+          <div class="font-mono text-[11px] tracking-spec uppercase text-bone-mute mb-1">Timeline</div>
+          <div class="text-[20px] lg:text-[22px] text-bone font-semibold">~2 wk</div>
+          <div class="text-[12px] text-bone-mute">typical S3 ship</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* === ICP CARDS (DARK) — three concrete things I do === */}
+  <Section tone="dark" label="Three things I do" id="what-i-build">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-8">
+      <div class="col-span-12 lg:col-span-5">
+        <h2 class="display-h2 mb-5">
+          Three concrete<br/>
+          things I <span class="accent-saffron">do</span>.
+        </h2>
+        <p class="text-[16px] text-bone-dim leading-[1.65] max-w-[44ch]">
+          Pick the one that sounds like your problem. If none of them do,
+          <a href="/talk" class="link-saffron">talk to the duck</a> and it'll route you.
+        </p>
+      </div>
+      <div class="col-span-12 lg:col-span-7 grid grid-cols-1 gap-4">
+        {[
+          {
+            tag: '01 · ad iteration',
+            head: 'Iterate your winning ad on autopilot.',
+            body: 'Take a creative that already converts. The pipeline I build generates dozens of on-brand variations nightly — copy, captions, thumbnail tweaks, A/B-ready exports. You wake up to a fresh batch.',
+            href: '/talk',
+          },
+          {
+            tag: '02 · n8n / zapier replacement',
+            head: 'Outgrew n8n or Zapier.',
+            body: 'Branching three deep, monthly bill creeping past $300, multi-model AI routing across providers. I rewrite the load-bearing flows in real code, run them in parallel for two weeks, then cut over.',
+            href: '/solutions/n8n-alternative',
+          },
+          {
+            tag: '03 · claude code rollout',
+            head: 'Set up Claude Code for your team.',
+            body: 'Vetted skills installed, custom skills built for your workflows, MCP servers tied to your CMS / CRM / analytics stack. Same setup I use with Claude every day.',
+            href: '/talk',
+          },
+        ].map((c) => (
+          <a href={c.href} class="card-dark p-6 lg:p-7 hover:-translate-y-0.5 hover:border-saffron/40 transition-all group block">
+            <div class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow mb-3">{c.tag}</div>
+            <h3 class="text-[22px] lg:text-[24px] font-semibold tracking-tight2 text-bone mb-3 group-hover:text-saffron transition-colors">{c.head}</h3>
+            <p class="text-[15px] text-bone-dim leading-[1.65]">{c.body}</p>
+            <div class="mt-4 font-mono text-[11px] tracking-spec uppercase text-bone-mute group-hover:text-saffron transition-colors">
+              Talk through this →
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  {/* === SOLUTIONS / PILLAR PAGES (CREAM) === */}
+  <Section tone="cream" label="By keyword" id="solutions">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-8">
+      <div class="col-span-12 lg:col-span-5">
+        <h2 class="display-h2 mb-5">
+          Four pages with sharp answers to one question.
+        </h2>
+        <p class="text-[17px] text-coal-dim leading-[1.65] mb-3">
+          You found this site by searching one of these terms. Each page below is built
+          to answer the exact question that brought you here &mdash; no fluff, no funnel.
+        </p>
+        <p class="text-[15px] text-coal-mute leading-[1.65]">
+          Or skip to <a href="/talk" class="link-coal">talk to the duck</a>
+          &nbsp;and I'll just tell you the right move for your situation.
+        </p>
+      </div>
+
+      <div class="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {pillars.map((p) => (
+          <a
+            href={p.href}
+            class="card-cream p-6 hover:bg-cream-light hover:-translate-y-0.5 transition-all group block"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">{p.no}</span>
+              <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow bg-saffron/15 px-2 py-1 rounded-pill">
+                {p.metric}
+              </span>
+            </div>
+            <h3 class="text-[22px] lg:text-[24px] font-semibold tracking-tight2 text-coal mb-3 group-hover:text-saffron-shadow transition-colors">{p.title}</h3>
+            <p class="text-[14px] text-coal-dim leading-[1.6] mb-4">{p.desc}</p>
+            <div class="flex items-center justify-between text-[11px] font-mono uppercase tracking-spec text-coal-mute">
+              <span>{p.growth}</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  {/* === ANTI-POSITIONING (DARK) === */}
+  <Section tone="dark" label="Why this exists">
+    <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-start">
+      <div class="col-span-12 lg:col-span-7">
+        <h2 class="display-h2 mb-7">
+          Most agencies lock you in.<br/>
+          I <span class="accent-saffron">hand you the keys.</span>
+        </h2>
+        <div class="space-y-5 text-[17px] lg:text-[18px] text-bone-dim leading-[1.65] max-w-[64ch]">
+          <p>
+            I spent the agency years as the in-house dev — the engineer ops leads called when their workflow
+            stack stopped scaling. The pattern was the same both shops: a content lead bought Zapier, built
+            something brilliant, hit a wall around month four, and spent the next quarter duct-taping
+            workarounds.
+          </p>
+          <p>
+            The wall was always the same shape. Custom logic. Real data. Multi-step orchestration with
+            branching. Cost predictability. Model choice. The things <span class="accent-saffron">code</span> does cleanly
+            and no-code does badly.
+          </p>
+          <p>
+            RDTS is the door in that wall. Real software, custom-built, scoped tightly, shipped in weeks.
+            Source code transfers to you. Hosting on your cloud. Modify, fork, take it anywhere.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-span-12 lg:col-span-5 lg:pl-6">
+        <div class="card-dark p-6 lg:p-7">
+          <div class="label mb-4">Comparison</div>
+          <table class="w-full text-[14px]">
+            <thead>
+              <tr class="border-b border-ink-border">
+                <th class="text-left font-mono text-[10px] tracking-spec uppercase text-bone-mute pb-3 font-medium">Property</th>
+                <th class="text-left font-mono text-[10px] tracking-spec uppercase text-bone-mute pb-3 font-medium">No-code</th>
+                <th class="text-left font-mono text-[10px] tracking-spec uppercase text-bone-mute pb-3 font-medium">RDTS</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-ink-border">
+              <tr><td class="py-3 text-bone-dim">Fast to start</td><td class="py-3 text-saffron">✓</td><td class="py-3 text-saffron">✓</td></tr>
+              <tr><td class="py-3 text-bone-dim">Costs predictable at scale</td><td class="py-3 text-bone-mute">✗</td><td class="py-3 text-saffron">✓</td></tr>
+              <tr><td class="py-3 text-bone-dim">You own source code</td><td class="py-3 text-bone-mute">✗</td><td class="py-3 text-saffron">✓</td></tr>
+              <tr><td class="py-3 text-bone-dim">Custom branching logic</td><td class="py-3 text-bone-mute">✗</td><td class="py-3 text-saffron">✓</td></tr>
+              <tr><td class="py-3 text-bone-dim">Multi-model AI routing</td><td class="py-3 text-bone-mute">✗</td><td class="py-3 text-saffron">✓</td></tr>
+              <tr><td class="py-3 text-bone-dim">Properly debuggable</td><td class="py-3 text-bone-mute">✗</td><td class="py-3 text-saffron">✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* === RECENT WORK (CREAM) === */}
+  <Section tone="cream" label="Recent builds">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-6 items-end mb-10">
+      <div class="col-span-12 lg:col-span-7">
+        <h2 class="display-h2">
+          Three real builds. <span class="text-coal-mute">Not lorem ipsum.</span>
+        </h2>
+      </div>
+      <div class="col-span-12 lg:col-span-5 text-[15px] text-coal-dim lg:text-right">
+        ClipMango is the strongest demo &mdash; AI music video pipeline,<br class="hidden lg:block"/>
+        multi-model orchestration, shipped solo.
+      </div>
+    </div>
+
+    <ul class="border-t border-cream-border">
+      {works.map((w) => (
+        <li class="border-b border-cream-border group">
+          <div class="grid grid-cols-12 gap-4 py-7 lg:py-9 items-baseline">
+            <span class="col-span-12 sm:col-span-5 text-[26px] lg:text-[34px] font-semibold tracking-tight2 text-coal leading-[1.05] group-hover:text-saffron-shadow transition-colors">
+              {w.name}
+            </span>
+            <span class="col-span-12 sm:col-span-4 text-[14px] text-coal-dim">{w.tag}</span>
+            <span class="col-span-12 sm:col-span-3 font-mono text-[11px] tracking-spec uppercase text-coal-mute sm:text-right">
+              {w.role}
+            </span>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-8 text-[14px] text-coal-mute font-mono">
+      // case studies coming. for now: <a href="/talk" class="link-coal">ask me directly</a>.
+    </p>
+  </Section>
+
+  {/* === PROCESS (DARK) === */}
+  <Section tone="dark" label="How it works">
+    <div class="grid grid-cols-12 gap-x-8 gap-y-10">
+      <div class="col-span-12 lg:col-span-5">
+        <h2 class="display-h2 mb-5">
+          From <span class="accent-saffron">talk</span> to <span class="accent-saffron">ship</span><br/>in four steps.
+        </h2>
+        <p class="text-[17px] text-bone-dim leading-[1.65] mb-6 max-w-[44ch]">
+          Solo founder. No agency layers, no AE handoffs. The person you talk to first
+          is the person writing your code &mdash; that's the entire point.
+        </p>
+        <a href="/talk" class="btn btn-primary">Start at step 1</a>
+      </div>
+
+      <ol class="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {steps.map((s) => (
+          <li class="card-dark p-6 lg:p-7">
+            <div class="flex items-baseline gap-3 mb-3">
+              <span class="font-mono text-[11px] tracking-spec uppercase text-bone-mute">Step</span>
+              <span class="font-mono text-[28px] tracking-tight2 text-saffron leading-none tabular">{s.no}</span>
+            </div>
+            <h3 class="text-[22px] font-semibold tracking-tight2 text-bone mb-2">{s.title}</h3>
+            <p class="text-[14px] text-bone-dim leading-[1.6]">{s.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </Section>
+
+  {/* === FAQ (CREAM) === */}
+  <Section tone="cream" label="FAQ">
+    <div class="grid grid-cols-12 gap-x-8 gap-y-8">
+      <div class="col-span-12 lg:col-span-4">
+        <h2 class="display-h2 mb-4">
+          Straight answers.<br/>
+          <span class="text-coal-mute">No buzzword soup.</span>
+        </h2>
+        <p class="text-[15px] text-coal-dim leading-[1.6]">
+          More questions in mind? <a href="/talk" class="link-coal">Ask the duck</a> or
+          <a href="/contact" class="link-coal"> email me</a> directly.
+        </p>
+      </div>
+      <div class="col-span-12 lg:col-span-8 space-y-4">
+        {faqs.map((f, i) => (
+          <details class="card-cream p-6 lg:p-7 group">
+            <summary class="cursor-pointer flex items-start justify-between gap-4 list-none">
+              <h3 class="text-[18px] lg:text-[20px] font-semibold tracking-tight2 text-coal pr-4">{f.q}</h3>
+              <span class="text-saffron-shadow text-[24px] leading-none mt-0 shrink-0 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="text-[15px] text-coal-dim leading-[1.7] mt-4">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  {/* === CTA (DARK) === */}
+  <Section tone="dark">
+    <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-center">
+      <div class="col-span-12 lg:col-span-8">
+        <div class="label mb-5">Next move</div>
+        <h2 class="display-h2 mb-5">
+          Bring me a problem.<br/>
+          I'll bring back a <span class="accent-saffron">spec</span>.
+        </h2>
+        <p class="text-[17px] text-bone-dim leading-[1.6] max-w-[58ch] mb-8">
+          Free 5-minute conversation. Tell the duck what you're trying to build and you'll leave
+          with a one-page spec, a fixed price, and a timeline.
+        </p>
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3">
+          <a href="/talk" class="btn btn-primary">Talk to the duck</a>
+          <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener" class="btn btn-outline-light">Book a call</a>
+          <a href="/contact" class="btn btn-outline-light">Email instead</a>
+        </div>
+      </div>
+      <div class="col-span-12 lg:col-span-4 hidden lg:flex justify-end">
+        <img src="/logo-rdts-light.webp" alt="Rubber Duck Tech Solutions" width="240" height="240" loading="lazy" class="w-[240px] h-[240px] object-contain" />
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

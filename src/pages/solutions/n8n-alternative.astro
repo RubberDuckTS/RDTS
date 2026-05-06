@@ -1,0 +1,262 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'n8n alternative — when to migrate from n8n to custom code | RDTS';
+const description = 'Outgrew n8n? I rebuild the load-bearing flows in real code so you stop fighting hosting, latency, and debugging. Fixed pricing, source code yours.';
+
+const canonical = '/solutions/n8n-alternative';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'n8n alternative — when to migrate from n8n to custom code',
+  description,
+  datePublished: '2026-05-06T08:00:00+00:00',
+  dateModified: '2026-05-06T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://rubberducktechsolutions.com/about',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://rubberducktechsolutions.com/solutions/n8n-alternative',
+};
+
+const faqs = [
+  {
+    q: 'How do I know when I have actually outgrown n8n?',
+    a: "Three signals usually show up together. First, a single workflow has more than 30 nodes and you stop being able to picture it in your head. Second, you spend more time chasing failed runs in the executions panel than you spend designing new automations. Third, your hosting and queue costs are no longer trivial — you are paying for a worker pool that exists to keep up with your own AI calls. When two of those three are true, the n8n alternative is not another no-code tool. It is real code with a proper job queue and proper observability.",
+  },
+  {
+    q: 'Is RDTS an open source n8n alternative?',
+    a: "No, and that is on purpose. I am not building a product that competes with n8n on its own turf. I build a custom service that does the specific job your workflow was doing, in plain TypeScript or Python, deployed to your infrastructure. You get the source code at the end, so it is open in the sense that matters: you can read every line, fork it, and hire anyone to maintain it. If you want a self-hostable visual editor with a community, n8n is still that. I am the option for when the visual editor is the bottleneck.",
+  },
+  {
+    q: 'What about hosting? I am already paying for n8n self-hosted on a VPS.',
+    a: "I deploy to your cloud account, not mine. For most flows that means Vercel for the API surface, a small Postgres or Supabase instance for state, and direct calls to whatever AI providers you already use. You stop paying for an always-on Docker host running an editor you only touch once a week. You start paying for actual function invocations, which for most marketing teams is single-digit dollars per month plus the model API costs you were already paying anyway.",
+  },
+  {
+    q: 'Can a custom build really handle multi-model AI routing better than n8n?',
+    a: "Yes, and it is the most common reason people call me. n8n nodes are tied to one provider per node. Real code lets me route per task — Claude for the long-context reasoning step, GPT for the structured output step, a cheaper model for classification — inside a single function with retries, fallbacks, and a budget cap. ClipMango, my AI music video pipeline, does exactly this across four providers. That kind of routing is fighting the framework in n8n. In code it is a switch statement.",
+  },
+  {
+    q: 'Do I own the code? What happens if you disappear?',
+    a: "You own everything. The repo lives in your GitHub org from day one, not mine. Deployment is on your Vercel and your Supabase. The only credential I need is a temporary deploy key, which you rotate when we are done. If I get hit by a bus, any decent TypeScript developer can pick up the project — no proprietary DSL, no vendor lock, no agency retainer holding the keys. That is the part agencies hate and the part I think is non-negotiable.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Booking 1 build for May–June</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          The honest <span class="underline-saffron">n8n alternative</span> is real code<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          You picked n8n because Zapier ran out of room. Now n8n is running out of room too — the queue is backing up, the hosting bill is climbing, and debugging a failed run takes longer than writing the original flow. I am the n8n alternative for the moment you stop being a no-code user and start needing a quiet, boring service that just runs. Fixed price, source code yours, deployed to your cloud.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Ask the duck about your flow</a>
+          <a href="/pricing" class="btn btn-outline-light">See pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THIS PAGE EXISTS -->
+  <Section tone="cream" label="Why this page exists">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">You did not pick n8n by accident. You hit a wall in Zapier and went looking for something that respected your intelligence.</h2>
+      <p>
+        n8n was the right answer at that stage. Self-hosted, open source automation, real branching, a community that actually ships nodes. For a year or two it was the only sensible no-code platform for anyone who could read a Docker file. I have recommended it to clients myself.
+      </p>
+      <p>
+        Then a particular thing happens, and it is the reason this page exists. The flow you built last quarter is now load-bearing. It runs every fifteen minutes, it calls three AI models in sequence, it has six retry branches, and it is one OOM kill away from your CEO finding out the content calendar is empty. You are no longer using n8n the way the docs imagined. You are using n8n as a production application server, except the application is a JSON blob you cannot diff and the server is a Docker container you are scared to restart.
+      </p>
+      <p>
+        This is the same wall that hits Zapier users at smaller scale. It just took longer because n8n is more powerful. If you are still deciding between them, read <a href="/solutions/n8n-vs-zapier" class="link-coal">n8n vs Zapier</a> first. If you already chose n8n and you are reading this because the choice stopped paying off, keep going. The next sections are for you.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHEN N8N IS STILL RIGHT -->
+  <Section tone="dark" label="When n8n is still the right tool">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">Not every workflow needs a custom build</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        I am not anti-n8n. Half the conversations I have end with me telling someone their flow is fine in n8n and they should not pay me. Here is the rough cut of when n8n is still the better answer versus when a custom n8n alternative pulls its weight.
+      </p>
+      <div class="overflow-x-auto rounded-2xl border border-ink-border">
+        <table class="w-full text-left text-bone">
+          <thead class="bg-ink-card text-bone-dim">
+            <tr>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Situation</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Stay on n8n</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Migrate to custom</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-ink-border">
+            <tr>
+              <td class="p-4 align-top">A flow runs once a day, fewer than 10 nodes</td>
+              <td class="p-4 align-top text-bone">Yes, this is exactly what n8n is for</td>
+              <td class="p-4 align-top text-bone-mute">Overkill</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">You need a non-technical teammate to edit the flow</td>
+              <td class="p-4 align-top text-bone">Stay — visual editor wins here</td>
+              <td class="p-4 align-top text-bone-mute">Wrong fit unless you build them a UI</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Multi-model AI routing with retries and budget caps</td>
+              <td class="p-4 align-top text-bone-mute">Possible but painful</td>
+              <td class="p-4 align-top text-bone">Migrate — this is where code wins</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Workflow has 30+ nodes and three nested loops</td>
+              <td class="p-4 align-top text-bone-mute">You are fighting the canvas</td>
+              <td class="p-4 align-top text-bone">Migrate — readability collapses</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Latency matters and queue is backing up</td>
+              <td class="p-4 align-top text-bone-mute">Workers cost real money</td>
+              <td class="p-4 align-top text-bone">Migrate — serverless scales linearly</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-bone-dim mt-8 max-w-3xl">
+        The honest read: n8n is a great glue layer for low-volume internal automations and a great prototyping tool. It stops being the right answer the moment a single flow becomes the product, or a piece of the product. That is the migration moment.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHEN YOU'VE OUTGROWN N8N -->
+  <Section tone="cream" label="When you've outgrown n8n">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Six symptoms that mean you outgrew n8n</h2>
+      <p>
+        These are the patterns I hear on the first call, almost word for word. If three or more match, you are not looking for a better no-code tool. You are looking for an n8n alternative that is, frankly, just code.
+      </p>
+      <h3>1. You are watching Docker bills climb for an editor you barely open</h3>
+      <p>
+        Self-hosted n8n needs a worker pool sized for your peak load, not your average. If your workflow spikes during a content push and idles the rest of the week, you are paying for capacity you do not use. Serverless functions bill you for the seconds they actually run. For most marketing-team automations, that is a 60–80% reduction in infra spend before counting model costs.
+      </p>
+      <h3>2. Debugging a failed run takes hours, not minutes</h3>
+      <p>
+        The executions panel is fine for happy paths. It is rough when an AI node returned malformed JSON three nodes ago, you have no source map, and you are clicking through pinned data trying to reconstruct the state. Real code gives you a stack trace, a structured log, and a test you can run locally. The first time you re-run a failed pipeline against the actual broken input in under a minute, you stop looking back.
+      </p>
+      <h3>3. Multi-model AI routing is impossible without ugly workarounds</h3>
+      <p>
+        n8n's AI nodes are tied to one provider per node. Real production AI flows route per task — Claude for long-context reasoning, GPT for structured extraction, a small fast model for classification. In n8n that is a switch node, three branches, three credentials, and three places to break. In code it is fifteen lines. ClipMango, my AI music video pipeline, runs four providers in one request and costs less than the equivalent n8n workflow ran on a single premium model.
+      </p>
+      <h3>4. Custom integrations you need do not exist as nodes</h3>
+      <p>
+        Every n8n user eventually needs the integration that is not in the catalog. The HTTP Request node works, but now you are writing JavaScript inside a code node, calling an API, parsing the response, and shoving it into the next node by hand. At that point you are already writing code. You are just writing it in the worst possible editor with the worst possible debugger.
+      </p>
+      <h3>5. You cannot version-control workflow JSON like real code</h3>
+      <p>
+        Trying to git-diff a workflow.json is a special kind of pain. Node positions move, IDs shift, the diff is unreadable. Code review on a 40-node flow is functionally impossible — your reviewer is squinting at coordinate changes. With real code, a pull request shows what actually changed: three lines in the prompt, one new branch, a retry policy. Reviews go from theatre to useful.
+      </p>
+      <h3>6. Latency at scale is killing the user experience</h3>
+      <p>
+        n8n adds overhead per node. For a sequential flow with twelve AI calls, you are paying that tax twelve times. Real code can parallelize independent calls, stream partial results, and shave seconds off perceived latency. When the workflow is user-facing — a content brief generator, a creator-vetting pipeline — that delta is the difference between a tool people use and a tool they avoid.
+      </p>
+    </div>
+  </Section>
+
+  <!-- HOW I REBUILD -->
+  <Section tone="dark" label="How I rebuild n8n flows in real code">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">My process for rebuilding n8n flows in code</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        I treat the migration like a translation, not a redesign. Step one is exporting your existing workflow JSON and walking through it with you so I understand which branches are load-bearing and which are leftovers from an experiment three months ago. Most n8n flows shrink by 30–50% in the rewrite simply because half the nodes are duct tape that real code does not need.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        The build itself is opinionated. TypeScript on Node, deployed to Vercel functions or your existing cloud — your choice, your account. State goes into Postgres or Supabase, also yours. AI calls go through the Anthropic SDK with Claude as the default and a thin router layer that can fall back to a GPT-class model or a cheaper variant based on the task. Retries, timeouts, and budget caps are wired in from day one, not bolted on after the first incident.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        You get the GitHub repo from commit one. No proprietary DSL, no platform lock-in, no monthly retainer to make a typo fix. When the project ships, the source code transfers cleanly to your engineering team or to whoever you hire next. If you want me to keep building on it, that is a separate conversation about ongoing work — never a hostage situation. If you would rather <a href="/services/ai-developer-for-hire" class="link-saffron">hire me directly</a> for a longer engagement, that is also on the table.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        I have shipped this exact pattern for ClipMango (the multi-model AI music video pipeline), Lee De Card (a creator booking platform that started life as a Zapier mess), and Dragon Wagons (marketing site plus content automation backend). Same playbook, different domains. The translation step is the same every time.
+      </p>
+    </div>
+  </Section>
+
+  <!-- PRICING -->
+  <Section tone="cream" label="What this typically costs">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">A typical n8n migration is Tier S3 — $3,500, 2–4 weeks</h2>
+      <p>
+        Most n8n-to-code migrations fit the same shape. One or two flows that have become production-critical, a handful of integrations, an AI step or three. That is Tier S3 at $3,500, scoped over two to four weeks, with a working deployment on your infrastructure at the end and the source code in your GitHub org.
+      </p>
+      <p>
+        Smaller jobs — a single sharp tool, one flow, one model — drop to Tier A1 at $1,500 and ship in about a week. Larger jobs with ongoing work move to a custom monthly retainer, scoped on the call. There is no surprise pricing, no metered seats, no per-run charge. You pay once, you keep the code, you keep the infrastructure. That is the whole deal.
+      </p>
+      <p>
+        Full breakdown is on the <a href="/pricing" class="link-coal">pricing page</a> — including what each tier includes, what it does not, and where the line sits. If you are not sure which tier you are in, <a href="/talk" class="link-coal">tell me about the flow</a> and I will tell you.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring the workflow.json. I'll tell you if you should migrate.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          The honest call is sometimes "stay on n8n, here are three changes that fix it." Sometimes it is "yes, this is a Tier S3 rebuild and here is the timeline." Either way the call is free, it takes thirty minutes, and you leave with a clearer picture of whether your flow needs a real n8n alternative or just a tune-up. I do this every week. The duck is patient.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Talk to the duck</a>
+          <a href="/pricing" class="btn btn-outline-light">See pricing first</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
