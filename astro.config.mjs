@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  site: 'https://rubberducktechsolutions.com',
+  site: 'https://www.rubberducktechsolutions.com',
   output: 'static',
   adapter: vercel(),
   // Canonicalize all URLs with a trailing slash so sitemap entries match

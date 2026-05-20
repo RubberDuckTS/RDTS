@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "rubberducktechsolutions.com" }],
+      "destination": "https://www.rubberducktechsolutions.com/$1",
+      "permanent": true
+    }
+  ]
+}

@@ -26,7 +26,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const SITE = 'https://rubberducktechsolutions.com';
+const SITE = 'https://www.rubberducktechsolutions.com';
 const canonicalPath = canonicalProp ?? Astro.url.pathname;
 const canonicalUrl  = new URL(canonicalPath, SITE).toString();
 const ogImageUrl    = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE).toString();
@@ -102,6 +102,7 @@ const schemas = schema
 
     {/* Theme color matches dark hero bg */}
     <meta name="theme-color" content="#0E1116" />
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="V9BC1ANBy0gEGYbu0Nd+kw" async></script>
   </head>
   <body class="antialiased bg-ink text-bone">
     <a
