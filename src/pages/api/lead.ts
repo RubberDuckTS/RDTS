@@ -105,13 +105,15 @@ export const POST: APIRoute = async ({ request }) => {
         {
           role: 'user',
           content: [
-            `Visitor: ${name} · ${email}${company ? ` · ${company}` : ''}`,
+            `Buyer: ${name} · ${email}${company ? ` · ${company}` : ''}`,
             '',
-            'Spec sheet (live during conversation):',
+            'State object captured by the duck:',
             JSON.stringify(spec, null, 2),
             '',
             'Full transcript:',
             transcriptText,
+            '',
+            'Write the brief now, matching the exact markdown structure from your system prompt.',
           ].join('\n'),
         },
       ],

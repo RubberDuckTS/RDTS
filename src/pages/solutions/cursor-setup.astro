@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Cursor setup — done by a real person, not a tutorial | RDTS';
+const description = 'Get Cursor actually working — rules files, codebase indexing, cmd-K vs composer, model selection, MCP integration. The AI-first IDE configured for your stack.';
+
+const canonical = '/solutions/cursor-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Cursor setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/cursor-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Cursor setup',
+  serviceType: 'AI-first IDE installation and configuration',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com',
+  },
+  areaServed: 'Worldwide',
+  description: 'Hands-on Cursor configuration — rules files, codebase indexing, model selection, MCP integration, and team-wide conventions.',
+};
+
+const faqs = [
+  {
+    q: 'What is Cursor, and what makes it different from VSCode with Copilot?',
+    a: "Cursor is an AI-first IDE — a fork of VSCode that bakes AI into the editor instead of bolting it on. The everyday differences: a chat panel that knows your whole codebase via indexing, an inline cmd-K that rewrites selections in place, a composer that can change multiple files in one turn, and model selection across Claude, GPT, and others rather than a single provider. VSCode plus Copilot is good at inline completions. Cursor is built around multi-file edits, codebase-aware chat, and the agent loop. They overlap on completion; they differ everywhere else.",
+  },
+  {
+    q: 'What does the .cursorrules file actually do, and what should I put in it?',
+    a: "The rules file (newer versions support a .cursor/rules/ directory with multiple scoped files) is project-level context Cursor injects into every AI interaction. The trap is treating it like a README — a 3000-word manifesto Cursor has to read every turn. The right rules file is short, prescriptive, and behavioral: which language version, which framework conventions, which patterns to prefer, which anti-patterns to refuse, where the tests live, what the commit format is. Under 800 tokens at the root, with sub-directory rules files for the parts that need their own conventions. The difference between a project with good rules and one without is roughly the difference between an experienced contractor and one who never read the brief.",
+  },
+  {
+    q: 'Cursor indexing keeps failing or hangs on my repo. How do you fix that?',
+    a: "Indexing problems come from a few usual places. A monorepo with hundreds of thousands of files (Cursor tries to index everything by default; you need a .cursorignore). A repo with large binary or generated files masquerading as code. A network policy blocking Cursor's indexing endpoints. A repo on a network drive instead of local disk. An out-of-date Cursor version. The fix is methodical — diagnose which one applies, write a tight .cursorignore that captures only what is actually code, and confirm the index rebuilds clean. Usually under an hour.",
+  },
+  {
+    q: 'When should I use cmd-K versus the composer versus the chat panel?',
+    a: "Three different tools for three different jobs. Cmd-K is for an in-place rewrite of a selection — change this function signature, refactor this block, fix this regex. Composer is for changes that touch multiple files in one shot — implement a feature across three files, rename a concept everywhere, scaffold a new module. Chat is for figuring out what to do before you do it, or asking questions about how the codebase already works. Most people I set up use chat for everything and miss the speed wins from cmd-K. Part of a Tuneup is showing you when each one earns its keep, with examples from your actual codebase.",
+  },
+  {
+    q: 'Which model should I use in Cursor — Claude, GPT, or something else?',
+    a: "It depends on the task. Claude Sonnet or Opus is usually the best for the composer when the job involves a multi-file edit, long reasoning, or holding a lot of code in working memory. GPT-class models can be faster for short cmd-K rewrites and structured-output tasks. The smaller fast models are fine for completions but underwhelming for the composer. Most working devs benefit from picking a default per surface — composer on a strong model, cmd-K on a fast one, chat on whichever feels right that day. Cursor lets you set defaults; most people never do. That is part of what I configure.",
+  },
+  {
+    q: 'Can Cursor talk to MCP servers, or is MCP a Claude Code thing?',
+    a: "Cursor supports MCP servers — the spec is open and Cursor implemented it. That means the same database, error-tracker, and GitHub MCP servers you might use with Claude Code work in Cursor's chat and composer. The configuration lives in Cursor's settings rather than a separate file, and there are some MCP servers that work better with one client than the other. When I set up Cursor for a team that also runs Claude Code or Codex, I keep MCP server configs aligned so the same tools are available everywhere, with a thin per-client adapter layer where needed.",
+  },
+  {
+    q: 'My team is split between Cursor users and VSCode-plus-Copilot users. How do we standardize?',
+    a: "You probably do not have to standardize on the editor — and you probably do have to standardize on the conventions. A shared rules file (Cursor reads it, the Copilot users can read it themselves), shared MCP server configs where it matters, agreed conventions for commit format and review style, and an onboarding doc that says 'either editor is fine; here is what we share across both.' That is the Workspace shape. The output is a team where the AI assistance produces consistent code regardless of which editor each person prefers.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Booking Cursor setups</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">Cursor setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          Cursor is the AI-first IDE — a fork of VSCode where AI is the editor's central feature instead of an extension bolted on later. Download is one click. The part that actually matters is everything that comes after — the rules file Cursor reads on every interaction, the codebase index it builds, the model picked for each surface, the MCP servers connected, the conventions your team agrees on. That is the install I do.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+          <a href="/services/" class="btn btn-outline-light">See all services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE IT BREAKS -->
+  <Section tone="cream" label="Where it breaks">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Where Cursor breaks for most people</h2>
+      <p>
+        Cursor is more reliable than most agent CLIs out of the box — it is still VSCode underneath. The friction shows up in different places. These are the spots that turn a one-month trial into a permanent tool, or a permanent shelf.
+      </p>
+      <h3>1. No rules file, or a rules file the size of a novel</h3>
+      <p>
+        With no rules file, Cursor guesses your conventions and gets them wrong half the time. With a 3000-word rules file, Cursor reads it on every interaction and the signal-to-noise rots. The right rules file is short, prescriptive, behavioral, and scoped — root-level for project-wide patterns, sub-directory files for parts that have their own rules. Most repos I see have neither extreme right.
+      </p>
+      <h3>2. Codebase indexing that hangs, partials, or never finishes</h3>
+      <p>
+        Monorepos with hundreds of thousands of files. Repos with large binaries Cursor tried to index. Network drives. Network policies blocking the indexing endpoint. Out-of-date Cursor versions. The fix is mechanical once you can read the indexing logs — usually a tight .cursorignore plus a version update plus a verification that the index actually completed.
+      </p>
+      <h3>3. Cmd-K, composer, and chat used interchangeably</h3>
+      <p>
+        These are three different tools and they reward different uses. Cmd-K for in-place rewrites of a selection. Composer for multi-file changes. Chat for figuring out what to do before doing it. Most people use chat for everything and miss the speed of cmd-K and the power of composer. The fix is not a tool fix; it is showing the developer when each one earns its keep, with examples from their actual repo.
+      </p>
+      <h3>4. Model selection left on defaults forever</h3>
+      <p>
+        Cursor's model picker is in the UI and almost nobody touches it after the first day. The default may not be the right pick for the composer on a complex refactor, or for cmd-K on a fast rewrite. A working dev should have a deliberate choice per surface — composer on a strong reasoning model, cmd-K on something fast, chat on whichever fits the question. Twenty seconds in settings, weeks of better output.
+      </p>
+      <h3>5. MCP servers configured once and forgotten</h3>
+      <p>
+        Cursor supports MCP and most people never wire it up. The result is Cursor that can read your code but cannot read your database, your error tracker, your hosted docs, or your internal API. Adding the right MCP servers turns Cursor from a code-aware IDE into a code-and-data-aware IDE. The win is sized to how much of your work touches data outside the repo.
+      </p>
+      <h3>6. Composer changes that drift into a rewrite-the-world rabbit hole</h3>
+      <p>
+        Composer is powerful and it is easy to misuse — you ask for one feature and get a refactor of three unrelated modules. The fix is in the prompt and the rules file: a convention that the composer scopes to the named task, plus a habit of reviewing the diff before accepting. Cursor's diff view is excellent; learning to actually read it before clicking accept is the other half of the fix.
+      </p>
+      <h3>7. Team drift — five Cursor users, five different installs</h3>
+      <p>
+        Cursor has personal settings, project-level rules, and a few things in between. With no team convention, every developer ends up with their own setup that is slightly different from the next person's. The output is inconsistent code from the same AI. Workspace-scope work fixes that with shared rules, agreed MCP server lists, and an onboarding doc.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="dark" label="What I set up">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I install when I set up your Cursor</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        Real specifics for a typical Tuneup. Adjusted for repo size, stack, and whether you are solo or coordinating with a team.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4">Rules file, written like a brief</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Root rules file under 800 tokens with project-wide conventions</li>
+        <li>Scoped rules in sub-directories where the conventions diverge</li>
+        <li>Behavioral, not descriptive — prefer "use X, refuse Y" over "we like clean code"</li>
+        <li>Test conventions, commit format, and import style codified</li>
+        <li>An explicit list of anti-patterns the AI should never produce</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Indexing and ignore files</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A .cursorignore that includes node_modules, dist, generated files, large binaries, and lock files</li>
+        <li>Verification that the index completes cleanly</li>
+        <li>For monorepos: scoped indexing per workspace where it helps</li>
+        <li>A note in the repo README about how to rebuild the index if it ever drifts</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Model selection per surface</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Composer set to a strong reasoning model for multi-file work</li>
+        <li>Cmd-K set to a fast model for in-place rewrites</li>
+        <li>Chat set to whichever model fits the way you ask questions</li>
+        <li>A documented "when to switch" rule for tasks that need the other choice</li>
+        <li>Budget tracking if your team is on usage-based billing</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">MCP servers wired into Cursor</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Database MCP (read-only by default) so Cursor can query your data instead of guessing schemas</li>
+        <li>Error tracker MCP (Sentry / Honeybadger / Rollbar) for real stack traces in chat</li>
+        <li>GitHub or GitLab MCP for issues, PRs, and file history</li>
+        <li>Web-fetch MCP with an allowlist for your hosted docs</li>
+        <li>Your internal API via a thin OpenAPI-to-MCP wrapper if you have one</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Workflow conventions and onboarding</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>An explicit convention for when to use cmd-K, composer, and chat</li>
+        <li>A habit-level rule about reading the diff before accepting composer changes</li>
+        <li>Slash-command-style snippets for the prompts you rewrite by hand</li>
+        <li>An onboarding doc your next teammate can follow to match your setup</li>
+        <li>For a Workspace: shared rules, shared MCP configs, and a one-command setup script</li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="cream" label="Shapes of engagement">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Three shapes — pick the one that matches the work</h2>
+      <h3>Quick fix — one Cursor thing, fixed in a day</h3>
+      <p>
+        Indexing that will not finish. A rules file producing the wrong patterns. MCP servers that will not connect. Composer changes drifting into rewrites. You bring one symptom; I dig into the actual config and a real session and fix the underlying cause. You leave with a working setup and a one-page note on what the root cause was. About a day, sometimes less.
+      </p>
+      <h3>Tuneup — your personal Cursor, dialed in</h3>
+      <p>
+        Cursor configured for the way you actually work. I watch you use it for an hour on real tasks. Then I write the rules file, tighten the index, set models per surface, wire the MCP servers that matter, and show you when each surface (cmd-K, composer, chat) earns its keep. You walk out with a setup committed to your dotfiles or your project repo and a Cursor install you reach for instead of fight. About a week.
+      </p>
+      <h3>Workspace — your team on Cursor, configured consistently</h3>
+      <p>
+        For teams of two to six who want shared Cursor conventions instead of drift. I run a workshop to pull out the conventions you already share (even informally), then build the shared rules file, shared MCP config, agreed model defaults, and an onboarding doc that gets a new hire productive in fifteen minutes. About one to two weeks. The output is a repo where any teammate, on any machine, gets the same Cursor experience.
+      </p>
+      <p>
+        Not sure which shape fits? Describe what you are trying to fix. <a href="/talk/" class="link-coal">Talk to the duck →</a>
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring the .cursorrules, the failing index, or the composer diff you do not trust.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          You do not need to know whether your issue is a rules-file scope problem or a model-default problem or an indexing issue. Describe what is annoying about Cursor today. I will name the shape of the work in one message — Quick fix, Tuneup, or Workspace — and tell you plainly what it will cost. <a href="/services/" class="link-saffron">All services →</a>
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

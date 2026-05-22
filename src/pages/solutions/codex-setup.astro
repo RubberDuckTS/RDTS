@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Codex setup — done by a real person, not a tutorial | RDTS';
+const description = 'Install OpenAI Codex CLI the right way — auth handled, context budget set, tools wired, dev workflow integrated. Codex configured for your stack, not a sample repo.';
+
+const canonical = '/solutions/codex-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Codex setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/codex-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Codex setup',
+  serviceType: 'OpenAI Codex CLI installation and configuration',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com',
+  },
+  areaServed: 'Worldwide',
+  description: 'Hands-on OpenAI Codex CLI install, authentication, context management, tool wiring, and integration with existing dev workflows.',
+};
+
+const faqs = [
+  {
+    q: 'What is the Codex CLI and how is it different from ChatGPT or the OpenAI API?',
+    a: "The Codex CLI is OpenAI's terminal-resident coding agent — it runs GPT-class models in a loop with tool access to your shell and your files. ChatGPT is a chat product for general use. The OpenAI API is the raw building block. Codex sits in between: it is a packaged agent that lives next to your editor and your git, can read and modify files, run commands, and carry a coding task across many turns. Think of it as OpenAI's answer to Claude Code — same shape, different model behind it.",
+  },
+  {
+    q: 'My OpenAI API key works in scripts but Codex says it cannot authenticate. Why?',
+    a: "Codex auth has more moving parts than a plain API call. The CLI may expect a specific environment variable name, or a config file at a path that does not exist yet, or an organization ID alongside the key when your account belongs to multiple orgs, or a different key scope than your usual one. The fix is usually two minutes once you know which of those four things it is — and twenty minutes of frustration if you do not. I see this on roughly one out of three first-time Codex installs.",
+  },
+  {
+    q: 'Codex runs out of context on real-world tasks. How do you fix that?',
+    a: "Context-window management is the single biggest difference between a Codex setup that works and one that does not. The model's window is large but not infinite, and a naive Codex session can fill it with file dumps inside three turns. The fixes are layered — tool outputs that summarize before returning, a project-level context file that captures the conventions worth carrying every session, a routine to compact long sessions before they spill, and a habit of starting a fresh session for a fresh task instead of forcing every job through one giant conversation. Together these usually triple the useful session length without changing the model.",
+  },
+  {
+    q: 'How does Codex fit alongside my existing IDE and Copilot?',
+    a: "They serve different jobs. Copilot is great at inline completions and small local suggestions inside your editor. Codex is built for multi-file changes, refactors, debugging that requires running commands, and any task where the loop matters more than the autocomplete. Most working devs I set up keep Copilot for editing-flow completions and reach for Codex when the job is bigger than three lines. They do not fight each other; they cover different parts of the day. The IDE you already use stays.",
+  },
+  {
+    q: 'Can Codex read my private codebase, or does everything go to OpenAI?',
+    a: "Codex sends the context window to OpenAI's servers — that is how the model produces a response. Whether that is acceptable depends on your contract with OpenAI (the enterprise tier has different data-handling terms than the personal tier) and your company's policy. For private or regulated codebases, the right move is sometimes a different harness with a self-hosted model. If your codebase is on GitHub, your secrets are in env vars, and your usage is on an appropriate tier, Codex is fine for most teams. If you need everything to stay local, ask me — there are alternatives.",
+  },
+  {
+    q: 'My Codex sessions feel slow compared to ChatGPT. Is something wrong?',
+    a: "Probably not, and the speed difference has a real cause. ChatGPT does one model call per turn. Codex runs an agent loop — the model decides to call a tool, the tool runs, the result goes back to the model, the model decides what to do next. A single Codex 'turn' from your perspective is often three to five model calls behind the scenes plus the tool execution time. The fix is not making Codex faster; it is making sure the agent loop is doing useful work each step instead of spinning. A tuned setup typically cuts the average task time by 30–50% — same model, better loop.",
+  },
+  {
+    q: 'I am already on Claude Code. Is there a reason to add Codex?',
+    a: "Sometimes yes, often no. Reasons to add Codex: your team is already paying for OpenAI and a second tool means a second budget conversation; the work involves a task where GPT outperforms Claude on a benchmark that matters to you; you want a fallback when one provider has an outage. Reasons not to: if Claude Code already covers your day, adding Codex is overhead with little payoff. I will tell you which one I think you need on the call, and 'just one is fine' is a real answer.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Booking Codex setups</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">Codex setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          OpenAI's Codex CLI is the terminal-resident coding agent behind GPT-class models — a real loop with file access, shell access, and the model deciding what to do next. The install is straightforward; the part that determines whether you actually use it every day is what happens after. Auth, context budgets, tool wiring, the way it sits next to your editor and your git — those choices are the difference between a Codex that ships work and one that gathers dust.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+          <a href="/services/" class="btn btn-outline-light">See all services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE IT BREAKS -->
+  <Section tone="cream" label="Where it breaks">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Where Codex breaks for most people</h2>
+      <p>
+        The failure modes are not random — they cluster around five or six predictable spots. Knowing them up front cuts the install from a week of friction to an afternoon.
+      </p>
+      <h3>1. API key auth that "should work" and does not</h3>
+      <p>
+        Your key is fine in curl. Codex throws "authentication failed" anyway. The cause is almost always one of four things: wrong env var name for your CLI version, missing organization ID on a multi-org account, a key scoped to a project that does not include Codex, or a config file at a path the CLI expects but you have not created. The fix is two minutes once diagnosed and twenty minutes of guessing if you are unlucky.
+      </p>
+      <h3>2. Context window blown out by the third turn</h3>
+      <p>
+        Codex reads files into context aggressively. With no discipline, a single multi-file task can fill the context window before the actual work starts. The fix is summarizing tool outputs, scoping file reads, and keeping a tight project context file that survives across sessions instead of re-deriving every time.
+      </p>
+      <h3>3. Sessions that drift from "fix this bug" to "rewrite the universe"</h3>
+      <p>
+        Without an explicit task contract, the agent generalizes — it sees a small bug, finds three adjacent smells, and starts refactoring all of it. The fix is a system prompt that scopes the agent to the named task, plus a step budget that forces a check-in after N tool calls. Same model, dramatically more useful sessions.
+      </p>
+      <h3>4. Tool outputs the model cannot actually use</h3>
+      <p>
+        A raw test runner output of 800 lines is information theater. The model spends a turn acknowledging the noise instead of solving the failure. Tool wrappers that summarize first (errors only, first failing test, file:line:reason) turn a useless tool into a useful one without changing what the tool does.
+      </p>
+      <h3>5. The handoff between Codex and your IDE is awkward</h3>
+      <p>
+        Codex changed five files, you have unsaved edits in your editor, git is confused, and you are not sure which version of which file is the source of truth. The fix is a workflow convention — Codex owns the working tree for the duration of a task, your editor reloads from disk, commits happen at task boundaries — plus a hook that surfaces conflicts immediately instead of letting them compound.
+      </p>
+      <h3>6. Cost surprises at the end of the month</h3>
+      <p>
+        Codex sessions can rack up real spend if the agent loop is loose. The fix is budget caps per session, a routine for compacting before long sessions, and a daily summary of where tokens went so a regression in prompt quality shows up in the bill before it shows up everywhere else.
+      </p>
+      <h3>7. Integration with your existing dev flow that is not actually integrated</h3>
+      <p>
+        You installed Codex. You still open Cursor for editing, Claude Code for refactors, and Codex for whatever Codex is for. Without an explicit policy, three tools is more friction than one, and Codex never finds its place. The fix is the boring decision work — which tool owns which job in your day — and then making the handoff between them cheap.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="dark" label="What I set up">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I install when I set up your Codex</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        The actual list for a typical Tuneup. Adjusted for whether you are solo, on a small team, or running it alongside an existing IDE stack.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4">Authentication and account hygiene</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>API key scoped to a Codex-only project so you can monitor spend cleanly</li>
+        <li>Organization ID configured for multi-org accounts</li>
+        <li>Keys out of shell history and into a proper secret store (1Password CLI, macOS keychain, or your team's vault)</li>
+        <li>A per-session budget cap so a runaway loop cannot empty the account</li>
+        <li>Spending alert wired so you find out about a regression in hours, not at month-end</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Context budget and project context</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A project context file that loads at session start with conventions, file layout, and the things you should not forget</li>
+        <li>Tool wrappers that summarize before returning — test output, grep results, file dumps</li>
+        <li>A scoped file-read tool that respects a project allowlist</li>
+        <li>A compaction routine for long sessions before the window fills</li>
+        <li>Convention: fresh session per task, not one giant session per project</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Tools wired to your dev flow</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Git tool that respects branches and surfaces conflicts cleanly</li>
+        <li>Test-runner tool that returns failing tests only, with file:line:reason</li>
+        <li>Lint and format tools wrapped so the model gets actionable output</li>
+        <li>Database read access (read-only by default) if your work touches data</li>
+        <li>A web-fetch tool with an allowlist for your hosted docs</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">System prompts and task templates</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A system prompt that scopes Codex to the named task and forbids drift</li>
+        <li>Task templates for the five workflows you run every day</li>
+        <li>A debugging template that captures the failing input, the actual versus expected output, and the working hypothesis</li>
+        <li>A code-review template that respects your style guide</li>
+        <li>A planner-style first turn for any task above a complexity threshold</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Integration with your existing setup</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>An explicit policy for when Codex is the right tool versus your IDE or another harness</li>
+        <li>Workflow convention for editor reloads, working-tree ownership, and commit boundaries</li>
+        <li>A one-page doc for any teammate explaining "use Codex for X, use Y for Z"</li>
+        <li>For a Workspace: shared task templates and shared project-context conventions</li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="cream" label="Shapes of engagement">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Three shapes — pick the one that matches the work</h2>
+      <h3>Quick fix — one Codex thing, fixed in a day</h3>
+      <p>
+        Auth that will not authenticate. Sessions blowing the context window. A tool returning garbage to the model. A budget that ran away last month. You bring one symptom; I dig into the actual config and session logs and fix the underlying cause. You leave with a working install and a one-page note. About a day.
+      </p>
+      <h3>Tuneup — your personal Codex, dialed in</h3>
+      <p>
+        Codex configured for your stack and your day. I watch a real session, find the friction, and rebuild the pieces that matter — auth, context budget, tool wrappers, system prompts, the handoff between Codex and whatever editor you already use. You walk out with a config repo, a README that explains every choice, and a Codex install you reach for instead of avoid. About a week.
+      </p>
+      <h3>Workspace — your team on Codex, configured consistently</h3>
+      <p>
+        For teams of two to six who want a shared Codex policy instead of everyone reinventing the wheel. I run a workshop on what each person currently does, then build shared task templates, shared project-context files, shared tool wrappers, and an explicit policy for which tool owns which job. About one to two weeks. The output is documented conventions plus a repo your team clones to get a clean Codex setup in one command.
+      </p>
+      <p>
+        Not sure which shape fits? Describe the work. <a href="/talk/" class="link-coal">Talk to the duck →</a>
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring the auth error, the cost spike, or the session log. The duck reads it.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          You do not need to know whether your problem is an org-ID mismatch or a context-budget bug or a tool-output issue. Describe what is annoying about Codex today. I will name the shape in one message and quote the work plainly. <a href="/services/" class="link-saffron">All services →</a>
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

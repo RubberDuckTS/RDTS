@@ -131,7 +131,7 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonResponse(
         {
           message:
-            "One sec — give me one more line about what matters most for this build (data shape, integrations, timeline, or budget) and I'll lock the spec.",
+            "One more line — tell me the stack you use today and what's the worst part of it.",
           spec: null,
           ready_for_lead: false,
           turn_count: userTurns,

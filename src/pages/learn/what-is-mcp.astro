@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'What is MCP? Model Context Protocol in plain English | RDTS Learn';
+const description = 'MCP (Model Context Protocol) lets AI assistants like Claude connect to your databases, files, and APIs through one standard interface. Here is what that actually means.';
+
+const canonical = '/learn/what-is-mcp/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'What is MCP? Model Context Protocol explained in plain English',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/learn/what-is-mcp/',
+};
+
+const faqs = [
+  {
+    q: 'Who created MCP?',
+    a: "Anthropic — the company behind Claude — released MCP as an open standard in late 2024. It is open source and the spec is published publicly, so anyone can implement an MCP server or client. It is not proprietary to Claude, even though Anthropic shipped it first. Other AI tools, including some IDEs and agent runners, have adopted MCP as their way of talking to external systems.",
+  },
+  {
+    q: 'Is MCP the same thing as a Claude skill?',
+    a: "No, and this is the most common mix-up. A Claude skill is instructions and behavior packaged for the model to load into its context — it shapes how the model thinks about a task. An MCP server is the model's hands and eyes — it gives the model a real connection to a database, a file system, an API. Skills are knowledge. MCPs are tools. You usually want both. There is a dedicated explainer on this — skills vs MCPs.",
+  },
+  {
+    q: 'Do I need to write code to use MCP?',
+    a: "Depends on what you are doing. If you want to use existing MCP servers — there are public ones for GitHub, Slack, Postgres, Google Drive, file systems, and dozens more — you just install them and point your AI assistant at them. No code, just config. If you want a custom MCP server that talks to your internal API or your specific database schema, someone is writing code. That code is small — most useful MCP servers are a few hundred lines — but it is real code.",
+  },
+  {
+    q: 'What MCP clients exist right now?',
+    a: "Claude Desktop, Claude Code, Cursor, Cline, Zed, and a growing list of others. Any tool that wants to give Claude (or another model that speaks MCP) access to external systems can implement the client side. The list changes monthly. If you are picking an AI tool today, MCP client support is a reasonable thing to filter on — without it, the tool can only see what you paste in.",
+  },
+  {
+    q: 'Is MCP secure? My data goes through Anthropic now?',
+    a: "MCP servers run locally on your machine (or on your infrastructure) by default. Anthropic does not see the raw data the server returns — only the parts the model decides to include in its responses. That said, you are giving an AI model real access to real systems. The standard security questions still apply: scope the credentials tightly, log what the model touches, never give an MCP server write access to anything you cannot afford to lose. Treat each MCP server like you would treat a third-party API integration.",
+  },
+  {
+    q: 'When should I NOT use MCP?',
+    a: "For one-off integrations or quick scripts, MCP is overkill. If you just need Claude to read one file or hit one API endpoint, paste the data in or use the existing tool support in your AI client. MCP earns its keep when the same data source needs to be available across many sessions, many tools, or many team members. It is infrastructure, not a quick hack.",
+  },
+  {
+    q: 'How is MCP different from OpenAI function calling or tool use?',
+    a: "Function calling is a feature of an API — you declare functions in your code, and the model can request to call them. MCP is a protocol between processes — an MCP server runs as its own thing, and any compliant client can connect to it. The practical difference: a function-calling integration lives inside one application; an MCP server can be shared across every AI tool you use. Same Postgres MCP server, available in Claude Desktop, Cursor, and Cline simultaneously.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="label label--dim mb-6">// Learn / Concepts</div>
+        <h1 class="display-h1 mb-8">
+          What is MCP? <span class="underline-saffron">Plain-English</span> explanation<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          MCP — short for Model Context Protocol — is an open standard for letting AI assistants like Claude talk to your databases, files, and external services. Think of it as a universal adapter: instead of every AI tool needing a custom integration for every data source, MCP gives them all one common way to plug in.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY IT EXISTS -->
+  <Section tone="cream" label="Why it exists">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Every AI tool needed a custom integration. That was the problem.</h2>
+      <p>
+        Before MCP, the situation looked like this. You wanted Claude to read your Notion docs. Someone wrote a Claude–Notion integration. You also wanted ChatGPT to read your Notion docs. Someone wrote a ChatGPT–Notion integration. Then Cursor wanted in. Then Cline. Then your internal tool. Five integrations, five codebases, five auth flows, five places to break — for one data source.
+      </p>
+      <p>
+        Multiply that by every team's stack — Postgres, Slack, GitHub, Google Drive, internal APIs, custom databases — and the integration math gets ugly fast. Each AI tool ended up with a different, incomplete set of connectors. The good ones charged for them. The free ones broke.
+      </p>
+      <p>
+        Anthropic released MCP in late 2024 to short-circuit that mess. The deal is simple: write one MCP server for your data source, and any MCP-compatible AI tool can use it. Write one MCP client in your AI tool, and it instantly works with every MCP server out there. It is the same idea that made USB win — a standard plug instead of a different cable per device.
+      </p>
+      <p>
+        That is the "why." Now the harder part — what it actually does in practice.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT IT DOES -->
+  <Section tone="dark" label="What it actually does">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Two roles: server and client</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        MCP defines two sides of a conversation. An <strong class="text-bone">MCP server</strong> is a small program that exposes something — a file system, a database, a set of API endpoints, a calendar. An <strong class="text-bone">MCP client</strong> is the AI tool that wants to use those things. They talk to each other in a standard format.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        A server can offer three kinds of capabilities. <strong class="text-bone">Tools</strong> are functions the model can call — for example, "search the Postgres database with this query" or "send a message to this Slack channel." <strong class="text-bone">Resources</strong> are data the model can read — files, records, documents. <strong class="text-bone">Prompts</strong> are reusable prompt templates the server suggests for common tasks.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10">
+        The client — your AI assistant — picks which servers to connect to and asks the model to use them as needed. Behind the scenes, when Claude in Claude Desktop decides it needs to search your filesystem, it calls a tool on a connected filesystem MCP server, gets the result back, and uses that result in its response. You never see the protocol traffic. You just see the AI suddenly being able to do something it could not do five minutes ago.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-6">Concrete examples</h3>
+      <div class="space-y-6 text-bone-dim text-lg leading-relaxed">
+        <div>
+          <p class="text-bone font-semibold mb-2">Filesystem MCP server</p>
+          <p>You install it and grant it access to one folder. Now Claude Desktop can read files in that folder, list directories, and (if you allow) write new files. You stop pasting code snippets into the chat.</p>
+        </div>
+        <div>
+          <p class="text-bone font-semibold mb-2">Postgres MCP server</p>
+          <p>You give it a read-only connection string. Claude can now write SQL against your database, run it, and see the result. Asking "how many customers signed up last week from California" becomes a single message instead of an export-to-CSV ritual.</p>
+        </div>
+        <div>
+          <p class="text-bone font-semibold mb-2">GitHub MCP server</p>
+          <p>Claude can list your repos, read issues, open pull requests, and comment on PRs. It moves from "AI that knows about code" to "AI that can act on your repos."</p>
+        </div>
+        <div>
+          <p class="text-bone font-semibold mb-2">Custom internal MCP server</p>
+          <p>You have an internal admin API for your SaaS. You write a small MCP server that exposes the half-dozen endpoints your team actually uses ("look up a customer," "issue a refund," "extend a trial"). Now your support team can ask Claude in plain English and it does the right thing.</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- WHEN TO USE -->
+  <Section tone="cream" label="When to use it">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">When MCP is the right answer — and when it is not</h2>
+      <h3>Use MCP when</h3>
+      <p>
+        You want an AI assistant to have ongoing, structured access to a system you control. That includes: file systems you work in daily, databases you query often, internal APIs your team relies on, third-party services with no good built-in AI integration. If a connection is going to be used across many sessions or many tools, MCP pays for itself in the second use.
+      </p>
+      <p>
+        Use MCP when you want the same integration to work in multiple AI tools. One Postgres MCP server can be wired into Claude Desktop for ad-hoc analysis, Cursor for in-editor data lookups, and Cline for agentic workflows — same server, same auth, same query patterns. That portability is the entire pitch.
+      </p>
+      <h3>Skip MCP when</h3>
+      <p>
+        The job is one-off. If you need Claude to look at one CSV today, paste it in. Setting up an MCP server for a single file is the kind of premature infrastructure that costs more than it saves.
+      </p>
+      <p>
+        The integration is trivial and lives in one place. If your app already has function-calling against your own API and that is the only place the AI lives, MCP adds plumbing without adding capability. Use the simpler tool.
+      </p>
+      <p>
+        The data is too sensitive to give a model durable access. MCP servers stay on your machine and your infrastructure, but the model still sees the results. If you would not put a credential in a chat window, do not put it behind an MCP server either.
+      </p>
+      <h3>Honest opinion</h3>
+      <p>
+        MCP is one of the better ideas to come out of the AI tooling space in the past two years. It is also early. The server ecosystem is uneven — some official servers are excellent, some community ones are abandoned, and writing your own is straightforward but still real engineering. If you are setting up AI for a team and you want it to actually do things instead of just talk about them, MCP is the standard you should be building on.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions about MCP</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Want MCP set up for your stack?
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Picking the right MCP servers, writing the custom ones, wiring them into the AI clients your team actually uses — that is the part of the work that takes a weekend if you have done it before and three weeks if you have not. Tell the duck what you are trying to connect, what tools your team uses, and what the data looks like. You will get a real plan back.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Talk to the duck →</a>
+          <a href="/learn/skills-vs-mcps/" class="btn btn-outline-light">Read: skills vs MCPs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

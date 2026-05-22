@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
-const title = 'Zapier alternative for content teams hitting the no-code wall | RDTS';
-const description = 'Free, open-source, and custom Zapier alternatives compared honestly. When to switch tools vs when to skip the no-code stack entirely.';
+const title = 'Zapier alternative for teams hitting the no-code wall | RDTS';
+const description = 'Free, open-source, and code-first Zapier alternatives compared honestly. When to switch tools and when to skip the no-code stack entirely.';
 
 const canonical = '/solutions/zapier-alternative/';
 
@@ -22,12 +22,17 @@ const articleSchema = {
   publisher: {
     '@type': 'Organization',
     name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
     logo: {
       '@type': 'ImageObject',
       url: 'https://www.rubberducktechsolutions.com/favicon.svg',
     },
   },
-  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/zapier-alternative/',
+  url: 'https://www.rubberducktechsolutions.com/solutions/zapier-alternative/',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://www.rubberducktechsolutions.com/solutions/zapier-alternative/',
+  },
 };
 
 const faqs = [
@@ -49,7 +54,7 @@ const faqs = [
   },
   {
     q: 'How much does a custom Zapier replacement cost compared to staying on Zapier?',
-    a: "A typical Zapier-replacement build at RDTS is Tier A1 at $1,500 for a single sharp flow or Tier S3 at $3,500 for a full pipeline with multiple integrations and AI steps. You pay once. After that, infra is your Vercel and your Supabase — usually under $20/month. Compare that to a Zapier Professional plan at $73/month plus per-task overage, which compounds. Most clients break even on the rebuild inside six to nine months and own the source code forever. The math gets aggressive once you cross the 5,000-task plan tier.",
+    a: "It depends on the flow. A single sharp tool — one trigger, a couple of integrations, an AI step or two — ships in about a week. A full pipeline with multiple integrations, branching, and observability is a multi-week build. You pay once. After that, infra is your Vercel and your Supabase — usually under $20/month. Compare that to a Zapier Professional plan plus per-task overage that compounds. Most teams break even on the rebuild inside six to nine months and own the source code forever. Talk to the duck for a real quote — no specific numbers go on the public site because the work always varies.",
   },
 ];
 
@@ -71,16 +76,16 @@ const faqSchema = {
       <div class="max-w-4xl">
         <div class="status-pill mb-8">
           <span class="status-pill__dot"></span>
-          <span>Booking 1 build for May–June</span>
+          <span>Taking new setups this month</span>
         </div>
         <h1 class="display-h1 mb-8">
           The honest <span class="underline-saffron">Zapier alternative</span> guide for teams hitting the wall<span class="cursor">_</span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
-          Your Zapier bill jumped again, the 5,000-task plan ran out by the third week, and you are starting to hack JavaScript inside Code by Zapier nodes because the platform cannot express what you actually need. This is a guide to every reasonable Zapier alternative — free, open source, and custom — written by someone who has shipped all three. No affiliate links, no pretending one tool fits everyone. Just an honest map of which path is right for which problem.
+          Your Zapier bill jumped again, the 5,000-task plan ran out by the third week, and you are hacking JavaScript inside Code by Zapier nodes because the platform cannot express what you actually need. This is a guide to every reasonable Zapier alternative — free, open source, and code-first — written by someone who has shipped all three. No affiliate links, no pretending one tool fits everyone. Just an honest map of which path is right for which problem.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="/talk" class="btn btn-primary">Ask the duck about your flow</a>
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
           <a href="#alternatives" class="btn btn-outline-light">See the three paths</a>
         </div>
       </div>
@@ -118,7 +123,7 @@ const faqSchema = {
             If your problem is mostly the bill — your flows are simple, you do not need exotic logic, but Zapier's per-task pricing has gotten silly — switch. Make.com is the most common destination because its operations meter is more generous and the visual editor handles branching better. Pabbly Connect undercuts both on price for high-volume teams. Activepiece is the open-source dark horse if you can self-host. n8n is the heavyweight pick if you actually want to own your stack and you have someone who can read a Docker file.
           </p>
           <p class="text-bone-dim leading-relaxed">
-            This path works when your flows are glue, not infrastructure. If a five-minute outage on the flow does not cost you anything real, a no-code Zapier replacement is the right tool. Stop reading and migrate. <a href="/solutions/n8n-alternative" class="link-saffron">If you switch to n8n you will hit the next wall</a> in roughly eighteen months — but eighteen months is a long time, and you will have saved a lot of money in the meantime.
+            This path works when your flows are glue, not infrastructure. If a five-minute outage on the flow does not cost you anything real, a no-code Zapier replacement is the right tool. Stop reading and migrate. <a href="/solutions/n8n-alternative/" class="link-saffron">If you switch to n8n you will hit the next wall</a> in roughly eighteen months — but eighteen months is a long time, and you will have saved a lot of money in the meantime.
           </p>
         </div>
 
@@ -140,7 +145,7 @@ const faqSchema = {
             If your flow is load-bearing — meaning if it breaks, someone notices in under an hour — and you are already hacking JavaScript inside Code by Zapier nodes to do things the platform cannot express, you are past the point where another no-code tool will save you. The honest path is real code. A small TypeScript service deployed to your Vercel, talking to Postgres or Supabase, calling whatever AI providers you actually need. Source code yours from day one. No retainer.
           </p>
           <p class="text-bone-dim leading-relaxed">
-            This is what I do. It is the path I take when a client comes in saying "I outgrew Zapier" and they have already tried Make.com and n8n and the same flow is still fragile. <a href="/talk" class="link-saffron">If your flow looks like that</a>, this is probably your path. Do not start here lightly — but do not avoid it out of habit, either.
+            This is what I do. It is the path I take when a team comes in saying "I outgrew Zapier" and they have already tried Make.com and n8n and the same flow is still fragile. <a href="/talk/" class="link-saffron">If your flow looks like that</a>, this is probably your path. Do not start here lightly — but do not avoid it out of habit, either.
           </p>
         </div>
       </div>
@@ -211,7 +216,7 @@ const faqSchema = {
       </div>
       <div class="prose-rdts max-w-3xl mt-10">
         <p>
-          One thing none of those tools fix: the fundamental problem that a visual editor is the wrong abstraction once your flow becomes a real piece of software. They all kick that can down the road. <a href="/solutions/n8n-vs-zapier" class="link-coal">Still deciding between Zapier and n8n?</a> That comparison page covers the move from one to the other. This page covers what comes after.
+          One thing none of those tools fix: the fundamental problem that a visual editor is the wrong abstraction once your flow becomes a real piece of software. They all kick that can down the road. <a href="/solutions/n8n-vs-zapier/" class="link-coal">Still deciding between Zapier and n8n?</a> That comparison page covers the move from one to the other. This page covers what comes after.
         </p>
       </div>
     </div>
@@ -234,20 +239,7 @@ const faqSchema = {
         The other place custom wins is when the flow is part of the product, not internal glue. If your customers touch the output of the flow — a content brief generator, a creator-vetting pipeline, an outbound email personalization step — every second of latency is a UX problem and every silent failure is a support ticket. Real code lets you stream partial results, run independent calls in parallel, and ship structured logs that an on-call engineer can actually read at 2am. None of the Zapier competitors do that well. They were not designed to.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed">
-        If you are reading this and nodding, the next step is talking through your specific flow. <a href="/services/ai-developer-for-hire" class="link-saffron">Hiring me directly</a> for a longer engagement is on the table; so is a single fixed-price build. Either way, agencies lock you into retainers — I hand you the keys and the source code.
-      </p>
-    </div>
-  </Section>
-
-  <!-- PRICING -->
-  <Section tone="cream" label="What this typically costs">
-    <div class="prose-rdts max-w-3xl">
-      <h2 class="display-h2 mb-8">What a Zapier replacement typically costs</h2>
-      <p>
-        Most Zapier-replacement work at RDTS fits one of two tiers. A single sharp flow — one trigger, a couple of integrations, an AI step or two — is Tier A1 at $1,500 and ships in about a week. A full pipeline with multiple integrations, branching logic, and real observability is Tier S3 at $3,500, scoped over two to four weeks. You pay once. Source code goes into your GitHub org from commit one. No retainer, no per-run charge, no metered seats.
-      </p>
-      <p>
-        Compare that to staying on Zapier Professional at $73/month plus per-task overage that scales unpredictably. Most clients break even on the rebuild inside six to nine months and then keep the savings forever. The math gets aggressive once you cross the 5,000-task plan tier. Full breakdown lives on the <a href="/pricing" class="link-coal">pricing page</a> — what each tier includes, what it does not, and where the line sits.
+        If you are reading this and nodding, the next step is talking through your specific flow. <a href="/services/ai-developer-for-hire/" class="link-saffron">Hiring directly</a> for a longer engagement is on the table; so is a single fixed-price build. Either way, agencies lock you into retainers — you get the keys and the source code.
       </p>
     </div>
   </Section>
@@ -270,20 +262,52 @@ const faqSchema = {
     </div>
   </Section>
 
+  <!-- BRIDGE: WHAT I ACTUALLY DO NOW -->
+  <Section tone="dark" label="What I actually do now">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I actually do now</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        Yes, you can replace Zapier with code. But more often, the real problem is that your team's AI tools are not set up right — assistants that do not know your work, every person using them differently, ChatGPT Teams seats nobody touches. I install AI environments — skills, agents, MCP servers, integrations — for solo devs, small teams, and agencies who have outgrown no-code and want their AI to actually work the way they do.
+      </p>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Tuneup</div>
+          <h3 class="display-h3 text-bone mb-3">Solo / indie dev</h3>
+          <p class="text-bone-dim leading-relaxed">
+            Your own AI environment, dialed in. Claude Code, Cursor, Codex, or whichever harness you live in — set up with skills, MCP servers, and the integrations your day-to-day actually needs.
+          </p>
+        </div>
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Workspace</div>
+          <h3 class="display-h3 text-bone mb-3">Small team (1–6)</h3>
+          <p class="text-bone-dim leading-relaxed">
+            A shared AI workflow your team can actually use. Standardized configs, a knowledge layer that knows your codebase and docs, and the adoption work that keeps people from silently going back to a browser tab.
+          </p>
+        </div>
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Rollout</div>
+          <h3 class="display-h3 text-bone mb-3">Agency (5–20)</h3>
+          <p class="text-bone-dim leading-relaxed">
+            Role-specific configs across the team, integrations into your delivery stack, and the training that turns a paid AI seat into an asset instead of a line item.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
   <!-- FINAL CTA -->
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
         <span class="label label--dim mb-6">// Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
-          Bring the Zap. I'll tell you which path you are actually on.
+          Bring the Zap — or the AI tool nobody on your team uses.
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          The honest call is sometimes "stay on Zapier, here are three changes that fix the bill." Sometimes it is "n8n self-hosted is fine for this, here is how to set it up." Sometimes it is "yes, this is a Tier S3 rebuild and here is the timeline." Either way the call is free, it takes thirty minutes, and you leave with a clearer picture. I do this every week. The duck is patient.
+          The honest call is sometimes "stay on Zapier, here are three changes that fix the bill." Sometimes it is "the flow is fine — your team's AI setup is the actual problem." Either way the call is free, it takes thirty minutes, and you leave with a clearer picture.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="/talk" class="btn btn-primary">Talk to the duck</a>
-          <a href="/pricing" class="btn btn-outline-light">See pricing first</a>
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
         </div>
       </div>
     </div>

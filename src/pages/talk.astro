@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 
-const title = 'Talk to the duck — free 5-minute project scoping | RDTS';
-const description = 'Tell the duck what you\'re building. Get a one-page spec with timeline, tier, and a fixed price. No deck, no funnel, no signup.';
+const title = 'Talk to the duck — scope your AI setup | RDTS';
+const description = 'Tell the duck what your team needs. Get a one-page brief with shape, scope, budget range, and timeline. Long replies within 24 hours.';
 ---
 
 <BaseLayout title={title} description={description} noindex={false}>
@@ -11,15 +11,15 @@ const description = 'Tell the duck what you\'re building. Get a one-page spec wi
     <div class="container-x pt-20 lg:pt-28 pb-12">
       <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-center">
         <div class="col-span-12 lg:col-span-7">
-          <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Free · ~5 min · no signup</span></div>
+          <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Free · short conversation · no signup</span></div>
           <h1 class="display-h1 mb-6 max-w-[18ch]">
             Tell the duck<br/>
-            what you're <span class="accent-saffron">building</span><span class="cursor"></span>
+            what your team <span class="accent-saffron">needs</span><span class="cursor"></span>
           </h1>
           <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-            Free five-minute conversation with the duck — the custom AI scoping agent I built.
-            It asks 3–4 clarifying questions, then locks a one-page spec with timeline, tier,
-            and a fixed price. Drop your email at the end and I'll follow up within a business day.
+            Short conversation with the duck — the scoping agent for RDTS. It reads
+            the shape of the work, asks about budget directly, and lines up a brief
+            with scope, range, and timeline. Long follows up within 24 hours.
           </p>
         </div>
         <div class="hidden lg:flex col-span-5 justify-end items-center">
@@ -48,7 +48,7 @@ const description = 'Tell the duck what you\'re building. Get a one-page spec wi
           <div id="thread" class="flex flex-col justify-end space-y-5 mb-5 flex-1 min-h-[280px] overflow-y-auto">
             <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
               <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
-              <span>Hey — what are you trying to build? One paragraph is plenty.</span>
+              <span>What are you trying to set up — your own tooling, or for a team?</span>
             </div>
           </div>
 
@@ -58,7 +58,7 @@ const description = 'Tell the duck what you\'re building. Get a one-page spec wi
             <textarea
               id="scope-input"
               class="w-full min-h-[120px] bg-cream-light border border-cream-border p-4 text-[15px] text-coal font-sans resize-y focus:outline-none focus:border-saffron-shadow rounded-soft placeholder:text-coal-mute/70"
-              placeholder="e.g. I run a content agency. 8 clients on monthly retainers, each posting 4 videos a week. Right now my team manually transcribes, repurposes into 3 platforms, schedules — 6 hours/client/week. I want to cut that to 1."
+              placeholder="e.g. Six-person agency. Everyone pays for ChatGPT but uses it differently — nothing knows our client docs. Want one shared setup so the team stops reinventing."
               required
               maxlength="4000"
             ></textarea>
@@ -84,13 +84,13 @@ const description = 'Tell the duck what you\'re building. Get a one-page spec wi
         <div class="p-6 lg:p-7 flex-1 flex flex-col">
           <div id="spec-fields" class="space-y-5 flex-1">
             {[
-              ['Project name', 'project_name', 'awaiting input…'],
-              ['Tier (proposed)', 'tier', 'awaiting input…'],
-              ['Timeline', 'timeline', 'awaiting input…'],
-              ['Price', 'price_range', 'awaiting input…'],
-              ['Summary', 'summary', 'awaiting input…'],
-              ['Integrations', 'integrations', 'awaiting input…'],
-              ['Out of scope', 'out_of_scope', 'awaiting input…'],
+              ['Shape', 'shape', 'awaiting input…'],
+              ['Team size', 'team_size', 'awaiting input…'],
+              ['Budget range', 'budget_range', 'awaiting input…'],
+              ['Urgency', 'urgency', 'awaiting input…'],
+              ['Current stack', 'current_stack', 'awaiting input…'],
+              ['Current pain', 'current_pain', 'awaiting input…'],
+              ['Scope proposed', 'scope_proposed', 'awaiting input…'],
             ].map(([label, key, val]) => (
               <div>
                 <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-1">{label}</div>
@@ -139,7 +139,7 @@ const description = 'Tell the duck what you\'re building. Get a one-page spec wi
           <div id="lead-success" class="hidden">
             <div class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow mb-2">Sent</div>
             <p class="text-[14px] text-coal-dim leading-[1.6] mb-4">
-              Spec is in your inbox. I'll read mine within a business day and reply directly.
+              Brief is in your inbox. Long replies within 24 hours. If anything in the summary looks off, reply to that email.
             </p>
             <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener" class="btn btn-primary text-[13px]">
               Book a call now →
@@ -221,14 +221,17 @@ const description = 'Tell the duck what you\'re building. Get a one-page spec wi
 
       function renderSpec(spec) {
         if (!spec) return;
+        const shapeVal = spec.shape && spec.shape !== 'unsure' ? spec.shape : null;
         const fields = {
-          project_name: spec.project_name,
-          tier: spec.tier && spec.tier_reason ? spec.tier + ' — ' + spec.tier_reason : spec.tier,
-          timeline: spec.timeline,
-          price_range: spec.price_range,
-          summary: spec.summary,
-          integrations: Array.isArray(spec.integrations) && spec.integrations.length ? spec.integrations.join(', ') : null,
-          out_of_scope: Array.isArray(spec.out_of_scope) && spec.out_of_scope.length ? spec.out_of_scope.join('; ') : null,
+          shape: shapeVal,
+          team_size: spec.team_size,
+          budget_range: spec.budget_range && spec.budget_flex && spec.budget_flex !== 'unknown'
+            ? spec.budget_range + ' (' + spec.budget_flex.replace(/_/g, ' ') + ')'
+            : spec.budget_range,
+          urgency: spec.urgency,
+          current_stack: spec.current_stack,
+          current_pain: spec.current_pain,
+          scope_proposed: spec.scope_proposed,
         };
         for (const key in fields) {
           const el = document.querySelector('[data-spec-field="' + key + '"]');

@@ -1,0 +1,287 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Cline setup — done by a real person, not a tutorial | RDTS';
+const description = 'Cline is powerful and finicky. Get your VS Code extension, API keys, model routing, and MCP servers configured so it actually ships code instead of churning.';
+
+const canonical = '/solutions/cline-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Cline setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/cline-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Cline setup and configuration',
+  serviceType: 'AI coding assistant setup',
+  description: 'Configure the Cline VS Code extension end to end: API keys, model routing per task type, MCP servers, file approval workflow, and context window strategy.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  areaServed: 'Worldwide',
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Software developers and engineering teams',
+  },
+};
+
+const faqs = [
+  {
+    q: 'What is Cline, exactly?',
+    a: "Cline is an open-source AI coding assistant that runs as a VS Code extension. It used to be called Claude Dev. The thing that makes it different from Copilot or Cursor is that Cline is model-agnostic — you bring your own API key for Claude, GPT, Gemini, or a local model, and Cline drives the editor with file edits, terminal commands, and tool calls that you approve step by step. It is closer to a CLI agent that happens to live inside VS Code than it is to an autocomplete tool. That is the source of both its power and its rough edges.",
+  },
+  {
+    q: 'Why does Cline keep burning through my API credits?',
+    a: "Almost always one of three things. First, your model selection is wrong for the task — running Claude Opus on a simple lint fix is a money fire when a cheaper model does the same job. Second, the context window is bloated because Cline is reading the entire repo on every turn instead of the slice that matters. Third, the agent is looping because a tool call is silently failing and Cline is retrying with more context each pass. The fix is a per-task model policy, a tight workspace context strategy, and a hard budget cap. I configure all three on every Cline setup I touch.",
+  },
+  {
+    q: 'Can Cline use MCP servers?',
+    a: "Yes, and this is where most setups stop short. Cline supports the Model Context Protocol, which means you can wire it to your Linear, your Postgres, your internal docs, your filesystem outside the workspace, your design tokens, whatever has an MCP server. The default setup ships with none of this configured. A working setup has three to five MCP servers registered, scoped to the projects that need them, with the auth tokens kept out of version control. That single change moves Cline from a clever autocomplete to something that actually knows your stack.",
+  },
+  {
+    q: 'How do I stop Cline from making changes I did not approve?',
+    a: "Cline has an auto-approve setting that is off by default and should usually stay off. The right configuration is to leave file edits manual, allow read-only commands automatically, and require approval for any write to the filesystem or any shell command that mutates state. If you have ever had an agent run rm in the wrong directory, you understand why this matters. I set the approval policy explicitly on every setup and walk you through which categories to trust and which to keep on a leash.",
+  },
+  {
+    q: 'Cline versus Cursor versus Claude Code — which should I use?',
+    a: "They are not interchangeable. Cursor is a fork of VS Code with deep editor integration and a paid subscription that bundles model access. Claude Code is a CLI agent from Anthropic, terminal-first, Claude-only. Cline is an extension that runs inside vanilla VS Code, brings your own keys, and is model-agnostic. If you want the smoothest in-editor experience and do not mind the subscription, Cursor. If you live in the terminal and want raw agent power, Claude Code. If you want VS Code that you already use, with full control over which model runs which task and a clean MCP story, Cline. I have set up all three. The right answer depends on how your day actually looks.",
+  },
+  {
+    q: 'Can you set up Cline for a whole team, not just me?',
+    a: "Yes — this is the Workspace shape. The work is more than copying one config. You need a shared settings repo, an agreed model routing policy, MCP servers wired to team resources instead of personal accounts, and a written approval policy so junior developers and senior developers do not drift into different habits. I usually do this as a one-week engagement that ends with a checked-in cline.config.json, a short internal doc, and a thirty-minute walkthrough for the team. After that the setup is yours to evolve.",
+  },
+  {
+    q: 'I tried Cline and it felt slow. Is that fixable?',
+    a: "Usually, yes. Slow Cline is almost always context bloat, model choice, or a misconfigured tool call retrying in the background. The first thing I check is the system prompt and the workspace context — a lot of people leave the defaults that pull half the repo on every message. The second is whether you are using a thinking model when you do not need to. The third is the MCP server response times. Half the slow setups I see get fixed by trimming context and switching the default model. The other half need a deeper look at which tools are blocking the agent loop.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Cline setups — booking this week</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">Cline setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          Cline is the open-source AI coding assistant that lives inside VS Code, brings your own model keys, and drives the editor through tool calls you approve. It is the most flexible option on the market and, because of that, the easiest to misconfigure. People install it, point it at Claude or GPT, watch it burn API credits, get scared, and quietly go back to copy-pasting from a chat window. I set it up so it actually ships code.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THIS PAGE EXISTS -->
+  <Section tone="cream" label="What Cline is, why people get stuck">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">A model-agnostic agent inside VS Code is more configuration than most people expect.</h2>
+      <p>
+        Cline gives you four things in one extension: a chat interface that knows about your open files, an agent loop that can run terminal commands and read or write the filesystem, a model selector that supports Claude, GPT, Gemini, and local LLMs through Ollama or LM Studio, and an MCP client that can talk to any Model Context Protocol server you register. None of those four things are wrong out of the box. They are just not configured for the way you actually code.
+      </p>
+      <p>
+        The result is the same story I hear on every intake call. You installed Cline, plugged in an API key, asked it to fix a bug, and watched it spend three dollars writing four hundred lines you did not want. Or it stalled on a context-window error because the repo is large and the default settings tried to load everything. Or it edited a file you did not want it to touch, and the approval prompt scrolled by while you were on a call. The tool is doing exactly what it was told. The defaults are the problem.
+      </p>
+      <p>
+        A real Cline setup decides per task which model runs, decides what counts as workspace context, decides which actions need a human in the loop, and wires the MCP servers your work actually depends on. After that, Cline stops being a clever toy and becomes the most useful tab in VS Code. If you would rather read a comparison first, the upcoming <a href="/services/" class="link-coal">services page</a> covers how Cline fits next to Cursor and Claude Code. If you are already past that, keep reading.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHERE CLINE BREAKS -->
+  <Section tone="dark" label="Where Cline breaks for most people">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">Six failure modes I see every week</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        These are the patterns that show up over and over when someone says "Cline is not working." Almost none of them are bugs in Cline. All of them are config decisions someone never made.
+      </p>
+      <div class="space-y-8 text-bone-dim leading-relaxed">
+        <div>
+          <h3 class="display-h3 text-bone mb-3">1. API key configuration is wrong or scoped to one provider</h3>
+          <p>
+            Cline is model-agnostic, which means you have to configure each provider you want to use. People plug in an Anthropic key, never set up an OpenAI fallback, and then panic when Claude is having a bad capacity day. The fix is a primary key, a fallback key, and a clear policy for which model runs which task type. I configure both providers and the routing.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">2. The same model is doing every job</h3>
+          <p>
+            Running a frontier model on a tab-completion task is a money fire. Running a small model on a multi-file refactor is a quality fire. A working Cline setup routes by task — a cheap fast model for boilerplate, a balanced model for normal edits, a frontier model with thinking enabled for design work and gnarly bugs. Five lines of config, ten times the value per dollar.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">3. Context window blows up on large repos</h3>
+          <p>
+            The default workspace strategy can drag in far more than you want. Cline starts inhaling files, the prompt balloons, and either the request hits the context ceiling or it just gets slow and expensive. The fix is a tighter workspace strategy — explicit include and exclude globs, a real .clineignore, and a per-task convention for what to load. I tune all three based on your repo shape.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">4. The file diff approval workflow is either too loose or too tight</h3>
+          <p>
+            Auto-approve everything and Cline will eventually do something you did not want. Manually approve everything and you spend the whole afternoon clicking. The right setting is granular — read-only commands auto, file writes manual, terminal mutations manual with explicit allowlist for safe ones. I set this explicitly and document which class of action you decided to trust.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">5. MCP servers are not wired at all, or are wired badly</h3>
+          <p>
+            This is the biggest jump most setups never get. Cline can talk to MCP servers — Linear, Postgres, your internal docs, your design tokens, a filesystem MCP scoped outside the workspace. Out of the box you have none of this. A real setup has three to five servers registered, scoped per project, with secrets out of version control. That is the move that makes Cline feel like it knows your work.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">6. The system prompt is the stock one and nobody touched it</h3>
+          <p>
+            The default system prompt is a sensible generic. Your code base is not generic. A good setup adds a project-specific section — tech stack, code style, file structure conventions, anti-patterns to avoid, the two or three things you always want Cline to check before claiming a task is done. This is the cheapest, biggest-payoff change in the whole configuration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="cream" label="What I actually set up">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">What is in the box when I hand Cline back to you</h2>
+      <p>
+        Every Cline setup I do covers the same core checklist, then adapts to your stack. The output is a checked-in configuration, a short internal doc, and a working extension that does what you expect on the first run.
+      </p>
+      <h3>Model routing per task type</h3>
+      <p>
+        A primary model and a fallback for each task class — fast cheap for boilerplate, balanced for normal edits, frontier for design and debug. Anthropic, OpenAI, or local via Ollama, your call. I wire all the keys, configure the routing, and set a hard monthly budget cap so a runaway loop cannot quietly drain your card.
+      </p>
+      <h3>Workspace context strategy</h3>
+      <p>
+        Tuned include and exclude globs based on the repo. A real .clineignore that knows about node_modules, build artifacts, lockfiles, vendored code, and whatever else is noise. A convention for when to load the whole workspace versus a slice. If you have a monorepo, per-package strategies.
+      </p>
+      <h3>File and command approval policy</h3>
+      <p>
+        Granular per category. Read-only auto, writes manual, terminal mutations on an explicit allowlist. The policy is written down so your team knows what Cline is allowed to do without asking.
+      </p>
+      <h3>MCP server registration</h3>
+      <p>
+        Whatever you actually use. Linear or Jira for tickets, Postgres or Supabase for live schema, a docs MCP for internal knowledge, filesystem for repos outside the workspace, GitHub for issues and PRs. Auth tokens stored properly, not pasted in cleartext. Three to five servers is typical.
+      </p>
+      <h3>Project-aware system prompt</h3>
+      <p>
+        A real system prompt with your stack, your conventions, your anti-patterns, and the two or three pre-flight checks you want Cline to run before claiming work is done. This is where the agent stops feeling like a stranger.
+      </p>
+      <h3>Custom commands and snippets</h3>
+      <p>
+        Optional but common. The three or four prompts you reach for every day, wired as one-key shortcuts. "Run the tests and fix the failures." "Write a migration for this schema change." "Review the diff before I commit." Less repetitive typing, more flow.
+      </p>
+      <h3>Cost and usage observability</h3>
+      <p>
+        A simple readout of spend per model per week, exported from the provider dashboards into one place. You stop guessing what Cline costs and start knowing.
+      </p>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="dark" label="Shapes of engagement">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Three shapes for getting Cline dialed in</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10">
+        The duck quotes the work, not the menu. These are the three shapes a Cline engagement usually fits.
+      </p>
+      <div class="space-y-8 text-bone-dim leading-relaxed">
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Quick fix</h3>
+          <p>
+            One specific Cline problem, fixed in a day. Your API routing is broken, your MCP server will not connect, your context window keeps overflowing, your approval policy locked you out of something important. You describe the symptom, the duck scopes it, I fix it. Single deliverable, one calendar day.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Tuneup</h3>
+          <p>
+            Your personal Cline workflow, dialed in over about a week. Model routing, workspace context, approval policy, MCP servers, project-aware system prompt, custom commands. You end with a setup that fits how you actually work and a short doc explaining what every part does so you can evolve it yourself.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Workspace</h3>
+          <p>
+            Your team on Cline, configured consistently. Shared settings repo, agreed model policy, MCP servers wired to team resources, written approval policy, a thirty-minute walkthrough so junior and senior developers do not drift into different habits. One to two weeks, depending on team size.
+          </p>
+        </div>
+      </div>
+      <p class="text-bone-dim text-lg leading-relaxed mt-10">
+        Not sure which one fits? Tell the duck what is breaking and how many people are affected. The duck names a shape and a price in plain English on the call.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Questions people ask before booking</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring your current Cline config. I will tell you what is wrong with it.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          The first call is honest. Sometimes the answer is "your routing is broken, here is the fix, do not pay me." Sometimes it is "this is a one-day Quick fix." Sometimes it is "your team needs a Workspace and here is the timeline." Either way you leave with a clearer picture of what your Cline setup is missing and what a real fix would look like. Open the duck and start there.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

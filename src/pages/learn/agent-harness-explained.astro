@@ -1,0 +1,260 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'What is an AI agent harness? The runtime that wraps the model | RDTS Learn';
+const description = 'An agent harness is the runtime around an LLM — tools, memory, loops, lifecycle. Claude Code, Cursor, Cline, Aider are harnesses. Same model, very different results.';
+
+const canonical = '/learn/agent-harness-explained/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'What is an AI agent harness? The runtime that wraps the model',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/learn/agent-harness-explained/',
+};
+
+const faqs = [
+  {
+    q: 'Is "agent harness" an official industry term?',
+    a: "It is a working term that has caught on in the AI engineering community over the past year, particularly among people building agentic tools. There is no formal standards body. Other names you will see include 'agent runtime,' 'agent framework,' 'agent loop,' and 'agent scaffolding.' They mean roughly the same thing: the surrounding software that turns a stateless language model into something that can take multi-step actions. The word 'harness' caught on partly because it captures the right idea — it is the thing you strap onto the model to make it pull a workload.",
+  },
+  {
+    q: 'Is Claude Code the same as Claude (the model)?',
+    a: "No, and this is the most common confusion. Claude is the language model — the thing Anthropic trains and serves via API. Claude Code is the agent harness that wraps it for terminal-based coding work. The model is one component inside the harness. When people say 'Claude Code is good at X,' they almost always mean 'the combination of the Claude model plus the Claude Code harness is good at X.' Swap out the harness — say, use the same model in Cursor or Cline — and the experience changes significantly.",
+  },
+  {
+    q: 'Can I use Claude Sonnet in a different harness?',
+    a: "Yes. The Anthropic API exposes the models, and any harness can call them. Cursor lets you pick Claude as the model. Cline does too. Aider supports Anthropic models. The model is portable. What is not portable is everything else the harness does — how it manages context, when it decides to use tools, how it handles file edits, what it does on error. The same Claude Sonnet behaves visibly differently in three different harnesses because the rest of the system is doing different work.",
+  },
+  {
+    q: 'Why does the same model feel smarter in some tools than others?',
+    a: "Because most of what you experience as 'AI quality' is harness quality. The model is one input. The harness decides what context to give the model, what tools to expose, when to ask the model again, how to handle the model's output. A harness that gives the model good context and crisp tools makes the model look brilliant. A harness that floods the model with junk or hides important state makes the same model look stupid. This is why people swap harnesses without swapping models and feel like they got an upgrade.",
+  },
+  {
+    q: 'Do I need to understand harnesses to use AI for coding?',
+    a: "No to use, yes to choose. If you have already picked a tool you like, you do not need to think about this. If you are picking — or your team is — understanding what makes a harness good is most of how you decide. The model question is usually 'which family' (Claude vs GPT vs open weights). The harness question is the bigger one: which tool, which workflow, which integration points. Spending an hour on harness comparisons before committing pays for itself many times over.",
+  },
+  {
+    q: 'Are open-source harnesses better than commercial ones?',
+    a: "Different tradeoffs. Open-source harnesses (Aider, Cline, OpenClaw, plus various community forks) give you full control — you can read the code, modify the loop, add tools, change behavior. Commercial harnesses (Cursor, Claude Code, GitHub Copilot) optimize for polish and out-of-the-box experience. For solo devs who like tweaking, open-source often wins. For teams that need things to just work, commercial often wins. The choice is more about your tolerance for fiddling than about quality.",
+  },
+  {
+    q: 'How fast is this changing?',
+    a: "Quickly enough that anything written here will be partially out of date in three months. The shape of harnesses is stabilizing — most of them now have similar features (file editing, tool calling, memory, MCP support). The specifics — which one is best at what — shifts constantly. If you are picking today, pick based on the workflow that fits your team and accept that you might switch in six months. That is fine. The skills and knowledge transfer.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="label label--dim mb-6">// Learn / Concepts</div>
+        <h1 class="display-h1 mb-8">
+          What is an <span class="underline-saffron">AI agent harness</span>? Plain-English<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          An agent harness is the software that wraps a language model and turns it into something that can take real actions — edit files, run commands, remember between turns, recover from errors. Claude Code, Cursor, Cline, Aider, and OpenClaw are all harnesses. The model inside is roughly the same. The harness around it is doing the work you actually feel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY IT EXISTS -->
+  <Section tone="cream" label="Why it exists">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">A bare language model cannot do anything on its own.</h2>
+      <p>
+        The model is a function. Text in, text out. It does not have memory between calls. It cannot open a file. It cannot run a command. It does not know what day it is. If you call the raw Claude API and ask it to "refactor the authentication module," it will produce text describing a refactor. It will not actually change any code. It cannot. There are no hands.
+      </p>
+      <p>
+        Everything you experience as "AI doing something" — the file actually got edited, the command actually ran, the test actually passed — is the harness doing that work. The harness reads your file, gives the relevant parts to the model, takes the model's response, parses it for instructions, executes them, checks the results, and decides whether to call the model again. The model is one step in a much bigger loop.
+      </p>
+      <p>
+        Harnesses exist because someone has to do that loop. You could write it yourself — and a lot of people have, badly — or you could use one of the production-grade harnesses that has been refined over thousands of hours of real use. That is the trade. Every AI coding tool you have heard of is essentially a different opinion about how that loop should work.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT IT DOES -->
+  <Section tone="dark" label="What it actually does">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">The five jobs of an agent harness</h2>
+
+      <h3 class="display-h3 text-bone mb-4 mt-10">1. Context management</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-2">
+        The model has a finite context window. Your codebase does not fit. The harness decides what to put in — which files, which conversation history, which system instructions — and what to leave out. Good context management is most of what makes a harness feel "smart." Bad context management is most of what makes it feel "dumb."
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4 mt-10">2. Tool exposure</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-2">
+        The harness defines which tools the model can use — read file, write file, run command, search the web, query a database, call an MCP server. Each tool is a declaration the harness makes to the model: "if you want to do X, ask me to call this tool." Tool design is opinionated work. The same job (editing a file) can be exposed as one big tool or five smaller ones, and the design choice changes how the model behaves.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4 mt-10">3. The agent loop</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-2">
+        After the model responds, the harness has to decide: are we done, or do we call the model again? If the model used a tool, the harness runs the tool, feeds the result back to the model, and re-asks. If the model made an obvious mistake, the harness can catch it and re-prompt. The shape of this loop — how many turns, what triggers another turn, what counts as "done" — is the heart of the harness. It is where every harness differs most.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4 mt-10">4. Memory and state</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-2">
+        Some things should persist across sessions: project conventions, prior decisions, things the user explicitly asked the AI to remember. The harness manages this. Different harnesses have wildly different memory models — some write to a file you can edit, some have a structured store, some have no persistent memory at all and start fresh every session.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4 mt-10">5. Lifecycle hooks</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-2">
+        Good harnesses let you customize behavior at specific points — before a tool call, after a file edit, when the session starts, when an error happens. These hooks are how teams encode their own conventions ("always run the linter after editing a file," "never push to main without confirmation"). The more thoughtfully a harness exposes these, the more it can be made to fit a specific team's workflow.
+      </p>
+    </div>
+  </Section>
+
+  <!-- HOW THEY DIFFER -->
+  <Section tone="cream" label="How harnesses differ">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Five harnesses, five very different opinions</h2>
+      <p>
+        Here is a quick read on the ones most people compare. None of these are exhaustive — read each tool's own docs for the current state — but the shape of the differences is the point.
+      </p>
+
+      <h3>Claude Code</h3>
+      <p>
+        Terminal-based, agentic, opinionated about file editing. The default Anthropic experience for coding. Strong default skills system, native MCP support, good for long-running multi-step tasks. Pairs naturally with Claude as the model (it is the harness Anthropic built around their model).
+      </p>
+
+      <h3>Cursor</h3>
+      <p>
+        A fork of VS Code with AI baked in deeply. More IDE than terminal. Excellent for in-editor edits, quick refactors, and chat-while-coding. Tool calling is solid but less aggressive about taking multi-step action than Claude Code. Lets you swap models freely.
+      </p>
+
+      <h3>Cline</h3>
+      <p>
+        An open-source VS Code extension. More agentic than Cursor, more visual than Claude Code. Sits inside your existing editor instead of replacing it. Good fit for teams already on VS Code who want agentic capabilities without changing their setup.
+      </p>
+
+      <h3>Aider</h3>
+      <p>
+        Terminal-based, focused tightly on git-aware file editing. Minimal opinion about agent loops — it is more "AI that edits files for you" than "agent that takes initiative." Excellent if you want precise control and small, reviewable diffs.
+      </p>
+
+      <h3>OpenClaw</h3>
+      <p>
+        A community-extensible fork of Claude Code. Same core terminal-agent experience, with a plugin system that lets the community add capabilities the upstream tool does not have. Good for people who want Claude Code's defaults plus the ability to extend.
+      </p>
+
+      <p class="mt-8">
+        None of these is "best." Each is the right answer for a different workflow. Solo devs hacking on side projects tend to prefer Claude Code or Aider for the terminal speed. Teams doing PR-driven work tend to prefer Cursor or Cline for the IDE integration. Tinkerers prefer OpenClaw because they can extend it.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHEN TO PICK WHICH -->
+  <Section tone="dark" label="When to pick which">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">A rough decision guide</h2>
+      <div class="overflow-x-auto rounded-2xl border border-ink-border">
+        <table class="w-full text-left text-bone">
+          <thead class="bg-ink-card text-bone-dim">
+            <tr>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">If you…</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Start with</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-ink-border">
+            <tr>
+              <td class="p-4 align-top">Live in the terminal and want serious agent capability</td>
+              <td class="p-4 align-top text-bone">Claude Code</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Want an IDE-first experience with great inline AI</td>
+              <td class="p-4 align-top text-bone">Cursor</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Use VS Code and do not want to switch editors</td>
+              <td class="p-4 align-top text-bone">Cline</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Want minimal magic and precise git-aware edits</td>
+              <td class="p-4 align-top text-bone">Aider</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Want Claude Code's defaults plus the ability to extend it</td>
+              <td class="p-4 align-top text-bone">OpenClaw</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top">Are setting up an agency or team and need consistency</td>
+              <td class="p-4 align-top text-bone">Pick one, standardize, write skills</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-bone-dim text-lg leading-relaxed mt-8">
+        For the head-to-head matchups, read <a href="/learn/cline-vs-cursor/" class="link-saffron">Cline vs Cursor</a>, <a href="/learn/claude-code-vs-codex/" class="link-saffron">Claude Code vs Codex</a>, or <a href="/learn/openclaw-vs-claude-code/" class="link-saffron">OpenClaw vs Claude Code</a>.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions about agent harnesses</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Want the right harness picked for your team?
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Picking a harness is one decision. Configuring it well — skills, MCPs, hooks, defaults that match how your team actually works — is the other ten. Tell the duck what your team does, what they use today, and what is broken about it. You will get a real recommendation, not a "depends on your needs."
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Talk to the duck →</a>
+          <a href="/learn/setting-up-claude-skills/" class="btn btn-outline-light">Set up Claude skills</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

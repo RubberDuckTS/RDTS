@@ -1,13 +1,13 @@
 /**
  * Resend wrapper. Two outbound emails per conversion:
- *   - sendLeadToLong  — full intake brief + transcript to RDTS inbox
- *   - sendSpecToVisitor — clean spec sheet to the visitor
+ *   - sendLeadToLong    — full intake brief + transcript to RDTS inbox
+ *   - sendSpecToVisitor — short summary + "Long replies within 24h" note
  *
  * Env required:
- *   RESEND_API_KEY        — Resend API key
- *   RDTS_INBOX            — receiving address for leads (e.g. long@rubberducktechsolutions.com)
- *   RDTS_FROM             — verified Resend sender (e.g. duck@rubberducktechsolutions.com)
- *   CALENDLY_URL          — link included in visitor confirmation
+ *   RESEND_API_KEY   — Resend API key
+ *   RDTS_INBOX       — receiving address for leads (e.g. long@rubberducktechsolutions.com)
+ *   RDTS_FROM        — verified Resend sender (e.g. duck@rubberducktechsolutions.com)
+ *   CALENDLY_URL     — fallback link if buyer wants to skip the back-and-forth
  */
 
 import { Resend } from 'resend';
@@ -19,15 +19,22 @@ const CALENDLY_URL   = import.meta.env.CALENDLY_URL   || 'https://calendly.com/n
 
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
+/**
+ * State object captured by the duck during the scoping conversation.
+ * Matches Section 3H of the pivot design spec.
+ */
 export interface SpecSheet {
-  project_name: string | null;
-  tier: string;
-  tier_reason: string | null;
-  timeline: string | null;
-  price_range: string | null;
-  summary: string | null;
-  integrations: string[];
-  out_of_scope: string[];
+  shape: string;                  // "Quick fix" | "Tuneup" | "Workspace" | "Rollout" | "Custom" | "Ad iteration" | "Software build" | "unsure"
+  team_size: string | null;       // "solo" | "4" | "12" | ...
+  budget_range: string | null;    // "$2K" | "$3-5K" | "open" | ...
+  budget_flex: string;            // "below_floor" | "in_band" | "above_ceiling" | "unknown"
+  current_stack: string | null;
+  current_pain: string | null;
+  urgency: string | null;
+  scope_proposed: string | null;
+  hard_no_triggered: boolean;
+  name: string | null;
+  email: string | null;
 }
 
 export interface LeadPayload {
@@ -41,14 +48,15 @@ export interface LeadPayload {
 
 function formatSpecText(spec: SpecSheet): string {
   return [
-    `Project: ${spec.project_name || '(unset)'}`,
-    `Tier: ${spec.tier}${spec.tier_reason ? ` — ${spec.tier_reason}` : ''}`,
-    `Timeline: ${spec.timeline || '(unset)'}`,
-    `Price: ${spec.price_range || '(unset)'}`,
-    `Summary: ${spec.summary || '(unset)'}`,
-    spec.integrations.length ? `Integrations: ${spec.integrations.join(', ')}` : null,
-    spec.out_of_scope.length ? `Out of scope: ${spec.out_of_scope.join('; ')}` : null,
-  ].filter(Boolean).join('\n');
+    `Shape: ${spec.shape || 'unsure'}`,
+    `Team size: ${spec.team_size || '(unset)'}`,
+    `Budget range: ${spec.budget_range || '(unset)'} (${spec.budget_flex || 'unknown'})`,
+    `Urgency: ${spec.urgency || '(unset)'}`,
+    `Current stack: ${spec.current_stack || '(unset)'}`,
+    `Current pain: ${spec.current_pain || '(unset)'}`,
+    `Scope proposed: ${spec.scope_proposed || '(unset)'}`,
+    `Hard-no triggered: ${spec.hard_no_triggered ? 'YES' : 'no'}`,
+  ].join('\n');
 }
 
 function formatTranscript(transcript: LeadPayload['transcript']): string {
@@ -57,16 +65,29 @@ function formatTranscript(transcript: LeadPayload['transcript']): string {
     .join('\n\n');
 }
 
+/**
+ * Buyer-facing summary lines pulled from the spec.
+ * Used in the buyer confirmation email.
+ */
+function buyerSummary(spec: SpecSheet): string {
+  const teamPhrase = spec.team_size === 'solo' || spec.team_size === '1'
+    ? 'a solo setup'
+    : spec.team_size
+      ? `a team of ${spec.team_size}`
+      : 'your setup';
+  return `${spec.shape || 'A setup'} for ${teamPhrase}. ${spec.scope_proposed || ''}`.trim();
+}
+
 export async function sendLeadToLong(payload: LeadPayload) {
   if (!resend) throw new Error('RESEND_API_KEY not configured');
 
-  const subject = `[RDTS lead] ${payload.name} · ${payload.spec.tier} · ${payload.spec.project_name || 'unnamed'}`;
+  const subject = `[RDTS lead] ${payload.name} · ${payload.spec.shape || 'unsure'}${payload.spec.budget_range ? ` · ${payload.spec.budget_range}` : ''}`;
 
   const body = [
     payload.intakeBrief,
     '',
     '— — — — — — — — — — — — — —',
-    'Spec sheet (raw):',
+    'State object (raw):',
     formatSpecText(payload.spec),
     '',
     '— — — — — — — — — — — — — —',
@@ -86,27 +107,43 @@ export async function sendLeadToLong(payload: LeadPayload) {
 export async function sendSpecToVisitor(payload: LeadPayload) {
   if (!resend) throw new Error('RESEND_API_KEY not configured');
 
-  const subject = `Your RDTS spec sheet — ${payload.spec.project_name || 'project'}`;
+  const firstName = payload.name.split(' ')[0];
+  const shape = payload.spec.shape || 'setup';
+  const subject = `Your AI setup brief — ${shape}`;
+
+  const tldr = buyerSummary(payload.spec);
+  const scopeShort = payload.spec.scope_proposed || '(scope to be confirmed)';
+
+  // "Not included" — derive from spec; if nothing explicit, give a short honest line.
+  const notIncluded = payload.spec.hard_no_triggered
+    ? 'This one is outside what I take on — see the note above.'
+    : 'Anything outside the scope above is a separate conversation. If you want it folded in, just reply.';
 
   const body = [
-    `Hey ${payload.name.split(' ')[0]} —`,
+    `Hey ${firstName},`,
     '',
-    'Thanks for talking to the duck. Here\'s the spec sheet from our conversation:',
+    'Quick summary of what we talked about:',
     '',
-    formatSpecText(payload.spec),
+    tldr,
     '',
-    'I (Long) will read this myself within a business day and reply directly. If you want',
-    'to skip the back-and-forth and just book a call, here\'s my Calendly:',
+    `What I'd actually do:`,
+    scopeShort,
     '',
-    CALENDLY_URL,
+    'Not included:',
+    notIncluded,
     '',
-    '— Long',
-    'Rubber Duck Tech Solutions',
-    'rubberducktechsolutions.com',
+    'If any of that looks wrong, just reply and tell me.',
+    '',
+    'Long will follow up within 24 hours. If urgent, reply with "urgent" in the subject.',
+    '',
+    'If you want to skip the back-and-forth and book a call: ' + CALENDLY_URL,
+    '',
+    '— The duck',
+    'RDTS',
   ].join('\n');
 
   return resend.emails.send({
-    from:    `Long Nguyen <${RDTS_FROM}>`,
+    from:    `RDTS Duck <${RDTS_FROM}>`,
     to:      [payload.email],
     replyTo: RDTS_INBOX,
     subject,

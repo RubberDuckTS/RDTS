@@ -1,13 +1,12 @@
 ---
 const { pathname } = Astro.url;
-const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+const isActive = (href: string) => pathname === href || pathname.startsWith(href === '/' ? '/__never__' : href);
 
 const links = [
-  { href: '/solutions/n8n-alternative',     label: 'Solutions' },
-  { href: '/services/ai-developer-for-hire', label: 'Services' },
-  { href: '/pricing',                        label: 'Pricing' },
-  { href: '/about',                          label: 'About' },
-  { href: '/contact',                        label: 'Contact' },
+  { href: '/services/', label: 'Services' },
+  { href: '/work/',     label: 'Work' },
+  { href: '/learn/',    label: 'Learn' },
+  { href: '/about/',    label: 'About' },
 ];
 ---
 
@@ -40,10 +39,10 @@ const links = [
     </div>
 
     <a
-      href="/talk"
+      href="/talk/"
       class="hidden sm:inline-flex items-center gap-2 bg-saffron hover:bg-saffron-light text-coal font-semibold rounded-pill px-5 py-2.5 text-[14px] transition-colors"
     >
-      Talk to the duck
+      Talk to the duck →
     </a>
 
     <button
@@ -76,7 +75,7 @@ const links = [
         </li>
       ))}
       <li class="p-4">
-        <a href="/talk" class="btn btn-primary w-full">Talk to the duck</a>
+        <a href="/talk/" class="btn btn-primary w-full">Talk to the duck →</a>
       </li>
     </ul>
   </div>

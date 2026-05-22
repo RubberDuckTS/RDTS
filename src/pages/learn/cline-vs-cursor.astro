@@ -1,0 +1,367 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Cline vs Cursor — honest tradeoffs | RDTS Learn';
+const description = 'Cline vs Cursor compared honestly. One is open-source and model-agnostic, the other is a polished subscription IDE. Here is which fits which kind of developer.';
+const canonical = '/learn/cline-vs-cursor/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Cline vs Cursor — honest tradeoffs',
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  datePublished: '2026-05-21',
+  dateModified: '2026-05-21',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://www.rubberducktechsolutions.com/learn/cline-vs-cursor/',
+  },
+};
+
+const faqs = [
+  {
+    q: 'Is Cline really free compared to Cursor?',
+    a: 'Cline the extension is free and open source — you install it in VS Code at no cost. What is not free is the model behind it. Cline calls Claude, GPT, Gemini, or a local LLM, and you pay per token directly to whichever provider you choose. Heavy daily use through Anthropic or OpenAI APIs can easily land between $20 and $80 a month, sometimes more. Cursor charges a flat $20/mo for Pro and bundles the model usage. For light users, Cline is cheaper. For heavy users on premium models, Cursor often comes out cheaper because subscription pricing absorbs the variance.',
+  },
+  {
+    q: 'Can Cline do everything Cursor can do?',
+    a: 'No. Cline handles agent-style file edits, multi-step plans, and approval-gated changes well. What it does not have is Cursor-quality tab autocomplete, fast inline cmd-K edits, or the built-in codebase index that makes Cursor feel like the editor knows your repo. Cline runs inside VS Code so you still get standard IntelliSense, but the AI surface area is different. Cline is closer to an agent assistant inside your editor. Cursor is closer to an AI-native editor with an agent bolted on.',
+  },
+  {
+    q: 'Which one is better for working with Claude specifically?',
+    a: 'Both work with Claude. Cline lets you point at any Claude model through your own Anthropic API key, including the latest Sonnet and Opus releases the day they ship. Cursor supports Claude too, but the model menu is governed by Cursor and sometimes lags new releases by days or weeks. If you want the freshest Claude model the hour it launches and you do not mind handling your own API key, Cline wins on that axis. If you want Claude to just be there and work without configuring keys, Cursor is smoother.',
+  },
+  {
+    q: 'Should I switch from Cursor to Cline?',
+    a: 'Only if a specific Cursor limitation is hurting you. Switch if you want to use a local model for privacy, if you want to escape Cursor pricing, if you want per-edit approval gates for safety-critical code, or if you want to use a Claude or GPT model the hour it ships. Stay on Cursor if your daily workflow leans on tab autocomplete and cmd-K, if you do not want to manage API keys, or if you genuinely like the IDE-native experience. Switching costs are low — both run in VS Code-shaped editors, so you can try Cline alongside Cursor without committing.',
+  },
+  {
+    q: 'Can I use both Cline and Cursor at the same time?',
+    a: 'Technically yes, but it gets messy. Cline is a VS Code extension and Cursor is a fork of VS Code, so you can install Cline inside Cursor. Most people who try this end up disabling one — the AI features overlap and the keybindings fight. A cleaner setup is to use Cursor as your daily driver and keep stock VS Code with Cline installed for projects that need open-source or model-choice constraints. Two editors, two purposes.',
+  },
+  {
+    q: 'Which one is better for a team of developers?',
+    a: 'Cursor scales smoother as a team tool because everyone gets the same editor experience and the company handles billing in one place. Cline is more flexible but requires each developer to manage their own API keys, model choices, and billing. For a 6-person dev team that just wants AI in their editor without thinking about it, Cursor is the lower-friction call. For a team where two engineers want local models and the other four want Claude, Cline removes the constraint Cursor imposes.',
+  },
+  {
+    q: 'Do you set up Cline or Cursor for clients?',
+    a: 'Both. Most teams arrive having installed one of them and finding it underwhelming, which usually means the model choice is wrong, the system prompts are generic, the .clinerules or .cursorrules file is empty, and nobody has wired in the project-specific context the AI needs to be useful. The setup work is the same shape regardless of tool — get the right model behind it, write the project rules, configure approval flow, integrate with the rest of the stack. Talk to the duck if you want yours dialed in.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- 1. HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="status-pill mb-8">
+        <span class="status-pill__dot"></span>
+        <span>Comparison — updated May 2026</span>
+      </div>
+      <h1 class="display-h1 max-w-5xl">
+        <span class="label label--dim block mb-4">// Learn</span>
+        Cline vs <span class="underline-saffron">Cursor</span> — honest tradeoffs<span class="cursor"></span>
+      </h1>
+      <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
+        Both tools are legitimately good. Cline is open source, model-agnostic, and free if you bring your own API
+        key. Cursor is a subscription IDE with polish you can feel in the first ten minutes. The choice is not which
+        one is better — it is which set of tradeoffs fits the way you actually code. Here is the decision broken
+        down without either side selling you anything.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="#verdict" class="btn btn-outline-light">Jump to the verdict</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. INTRO -->
+  <Section tone="cream" label="The short version">
+    <div class="prose-rdts max-w-3xl">
+      <h2>One is a free agent assistant. The other is a paid AI-first editor.</h2>
+      <p>
+        Cline started life as Claude Dev — a VS Code extension that turns your editor into a controllable agent.
+        You point it at a task, it proposes file edits one at a time, and you approve or reject each change. It is
+        model-agnostic, so you bring your own key for Claude, GPT, Gemini, or a local LLM running through Ollama or
+        LM Studio. The code is open source under a permissive license. There is no Cline cloud, no Cline subscription,
+        nothing to log into beyond your IDE.
+      </p>
+      <p>
+        Cursor is the opposite shape. It is a full fork of VS Code with AI welded into the core editor experience.
+        Tab autocomplete that learns your style, cmd-K inline edits, Composer mode for multi-file changes, a built-in
+        codebase index that makes the AI aware of your whole repo. Cursor handles the model routing, the prompts,
+        the context windowing. You pay $20/mo for Pro and most things just work without configuration.
+      </p>
+      <p>
+        That is the whole shape of the choice. Open and model-flexible, or polished and opinionated. Everything
+        below is detail on which one those tradeoffs point you toward.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 3. QUICK VERDICT TABLE -->
+  <Section tone="dark" label="Quick verdict" id="verdict">
+    <div class="prose-rdts max-w-3xl mb-10">
+      <h2>If you want this, pick this</h2>
+      <p>
+        Skip the rest of the page if you already know which row matches you. These are the five decisions that
+        actually push the choice one way or the other for the developers I talk to.
+      </p>
+    </div>
+    <div class="overflow-x-auto -mx-4 px-4">
+      <table class="w-full text-left border-collapse min-w-[640px]">
+        <thead>
+          <tr class="border-b border-ink-border">
+            <th class="py-4 pr-6 text-bone-dim font-mono text-sm uppercase tracking-wider">If you want...</th>
+            <th class="py-4 text-bone-dim font-mono text-sm uppercase tracking-wider">Pick</th>
+          </tr>
+        </thead>
+        <tbody class="text-bone">
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Best-in-class tab autocomplete</td>
+            <td class="py-4 text-bone-dim">Cursor</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Open-source code you can audit and fork</td>
+            <td class="py-4 text-bone-dim">Cline</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Per-edit approval gates for safety-critical code</td>
+            <td class="py-4 text-bone-dim">Cline</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">A polished AI editor that just works on day one</td>
+            <td class="py-4 text-bone-dim">Cursor</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Local LLMs for offline or private codebases</td>
+            <td class="py-4 text-bone-dim">Cline</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Codebase-aware search across your whole repo</td>
+            <td class="py-4 text-bone-dim">Cursor</td>
+          </tr>
+          <tr>
+            <td class="py-4 pr-6 font-medium">Day-one access to the newest Claude or GPT models</td>
+            <td class="py-4 text-bone-dim">Cline</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <!-- 4. WHERE CLINE WINS -->
+  <Section tone="cream" label="Where Cline wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Where Cline beats Cursor on the merits</h2>
+      <p>
+        Cline wins on freedom. The extension source is on GitHub, the license is permissive, and the architecture
+        is a thin layer between your editor and an LLM API. That means if Cline disappeared tomorrow someone would
+        fork it within a week, and if you do not like a behavior you can change it yourself. Cursor is closed source
+        and you live with the product decisions the company makes.
+      </p>
+      <p>
+        Cline wins on model choice. You point it at Anthropic, OpenAI, Google, OpenRouter, Together, or a local
+        Ollama instance. The model is decoupled from the tool. Cursor supports multiple providers too, but the
+        menu is governed by Cursor and new model releases sometimes take days or weeks to show up. Cline lets you
+        use the newest Claude Opus or GPT release the hour it ships, because you control the API call.
+      </p>
+      <p>
+        Cline wins on per-edit control. The default workflow proposes a diff for every file change and waits for
+        your approval. This is annoying for greenfield work where you trust the agent, but it is the right default
+        for production codebases where one wrong edit costs an hour of rollback. Cursor's Composer mode does
+        multi-file edits but the approval surface is coarser — you accept or reject the whole batch.
+      </p>
+      <p>
+        Cline wins on baseline cost for light users. If you write a few hundred lines of AI-assisted code a week,
+        your API bill is often under $10/mo on Claude Sonnet. Cursor's $20/mo floor only pays off once you cross
+        that volume. For occasional users and side-project hackers, Cline is meaningfully cheaper.
+      </p>
+      <p>
+        Cline wins on local model support. You can run a Llama or DeepSeek model on your own machine through
+        Ollama and Cline will use it. This matters for clients in regulated industries who cannot legally send
+        code to a third-party API. Cursor has some local-model story but it is a second-class citizen — most of
+        the editor experience assumes a cloud model behind it.
+      </p>
+      <p>
+        Cline wins on the .clinerules file pattern. You drop a markdown file at the project root, you tell the
+        agent how your codebase works, what conventions to follow, what files to ignore, and Cline reads it on
+        every task. Cursor has the same feature with .cursorrules but the broader workflow is less rule-centric.
+        Cline's culture has converged on writing detailed rules. Cursor's culture leans more on autocomplete and
+        prompt-by-prompt context.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 5. WHERE CURSOR WINS -->
+  <Section tone="dark" label="Where Cursor wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Where Cursor beats Cline on the merits</h2>
+      <p>
+        Cursor wins on the editor experience. The tab autocomplete is the feature that made Cursor famous and it
+        deserves the reputation — it predicts not just the next token but the next logical edit, often across
+        multiple lines and sometimes across files. Cline has no equivalent. You can get autocomplete in VS Code
+        through Copilot or other extensions, but it is not the same product.
+      </p>
+      <p>
+        Cursor wins on cmd-K. Highlight a block of code, press cmd-K, type "make this async" or "extract this into
+        a hook" or "add error handling" and the edit happens inline in under a second. This is the AI feature most
+        developers use most often, and Cursor's implementation is the cleanest on the market. Cline's edits go
+        through the agent loop, which is more powerful but slower for one-off changes.
+      </p>
+      <p>
+        Cursor wins on codebase indexing. The editor builds a vector index of your repo in the background and uses
+        it whenever you ask a question about the project. You can ask "where is the auth middleware?" and Cursor
+        finds it. Cline has codebase search but it is grep-shaped — you tell it which files to look at, or it
+        explores directory by directory. For repos over 50K lines, Cursor's index is a real productivity gap.
+      </p>
+      <p>
+        Cursor wins on onboarding. Install the editor, log in, write code. The first 30 minutes are smoother than
+        any other AI tool I have used. Cline requires you to pick a model, get an API key, configure the provider,
+        write rules, learn the approval flow. The Cline ceiling is higher but the floor is also higher.
+      </p>
+      <p>
+        Cursor wins on the model routing it does for you. The product picks the right model for each task — a
+        cheap fast model for autocomplete, a heavier model for Composer, a different one for chat. You do not
+        think about which model is running. Cline makes you choose, which is power if you want it and friction
+        if you do not.
+      </p>
+      <p>
+        Cursor wins on team billing. One subscription per developer, billed centrally, IT admin gets one invoice
+        a month. Cline asks every developer to manage their own API keys, which means accounting reimburses six
+        different OpenAI invoices instead of one Cursor seat charge. For teams over five engineers, this matters
+        more than people expect.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 6. HOW THEY DIFFER STRUCTURALLY -->
+  <Section tone="cream" label="Architecture">
+    <div class="prose-rdts max-w-3xl">
+      <h2>How they differ structurally</h2>
+      <p>
+        Cline is an extension. Cursor is an editor. That single sentence explains 80% of every other difference
+        between them. An extension lives inside someone else's editor and can only do what the extension API
+        allows. An editor controls its own surface and can put AI anywhere it wants — in the gutter, in the
+        autocomplete popup, in the inline edit overlay, in the chat panel, in the sidebar.
+      </p>
+      <p>
+        That is why Cursor's tab autocomplete is so good. The team owns the autocomplete pipeline end to end, so
+        they can train models on their own data, ship custom completion models, and integrate them with the
+        editor's internals. Cline cannot do that — it has to work within VS Code's autocomplete API, which was
+        built for slower, simpler completions.
+      </p>
+      <p>
+        On the agent side the dynamic flips. Cline's agent loop is the whole product, so it gets all the design
+        attention. The approval flow, the diff presentation, the .clinerules pattern, the task management — all
+        of it has been refined over many releases. Cursor's Composer is the agent equivalent but it is one feature
+        among many, and you can feel that it has not had the same surface-area focus.
+      </p>
+      <p>
+        On models, Cline treats the model as a swappable backend. Cursor treats the model as part of the product
+        experience. Both philosophies are defensible. Swappable means you get freshness and choice. Bundled means
+        you get smoother defaults but you wait when a new model ships and you live with the routing decisions
+        Cursor makes.
+      </p>
+      <p>
+        On context, Cline asks you to be explicit about what files matter for a task. Cursor builds an index and
+        guesses. Explicit wins on precision and small codebases. Index wins on speed and large codebases.
+        Neither is universally better.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 7. WHO SHOULD USE WHICH -->
+  <Section tone="dark" label="Who picks which">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Who should use Cline, who should use Cursor</h2>
+      <p>
+        Use Cline if you are a developer who cares about open source as a principle, who wants to pick your own
+        model, who works on regulated or sensitive code that cannot go through a third-party SaaS, or who wants
+        the per-edit approval gate as a safety net. Cline rewards developers who like to configure their tools.
+        It also rewards anyone whose work is bursty — a few intense days of AI-assisted coding followed by weeks
+        of no use — because you only pay for tokens you actually consume.
+      </p>
+      <p>
+        Use Cursor if you are a developer who wants AI to feel native to your editor, who values tab autocomplete
+        and inline edits above agent workflows, who does not want to manage API keys, or who works inside a team
+        that wants centralized billing. Cursor rewards developers who want their tools to be opinionated. It also
+        rewards anyone working in large monorepos where built-in codebase indexing pays back its cost every day.
+      </p>
+      <p>
+        For most teams I work with, the honest answer is "use both for different things." Cursor for daily writing,
+        Cline for high-stakes refactors and any project where the source code cannot leave a controlled
+        environment. The two tools are not mutually exclusive — they are different shapes of AI inside the same
+        general editor family.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 8. FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="cursor-pointer font-medium text-coal text-lg list-none flex justify-between items-start gap-4">
+            <span>{f.q}</span>
+            <span class="text-saffron-deep flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-4 text-coal-dim leading-relaxed">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 9. RELATED -->
+  <Section tone="cream" label="Related">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Setting one of these up properly</h2>
+      <p>
+        Both tools fall flat with default settings. The real payoff is in the rules file, the model choice, the
+        system prompts, and how each one is wired into the rest of your stack. Setup guides for both:
+      </p>
+      <ul>
+        <li><a href="/solutions/cline-setup/">Cline setup — done by a real person, not a tutorial</a></li>
+        <li><a href="/solutions/cursor-setup/">Cursor setup — done by a real person, not a tutorial</a></li>
+        <li><a href="/services/">Services — AI environment setup overview</a></li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- 10. FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-24">
+      <span class="label label--dim">// Still deciding</span>
+      <h2 class="display-h2 mt-6 max-w-3xl">Not sure which one fits? <span class="accent-saffron">Talk to the duck.</span></h2>
+      <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
+        Tell me how you actually code — solo or team, languages, codebase size, what is annoying you about your
+        current setup. I will tell you which tool fits and what to configure first. If the answer is "stay on
+        what you have, just fix three things," I will say that too.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="/services/" class="btn btn-outline-light">See services</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

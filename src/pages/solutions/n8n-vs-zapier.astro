@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
 const title = 'n8n vs Zapier — which one breaks first at your scale? | RDTS';
-const description = 'A no-bullshit comparison of n8n vs Zapier. Both have a ceiling. I show you which one hits it first and when to skip both for custom code.';
+const description = 'A no-bullshit comparison of n8n vs Zapier. Both have a ceiling. Honest read on which one hits it first and when to skip both for code-first AI setup.';
 const canonical = '/solutions/n8n-vs-zapier/';
 
 const articleSchema = {
@@ -14,15 +14,20 @@ const articleSchema = {
   author: {
     '@type': 'Person',
     name: 'Long Nguyen',
-    url: 'https://www.rubberducktechsolutions.com/',
+    url: 'https://www.rubberducktechsolutions.com/about/',
   },
   publisher: {
     '@type': 'Organization',
     name: 'Rubber Duck Tech Solutions',
     url: 'https://www.rubberducktechsolutions.com/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
   },
   datePublished: '2026-05-06',
-  dateModified: '2026-05-06',
+  dateModified: '2026-05-21',
+  url: 'https://www.rubberducktechsolutions.com/solutions/n8n-vs-zapier/',
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': 'https://www.rubberducktechsolutions.com/solutions/n8n-vs-zapier/',
@@ -47,8 +52,8 @@ const faqs = [
     a: 'Three signals: (1) your monthly Zapier or Make bill is creeping past $300 and climbing, (2) you have at least one workflow that branches three or more times deep, (3) you want to route between AI models — Claude for reasoning, GPT for vision, something cheaper for bulk. Hit two of three and custom code is cheaper inside six months. The hard part is finding someone who builds it without locking you into a retainer.',
   },
   {
-    q: 'Do you build on n8n or do you only do custom code?',
-    a: 'I have built and maintained both. Most of what I ship now is custom — Node, Postgres, the Claude API, hosted on Vercel — because that is where my clients end up after they outgrow the no-code tier. But I will tell you honestly when n8n or Zapier is the right answer. If a $30/mo Zapier zap solves your problem, I will not invoice you $1,500 to rebuild it.',
+    q: 'Do you build on n8n or do you only do code?',
+    a: 'Built and maintained both. Most of what I ship now is code — Node, Postgres, the Claude API, hosted on Vercel — because that is where teams end up after they outgrow the no-code tier. But I will tell you honestly when n8n or Zapier is the right answer. If a $30/mo Zapier zap solves your problem, nobody is going to invoice you to rebuild it.',
   },
 ];
 
@@ -68,20 +73,20 @@ const faqSchema = {
     <div class="container-x py-20 lg:py-28">
       <div class="status-pill mb-8">
         <span class="status-pill__dot"></span>
-        <span>Taking on 2 builds in May</span>
+        <span>Taking new setups this month</span>
       </div>
       <h1 class="display-h1 max-w-5xl">
         <span class="label label--dim block mb-4">// Comparison</span>
         n8n vs <span class="underline-saffron">Zapier</span> — which one breaks first at your scale?<span class="cursor"></span>
       </h1>
       <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
-        Most n8n vs Zapier comparisons are written by people trying to sell you n8n. I am not. I am the engineer
-        content teams call after they have already burned a year on one of these tools and hit the ceiling. Both work.
-        Both have a wall. The only honest question is which wall you hit first — and whether you should be on
-        either platform at all.
+        Most n8n vs Zapier comparisons are written by people trying to sell you n8n. This one is not. It is written
+        by the engineer teams call after they have already burned a year on one of these tools and hit the ceiling.
+        Both work. Both have a wall. The only honest question is which wall you hit first — and whether you should
+        be on either platform at all.
       </p>
       <div class="flex flex-wrap gap-4 mt-10">
-        <a href="/talk" class="btn btn-primary">Talk to the duck</a>
+        <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
         <a href="#comparison" class="btn btn-outline-light">See the comparison table</a>
       </div>
     </div>
@@ -94,7 +99,7 @@ const faqSchema = {
       <p>
         Before going solo I spent years as the in-house dev inside two marketing agencies, sitting next to the ops leads
         who built the Zapier zaps. I wrote the Python scripts that picked up where Zapier ran out of room. Then I
-        rebuilt the same flows in n8n when the per-task bills got loud. Same teams. Same problems. Two different
+        rebuilt the same flows in n8n when the per-task bills got loud. Same teams, same problems, two different
         tools. The failure mode was almost identical.
       </p>
       <p>
@@ -199,7 +204,7 @@ const faqSchema = {
             <td class="py-4 pr-6 font-medium">Time to first working flow</td>
             <td class="py-4 pr-6 text-bone-dim">15 minutes</td>
             <td class="py-4 pr-6 text-bone-dim">1–2 hours</td>
-            <td class="py-4 text-bone-dim">3–5 days (Tier A1 build)</td>
+            <td class="py-4 text-bone-dim">3–5 days for a single sharp tool</td>
           </tr>
           <tr>
             <td class="py-4 pr-6 font-medium">Best fit</td>
@@ -242,10 +247,9 @@ const faqSchema = {
         on Zapier.
       </p>
       <p>
-        If that is you, just use Zapier — do not hire me. The flows you would build with me cost $1,500 minimum
-        in <a href="/pricing">my Tier A1 bracket</a>, and a $30/mo Zapier subscription does the same job until
-        you hit a wall I have not seen you hit yet. <a href="/solutions/zapier-alternative">If you have already
-        chosen Zapier and the bills are climbing</a>, that is a different conversation.
+        If that is you, just use Zapier — do not hire me. A $30/mo Zapier subscription does the same job until
+        you hit a wall I have not seen you hit yet. <a href="/solutions/zapier-alternative/" class="link-coal">If
+        you have already chosen Zapier and the bills are climbing</a>, that is a different conversation.
       </p>
     </div>
   </Section>
@@ -283,8 +287,8 @@ const faqSchema = {
       </p>
       <p>
         Where n8n still loses is at the very top end — multi-model AI routing across providers, real Postgres
-        joins on millions of rows, multi-tenant client architecture. <a href="/solutions/n8n-alternative" class="link-saffron">If
-        you have already chosen n8n and now hitting limits</a>, the next jump is custom code, not a different
+        joins on millions of rows, multi-tenant client architecture. <a href="/solutions/n8n-alternative/" class="link-saffron">If
+        you have already chosen n8n and are now hitting limits</a>, the next jump is code, not a different
         platform.
       </p>
     </div>
@@ -319,18 +323,18 @@ const faqSchema = {
       </p>
       <p>
         ClipMango is the example I point to. It is an AI music video pipeline I built solo — multi-model, lyric
-        transcription, beat detection, segment QA, all stitched together. I prototyped the first version in n8n.
-        It worked for a demo and broke the moment I needed proper retry logic on failed segments and routing
-        between Seedance and Grok based on shot type. Three weeks later it was a Node app with Postgres, hosted
-        on Vercel, costing me $40/month to run. The n8n version would have been north of $200/month at the same
-        usage and impossible to debug. <a href="/work" class="link-coal">You can see ClipMango here</a>. Same
-        story for Lee De Card and the Dragon Wagons content backend — both started in no-code and graduated.
+        transcription, beat detection, segment QA, all stitched together. The first version was an n8n prototype.
+        It worked for a demo and broke the moment proper retry logic on failed segments and routing between
+        Seedance and Grok based on shot type became real requirements. Three weeks later it was a Node app with
+        Postgres, hosted on Vercel, costing $40/month to run. The n8n version would have been north of $200/month
+        at the same usage and impossible to debug. <a href="/work/" class="link-coal">You can see ClipMango here</a>.
+        Same story for Lee De Card and the Dragon Wagons content backend — both started in no-code and graduated.
       </p>
       <p>
-        This is the work I do. Tier A1 is $1,500 for one sharp tool — usually a single flow that has outgrown
-        Zapier or n8n. Tier S3 is $3,500 for a full pipeline — multi-step, multi-model, with a UI your operators
-        actually use. <a href="/services/ai-developer-for-hire">You can hire me directly</a> instead of locking
-        into an agency retainer. Source code transfers to you. No vendor in the middle.
+        This is the work I do. Single sharp tools, full pipelines, code-first AI environments — sized to the
+        actual shape of the problem, quoted on the call. <a href="/services/ai-developer-for-hire/" class="link-coal">Hire
+        directly</a> instead of locking into an agency retainer. Source code transfers to you. No vendor in the
+        middle.
       </p>
     </div>
   </Section>
@@ -350,20 +354,55 @@ const faqSchema = {
     </div>
   </Section>
 
-  <!-- 8. FINAL CTA -->
+  <!-- 8. BRIDGE: WHAT I ACTUALLY DO NOW -->
+  <Section tone="dark" label="What I actually do now">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I actually do now</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        Yes, you can replace Zapier or n8n with code. But more often, the real problem is that your team's AI tools
+        are not set up right — assistants that do not know your work, every person using them differently, ChatGPT
+        Teams seats nobody opens. I install AI environments — skills, agents, MCP servers, integrations — for solo
+        devs, small teams, and agencies who have outgrown no-code and want their AI to actually work the way they do.
+      </p>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Tuneup</div>
+          <h3 class="display-h3 text-bone mb-3">Solo / indie dev</h3>
+          <p class="text-bone-dim leading-relaxed">
+            Your own AI environment, dialed in. Claude Code, Cursor, Codex, or whichever harness you live in — set up with skills, MCP servers, and the integrations your day-to-day actually needs.
+          </p>
+        </div>
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Workspace</div>
+          <h3 class="display-h3 text-bone mb-3">Small team (1–6)</h3>
+          <p class="text-bone-dim leading-relaxed">
+            A shared AI workflow your team can actually use. Standardized configs, a knowledge layer that knows your codebase and docs, and the adoption work that keeps people from silently going back to a browser tab.
+          </p>
+        </div>
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Rollout</div>
+          <h3 class="display-h3 text-bone mb-3">Agency (5–20)</h3>
+          <p class="text-bone-dim leading-relaxed">
+            Role-specific configs across the team, integrations into your delivery stack, and the training that turns a paid AI seat into an asset instead of a line item.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 9. FINAL CTA -->
   <section class="section-dark">
     <div class="container-x py-20 lg:py-24">
       <span class="label label--dim">// Last call</span>
       <h2 class="display-h2 mt-6 max-w-3xl">Still not sure? <span class="accent-saffron">Talk to the duck.</span></h2>
       <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
-        I will not push you toward custom code if Zapier solves your problem. Bring me the flow you are stuck on
-        — the one bleeding tasks, or the one your operator stopped trusting — and I will tell you straight whether
-        to fix it in n8n, fix it in Zapier, or rebuild it. Free 30-minute call. If we end up working together,
-        Tier A1 starts at $1,500 and Tier S3 at $3,500. No retainers unless you want one.
+        No push toward code if Zapier solves your problem. Bring the flow you are stuck on — the one bleeding
+        tasks, or the one your operator stopped trusting — or just the AI tool nobody on your team uses, and you
+        get a straight answer: fix it in n8n, fix it in Zapier, rebuild it, or set up the AI environment your team
+        actually needs. Free 30-minute call.
       </p>
       <div class="flex flex-wrap gap-4 mt-10">
-        <a href="/talk" class="btn btn-primary">Book the call</a>
-        <a href="/pricing" class="btn btn-outline-light">See pricing first</a>
+        <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
       </div>
     </div>
   </section>

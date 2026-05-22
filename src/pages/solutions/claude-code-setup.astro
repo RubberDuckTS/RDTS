@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Claude Code setup — done by a real person, not a tutorial | RDTS';
+const description = 'Get Claude Code actually working — skills, MCP servers, hooks, subagents, plan mode. Installed and tuned for your stack, not a copy-pasted README.';
+
+const canonical = '/solutions/claude-code-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Claude Code setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/claude-code-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Claude Code setup',
+  serviceType: 'AI development environment setup',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com',
+  },
+  areaServed: 'Worldwide',
+  description: 'Hands-on Claude Code installation and configuration — skills, MCP servers, hooks, subagents, plan-mode workflows — tuned to a specific developer or team.',
+};
+
+const faqs = [
+  {
+    q: 'Why pay someone to set up Claude Code when there is a quickstart in the docs?',
+    a: "The quickstart gets you a terminal that talks to Claude. That is the trivial 5% of what Claude Code can do. The other 95% is the part that actually changes how you work — custom skills wired to your repo conventions, MCP servers connected to your real databases and APIs, hooks that auto-run your linter and test suite at the right lifecycle moments, subagents specialized to your domain, and slash commands that bake in the prompts you have rewritten fifteen times. The docs explain each primitive in isolation. The job is composing them into one environment that fits how you ship. That is what I do.",
+  },
+  {
+    q: 'What is the difference between a Claude Code skill and an MCP server, and which do I actually need?',
+    a: "A skill is a prompt-and-instructions bundle Claude Code loads on demand — best for repeatable workflows that are mostly thinking (a code review pass, a release checklist, a migration recipe). An MCP server is a process Claude Code talks to over a protocol — best for tool access (your database, your error tracker, your design system docs, your internal API). Most teams need both. You write skills for your patterns, and you install MCP servers for your data. When I scope your setup I sort each requirement into one bucket or the other; the wrong choice is the most common reason people say Claude Code is not working for them.",
+  },
+  {
+    q: 'My MCP servers keep failing to start. Can you fix that?',
+    a: "Yes, and it is the single most common Quick fix I take on. The usual culprits are stdio versus HTTP transport mismatches, missing environment variables in the launcher config, version drift between the MCP server and the Claude Code release, permission issues on the binary, or a server that depends on a runtime (Node, Python, uv) that the launcher cannot find. I get on a screenshare, read the actual logs, fix the underlying issue, and leave you with a config that survives a Claude Code update. A typical MCP-server-not-working call takes a day, sometimes a few hours.",
+  },
+  {
+    q: 'Plan mode confuses me — Claude either skips planning or plans forever. What is going on?',
+    a: "Plan mode is sensitive to two things: the explicit instruction at the top of the conversation, and the project-level CLAUDE.md. If neither tells Claude what 'done planning' looks like, it either rushes to code or keeps refining the plan because nothing tells it to stop. The fix is structural — a CLAUDE.md that defines what 'sufficient plan' means for your project (acceptance criteria, file list, test plan), plus a slash command or skill that triggers the plan-to-execute handoff cleanly. Once the contract is written, plan mode becomes the single most useful feature in Claude Code instead of a fight.",
+  },
+  {
+    q: 'Can you set up Claude Code for a whole team, not just me?',
+    a: "Yes — that is a Workspace engagement. The shape is: one shared CLAUDE.md committed to the repo, a set of agreed skills and slash commands checked into a team directory, MCP server configs templated per environment (dev/staging/prod credentials), and onboarding docs so a new hire is productive on day one. The hard part is not the install — it is the convention work, deciding which skills are shared and which stay personal, and agreeing on what the hooks should enforce. I run that as a workshop plus build week. The output is a repo any team member can clone and have a working, opinionated Claude Code setup in fifteen minutes.",
+  },
+  {
+    q: 'Does this work on Windows, or only Mac and Linux?',
+    a: "Claude Code runs on macOS, Linux, and Windows (native plus WSL2). I have set it up on all three. The MCP server ecosystem skews Mac-first — some community servers assume bash and Unix paths — and the fix on Windows is usually WSL2 plus a small launcher script, or picking an HTTP-transport server instead of stdio. If you tell me your OS in the first message I will tell you up front whether anything in your wishlist is going to need a workaround.",
+  },
+  {
+    q: 'I already have Cursor or Codex. Why add Claude Code instead of swapping?',
+    a: "Different tools, different jobs. Cursor is an IDE — you live inside it while editing. Claude Code is a terminal-resident agent — it lives next to your shell, your git, your test runner. Codex is closer to Claude Code shape-wise. Most working developers I set up end up running Cursor for editing-heavy sessions and Claude Code for refactors, multi-file changes, and anything that touches the shell. Adding Claude Code rarely replaces what you have; it gives you the right tool for the moves your IDE is bad at. If you are stuck choosing, the honest answer is on the call — I am not going to talk you into a setup you do not need.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Booking Claude Code setups</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">Claude Code setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          Claude Code is Anthropic's terminal-resident CLI for Claude — skills, hooks, MCP servers, subagents, slash commands, plan mode. The primitives are powerful and the docs are thorough. The trap is that nothing in the docs tells you how to compose them into one coherent environment for the work you actually do. That is the gap I fill. You give me the shape of your day; I install Claude Code so it fits the shape.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+          <a href="/services/" class="btn btn-outline-light">See all services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE IT BREAKS -->
+  <Section tone="cream" label="Where it breaks">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Where Claude Code breaks for most people</h2>
+      <p>
+        The install is a one-liner. Everything past that is where people stall. These are the failure modes I see weekly, in roughly the order they show up after a fresh install.
+      </p>
+      <h3>1. Skills installed but never triggered</h3>
+      <p>
+        You wrote a skill (or copied a community one), dropped it in the skills directory, and Claude never invokes it. The cause is almost always the description field — Claude Code uses the skill description as the trigger signal, and "helps with code" matches nothing in a real session. A good skill description names the exact phrases a user would say to invoke it, plus the exact context where it applies. Five-line fix once you know; invisible until you do.
+      </p>
+      <h3>2. MCP servers that crash at launch</h3>
+      <p>
+        The number one support question I get. Logs say "server exited with code 1" and that is it. The real reasons: wrong transport (stdio vs HTTP), missing env vars that the launcher does not surface, a Node or Python runtime not on the PATH that Claude Code's spawn sees, or a server compiled against an older MCP spec than the current Claude Code release. Each one has a different fix. None of them are in the README of the failing server.
+      </p>
+      <h3>3. Plan mode that either skips or never ends</h3>
+      <p>
+        Plan mode is sensitive to project context. With no CLAUDE.md, Claude either rushes to code or keeps refining the plan because nothing tells it what "done planning" looks like. The fix is a project-level contract that defines acceptance for a plan — file list, test plan, edge cases enumerated — and a slash command that flips from plan to execute deliberately.
+      </p>
+      <h3>4. Subagents that re-derive context the parent already has</h3>
+      <p>
+        Subagents are powerful and easy to misuse. The common bug: the parent loads a giant context, then spawns a subagent that starts from zero and spends 4000 tokens grepping for stuff the parent already knew. The fix is a subagent prompt template that takes structured inputs from the parent, plus a rule about when to delegate (independent, parallelizable, context-isolating) and when to stay in-thread (continuation of a reasoning chain).
+      </p>
+      <h3>5. Hooks that fire on the wrong lifecycle event</h3>
+      <p>
+        Hooks are great until your PreToolUse hook blocks the tool call you actually wanted, or your SessionStart hook tries to read a file that does not exist yet, or your PostToolUse hook runs your test suite on every edit and turns Claude Code into a 30-second-per-message experience. Hooks need to be opinionated — fast, narrowly scoped, idempotent. The first install always has at least one hook that fires too often.
+      </p>
+      <h3>6. Slash commands that duplicate, drift, or both</h3>
+      <p>
+        Three months in, you have nine slash commands. Two do nearly the same thing, one is broken because the underlying tool changed, and the one you use daily is undocumented for anyone but you. Slash commands need a directory structure, naming convention, and a periodic cull. Not a one-time job — an ongoing piece of hygiene that the Workspace shape includes.
+      </p>
+      <h3>7. CLAUDE.md as a wall of text Claude ignores</h3>
+      <p>
+        A 4000-token CLAUDE.md is worse than no CLAUDE.md. Claude has to read it every session, the signal-to-noise rots, and the actually-important rules get buried. The right CLAUDE.md is short, hierarchical, and lets sub-directories override at the right scope. Most people I see have one giant root file. The cleanup is mechanical once you know what to keep.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="dark" label="What I set up">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I install when I set up your Claude Code</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        Specifics, not a feature tour. Every list below is what I actually configure on a typical Tuneup — adjusted for stack, repo size, and what your day looks like.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4">Skills wired to your repo</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A code-review skill that reads your style guide and PR checklist before reviewing</li>
+        <li>A release-notes skill that pulls from your commit conventions and changelog format</li>
+        <li>A migration skill for whatever ORM / SQL flavor you actually use</li>
+        <li>A test-writing skill that matches your test framework and assertion style</li>
+        <li>A debugging skill that knows where your logs live and how to read them</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">MCP servers, picked and configured</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Your database (Postgres, MySQL, SQLite, or hosted Supabase / PlanetScale) — read-only by default, write-enabled only on explicit opt-in</li>
+        <li>Your error tracker (Sentry, Honeybadger, Rollbar) so Claude can pull a real stack trace into context</li>
+        <li>GitHub or GitLab for issues, PRs, and file history</li>
+        <li>Filesystem MCP scoped to the directories you actually want Claude touching</li>
+        <li>A web-fetch MCP with a sane allowlist so Claude can read your hosted docs without becoming a browser</li>
+        <li>Your internal API if it has one — usually via a thin OpenAPI-to-MCP wrapper</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Hooks tuned to your lifecycle</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>PreToolUse guard against destructive commands outside the working directory</li>
+        <li>PostToolUse formatter that runs Prettier or Black on edited files only</li>
+        <li>SessionStart hook that loads a one-line repo status into the context</li>
+        <li>Stop hook that runs the quick test subset after a multi-file change</li>
+        <li>Each hook timeboxed so a slow hook never blocks the session for more than a couple seconds</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Subagents and slash commands</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A planner subagent that owns plan-mode output and hands a structured plan back</li>
+        <li>A researcher subagent that does parallel reads and returns a summary, not a transcript</li>
+        <li>Slash commands for the five workflows you run every day — each documented in one line</li>
+        <li>A periodic-cleanup slash command that lists stale skills, broken MCP servers, and unused commands</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">The knowledge layer</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A CLAUDE.md that is hierarchical (root + scoped overrides), under 800 tokens at root</li>
+        <li>An /AGENTS.md or equivalent index of where things live, kept under version control</li>
+        <li>An onboarding doc your next teammate can read in ten minutes</li>
+        <li>For a Workspace: a shared skills directory in the repo with conventions for adding new ones</li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="cream" label="Shapes of engagement">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Three shapes — pick the one that matches the work</h2>
+      <h3>Quick fix — one Claude Code thing, fixed in a day</h3>
+      <p>
+        An MCP server that will not start. A skill that never triggers. A hook that broke after the last update. Plan mode that ignores your CLAUDE.md. You bring one specific symptom; I get on a screenshare, dig into the actual logs, and fix the underlying cause. You leave with a working setup and a one-page note on what the root cause was. About a day, sometimes a few hours.
+      </p>
+      <h3>Tuneup — your personal Claude Code, dialed in</h3>
+      <p>
+        Your environment, configured for the way you actually work. We start with a session where I watch you use Claude Code for an hour — the friction shows itself. Then I install the right skills, wire the MCP servers that matter, write a CLAUDE.md that is short and load-bearing, set up the slash commands you have rewritten by hand fifteen times, and tune the hooks so they help instead of nag. You get a personal Claude Code setup committed to a dotfiles repo you own. About a week.
+      </p>
+      <h3>Workspace — your team on Claude Code, configured consistently</h3>
+      <p>
+        For teams of two to six who want a shared Claude Code culture, not five different installs that drift apart. I run a half-day workshop to pull out the conventions you already have (even if they live in someone's head), then build the shared repo: team-level CLAUDE.md, shared skills, MCP server configs templated per environment, hook policies the whole team agrees on, and an onboarding doc that gets a new hire productive in fifteen minutes. About one to two weeks. The output is a repo any teammate can clone and immediately get the same setup as the senior dev next to them.
+      </p>
+      <p>
+        Not sure which shape? Describe what you are trying to fix in plain language. <a href="/talk/" class="link-coal">Talk to the duck →</a>
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Describe your Claude Code pain in plain English. The duck takes it from there.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          You do not need to know whether your issue is a skill description problem or an MCP transport problem or a hook lifecycle problem. Tell me what is annoying you about Claude Code today and I will name the shape of the work. If it is a Quick fix, I say so. If it is bigger, I say that too. No quote-padding, no upsell. <a href="/services/" class="link-saffron">All services →</a>
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

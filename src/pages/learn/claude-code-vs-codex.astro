@@ -1,0 +1,362 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Claude Code vs Codex — honest tradeoffs | RDTS Learn';
+const description = 'Claude Code vs OpenAI Codex CLI compared honestly. One is built for multi-step agent work, the other for fast code generation. Which CLI fits which job.';
+const canonical = '/learn/claude-code-vs-codex/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Claude Code vs Codex — honest tradeoffs',
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  datePublished: '2026-05-21',
+  dateModified: '2026-05-21',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://www.rubberducktechsolutions.com/learn/claude-code-vs-codex/',
+  },
+};
+
+const faqs = [
+  {
+    q: 'Is Claude Code or Codex faster for everyday coding?',
+    a: 'Codex is faster for one-shot generation — write a function, fix a bug, translate a file from one language to another. Less ceremony, fewer tool calls, lower latency. Claude Code is slower per task because each agent run involves planning, tool use, and explicit verification. For multi-step work where slow-and-correct beats fast-and-wrong, Claude Code wins. For quick edits where you would otherwise type the change yourself, Codex wins. The honest answer is they are tuned for different speeds of problem.',
+  },
+  {
+    q: 'Can Claude Code work with non-Claude models?',
+    a: 'No. Claude Code is Anthropic\'s official CLI and only routes to Claude models — Sonnet, Opus, Haiku across versions. That is the trade. You get the deepest possible Claude integration including skills, MCP servers, slash commands, plan mode, hooks, and subagents, but you cannot point it at GPT or Gemini. Codex CLI is the same shape from the OpenAI side — GPT-class models only, no Claude. If you want a single CLI that talks to any model, neither of these is the right choice — that is OpenClaw or Aider territory.',
+  },
+  {
+    q: 'What is MCP and does Codex support it?',
+    a: 'MCP is the Model Context Protocol, an open spec Anthropic published for letting AI tools talk to external systems — databases, APIs, your local file system, Slack, GitHub, whatever. Claude Code has first-class MCP server support, which is a real chunk of why people pick it for agent-style work. Codex CLI focuses on code generation and does not have a comparable plugin ecosystem at the time of writing. That gap is closing — OpenAI has its own tool-use story — but if MCP servers are core to your workflow, Claude Code is the obvious pick.',
+  },
+  {
+    q: 'Which one is better for autonomous, long-running tasks?',
+    a: 'Claude Code. The whole product is built around multi-step plans — plan mode lets the agent map the work first, then execute, then verify. Subagents let you spawn focused workers for parallel tasks. Hooks let you intercept tool calls. It is the right shape for "go refactor this whole module" or "build this feature end to end." Codex CLI is closer in spirit to a smart code generator you call repeatedly — strong on the unit of work, less opinionated about long-running orchestration.',
+  },
+  {
+    q: 'How much do they cost?',
+    a: 'Claude Code is included with a Claude Pro plan and is also available on Anthropic\'s API. Pro is a fixed monthly fee that includes generous Claude Code usage; the API is per-token if you exceed it or prefer pay-as-you-go. Codex CLI runs on OpenAI\'s models and is priced per token through the OpenAI API. For heavy daily use, the bundled Anthropic Pro plan is often cheaper than equivalent OpenAI API consumption. For light use, both are well under $30/mo. The cost gap is rarely the deciding factor — model fit usually is.',
+  },
+  {
+    q: 'Should I run both Claude Code and Codex on the same project?',
+    a: 'You can, and some developers do. The friction is that each tool has its own configuration, its own context window, its own session state. Running both means duplicating setup and switching mental modes. The cleaner pattern most teams settle on is one primary CLI for agent work — usually Claude Code — and the other model accessed through whichever editor extension or chat tool fits the smaller jobs. Two CLIs in the same shell on the same project is a recipe for tab confusion.',
+  },
+  {
+    q: 'Do you help set up Claude Code or Codex for clients?',
+    a: 'Claude Code more often, Codex sometimes. Most of the work is the same regardless of which CLI — writing the rules file, wiring MCP servers (Claude Code side), defining slash commands and skills, building the project context the agent needs to be useful. The model behind the CLI matters less than the environment around it. Talk to the duck if you want one of these dialed in for your team.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- 1. HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="status-pill mb-8">
+        <span class="status-pill__dot"></span>
+        <span>Comparison — updated May 2026</span>
+      </div>
+      <h1 class="display-h1 max-w-5xl">
+        <span class="label label--dim block mb-4">// Learn</span>
+        Claude Code vs <span class="underline-saffron">Codex</span> — honest tradeoffs<span class="cursor"></span>
+      </h1>
+      <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
+        Two official CLIs from the two labs that matter most in 2026. Claude Code is Anthropic's agent-shaped
+        CLI, built around plans, skills, MCP servers, and multi-step work. OpenAI Codex CLI is the OpenAI side
+        of the same conversation, tighter on code generation and lighter on agent orchestration. Both are good.
+        The question is which shape of problem you are actually trying to solve.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="#verdict" class="btn btn-outline-light">Jump to the verdict</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. INTRO -->
+  <Section tone="cream" label="The short version">
+    <div class="prose-rdts max-w-3xl">
+      <h2>One is an agent. The other is a generator. That is the whole frame.</h2>
+      <p>
+        Claude Code is built around the idea that real coding work is multi-step. You give it a task — "add OAuth
+        to this Express app" or "find the performance regression in this commit range" — and it plans, calls
+        tools, reads files, writes code, runs tests, and verifies. Plan mode, skills, MCP servers, subagents,
+        slash commands, and hooks are all surface area for orchestrating that work. Claude Code is what you reach
+        for when the task is bigger than a single function.
+      </p>
+      <p>
+        OpenAI Codex CLI is the more focused tool. It is OpenAI's official command-line interface for code
+        generation, tuned for fast turnaround on the unit of code work — write this function, refactor this file,
+        explain this snippet, translate between languages. The agent orchestration story exists but is lighter
+        than Claude Code's. If Claude Code is the foreman, Codex CLI is the carpenter.
+      </p>
+      <p>
+        Both ship official from their respective labs, both run in your terminal, both are model-locked to their
+        own ecosystem. The choice is mostly about which shape of work dominates your day.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 3. QUICK VERDICT TABLE -->
+  <Section tone="dark" label="Quick verdict" id="verdict">
+    <div class="prose-rdts max-w-3xl mb-10">
+      <h2>If you want this, pick this</h2>
+      <p>
+        These rows are the actual decision points teams hit when picking between the two CLIs. If one row is
+        unambiguously you, the whole choice is decided.
+      </p>
+    </div>
+    <div class="overflow-x-auto -mx-4 px-4">
+      <table class="w-full text-left border-collapse min-w-[640px]">
+        <thead>
+          <tr class="border-b border-ink-border">
+            <th class="py-4 pr-6 text-bone-dim font-mono text-sm uppercase tracking-wider">If you want...</th>
+            <th class="py-4 text-bone-dim font-mono text-sm uppercase tracking-wider">Pick</th>
+          </tr>
+        </thead>
+        <tbody class="text-bone">
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Multi-step agent work with plan + verify loops</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Fast one-shot code generation from the terminal</td>
+            <td class="py-4 text-bone-dim">Codex</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">MCP servers and a rich plugin ecosystem</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Tight integration with the OpenAI ecosystem</td>
+            <td class="py-4 text-bone-dim">Codex</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Skills, subagents, and slash commands</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Cheaper per-token cost on simple completions</td>
+            <td class="py-4 text-bone-dim">Codex (varies by model)</td>
+          </tr>
+          <tr>
+            <td class="py-4 pr-6 font-medium">A CLI that runs long autonomous tasks unattended</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <!-- 4. WHERE CLAUDE CODE WINS -->
+  <Section tone="cream" label="Where Claude Code wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Where Claude Code beats Codex on the merits</h2>
+      <p>
+        Claude Code wins on agent orchestration. The CLI is built around the idea that the model should plan
+        before it acts. Plan mode lets you see the full strategy before any file is touched. You can edit the
+        plan, push back, ask for alternatives, and only then approve execution. This is the right pattern for
+        tasks that span multiple files or that have non-obvious dependencies.
+      </p>
+      <p>
+        Claude Code wins on the MCP server ecosystem. MCP — the Model Context Protocol — is the standard Anthropic
+        published for connecting AI to external systems. Postgres, GitHub, Slack, your CRM, your internal services,
+        your file system, anything with an API. There are hundreds of MCP servers already in the wild and Claude
+        Code talks to all of them. Codex has tool use but the ecosystem is narrower.
+      </p>
+      <p>
+        Claude Code wins on skills. A skill is a markdown file that teaches the agent how to do a specific kind
+        of task — "review a pull request," "write a database migration," "respond to a Linear ticket." You drop
+        skills into a directory, the agent reads them, and now your team's repeatable workflows are encoded once
+        and used by everyone. Codex does not have a comparable feature.
+      </p>
+      <p>
+        Claude Code wins on subagents. When a task has multiple independent pieces, you can spawn focused workers
+        to handle them in parallel — one to read the codebase, one to draft the test plan, one to write the
+        documentation. The orchestration is built into the CLI. Codex can be scripted around to do similar work
+        but it is not the default shape of the tool.
+      </p>
+      <p>
+        Claude Code wins on hooks. You can intercept any tool call — before, after, or both — and run a shell
+        command. Block edits to certain paths. Run a linter automatically after every file write. Notify Slack
+        when a long task finishes. The hook system makes the CLI scriptable in a way that fits into existing
+        engineering workflows.
+      </p>
+      <p>
+        Claude Code wins on Claude itself. If you already prefer Claude as a model — for writing, for reasoning,
+        for code — then the CLI built by Anthropic is going to use Claude better than a generic wrapper would.
+        The system prompts, the context management, the tool-use patterns are all tuned for Claude's behavior.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 5. WHERE CODEX WINS -->
+  <Section tone="dark" label="Where Codex wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Where Codex beats Claude Code on the merits</h2>
+      <p>
+        Codex wins on raw code generation speed. The CLI is tuned for "give me this function" interactions and
+        the round trip is fast. There is less ceremony, no plan phase by default, fewer tool calls. If your
+        workflow is short asks and short answers, Codex feels snappier than Claude Code on the same hardware.
+      </p>
+      <p>
+        Codex wins on OpenAI ecosystem fit. If your team is already deep in OpenAI — using ChatGPT Teams, hitting
+        the OpenAI API for other features, paying for GPT in other tools — adding Codex is a zero-friction
+        extension. One bill, one set of API keys, one model family to keep up with. Adding Claude Code introduces
+        a second vendor relationship.
+      </p>
+      <p>
+        Codex wins on simpler installation. The OpenAI CLI surface area is smaller. There are fewer concepts to
+        learn — no MCP, no skills, no plan mode by default, no subagents. For a developer who wants "GPT in my
+        terminal that can read and write files," Codex is the shortest path. Claude Code rewards a steeper
+        learning curve with more capability.
+      </p>
+      <p>
+        Codex wins where GPT is actually the better model. GPT and Claude are close on most coding benchmarks
+        but they have personality differences. GPT can be stronger on certain language ecosystems, certain
+        academic-style problems, certain visual or multimodal tasks. If you have done your own testing and GPT
+        is the right model for your work, Codex is the way to use it from the CLI.
+      </p>
+      <p>
+        Codex wins on the OpenAI tool catalogue. OpenAI ships first-party tools that integrate with their CLI —
+        DALL-E for image generation, Whisper for transcription, Sora for video. If your work involves crossing
+        modalities, the OpenAI CLI stack is more unified than the Anthropic side, which is mostly text-and-code.
+      </p>
+      <p>
+        Codex wins on lower cognitive overhead for one-shot tasks. Sometimes you do not want an agent. You want
+        a smart pipe — pass code in, get code out, no plan, no verify, no orchestration. Codex is closer to that
+        shape. Claude Code can be coerced into it but the product is opinionated about the agent loop.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 6. HOW THEY DIFFER STRUCTURALLY -->
+  <Section tone="cream" label="Architecture">
+    <div class="prose-rdts max-w-3xl">
+      <h2>How they differ structurally</h2>
+      <p>
+        The architectural split is "agent harness" vs "code generator." Claude Code's central abstraction is the
+        agent loop — receive task, plan, call tools, observe results, decide next action, repeat until done.
+        Every feature in the CLI extends or constrains that loop. Skills tell the agent how to behave for a kind
+        of task. MCP servers give the agent more tools. Subagents let one agent spawn others. Hooks let you
+        intercept the loop. Plan mode lets you see the loop before it runs. The entire product is the loop.
+      </p>
+      <p>
+        Codex CLI's central abstraction is the prompt. Input goes in, generated code comes out. There is tool use
+        and there is file I/O, but the spine of the product is the single-turn or short-turn interaction. This
+        is not a criticism — short turns are what most developers want most of the time. It just means the two
+        CLIs are optimizing for different default workloads.
+      </p>
+      <p>
+        On context management, Claude Code is more explicit. You see the context window, you manage it through
+        plan mode and explicit file references. Codex handles context more implicitly — it includes what it
+        thinks you need based on the prompt. Implicit is faster. Explicit is more predictable.
+      </p>
+      <p>
+        On verification, Claude Code defaults to a verify step — run tests, check output, confirm the work is
+        actually done. Codex leaves verification to you unless you scaffold it yourself. Verify-by-default
+        catches more bugs at the cost of slower turn-around. Skip-verify is faster and trusts you to check the
+        work.
+      </p>
+      <p>
+        On the model lock-in axis, both are equally locked. Claude Code to Claude, Codex to GPT. Neither is a
+        cross-provider tool — that is a different category of CLI entirely.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 7. WHO SHOULD USE WHICH -->
+  <Section tone="dark" label="Who picks which">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Who should use Claude Code, who should use Codex</h2>
+      <p>
+        Use Claude Code if your work is multi-step, if you want plan-then-execute as the default, if MCP servers
+        are part of your stack or you want them to be, if you are building team workflows that need to be
+        encoded as skills, or if Claude is already the model you prefer. Claude Code is the right shape for
+        agent-style engineering work — bigger tasks, longer time horizons, more verification. It rewards teams
+        that want to invest in setting up the environment once and benefiting forever.
+      </p>
+      <p>
+        Use Codex if your work is short-turn code generation, if you live inside the OpenAI ecosystem already, if
+        GPT-class models are the right fit for your problems, or if you want a CLI with less ceremony and less
+        learning curve. Codex is the right shape for developers who use the CLI as a faster way to write code
+        rather than a way to delegate whole projects. It rewards lower-friction setups.
+      </p>
+      <p>
+        Plenty of teams use both — Claude Code for the heavy refactors and feature builds, Codex (or its
+        successors) for the quick edits. The two CLIs do not conflict. They optimize for different ends of the
+        same continuum.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 8. FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="cursor-pointer font-medium text-coal text-lg list-none flex justify-between items-start gap-4">
+            <span>{f.q}</span>
+            <span class="text-saffron-deep flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-4 text-coal-dim leading-relaxed">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 9. RELATED -->
+  <Section tone="cream" label="Related">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Setting one of these up properly</h2>
+      <p>
+        Both CLIs ship with sensible defaults and almost nobody uses them well. The work is in the rules, the
+        MCP servers, the skills, the slash commands, and the team-specific workflows. Setup guides for both:
+      </p>
+      <ul>
+        <li><a href="/solutions/claude-code-setup/">Claude Code setup — done by a real person, not a tutorial</a></li>
+        <li><a href="/solutions/codex-setup/">Codex setup — done by a real person, not a tutorial</a></li>
+        <li><a href="/services/">Services — AI environment setup overview</a></li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- 10. FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-24">
+      <span class="label label--dim">// Still deciding</span>
+      <h2 class="display-h2 mt-6 max-w-3xl">Not sure which one fits? <span class="accent-saffron">Talk to the duck.</span></h2>
+      <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
+        Tell me how you actually work — what kind of tasks, what stack, what is annoying you about your current
+        AI tools. I will tell you which CLI fits and what to set up first. If the answer is "neither, use a
+        different tool," I will say that too.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="/services/" class="btn btn-outline-light">See services</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

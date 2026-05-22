@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'AI environment setup — Claude Code, MCPs, agents, skills | RDTS';
+const description = 'Install a working AI environment for your team — Claude Code, MCP servers, agent harnesses, skills, knowledge layer. Real person, no tutorials.';
+
+const canonical = '/services/';
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'AI environment setup services',
+  description,
+  url: 'https://www.rubberducktechsolutions.com/services/',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'AI environment setup',
+  description: 'Hands-on installation and configuration of AI tooling — Claude Code, MCP servers, agent harnesses, skills, knowledge layers — for solo developers, small teams, and agencies.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  areaServed: { '@type': 'Country', name: 'US' },
+  serviceType: 'AI tooling configuration and integration',
+  audience: {
+    '@type': 'BusinessAudience',
+    audienceType: 'Solo developers, small teams, agencies',
+  },
+};
+
+const tools = [
+  {
+    name: 'Claude Code setup',
+    href: '/solutions/claude-code-setup/',
+    blurb: "Anthropic's terminal-native coding agent, configured with the right skills, MCPs, and project context for the way you actually work.",
+  },
+  {
+    name: 'OpenClaw setup',
+    href: '/solutions/openclaw-setup/',
+    blurb: 'Open-source agent harness wired into your stack — model choice, tool surface, and run policies tuned to your domain.',
+  },
+  {
+    name: 'Cursor setup',
+    href: '/solutions/cursor-setup/',
+    blurb: 'IDE-first AI coding, configured beyond defaults — rules, indexing, model routing, and the integrations Cursor does not ship with.',
+  },
+  {
+    name: 'Codex setup',
+    href: '/solutions/codex-setup/',
+    blurb: "OpenAI's coding agent, plugged into your repo, your environment, and the guardrails that keep it from going off the rails.",
+  },
+  {
+    name: 'Cline setup',
+    href: '/solutions/cline-setup/',
+    blurb: 'VS Code agent, configured for autonomous loops your team trusts — approval gates, allowlists, and real project memory.',
+  },
+  {
+    name: 'Aider setup',
+    href: '/solutions/aider-setup/',
+    blurb: 'Terminal pair-programmer, dialed in with the model routing, repo map, and git workflow that match how you ship.',
+  },
+  {
+    name: 'Hermes Agent setup',
+    href: '/solutions/hermes-agent-setup/',
+    blurb: 'Hermes wired into your team workflow with skills, retrieval, and the tool integrations that turn it into a real teammate.',
+  },
+];
+
+const shapes = [
+  {
+    name: 'Quick fix',
+    buyer: 'Anyone with one specific job',
+    body: 'One deliverable, single day. A broken MCP wired correctly. A skill that finally loads. A model swap that drops latency. Single output, no rollout.',
+  },
+  {
+    name: 'Tuneup',
+    buyer: 'Solo / indie dev',
+    body: 'Your personal AI environment, dialed in. Claude Code or Cursor (or both) configured around your repos, your docs, your habits. About a week.',
+  },
+  {
+    name: 'Workspace',
+    buyer: 'Small team (1–6)',
+    body: 'Shared knowledge layer, consistent configs across the team, MCPs wired into the tools you already use. One to two weeks.',
+  },
+  {
+    name: 'Rollout',
+    buyer: 'Agency (5–20)',
+    body: 'Role-specific configs (engineer / writer / ops / leadership), skills library, adoption runway, and the workflow standards that keep it from drifting. Three to six weeks.',
+  },
+  {
+    name: 'Custom',
+    buyer: 'Anything bigger or open-ended',
+    body: 'Multi-tenant setups. Multi-month retainers. Cross-org rollouts. Heavy compliance scope. Scoped on the call.',
+  },
+];
+
+const setupAreas = [
+  {
+    title: 'Skills and agent stacks',
+    body: 'Claude Code, OpenClaw, Cursor, Cline, Aider, Codex, Hermes — installed, configured, and matched to the work. Most setups are not one tool, they are two or three that hand off cleanly.',
+  },
+  {
+    title: 'MCP servers and CLI integrations',
+    body: 'Model Context Protocol servers that plug your internal tools into Claude and friends. CLI wrappers around your existing scripts so the agent can run them safely. The right tools, behind the right guardrails.',
+  },
+  {
+    title: 'Knowledge layer',
+    body: 'Your codebase, your docs, your client folders — indexed and reachable from the agent without copy-paste. Retrieval that actually returns the right chunk, not the closest-sounding one.',
+  },
+  {
+    title: 'Role-specific configs for teams',
+    body: 'Engineers get one config. Writers get another. Ops and leadership get the views they need. Same underlying stack, different surfaces — so nobody is fighting a tool that was set up for somebody else.',
+  },
+  {
+    title: 'Adoption and workflow standardization',
+    body: 'A setup that nobody uses is a setup that does not exist. Real adoption work — short walkthroughs, written norms, a small set of repeatable patterns — so the AI environment survives the first month.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What does "AI environment setup" actually mean?',
+    a: "It means installing and configuring the AI tools your team uses every day so they fit your work, not the defaults. That includes coding agents (Claude Code, Cursor, Cline, Codex, Aider, OpenClaw, Hermes), MCP servers that connect those agents to your internal tools and data, custom skills that encode how your team writes code or content, and the knowledge layer that lets the agent see your repos and docs without copy-paste. The tool install is the easy part. Making the stack actually fit how your team operates is the work.",
+  },
+  {
+    q: "Why hire someone for this — can't I follow a tutorial?",
+    a: "You can, and for a single tool on a single laptop you probably should. The reason teams call me is the second-order problem. Each tool has a configuration surface that grew faster than the docs. Two tools that overlap (Claude Code and Cursor, say) need to be told which one owns which workflow or they fight each other. MCP servers need policies, allowlists, and credentials that most tutorials wave at. And once more than one person is using the stack, you need shared conventions or everyone drifts into their own snowflake setup inside a month. That coordination is what you are hiring for.",
+  },
+  {
+    q: 'Are you tied to a specific tool or model?',
+    a: "No. Harness-agnostic and model-agnostic on purpose. I default to Anthropic Claude because it earns the slot for most code and content work, and I reach for OpenAI's flagship GPT when it specifically wins. On the harness side, I will set up whatever fits — Claude Code, Cursor, Cline, Codex, Aider, OpenClaw, or Hermes. Most engagements end up using more than one. The opinionated part is matching the right stack to the use case, not selling you whatever I happen to like that month.",
+  },
+  {
+    q: 'Do you handle the AI environment for just one person, or only teams?',
+    a: 'Both. A Tuneup is one person\'s setup, dialed in over about a week — that is a real engagement and a real shape. A Workspace is a small team with a shared knowledge layer. A Rollout is an agency with role-specific configs. The work compounds as the team grows, but a solo developer getting their own environment right is a perfectly normal engagement.',
+  },
+  {
+    q: 'What does ownership look like after the engagement?',
+    a: "Everything lives in your accounts and your repos. Configs are checked into a repo you own. MCP servers are deployed to your infrastructure. Credentials are yours. Documentation lives in your wiki or your repo, not in a vendor portal. If you want to fire me and hand the setup to another engineer next quarter, that handoff takes an afternoon — no proprietary DSL, no agency retainer holding the keys.",
+  },
+  {
+    q: 'How is pricing handled?',
+    a: 'No public numbers. The shapes above give you a feel for scope — Quick fix, Tuneup, Workspace, Rollout, Custom — and the duck quotes the actual work on a 30-minute call. You leave with a real number, a real timeline, and a real scope, or you leave with an honest "this is not in my lane" and a pointer to who is.',
+  },
+  {
+    q: "What if I'm not sure whether I need setup work or a full software build?",
+    a: "Most people are not sure on the first call, which is fine. The duck reads what you describe and names the shape. If you are describing a tool install that fits a Tuneup or Workspace, that is setup work. If you are describing a thing that needs to exist that does not exist yet — a custom dashboard, a pipeline, an internal app — that is a software build, and RDTS still does those (see /work/ for examples). The shape gets named on the call, not by you in advance.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  schema={[webPageSchema, serviceSchema, faqSchema]}
+>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Taking new setups this month</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          AI environment setup — done by a <span class="underline-saffron">real person</span><span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          Most teams pay for Claude or ChatGPT and barely use it. The tools do not know your code, your docs, or your clients. Each person on the team uses them a different way, and nobody knows what the stack is actually capable of. I install your AI environment — skills, agents, MCP servers, the knowledge layer, the role configs — so the tools you already pay for finally do real work for the way your team operates.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="#tools" class="btn btn-outline-light">See the tools I set up</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT SETUP MEANS -->
+  <Section tone="cream" label="What setup actually means">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Setup is the bottleneck, not the model.</h2>
+      <p>
+        The models are good. They have been good for a while. The bottleneck for most teams is not the model — it is the gap between the model and your work. Out of the box, Claude does not know your codebase. It does not know which client folder lives where. It does not know the writing rules your editor enforces or the build commands your CI expects. It does not know that your team has agreed to never push directly to main. It is a brand-new hire with no onboarding.
+      </p>
+      <p>
+        "AI environment setup" is the onboarding. It is the configuration layer that turns a generic model into a teammate that knows your work. That layer is real, it is specific, and it is the difference between a team that uses AI for a week and gives up versus a team that ships measurably faster six months later. Tutorials get you to the first run. They do not get you to the stack that survives Monday morning.
+      </p>
+      <p>
+        I do this work hands-on. No course, no playbook PDF, no async Loom dump. I sit with your environment, install the right tools, write the configs, wire the integrations, and stay around long enough that the setup sticks.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="dark" label="What I set up">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-12">The five layers of an AI environment</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        {setupAreas.map((area) => (
+          <article class="card-dark p-7 lg:p-8">
+            <h3 class="display-h3 mb-4">{area.title}</h3>
+            <p class="text-bone-dim leading-relaxed">{area.body}</p>
+          </article>
+        ))}
+      </div>
+      <p class="text-bone-dim mt-10 max-w-3xl leading-relaxed">
+        Most engagements touch three or four of these layers. A Tuneup is heavy on tool config and knowledge layer. A Workspace adds shared configs and light adoption. A Rollout is all five, on a clock.
+      </p>
+    </div>
+  </Section>
+
+  <!-- TOOLS I WORK WITH -->
+  <Section tone="cream" label="Tools I work with" id="tools">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 mb-8">The harnesses, configured</h2>
+      <p class="text-coal-dim text-lg leading-relaxed mb-12 max-w-3xl">
+        I am harness-agnostic. The right answer is usually two of these working together, not one of them used like a hammer. Each page below covers where the tool earns its slot, where it tends to break, and what a setup looks like.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {tools.map((tool) => (
+          <a href={tool.href} class="card-cream p-7 lg:p-8 block group">
+            <div class="flex items-start justify-between gap-6 mb-3">
+              <h3 class="display-h3 text-coal">{tool.name}</h3>
+              <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
+            <p class="text-coal-dim leading-relaxed">{tool.blurb}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- SHAPES OF ENGAGEMENT -->
+  <Section tone="dark" label="Shapes of engagement">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">Five shapes. The duck names yours on the call.</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-12 max-w-3xl">
+        These are not tiers in a SaaS sense. They are the recognizable shapes that real engagements actually take. You do not need to pick one in advance — the duck reads what you describe and tells you which one it is.
+      </p>
+      <div class="overflow-x-auto rounded-2xl border border-ink-border">
+        <table class="w-full text-left text-bone">
+          <thead class="bg-ink-card text-bone-dim">
+            <tr>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Shape</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Buyer</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">What it looks like</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-ink-border">
+            {shapes.map((shape) => (
+              <tr>
+                <td class="p-4 align-top text-bone font-semibold">{shape.name}</td>
+                <td class="p-4 align-top text-bone-dim whitespace-nowrap">{shape.buyer}</td>
+                <td class="p-4 align-top text-bone-dim">{shape.body}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-bone-dim mt-8 max-w-3xl leading-relaxed">
+        No public pricing. The duck quotes the work on the call — real number, real timeline, real scope. If your job is below the floor, the duck says so and points you at a self-serve route instead of selling you something you do not need.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT I DON'T TAKE ON -->
+  <Section tone="cream" label="What I don't take on">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Two hard nos. Everything else gets quoted.</h2>
+      <p>
+        Honest list, short on purpose. I would rather you find the right hire on the first try than waste a discovery call on a job I cannot do well.
+      </p>
+      <h3>1. Training AI models from scratch</h3>
+      <p>
+        Not fine-tuning. Not RAG. Actual pre-training of foundation models. That needs a research lab with the compute and the team — somewhere like Together AI, Modal, or a Databricks partner. I would be the wrong hire and you would feel it within a week.
+      </p>
+      <h3>2. Work requiring government clearance</h3>
+      <p>
+        DoD classified work, FedRAMP High needing sponsorship, ITAR, CMMC, anything touching cleared programs. I am a solo Missouri LLC without a sponsor. If you have a contract requiring those certifications, you want a cleared shop, not RDTS.
+      </p>
+      <p>
+        Everything else — Claude Code installs, MCP wiring, agent harnesses, skills, knowledge-layer integrations, adoption, role configs, custom skills for content teams, retrieval that actually returns the right chunk — get the duck on a call.
+      </p>
+    </div>
+  </Section>
+
+  <!-- ALSO BUILD SOFTWARE -->
+  <Section tone="dark" label="I also build software and websites">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Setup is primary. Builds happen too.</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        Before RDTS pivoted toward setup work, I shipped custom AI software and marketing sites — ClipMango, Lee De Card, Dragon Wagons, and a longer list on <a href="/work/" class="link-saffron">the work page</a>. That side of the practice did not go away. It moved off the front of the menu because setup work is the lane I serve best now, but if your problem is "build the thing that does not exist yet," I still do that. A duck conversation figures out which shape it actually is — setup, build, or both — without making you pre-classify.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        If you already know you want a full build with a fixed-price scope, <a href="/services/ai-developer-for-hire/" class="link-saffron">the AI developer for hire page</a> covers that lane in detail.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Describe the stack. The duck names the shape.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          A 30-minute call. You describe what your team is using, what is not working, and what you want to be true in a month. The duck names the shape — Quick fix, Tuneup, Workspace, Rollout, or Custom — quotes the work, and either books the next step or sends you somewhere better. No scoping form. No qualification grid. No slide deck.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/work/" class="btn btn-outline-light">See recent work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

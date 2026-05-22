@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Learn — plain-English AI setup explainers and tool comparisons | RDTS';
+const description = 'Plain-English explainers and honest tool comparisons for people setting up AI: MCP, skills, agent harnesses, Claude Code, Cursor, Codex, Cline, OpenClaw.';
+
+const canonical = '/learn/';
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'RDTS Learn',
+  description,
+  url: 'https://www.rubberducktechsolutions.com/learn/',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  about: [
+    'Model Context Protocol',
+    'Claude Skills',
+    'AI Agent Harness',
+    'Claude Code',
+    'Cursor',
+    'OpenClaw',
+    'Codex',
+    'Cline',
+  ],
+};
+
+const concepts = [
+  {
+    title: 'What is MCP?',
+    href: '/learn/what-is-mcp/',
+    blurb: 'Model Context Protocol explained without the jargon. The standard that lets Claude (and others) talk to your data and tools.',
+  },
+  {
+    title: 'Skills vs MCPs',
+    href: '/learn/skills-vs-mcps/',
+    blurb: 'Two different things, often confused. Skills shape how the model behaves. MCPs give it real things to do. You usually want both.',
+  },
+  {
+    title: 'Agent harness explained',
+    href: '/learn/agent-harness-explained/',
+    blurb: 'Why the same model feels brilliant in Claude Code and frustrating in another tool. The harness is doing most of the work you cannot see.',
+  },
+  {
+    title: 'How to set up Claude skills',
+    href: '/learn/setting-up-claude-skills/',
+    blurb: 'A working step-by-step for installing skills in Claude Code — file layout, frontmatter, invocation, the things that usually break.',
+  },
+];
+
+const comparisons = [
+  {
+    title: 'Cline vs Cursor',
+    href: '/learn/cline-vs-cursor/',
+    blurb: 'VS Code agent extension vs full IDE fork. Both call themselves "AI coding tools." They are not the same job.',
+  },
+  {
+    title: 'Claude Code vs Codex',
+    href: '/learn/claude-code-vs-codex/',
+    blurb: 'Anthropic\'s terminal agent vs OpenAI\'s. Different models, different defaults, different sweet spots.',
+  },
+  {
+    title: 'OpenClaw vs Claude Code',
+    href: '/learn/openclaw-vs-claude-code/',
+    blurb: 'The community-extensible Claude Code fork vs the original. When the fork is worth it.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={collectionSchema}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="label label--dim mb-6">// Learn</div>
+        <h1 class="display-h1 mb-8">
+          Plain-English AI setup, <span class="underline-saffron">no jargon tax</span><span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          Most "AI setup" content is written by people who already know what an MCP server is. These pages are not that. Read these if you are trying to figure out which tool to use, what a skill actually does, or why your AI assistant feels broken. Honest comparisons, opinionated takes, and definitions in human language.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPTS -->
+  <Section tone="cream" label="Concepts">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 mb-4">Start here if you are new</h2>
+      <p class="text-coal-dim text-lg leading-relaxed max-w-3xl mb-12">
+        Four explainers that cover the vocabulary you will run into the moment you start configuring any AI tool. Read them in any order.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {concepts.map((c) => (
+          <a href={c.href} class="card-cream p-7 group block">
+            <h3 class="display-h3 text-coal mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
+            <p class="text-coal-dim leading-relaxed">{c.blurb}</p>
+            <span class="inline-block mt-5 text-saffron font-mono text-sm">Read →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- COMPARISONS -->
+  <Section tone="dark" label="Compare tools">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-4">Already shopping for a tool?</h2>
+      <p class="text-bone-dim text-lg leading-relaxed max-w-3xl mb-12">
+        Three honest comparisons for the matchups that come up most often. No "they are both great" hedging — each page picks who should use which.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {comparisons.map((c) => (
+          <a href={c.href} class="bg-ink-card border border-ink-border rounded-2xl p-7 group block hover:border-saffron transition-colors">
+            <h3 class="display-h3 text-bone mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
+            <p class="text-bone-dim leading-relaxed text-[15px]">{c.blurb}</p>
+            <span class="inline-block mt-5 text-saffron font-mono text-sm">Compare →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-cream">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--coal mb-6">// Ask the duck</span>
+        <h2 class="display-h2 mt-4 mb-8">
+          Read everything and still not sure?
+        </h2>
+        <p class="text-coal-dim text-lg leading-relaxed mb-10">
+          The pages here cover the concepts. They will not pick the stack for your specific team, codebase, or workflow. That part is a conversation. Tell the duck what you are trying to do, what you have tried, and what is broken — you will leave with a clear next step, not another tab to read.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Talk to the duck →</a>
+          <a href="/services/ai-developer-for-hire" class="btn btn-outline-coal">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

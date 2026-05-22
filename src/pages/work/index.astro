@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Recent work — AI setups and custom builds | RDTS';
+const description = 'Recent RDTS projects — AI environment setups for teams plus custom AI software builds. Honest case studies with shape tags, no breathless wins.';
+
+const canonical = '/work/';
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Recent work — Rubber Duck Tech Solutions',
+  description,
+  url: 'https://www.rubberducktechsolutions.com/work/',
+  about: 'AI environment setups and custom AI software builds shipped by Long Nguyen',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+};
+
+const caseStudies = [
+  {
+    title: 'ClipMango — AI music video pipeline',
+    shape: 'Software build',
+    status: 'Shipped',
+    body: 'End-to-end AI music video generator. Lyric segmentation, keyframe prompts, multi-provider model routing (four providers in one request), and a Seedance video composition step on the back. Built solo, deployed on the client cloud, source code transferred on ship day. The original ask was an n8n workflow; the actual answer was real code with a budget cap and per-task model routing.',
+  },
+  {
+    title: 'Lee De Card — Creator booking platform',
+    shape: 'Software build',
+    status: 'Shipped',
+    body: 'A booking platform for a creator who needed a workflow that did not exist in any off-the-shelf tool. AI-assisted matching between event briefs and the creator\'s availability, a clean public booking surface, and an admin panel the operator actually wants to open every morning. Started life as a Zapier mess; ended as a typed Next.js app.',
+  },
+  {
+    title: 'Dragon Wagons — Content automation backend',
+    shape: 'Software build',
+    status: 'Shipped',
+    body: 'Marketing site plus the content automation backend that feeds it. Scheduled generation, prompt library, output review queue, and a small dashboard for the team running the content calendar. Boring infrastructure done right so the AI work on top has somewhere stable to live.',
+  },
+  {
+    title: 'Content team Claude Code setup',
+    shape: 'Workspace',
+    status: 'Coming soon',
+    body: 'Small content team\'s shared Claude Code environment — custom skills for the team\'s writing rules, MCP wiring into the internal CMS and asset library, and a knowledge layer over the brand docs. Role configs so writers and editors get different surfaces over the same stack. Case study writeup pending client sign-off.',
+  },
+  {
+    title: 'Solo developer Claude Code + Cursor tuneup',
+    shape: 'Tuneup',
+    status: 'Coming soon',
+    body: 'One developer\'s setup, dialed in over about a week. Claude Code as the terminal-first agent, Cursor for IDE-level edits, both pointed at the same project context and knowledge layer so they hand off cleanly instead of fighting. Writeup pending — the engagement is recent.',
+  },
+];
+
+const shapeStyles = {
+  'Software build': 'bg-ink-card text-bone border-ink-border',
+  Tuneup: 'bg-saffron/15 text-saffron border-saffron/30',
+  Workspace: 'bg-saffron/15 text-saffron border-saffron/30',
+  Rollout: 'bg-saffron/15 text-saffron border-saffron/30',
+  'Quick fix': 'bg-saffron/15 text-saffron border-saffron/30',
+  Custom: 'bg-saffron/15 text-saffron border-saffron/30',
+};
+
+const statusStyles = {
+  Shipped: 'text-bone-dim',
+  'Coming soon': 'text-bone-mute italic',
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  schema={[collectionSchema]}
+>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Taking new setups this month</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          Recent <span class="underline-saffron">work</span><span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          RDTS started out building custom AI software and marketing sites for content teams. AI environment setup — the newer (and now primary) offering — sits next to those builds rather than replacing them. Both shapes show up below. Case studies are short, concrete, and honest about what was actually shipped versus what is still in flight.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck about your project &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <Section tone="cream" label="Case studies">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 mb-12">Projects, with shape tags</h2>
+      <div class="space-y-6">
+        {caseStudies.map((cs) => (
+          <article class="card-cream p-7 lg:p-9">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class={`inline-flex items-center gap-2 rounded-pill border px-3 py-1 text-xs font-mono uppercase tracking-wider ${shapeStyles[cs.shape] ?? 'bg-ink-card text-bone border-ink-border'}`}>
+                {cs.shape}
+              </span>
+              <span class={`text-xs font-mono uppercase tracking-wider ${statusStyles[cs.status] ?? 'text-coal-dim'}`}>
+                {cs.status}
+              </span>
+            </div>
+            <h3 class="display-h3 text-coal mb-4">{cs.title}</h3>
+            <p class="text-coal-dim leading-relaxed">{cs.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- WHAT YOU'RE SEEING -->
+  <Section tone="dark" label="What you're seeing here">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Shapes map to outcomes, not packages.</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        The tag on each case study — Software build, Tuneup, Workspace — names the recognizable shape the engagement actually took, not a tier in a SaaS price grid. A Software build is what it sounds like: a new thing that needed to exist. A Tuneup is one person's AI environment, dialed in. A Workspace is a small team's shared setup. A Rollout is the agency-scale version. A Quick fix is a single-day job with one deliverable.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        You do not pick a shape in advance. The duck reads what you describe on the call and names the shape that fits. Most engagements end up being one shape, cleanly. Some are a build plus a Tuneup on the same project. The duck quotes whichever combination is honest.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        The full shape breakdown lives on <a href="/services/" class="link-saffron">the services page</a>. The case studies marked "coming soon" will fill in as engagements wrap and clients sign off on writeups.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark border-t border-ink-border">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Talk to the duck about your project
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Describe what your team is doing, what is broken, what you wish was true. The duck reads the shape, quotes the work, and either books the next step or sends you somewhere better. Thirty minutes. No scoping form. No slide deck. Real numbers on the call.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services first</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

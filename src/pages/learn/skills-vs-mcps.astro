@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Claude Skills vs MCP servers — what is the actual difference? | RDTS Learn';
+const description = 'Skills shape how Claude behaves. MCP servers give Claude real tools and data. Different jobs, often confused. Here is when to use which — and why you usually want both.';
+
+const canonical = '/learn/skills-vs-mcps/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Claude Skills vs MCP servers — what is the actual difference?',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/learn/skills-vs-mcps/',
+};
+
+const faqs = [
+  {
+    q: 'Can a skill do the job of an MCP server?',
+    a: "No. A skill cannot make a network call, read a file on its own, or query a database. A skill is text that gets loaded into the model's context — it can include instructions to use a tool, but the tool itself has to exist somewhere else. If you want the model to actually do something in the real world, that real-world capability comes from an MCP server, a built-in tool in the harness, or a function the developer wired up. Skills tell the model how. MCPs give the model the ability.",
+  },
+  {
+    q: 'Can an MCP server do the job of a skill?',
+    a: "Also no. An MCP server gives the model new capabilities — but it does not change how the model thinks about the task. Without good instructions, the model might have access to your Postgres database via MCP and still write terrible SQL or query the wrong table. A skill tells the model 'when you query this database, always filter by tenant_id; the public schema is read-only; here is the safe pattern for paginated results.' Capability + instruction. You usually need both.",
+  },
+  {
+    q: 'If I had to pick one, which gives me more?',
+    a: "MCP servers, almost always. A model with no skills but real tools can still do useful work — clumsily, but really. A model with great skills but no tools can only output text. Capability beats instruction when you can only have one. That said, the better answer is to stop framing it as either-or. Setting up one MCP server and writing one skill that uses it well is the standard pattern, and neither half takes long.",
+  },
+  {
+    q: 'Where do skills and MCPs live on my machine?',
+    a: "Skills for Claude Code live in ~/.claude/skills/<name>/ (global, available everywhere) or .claude/skills/<name>/ inside a project (scoped to that repo). Each skill is a folder with a SKILL.md file at minimum. MCP server configurations live in your client's config — for Claude Desktop, that is claude_desktop_config.json; for Claude Code, that is the .mcp.json or settings file. The MCP server itself is a separate process — usually a node or python binary somewhere on disk — that the client launches when it needs it.",
+  },
+  {
+    q: 'Are skills a Claude-only thing or are they standardized like MCP?',
+    a: "Skills are currently a Claude/Anthropic concept. They map closely to ideas other tools have — Cursor rules, Cline custom instructions, Cody commands — but the file format and discovery mechanism are not yet a cross-vendor standard the way MCP is. If you write skills for Claude Code today, do not expect them to drop into Cursor unchanged. The general principle (packaged instructions for the model) transfers; the file format does not.",
+  },
+  {
+    q: 'I see people share "skill packs" online. Are those safe to install?',
+    a: "Skills are plain text loaded into the model's context — they cannot, by themselves, execute code or read your files. A malicious skill is essentially a prompt injection: instructions that tell the model to do something unhelpful. That is bad, but limited. The risk goes up if a skill instructs the model to use specific MCP tools you also have installed — then the skill's instructions can effectively drive your tools. Treat third-party skills the way you treat third-party scripts: read them before you load them, especially anything that mentions writing files, running commands, or hitting external APIs.",
+  },
+  {
+    q: 'Do I need both for a small one-person setup?',
+    a: "Probably yes, even at one person. The first MCP server most people install is the filesystem server, because it removes the constant copy-paste friction of working with Claude on code. The first skill most people write is something like 'how I prefer my code commented' or 'how to structure responses for code review.' Each takes under an hour. Both pay back immediately.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="label label--dim mb-6">// Learn / Concepts</div>
+        <h1 class="display-h1 mb-8">
+          Skills vs MCPs: <span class="underline-saffron">different jobs</span>, often confused<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          Claude skills are packaged instructions that shape how the model behaves on a task. MCP servers are connections that let the model actually touch the real world — files, databases, APIs. One is the playbook; the other is the toolbox. People mix them up constantly because both ship as "extensions" you install into Claude.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY PEOPLE CONFUSE THEM -->
+  <Section tone="cream" label="Why the confusion">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Both feel like "add-ons." That is where the confusion starts.</h2>
+      <p>
+        Open any AI tool's documentation and you will see two parallel concepts: "things you install to make the AI better at a task" and "things you install to give the AI access to a system." For Claude specifically, those are skills and MCP servers respectively. They both show up under "extending Claude," they both live in config files, and they both sound vaguely like plugins. So people treat them as interchangeable. They are not.
+      </p>
+      <p>
+        The clearest way to keep them straight: a skill is something the model reads. An MCP server is something the model uses. A skill cannot do anything on its own — it is just text that gets injected into the model's context at the right moment. An MCP server cannot think — it just exposes capabilities the model can call.
+      </p>
+      <p>
+        Most real setups need both, and they often work together. The skill knows when to call the tool. The MCP server provides the tool. Skip the skill and the model has tools it does not know when to use well. Skip the MCP and the model has good instincts but no hands.
+      </p>
+    </div>
+  </Section>
+
+  <!-- THE TABLE -->
+  <Section tone="dark" label="Side by side">
+    <div class="max-w-5xl">
+      <h2 class="display-h2 text-bone mb-8">Skills vs MCP servers, line by line</h2>
+      <div class="overflow-x-auto rounded-2xl border border-ink-border">
+        <table class="w-full text-left text-bone">
+          <thead class="bg-ink-card text-bone-dim">
+            <tr>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Question</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">Claude Skill</th>
+              <th class="p-4 font-mono text-xs uppercase tracking-wider">MCP Server</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-ink-border">
+            <tr>
+              <td class="p-4 align-top text-bone-dim">What is it, fundamentally?</td>
+              <td class="p-4 align-top">A markdown file with instructions for the model</td>
+              <td class="p-4 align-top">A running program exposing tools and data</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Does it run code?</td>
+              <td class="p-4 align-top">No — just text loaded into context</td>
+              <td class="p-4 align-top">Yes — a real process on your machine or server</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Can it read your files?</td>
+              <td class="p-4 align-top text-bone-mute">No</td>
+              <td class="p-4 align-top">Yes, if you wire it up (e.g., filesystem server)</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Can it hit an API?</td>
+              <td class="p-4 align-top text-bone-mute">No</td>
+              <td class="p-4 align-top">Yes — that is most of what they do</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Who provides it?</td>
+              <td class="p-4 align-top">You, your team, Anthropic, community</td>
+              <td class="p-4 align-top">Anthropic, third parties, your own custom code</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">How does the model find it?</td>
+              <td class="p-4 align-top">Auto-discovery from skills directory + manual</td>
+              <td class="p-4 align-top">Declared in client config; always available</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Cost to add</td>
+              <td class="p-4 align-top">A markdown file. Minutes.</td>
+              <td class="p-4 align-top">Install + config. Hours for custom servers.</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Security blast radius</td>
+              <td class="p-4 align-top">Limited — text injection only</td>
+              <td class="p-4 align-top">Real — depends on what the server can touch</td>
+            </tr>
+            <tr>
+              <td class="p-4 align-top text-bone-dim">Best mental model</td>
+              <td class="p-4 align-top">A playbook the model reads before working</td>
+              <td class="p-4 align-top">A power tool the model can pick up and use</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </Section>
+
+  <!-- HOW THEY WORK TOGETHER -->
+  <Section tone="cream" label="Used together">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">The interesting work happens when skills drive MCPs</h2>
+      <p>
+        A useful pattern shows up once you have both: write a skill that knows how to use a specific MCP server well. The skill becomes the model's mental model for the tool — when to call it, which arguments matter, what the response format means, what mistakes to avoid.
+      </p>
+      <p>
+        Concrete example. You install a Postgres MCP server pointed at your production read replica. Without a skill, Claude will query whatever it feels like — sometimes well, sometimes not. With a skill called "querying the customers db," you tell Claude: the customers table is partitioned by region; always filter by created_at to avoid full scans; the email column is hashed in production, look up the raw email in the customer_pii table only if explicitly asked; here is the safe pattern for paginated reads.
+      </p>
+      <p>
+        Now the model has both. The MCP gives it the connection. The skill gives it the institutional knowledge of how to use that connection well. That is the difference between an AI that can technically reach your database and an AI you trust to actually run things in production.
+      </p>
+      <p>
+        The same pattern shows up everywhere. A "writing-prs" skill that calls the GitHub MCP server. A "creating-issues" skill that knows your project's label conventions. A "deploying" skill that wraps a Vercel MCP. Each one is a few paragraphs of instructions plus a reference to the tool that does the work.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHEN TO USE WHICH -->
+  <Section tone="dark" label="When to use which">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Decision guide</h2>
+
+      <h3 class="display-h3 text-bone mb-4 mt-10">Reach for a skill when</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 list-disc pl-6 mb-10">
+        <li>The model already has the capability — it just keeps doing it wrong or inconsistently.</li>
+        <li>You have an opinion about <em>how</em> something should be done that you keep repeating in chat.</li>
+        <li>Multiple teammates need to get the same result from the same prompt.</li>
+        <li>You want to encode a workflow ("when reviewing a PR, always check X, Y, Z first").</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Reach for an MCP server when</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 list-disc pl-6 mb-10">
+        <li>The model literally cannot do the thing because it has no connection to the system.</li>
+        <li>You are tired of copy-pasting data into the chat.</li>
+        <li>You want the same integration available across multiple AI tools.</li>
+        <li>The capability needs to be durable — same data source, every session.</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Reach for both when</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 list-disc pl-6">
+        <li>The system you are connecting to has nuance — special tables, custom auth, project conventions.</li>
+        <li>Multiple people on your team will use the same setup and you need consistency.</li>
+        <li>You are setting up production-grade AI workflows, not just personal experiments.</li>
+      </ul>
+
+      <p class="text-bone-dim text-lg leading-relaxed mt-10">
+        The trap is treating one as a substitute for the other. Adding more skills will not give the model new capabilities. Adding more MCPs will not give the model better judgment. Each does its own job.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Want both set up properly?
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Picking which MCP servers your team needs, writing the skills that make them work consistently, and getting both deployed across every AI tool your team uses — that is the bulk of what an AI environment setup actually is. Tell the duck what your team uses today and what it is supposed to do tomorrow.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Talk to the duck →</a>
+          <a href="/learn/setting-up-claude-skills/" class="btn btn-outline-light">How to set up skills</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

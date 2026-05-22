@@ -1,0 +1,287 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Aider setup — done by a real person, not a tutorial | RDTS';
+const description = 'Aider is a CLI pair programmer with native git. Get the right edit format, repo map size, model routing, and .aiderignore so it stops fighting your codebase.';
+
+const canonical = '/solutions/aider-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Aider setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/aider-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Aider setup and configuration',
+  serviceType: 'AI pair programming setup',
+  description: 'Configure Aider end to end: edit format, model routing, repo map size, .aiderignore, git workflow, conventions file, and team-shared settings.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  areaServed: 'Worldwide',
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Software developers and engineering teams',
+  },
+};
+
+const faqs = [
+  {
+    q: 'What does Aider actually do that Cursor or Cline does not?',
+    a: "Aider is a terminal-first pair programmer with git baked into the loop. Every change Aider makes lands as a commit in your repo, with a message that describes what changed and why. That single design choice changes how you use AI in a codebase. You stop being scared of letting an agent edit files because every edit is one git revert away from gone. It also means your AI sessions show up in the same history as your human work, which is huge for code review and team archaeology. Cursor and Cline live inside an editor and treat git as something that happens later. Aider treats git as the workspace.",
+  },
+  {
+    q: 'Why does Aider keep failing with edit format errors?',
+    a: "This is the most common Aider problem and the answer is almost always picking the wrong edit format for the model you are using. Aider supports several edit formats — whole file replacement, search and replace diff, and unified diff. Different models are better at different formats. Strong frontier models can hold unified diffs in their head and stay accurate. Smaller or older models hallucinate the line numbers and the edit fails. The fix is matching the format to the model with the --edit-format flag in your config, not arguing with whichever default Aider picked.",
+  },
+  {
+    q: 'What is the repo map and how big should it be?',
+    a: "The repo map is Aider's automatic summary of your codebase — a tree of files and the symbols they define, fed into the model so it has context without you having to /add every file. The default is a few thousand tokens. On a small repo that is fine. On anything substantial the map starts crowding out the actual code you want the model to edit, or it gets truncated and the model loses the bigger picture. The right size depends on your repo, your model's context window, and your budget. I tune the map-tokens setting based on a real measurement, not a guess.",
+  },
+  {
+    q: 'How do I keep Aider out of files it should not touch?',
+    a: "Two layers. First, .aiderignore — same syntax as .gitignore, controls which files Aider considers part of the repo at all. Build artifacts, vendored code, large generated files, anything that has no business being in the model's context. Second, only /add the specific files you want this session to edit. Aider only edits files you have explicitly added. Most setups skip the .aiderignore step entirely and then complain that the repo map is huge. Configure both and the problem disappears.",
+  },
+  {
+    q: 'Should I use Claude, GPT, or a local model with Aider?',
+    a: "It depends on what you are doing and how much you are willing to spend. Frontier models from Anthropic and OpenAI win on hard edits, multi-file refactors, and anything where edit format accuracy matters. They are also the most expensive. Local models through Ollama work for narrow, well-scoped edits and for offline work, and they pair well with a smaller repo map. The best setup is usually two models — a primary for the work and a cheaper one for the conversation that does not need a frontier brain. Aider supports a --weak-model flag for exactly this. I configure both on every setup.",
+  },
+  {
+    q: 'How does Aider handle commits — can I turn auto-commit off?',
+    a: "Yes. Aider auto-commits by default, which most people grow to love but some teams cannot ship with. You can run with --no-auto-commits and stage manually, or you can keep auto-commits and use --no-attribute-author to keep the git log clean. The right answer depends on your team's git hygiene. A shop with strict conventional-commits rules wants a different config than a solo developer working trunk-based. I match the configuration to how your team already commits, not the other way around.",
+  },
+  {
+    q: 'Can you set up Aider for a team, with shared conventions?',
+    a: "Yes — that is the Workspace shape. Aider supports a CONVENTIONS.md file you can /read at the start of every session so the model knows your code style, your testing rules, your naming patterns, and your anti-patterns. A team setup means writing a real CONVENTIONS.md, checking in a shared .aider.conf.yml, agreeing on the edit format and model routing, and adding a short doc that explains the git workflow your team expects when humans and Aider are committing to the same branches. One to two weeks of work, depending on team size.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Aider setups — booking this week</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">Aider setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          Aider is the terminal-first AI pair programmer with git baked into the loop — every edit lands as a commit, every session leaves a clean history, and the whole thing runs from a single CLI. It is one of the sharpest tools in the AI coding shed. It is also the one that most people quietly stop using after a week because the edit format kept failing, the repo map ate their context window, or the auto-commits broke their team's conventions. I set it up so it just runs.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THIS PAGE EXISTS -->
+  <Section tone="cream" label="What Aider is, why people get stuck">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Git in the loop is the feature. It is also the source of every Aider headache.</h2>
+      <p>
+        Aider is an open-source command-line pair programmer. You start it in a repo, point it at one or more models, /add the files you want to work on, and have a conversation. Every change Aider makes is a real git commit with a real message. There is no separate "AI scratchpad" — your AI work and your human work share the same history, which is the most honest design choice in the entire AI coding tools space.
+      </p>
+      <p>
+        The trade-off is that everything in Aider is more configurable than people expect. There are at least three edit formats and the right one depends on your model. The repo map has a size you need to tune. There is an .aiderignore that almost nobody configures. There is a weak-model setting for the conversation tier and a strong-model setting for the actual edits. There is a CONVENTIONS.md pattern for sharing code-style rules across a team. Out of the box, Aider runs. Out of the box, Aider is also not configured for your repo, your model budget, or your team's git hygiene.
+      </p>
+      <p>
+        The result is a predictable cycle. You install Aider in five minutes, love it for two days, hit a wave of edit-format errors on day three, get a stratospheric API bill on day four, and abandon it on day five. None of that is Aider's fault. All of it is config you never got to make. I make the configs, write them down, and hand you a setup that fits your repo. If you want to see how I think about adjacent tools, the <a href="/services/" class="link-coal">services page</a> covers the full lineup.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHERE AIDER BREAKS -->
+  <Section tone="dark" label="Where Aider breaks for most people">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">Six failure modes I see every week</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        These are the patterns behind almost every "Aider is not working" message. None of them are bugs. All of them are config decisions you can make once and never revisit.
+      </p>
+      <div class="space-y-8 text-bone-dim leading-relaxed">
+        <div>
+          <h3 class="display-h3 text-bone mb-3">1. Edit format does not match the model</h3>
+          <p>
+            The single most common Aider failure. A model that cannot hold a unified diff in its head gets handed a unified-diff edit format and produces broken patches. Aider retries, the patches keep failing, and you watch your tokens drain. The fix is one line in the config — match the edit format to the model. Frontier models can usually do diffs. Smaller models do better with whole-file edits.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">2. Repo map is the wrong size</h3>
+          <p>
+            Default repo map is a guess for an average codebase. Your codebase is not average. Too small and the model loses the architectural picture. Too large and it crowds out the actual code you are editing or hits the context ceiling. The fix is measuring real token usage for your repo and setting map-tokens explicitly, not leaving the default.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">3. .aiderignore does not exist</h3>
+          <p>
+            Most setups never create one. Then Aider tries to index node_modules, build artifacts, vendored code, large generated files, lockfiles, and assets, and the repo map balloons. Five minutes of writing a real .aiderignore solves a class of problems that looks like ten different other problems.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">4. Same model is doing every job</h3>
+          <p>
+            Aider has a --weak-model flag for the conversational tier and a main model for the actual edits. People skip the weak-model setting, run the frontier model for everything, and pay frontier prices for the part of the loop that does not need a frontier brain. A simple split — frontier for edits, cheap for chat — usually cuts the bill in half without changing output quality.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">5. Auto-commits fight the team's git workflow</h3>
+          <p>
+            Aider auto-commits by default. For a solo developer on a trunk-based repo this is heaven. For a team with strict conventional-commits and squash-merge culture it is a nightmare — the log fills with Aider commits that need to be cleaned up before review. The fix is either turning auto-commits off or configuring the commit message format and author attribution to fit your team's rules.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">6. There is no CONVENTIONS.md</h3>
+          <p>
+            Aider supports a /read pattern for loading a conventions file at session start. Almost nobody uses it. The result is an agent that re-learns your code style every session and produces code that looks like a stranger wrote it. A real setup has a checked-in CONVENTIONS.md with your stack, your style, your testing rules, and your three or four anti-patterns. The model stops drifting.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="cream" label="What I actually set up">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">What is in the box when I hand Aider back to you</h2>
+      <p>
+        Every Aider setup I do covers the same core checklist and adapts to your stack. The output is a checked-in .aider.conf.yml, a CONVENTIONS.md, a real .aiderignore, and a short internal doc explaining how it all fits together.
+      </p>
+      <h3>Edit format matched to your model</h3>
+      <p>
+        Measured against your repo, not guessed. If you are on a frontier model, diff or udiff. If you are on a smaller model or a local LLM, whole-file. Locked in the config so a new contributor inherits the right setting automatically.
+      </p>
+      <h3>Model routing with a weak-model tier</h3>
+      <p>
+        A strong model for edits, a cheaper model for chat and planning. Anthropic, OpenAI, or a local model through Ollama. A hard monthly budget cap so a long session cannot quietly drain your card.
+      </p>
+      <h3>Repo map sized for the codebase</h3>
+      <p>
+        Map-tokens set to a real number based on a measurement. Refresh interval tuned. Per-language adjustments if your repo mixes a lot of stacks. The map stops being a guessing game.
+      </p>
+      <h3>.aiderignore that knows your repo</h3>
+      <p>
+        Build artifacts, vendored code, lockfiles, large assets, generated files, anything that has no business being in the model's context. Written once, committed to the repo, lives forever.
+      </p>
+      <h3>CONVENTIONS.md with your real rules</h3>
+      <p>
+        Your stack, your code style, your testing patterns, your three or four anti-patterns, your naming rules. Loaded at session start with /read. The single biggest quality jump in the whole setup.
+      </p>
+      <h3>Git workflow that matches your team</h3>
+      <p>
+        Auto-commit on or off depending on your culture. Commit message format aligned with your conventional-commits or whatever you use. Author attribution set so Aider commits are obvious in review. If your team squash-merges, configured for that.
+      </p>
+      <h3>Shell aliases and shortcuts</h3>
+      <p>
+        Optional but common. The three or four invocations you reach for daily, wired as aliases. "Start Aider with the test files for this package." "Start Aider in read-only mode for a review." Less typing, more flow.
+      </p>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="dark" label="Shapes of engagement">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Three shapes for getting Aider dialed in</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10">
+        The duck quotes the work, not the menu. These are the three shapes an Aider engagement usually fits.
+      </p>
+      <div class="space-y-8 text-bone-dim leading-relaxed">
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Quick fix</h3>
+          <p>
+            One specific Aider problem, fixed in a day. Your edit format is failing, your repo map is broken, your auto-commits are wrecking the log, your context window keeps overflowing. You describe the symptom, the duck scopes it, I fix it. Single deliverable, one calendar day.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Tuneup</h3>
+          <p>
+            Your personal Aider workflow, dialed in over about a week. Edit format, model routing, repo map, .aiderignore, CONVENTIONS.md, git workflow, shell aliases. You end with a setup that fits how you work and a short doc explaining what every piece does so you can evolve it without me.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Workspace</h3>
+          <p>
+            Your team on Aider, configured consistently. Shared .aider.conf.yml, a real CONVENTIONS.md, an agreed model routing policy, a git workflow doc that explains how Aider commits live alongside human commits, and a short walkthrough so junior and senior developers do not drift into different habits. One to two weeks, depending on team size.
+          </p>
+        </div>
+      </div>
+      <p class="text-bone-dim text-lg leading-relaxed mt-10">
+        Not sure which shape fits? Tell the duck what is breaking and how many people are affected. The duck names a shape and a price in plain English on the call.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Questions people ask before booking</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring the repo. I will tell you which Aider settings are wrong.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          The first call is honest. Sometimes the fix is two flags in a config and you do not need to hire anyone. Sometimes it is a Quick fix that takes a day. Sometimes the right shape is a team Workspace and the duck will tell you that too. Either way you leave with a clearer picture of what your Aider setup is missing. Open the duck and start there.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

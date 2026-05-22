@@ -1,0 +1,366 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'How to set up Claude skills in Claude Code — step-by-step | RDTS Learn';
+const description = 'Install Claude skills in Claude Code: file structure, frontmatter, where they live, how invocation works, common pitfalls, and two working example skills you can paste.';
+
+const canonical = '/learn/setting-up-claude-skills/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to set up Claude skills — step-by-step',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/learn/setting-up-claude-skills/',
+};
+
+const faqs = [
+  {
+    q: 'My skill is not loading. What did I miss?',
+    a: "The usual suspect is the frontmatter — Claude Code reads the YAML block at the top of SKILL.md to decide when to auto-invoke a skill. If the frontmatter is malformed (missing closing ---, wrong field names, broken YAML), the skill will be silently ignored. Open the file, check that --- is on its own line at the very top and bottom of the frontmatter block, and validate the YAML. Second most common: the file is named skill.md instead of SKILL.md, or the directory does not match the skill name in the frontmatter. Restart Claude Code after fixing.",
+  },
+  {
+    q: 'Where do skills actually live on disk?',
+    a: "Two places. Global skills (available across every project) live in ~/.claude/skills/<skill-name>/SKILL.md. Project-scoped skills live in .claude/skills/<skill-name>/SKILL.md inside your project directory. Project skills only load when you run Claude Code from that project. Most teams put shareable team skills in the project (so they get committed to git) and personal preferences in the global directory.",
+  },
+  {
+    q: 'How does Claude decide when to use a skill?',
+    a: "Two paths. Auto-discovery: Claude reads the description field in each skill's frontmatter at session start. When you ask something that semantically matches a description, Claude considers invoking that skill. Manual: you can invoke a skill explicitly with the Skill tool — useful if you want guaranteed behavior. For skills that should always be active (project conventions, voice rules), write the description to be broad enough that any task triggers it.",
+  },
+  {
+    q: 'What is the difference between a skill and an agent or subagent?',
+    a: "A skill is instructions loaded into the model's context. An agent (or subagent) is a separate invocation of the model with its own context, typically for a contained sub-task. Skills modify how the current model thinks. Subagents spawn fresh model calls. You can have a skill that instructs the model to delegate certain work to subagents — but the skill itself is just text, while the subagent is a real model call.",
+  },
+  {
+    q: 'Can I share skills between team members?',
+    a: "Yes — put them in .claude/skills/ inside your project repo and commit them to git. Every team member who clones the repo gets the skills automatically when they open Claude Code there. This is the recommended pattern for anything team-specific (conventions, codebase knowledge, workflow rules). Keep global skills (~/.claude/skills/) for personal preferences that should not be shared.",
+  },
+  {
+    q: 'Will skills work in Cursor, Cline, or other tools?',
+    a: "Not directly. Claude skills as defined here are a Claude Code concept — the file format, the discovery mechanism, the auto-invocation are all specific to that harness. Other tools have similar concepts: Cursor has cursorrules, Cline has custom instructions, Zed has its own format. The principle (packaged instructions for the model) transfers; the file format does not. If you maintain skills, expect to also maintain parallel configs for any other AI tool your team uses — unless and until a cross-tool standard emerges.",
+  },
+  {
+    q: 'How long should a skill be?',
+    a: "Short. The good skills I have seen and written are usually 50–300 lines of markdown. Long skills tend to drift — half of them are useful, half are noise the model ignores. If a skill is getting long, split it: one skill for the workflow, one for the conventions, one for the gotchas. Smaller, more focused skills also auto-trigger more reliably because the description field can be specific.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="label label--dim mb-6">// Learn / How-to</div>
+        <h1 class="display-h1 mb-8">
+          How to set up <span class="underline-saffron">Claude skills</span><span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          A working step-by-step for installing Claude skills in Claude Code — where files go, what the frontmatter needs, how invocation works, and the half-dozen things that quietly stop a skill from loading. Includes two complete example skills you can copy and adapt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU NEED FIRST -->
+  <Section tone="cream" label="Before you start">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">What this guide assumes</h2>
+      <p>
+        You have Claude Code installed and working. You have used it at least once. You know what a markdown file is and you are comfortable editing one in a terminal or editor. If you do not know what a Claude skill is yet, read <a href="/learn/skills-vs-mcps/" class="link-coal">skills vs MCPs</a> first — the rest of this page assumes you already understand that a skill is packaged instructions loaded into the model's context, not code that runs.
+      </p>
+      <p>
+        Two facts you need before going further. First: skill format and discovery is Claude Code-specific. The patterns here will not drop into Cursor or Cline unchanged. Second: skills are plain text. They cannot read files, hit APIs, or run code on their own. If you want any of that, you also need an MCP server — the skill can <em>tell</em> the model to use one, but cannot <em>be</em> one.
+      </p>
+    </div>
+  </Section>
+
+  <!-- STEP 1 -->
+  <Section tone="dark" label="Step 1">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-6">Pick where the skill lives</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        Two options. Decide before you create the file.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-4">
+        <strong class="text-bone">Global skill</strong> — available in every project. Lives here:
+      </p>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8"><code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></pre>
+
+      <p class="text-bone-dim text-lg leading-relaxed mb-4">
+        <strong class="text-bone">Project skill</strong> — scoped to one project, shared with the team via git. Lives here:
+      </p>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8"><code>&lt;project-root&gt;/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></pre>
+
+      <p class="text-bone-dim text-lg leading-relaxed">
+        Rule of thumb: personal preferences and cross-project habits go global. Team conventions, project context, and codebase-specific rules go in the project. Commit project skills to git so every teammate gets them on clone.
+      </p>
+    </div>
+  </Section>
+
+  <!-- STEP 2 -->
+  <Section tone="cream" label="Step 2">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-6">Create the skill directory and file</h2>
+      <p>
+        Each skill is a folder with a SKILL.md file inside. The folder name is the skill's identifier; the SKILL.md is the actual content. From your project root, for example:
+      </p>
+      <pre class="bg-coal text-bone rounded-xl p-5 font-mono text-sm overflow-x-auto"><code>mkdir -p .claude/skills/writing-prs
+touch .claude/skills/writing-prs/SKILL.md</code></pre>
+      <p>
+        Two file-naming gotchas worth flagging now. The filename is <strong>SKILL.md</strong>, uppercase, exact. Lowercase <code>skill.md</code> will not be picked up. The directory name should match the skill identifier you put in the frontmatter — convention is kebab-case. Inconsistency between directory name and frontmatter name is the most common reason a skill silently fails to load.
+      </p>
+    </div>
+  </Section>
+
+  <!-- STEP 3 -->
+  <Section tone="dark" label="Step 3">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-6">Write the frontmatter</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        Every SKILL.md starts with a YAML frontmatter block — that is how Claude Code knows what the skill is called and when to consider invoking it. The minimum looks like this:
+      </p>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8"><code>---
+name: writing-prs
+description: Use when drafting pull request descriptions, summaries, or commit messages — encodes team voice and required sections.
+---</code></pre>
+
+      <p class="text-bone-dim text-lg leading-relaxed mb-4">
+        Two fields, both required, both load-bearing.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-4">
+        <strong class="text-bone">name</strong> — the identifier. Match it to the directory name. Kebab-case, no spaces.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        <strong class="text-bone">description</strong> — the trigger text. This is what Claude reads to decide whether your skill is relevant to the current task. Write it as you would describe the skill to a coworker: "Use when…" or "Triggers on…" patterns work well. Specific descriptions trigger more reliably than vague ones — "drafting PRs and commit messages" beats "code stuff."
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        Watch the YAML syntax. The opening and closing <code class="text-saffron">---</code> must each be on their own line. No leading whitespace. No tab characters inside the block. If the frontmatter is malformed, the whole skill is ignored without warning.
+      </p>
+    </div>
+  </Section>
+
+  <!-- STEP 4 -->
+  <Section tone="cream" label="Step 4">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-6">Write the skill body</h2>
+      <p>
+        Below the frontmatter, write the actual instructions in plain markdown. There is no required structure — but skills that work well share a shape:
+      </p>
+      <ol>
+        <li><strong>One-paragraph summary</strong> of what the skill is for.</li>
+        <li><strong>Concrete rules</strong> — what to do, what not to do, what format to use.</li>
+        <li><strong>Examples</strong> — at least one good output, ideally one bad-then-good pair.</li>
+        <li><strong>Edge cases</strong> — when the rules do not apply.</li>
+      </ol>
+      <p>
+        Skills that ramble or read like blog posts get partially ignored. Skills that read like a coworker handing you a tight playbook get followed. Aim for the second.
+      </p>
+      <p>
+        Keep skills short — 50 to 300 lines is the sweet spot for most. If yours is getting longer, that is usually a sign it should be two skills instead of one.
+      </p>
+    </div>
+  </Section>
+
+  <!-- EXAMPLE SKILLS -->
+  <Section tone="dark" label="Two working examples">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Copy these, adapt to your team</h2>
+
+      <h3 class="display-h3 text-bone mb-4">Example 1: writing-prs</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-4">
+        File: <code class="text-saffron">.claude/skills/writing-prs/SKILL.md</code>
+      </p>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-xs lg:text-sm overflow-x-auto mb-10"><code>---
+name: writing-prs
+description: Use when drafting pull request descriptions, commit messages, or PR summaries. Encodes team voice and required structure.
+---
+
+# Writing pull requests
+
+Use this skill whenever the user asks for a PR description, commit message,
+or summary of changes.
+
+## Required structure
+
+Every PR description has three sections, in this order:
+
+1. **What changed** — one or two sentences, plain English.
+2. **Why** — the problem this solves or the reason for the change.
+3. **Test plan** — checklist of what to verify before merging.
+
+## Voice rules
+
+- Second person ("your team"), not first person ("we").
+- Active voice.
+- No filler words: "simply," "just," "basically."
+- No emoji.
+- No marketing language: "robust," "powerful," "seamless."
+
+## Example
+
+Bad:
+&gt; This PR refactors the auth module to be more robust and improves
+&gt; performance significantly.
+
+Good:
+&gt; **What changed**
+&gt; Replaced the session lookup in `getCurrentUser()` with a single
+&gt; indexed query. Removed the in-memory cache that was no longer needed.
+&gt;
+&gt; **Why**
+&gt; The cache was a 2024 workaround for a slow query. The slow query is
+&gt; now fixed (issue #482), so the cache adds complexity without value.
+&gt;
+&gt; **Test plan**
+&gt; - [ ] Run integration tests
+&gt; - [ ] Verify session works for fresh login
+&gt; - [ ] Verify session works after server restart</code></pre>
+
+      <h3 class="display-h3 text-bone mb-4">Example 2: querying-customers-db</h3>
+      <p class="text-bone-dim text-lg leading-relaxed mb-4">
+        File: <code class="text-saffron">.claude/skills/querying-customers-db/SKILL.md</code> — pairs with a Postgres MCP server.
+      </p>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-xs lg:text-sm overflow-x-auto"><code>---
+name: querying-customers-db
+description: Use when querying the customers database via the Postgres MCP server. Encodes table conventions, safe query patterns, and PII rules.
+---
+
+# Querying the customers database
+
+Use this skill any time you query the customers Postgres database
+through the connected MCP server.
+
+## Tables you should know
+
+- `customers` — primary, partitioned by `region`. Always filter by
+  `region` to avoid full scans.
+- `customer_pii` — contains raw email and phone. Read-only. Only query
+  when the user explicitly asks for PII fields.
+- `subscriptions` — joined to customers via `customer_id`.
+
+## Always
+
+- Filter by `created_at` when scanning recent data — never `SELECT *`
+  without a date filter.
+- Use `LIMIT` on exploratory queries; the customers table is large.
+- Quote identifiers if they contain capitals or underscores.
+
+## Never
+
+- Run `UPDATE` or `DELETE` against this database. It is read-only.
+- Join `customer_pii` to `customers` and return raw email in a CSV
+  export — log the request and ask the user to confirm.
+
+## Pagination pattern
+
+For paginated reads, use keyset pagination on `id`:
+
+```sql
+SELECT id, name, created_at
+FROM customers
+WHERE region = 'us-east'
+  AND id &gt; $last_id
+ORDER BY id
+LIMIT 100;
+```
+
+Avoid OFFSET on this table — it gets slow past page 5.</code></pre>
+    </div>
+  </Section>
+
+  <!-- COMMON PITFALLS -->
+  <Section tone="cream" label="When it does not work">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">The five things that quietly break skills</h2>
+
+      <h3>1. Malformed frontmatter</h3>
+      <p>
+        Missing closing <code>---</code>, tab characters inside the YAML, smart quotes instead of regular quotes, a colon in the description without quoting the value. Any of these and the skill disappears silently. Open the file, paste the frontmatter into a YAML validator, fix whatever is wrong.
+      </p>
+
+      <h3>2. Wrong filename or directory</h3>
+      <p>
+        The file must be <code>SKILL.md</code> — uppercase, exact. The directory must match the <code>name</code> field in the frontmatter. <code>writing_prs</code> in the directory and <code>writing-prs</code> in the frontmatter? Will not load. Pick one convention and stick to it.
+      </p>
+
+      <h3>3. Description too vague to trigger</h3>
+      <p>
+        If your description reads "general code stuff" or "helps with coding," it will never auto-trigger reliably because every task is "code stuff." Be specific about the trigger conditions: "Use when drafting PRs," "Triggers on database queries to the customers table," "Use whenever writing TypeScript types for API responses."
+      </p>
+
+      <h3>4. Two skills with overlapping descriptions</h3>
+      <p>
+        If you have a "writing-prs" skill and a "writing-commits" skill with overlapping descriptions, Claude may pick the wrong one or load both inconsistently. Either merge them or make the descriptions sharply distinct.
+      </p>
+
+      <h3>5. Forgetting to restart Claude Code</h3>
+      <p>
+        Skills are discovered at session start. If you add a new skill mid-session, Claude Code will not see it until the next session. Restart and try again.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions about skills setup</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Want this dialed in by someone who has set up dozens?
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Setting up one skill is straightforward. Setting up the right twenty for your team's codebase, conventions, and workflow — and making sure they all trigger when they should and stay out of the way when they should not — is the work. Tell the duck what your team does today. You will leave with a plan, not another tab to read.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk" class="btn btn-primary">Talk to the duck →</a>
+          <a href="/learn/skills-vs-mcps/" class="btn btn-outline-light">Skills vs MCPs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

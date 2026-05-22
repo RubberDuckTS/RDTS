@@ -2,87 +2,63 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 
-const title = 'Contact RDTS — talk to Long Nguyen | Rubber Duck Tech Solutions';
-const description = 'Email, scope sheet builder, or book a call. Fastest is email — long@rubberducktechsolutions.com — replies within a business day.';
+const title = 'Contact RDTS — prefer to skip the duck? | Rubber Duck Tech Solutions';
+const description = 'The duck is the main intake. If you would rather email or book a call directly, here are the links. Long replies within a business day.';
+
+const calendlyUrl = 'https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration';
 ---
 
 <BaseLayout title={title} description={description}>
   <section class="section-dark">
     <div class="container-x pt-20 lg:pt-28 pb-12 lg:pb-16">
       <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Available · 1 of 2 slots · 2026 Q2</span></div>
-      <h1 class="display-h1 mb-6 max-w-[18ch]">
-        Pick the way<br/>
-        you want to <span class="accent-saffron">talk</span>.
+      <h1 class="display-h1 mb-6 max-w-[20ch]">
+        Prefer to skip<br/>
+        the <span class="accent-saffron">duck</span>?
       </h1>
       <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-        Three ways in. Email is fastest. The duck is friendliest. Scheduling a call is for when you've
-        already decided.
+        The duck is the main way in. Five minutes, it reads what you're trying to set up, quotes
+        the shape in plain English, and sends a scoping brief to both of us. It's faster than
+        email and it gets to a number sooner. If you'd still rather not, the two links below work.
       </p>
     </div>
   </section>
 
   <Section tone="cream">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-      {[
-        {
-          tag: 'Fastest',
-          h: 'Email',
-          body: 'Plain old email. Tell me what you’re building, your timeline, and your rough budget. I read everything and reply within a business day.',
-          cta: { label: 'long@rubberducktechsolutions.com', href: 'mailto:long@rubberducktechsolutions.com' },
-        },
-        {
-          tag: 'Friendliest',
-          h: 'Talk to the duck',
-          body: 'Free 5-minute scoping conversation with the duck — a custom AI agent I built. It asks a few clarifying questions and returns a spec emailed to you.',
-          cta: { label: 'Open the duck', href: '/talk' },
-          recommended: true,
-        },
-        {
-          tag: 'When ready',
-          h: 'Book a call',
-          body: 'For when you’ve already decided you want to work together and want a 30-minute deep-dive. Pick a slot, no email tag back-and-forth.',
-          cta: { label: 'Open Calendly →', href: 'https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration', external: true },
-        },
-      ].map((c) => (
-        <div class:list={['card-cream p-7 flex flex-col', c.recommended && 'ring-2 ring-saffron']}>
-          <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">{c.tag}</div>
-          <h2 class="text-[26px] font-semibold tracking-tight2 text-coal mb-3">{c.h}</h2>
-          <p class="text-[15px] text-coal-dim leading-[1.65] mb-7 flex-1">{c.body}</p>
-          <a
-            href={c.cta.href}
-            target={c.cta.external ? '_blank' : undefined}
-            rel={c.cta.external ? 'noopener' : undefined}
-            class:list={['btn', c.recommended ? 'btn-primary' : 'btn-outline-dark', 'text-[14px]']}
-          >{c.cta.label}</a>
+    <div class="grid grid-cols-12 gap-x-8 gap-y-6">
+      <div class="col-span-12 lg:col-span-8 lg:col-start-3">
+        <div class="card-cream p-7 lg:p-8 mb-5">
+          <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">Email</div>
+          <h2 class="text-[26px] font-semibold tracking-tight2 text-coal mb-3">
+            <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@rubberducktechsolutions.com</a>
+          </h2>
+          <p class="text-[15px] text-coal-dim leading-[1.65]">
+            Tell me what you're trying to set up, who's on the team, and your rough budget. I read
+            everything and reply within a business day. If you're emailing because the duck broke,
+            mention that.
+          </p>
         </div>
-      ))}
-    </div>
-  </Section>
 
-  <Section tone="dark" label="What to expect">
-    <div class="grid grid-cols-12 gap-x-8 gap-y-8">
-      <div class="col-span-12 lg:col-span-5">
-        <h2 class="display-h2 mb-5">
-          No <span class="accent-saffron">funnel</span>.<br/>
-          No deck.<br/>
-          No surprises.
-        </h2>
-      </div>
-      <div class="col-span-12 lg:col-span-7 grid grid-cols-1 gap-4">
-        {[
-          ['One reply, not seven.', 'I don’t drip-email. You hear from me once with a clear next step.'],
-          ['I’ll tell you if I’m wrong for it.', 'If your project isn’t a fit, I’ll say so and refer you to someone better. Saves us both time.'],
-          ['No upsells.', 'You ask about Tier A1, you get a quote for Tier A1. I won’t try to push you to Custom.'],
-          ['No NDAs to start.', 'Initial conversation is informal. We sign paperwork only after you’ve decided to engage.'],
-        ].map(([head, body]) => (
-          <div class="card-dark p-5 flex gap-4">
-            <span class="text-saffron font-mono text-[18px] shrink-0 mt-0.5">→</span>
-            <div>
-              <div class="text-bone font-semibold text-[15px] mb-1">{head}</div>
-              <div class="text-bone-dim text-[14px] leading-[1.6]">{body}</div>
-            </div>
-          </div>
-        ))}
+        <div class="card-cream p-7 lg:p-8 mb-8">
+          <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">Book a call</div>
+          <h2 class="text-[26px] font-semibold tracking-tight2 text-coal mb-3">30 minutes, calendar straight to mine</h2>
+          <p class="text-[15px] text-coal-dim leading-[1.65] mb-5">
+            For when you'd rather talk than type. Pick a slot, no email back-and-forth.
+          </p>
+          <a
+            href={calendlyUrl}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-outline-dark text-[14px]"
+          >Open Calendly →</a>
+        </div>
+
+        <div class="text-center">
+          <a href="/talk/" class="btn btn-primary">Or talk to the duck →</a>
+          <p class="text-[13px] text-coal-mute mt-4">
+            Honestly, the duck is faster. It already knows the shapes I work in.
+          </p>
+        </div>
       </div>
     </div>
   </Section>

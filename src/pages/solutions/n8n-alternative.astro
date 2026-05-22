@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
 const title = 'n8n alternative — when to migrate from n8n to custom code | RDTS';
-const description = 'Outgrew n8n? I rebuild the load-bearing flows in real code so you stop fighting hosting, latency, and debugging. Fixed pricing, source code yours.';
+const description = 'Outgrew n8n? Code-first AI setup for teams who hit the no-code wall. Source code yours, deployed to your cloud.';
 
 const canonical = '/solutions/n8n-alternative/';
 
@@ -22,12 +22,17 @@ const articleSchema = {
   publisher: {
     '@type': 'Organization',
     name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
     logo: {
       '@type': 'ImageObject',
       url: 'https://www.rubberducktechsolutions.com/favicon.svg',
     },
   },
-  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/n8n-alternative/',
+  url: 'https://www.rubberducktechsolutions.com/solutions/n8n-alternative/',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://www.rubberducktechsolutions.com/solutions/n8n-alternative/',
+  },
 };
 
 const faqs = [
@@ -49,7 +54,7 @@ const faqs = [
   },
   {
     q: 'Do I own the code? What happens if you disappear?',
-    a: "You own everything. The repo lives in your GitHub org from day one, not mine. Deployment is on your Vercel and your Supabase. The only credential I need is a temporary deploy key, which you rotate when we are done. If I get hit by a bus, any decent TypeScript developer can pick up the project — no proprietary DSL, no vendor lock, no agency retainer holding the keys. That is the part agencies hate and the part I think is non-negotiable.",
+    a: "You own everything. The repo lives in your GitHub org from day one, not mine. Deployment is on your Vercel and your Supabase. The only credential needed is a temporary deploy key, which you rotate when the work is done. If I get hit by a bus, any decent TypeScript developer can pick up the project — no proprietary DSL, no vendor lock, no agency retainer holding the keys. That is the part agencies hate and the part I think is non-negotiable.",
   },
 ];
 
@@ -71,17 +76,17 @@ const faqSchema = {
       <div class="max-w-4xl">
         <div class="status-pill mb-8">
           <span class="status-pill__dot"></span>
-          <span>Booking 1 build for May–June</span>
+          <span>Taking new setups this month</span>
         </div>
         <h1 class="display-h1 mb-8">
           The honest <span class="underline-saffron">n8n alternative</span> is real code<span class="cursor">_</span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
-          You picked n8n because Zapier ran out of room. Now n8n is running out of room too — the queue is backing up, the hosting bill is climbing, and debugging a failed run takes longer than writing the original flow. I am the n8n alternative for the moment you stop being a no-code user and start needing a quiet, boring service that just runs. Fixed price, source code yours, deployed to your cloud.
+          You picked n8n because Zapier ran out of room. Now n8n is running out of room too — the queue is backing up, the hosting bill is climbing, and debugging a failed run takes longer than writing the original flow. This page is for the moment your team stops being a no-code shop and starts needing a code-first AI setup that actually fits how you work. Source code yours, deployed to your cloud.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="/talk" class="btn btn-primary">Ask the duck about your flow</a>
-          <a href="/pricing" class="btn btn-outline-light">See pricing</a>
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="#how-i-rebuild" class="btn btn-outline-light">See how it works</a>
         </div>
       </div>
     </div>
@@ -92,13 +97,13 @@ const faqSchema = {
     <div class="prose-rdts max-w-3xl">
       <h2 class="display-h2 mb-8">You did not pick n8n by accident. You hit a wall in Zapier and went looking for something that respected your intelligence.</h2>
       <p>
-        n8n was the right answer at that stage. Self-hosted, open source automation, real branching, a community that actually ships nodes. For a year or two it was the only sensible no-code platform for anyone who could read a Docker file. I have recommended it to clients myself.
+        n8n was the right answer at that stage. Self-hosted, open source automation, real branching, a community that actually ships nodes. For a year or two it was the only sensible no-code platform for anyone who could read a Docker file. It still is, for the right job.
       </p>
       <p>
         Then a particular thing happens, and it is the reason this page exists. The flow you built last quarter is now load-bearing. It runs every fifteen minutes, it calls three AI models in sequence, it has six retry branches, and it is one OOM kill away from your CEO finding out the content calendar is empty. You are no longer using n8n the way the docs imagined. You are using n8n as a production application server, except the application is a JSON blob you cannot diff and the server is a Docker container you are scared to restart.
       </p>
       <p>
-        This is the same wall that hits Zapier users at smaller scale. It just took longer because n8n is more powerful. If you are still deciding between them, read <a href="/solutions/n8n-vs-zapier" class="link-coal">n8n vs Zapier</a> first. If you already chose n8n and you are reading this because the choice stopped paying off, keep going. The next sections are for you.
+        This is the same wall that hits Zapier users at smaller scale. It just took longer because n8n is more powerful. If you are still deciding between them, read <a href="/solutions/n8n-vs-zapier/" class="link-coal">n8n vs Zapier</a> first. If you already chose n8n and you are reading this because the choice stopped paying off, keep going. The next sections are for you.
       </p>
     </div>
   </Section>
@@ -189,36 +194,20 @@ const faqSchema = {
   </Section>
 
   <!-- HOW I REBUILD -->
-  <Section tone="dark" label="How I rebuild n8n flows in real code">
+  <Section tone="dark" label="How I rebuild n8n flows in real code" id="how-i-rebuild">
     <div class="max-w-3xl">
-      <h2 class="display-h2 text-bone mb-8">My process for rebuilding n8n flows in code</h2>
+      <h2 class="display-h2 text-bone mb-8">How n8n flows get rebuilt in code</h2>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
-        I treat the migration like a translation, not a redesign. Step one is exporting your existing workflow JSON and walking through it with you so I understand which branches are load-bearing and which are leftovers from an experiment three months ago. Most n8n flows shrink by 30–50% in the rewrite simply because half the nodes are duct tape that real code does not need.
+        Treat the migration like a translation, not a redesign. Step one is exporting your existing workflow JSON and walking through it together so the load-bearing branches are clear and the leftovers from an experiment three months ago can go. Most n8n flows shrink by 30–50% in the rewrite simply because half the nodes are duct tape that real code does not need.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
-        The build itself is opinionated. TypeScript on Node, deployed to Vercel functions or your existing cloud — your choice, your account. State goes into Postgres or Supabase, also yours. AI calls go through the Anthropic SDK with Claude as the default and a thin router layer that can fall back to a GPT-class model or a cheaper variant based on the task. Retries, timeouts, and budget caps are wired in from day one, not bolted on after the first incident.
+        The build itself is opinionated. TypeScript on Node, deployed to Vercel functions or your existing cloud — your choice, your account. State goes into Postgres or Supabase, also yours. AI calls go through a thin router layer with Claude as the default and fallbacks to a GPT-class model or a cheaper variant based on the task. Retries, timeouts, and budget caps are wired in from day one, not bolted on after the first incident.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
-        You get the GitHub repo from commit one. No proprietary DSL, no platform lock-in, no monthly retainer to make a typo fix. When the project ships, the source code transfers cleanly to your engineering team or to whoever you hire next. If you want me to keep building on it, that is a separate conversation about ongoing work — never a hostage situation. If you would rather <a href="/services/ai-developer-for-hire" class="link-saffron">hire me directly</a> for a longer engagement, that is also on the table.
+        You get the GitHub repo from commit one. No proprietary DSL, no platform lock-in, no monthly retainer to make a typo fix. When the project ships, the source code transfers cleanly to your engineering team or whoever you hire next. If you want ongoing work on it, that is a separate conversation — never a hostage situation. If you would rather <a href="/services/ai-developer-for-hire/" class="link-saffron">hire directly</a> for a longer engagement, that is on the table too.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed">
-        I have shipped this exact pattern for ClipMango (the multi-model AI music video pipeline), Lee De Card (a creator booking platform that started life as a Zapier mess), and Dragon Wagons (marketing site plus content automation backend). Same playbook, different domains. The translation step is the same every time.
-      </p>
-    </div>
-  </Section>
-
-  <!-- PRICING -->
-  <Section tone="cream" label="What this typically costs">
-    <div class="prose-rdts max-w-3xl">
-      <h2 class="display-h2 mb-8">A typical n8n migration is Tier S3 — $3,500, 2–4 weeks</h2>
-      <p>
-        Most n8n-to-code migrations fit the same shape. One or two flows that have become production-critical, a handful of integrations, an AI step or three. That is Tier S3 at $3,500, scoped over two to four weeks, with a working deployment on your infrastructure at the end and the source code in your GitHub org.
-      </p>
-      <p>
-        Smaller jobs — a single sharp tool, one flow, one model — drop to Tier A1 at $1,500 and ship in about a week. Larger jobs with ongoing work move to a custom monthly retainer, scoped on the call. There is no surprise pricing, no metered seats, no per-run charge. You pay once, you keep the code, you keep the infrastructure. That is the whole deal.
-      </p>
-      <p>
-        Full breakdown is on the <a href="/pricing" class="link-coal">pricing page</a> — including what each tier includes, what it does not, and where the line sits. If you are not sure which tier you are in, <a href="/talk" class="link-coal">tell me about the flow</a> and I will tell you.
+        Same playbook has shipped for ClipMango (the multi-model AI music video pipeline), Lee De Card (a creator booking platform that started life as a Zapier mess), and Dragon Wagons (marketing site plus content automation backend). Different domains, same translation step.
       </p>
     </div>
   </Section>
@@ -241,20 +230,52 @@ const faqSchema = {
     </div>
   </Section>
 
+  <!-- BRIDGE: WHAT I ACTUALLY DO NOW -->
+  <Section tone="dark" label="What I actually do now">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I actually do now</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        Yes, you can replace n8n with code. But more often, the real problem is that your team's AI tools are not set up right — the assistants do not know your work, every person uses them differently, and the agents you read about online never quite show up in your stack. I install AI environments — skills, agents, MCP servers, integrations — for solo devs, small teams, and agencies who have outgrown no-code and want their AI to actually work the way they do.
+      </p>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Tuneup</div>
+          <h3 class="display-h3 text-bone mb-3">Solo / indie dev</h3>
+          <p class="text-bone-dim leading-relaxed">
+            Your own AI environment, dialed in. Claude Code, Cursor, Codex, or whatever harness you live in — set up with skills, MCP servers, and the integrations your day-to-day actually needs.
+          </p>
+        </div>
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Workspace</div>
+          <h3 class="display-h3 text-bone mb-3">Small team (1–6)</h3>
+          <p class="text-bone-dim leading-relaxed">
+            A shared AI workflow your team can actually use. Standardized configs, a knowledge layer that knows your codebase and docs, and adoption work so nobody silently goes back to ChatGPT in a browser tab.
+          </p>
+        </div>
+        <div class="card-dark p-7">
+          <div class="label label--dim mb-3">// Rollout</div>
+          <h3 class="display-h3 text-bone mb-3">Agency (5–20)</h3>
+          <p class="text-bone-dim leading-relaxed">
+            Role-specific configs across the team, integrations into your delivery stack, and the training that turns a paid ChatGPT Teams seat into an asset instead of a line item.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
   <!-- FINAL CTA -->
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
         <span class="label label--dim mb-6">// Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
-          Bring the workflow.json. I'll tell you if you should migrate.
+          Bring the workflow.json — or just the pain. The duck will read it.
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          The honest call is sometimes "stay on n8n, here are three changes that fix it." Sometimes it is "yes, this is a Tier S3 rebuild and here is the timeline." Either way the call is free, it takes thirty minutes, and you leave with a clearer picture of whether your flow needs a real n8n alternative or just a tune-up. I do this every week. The duck is patient.
+          The honest call is sometimes "stay on n8n, here are three changes that fix it." Sometimes it is "this is a code rebuild, here is the timeline." Sometimes it is "the flow is fine — your team's AI setup is the actual problem." Either way the call is free, it takes thirty minutes, and you leave with a clearer picture.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="/talk" class="btn btn-primary">Talk to the duck</a>
-          <a href="/pricing" class="btn btn-outline-light">See pricing first</a>
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
         </div>
       </div>
     </div>

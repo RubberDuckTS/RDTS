@@ -1,0 +1,372 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'OpenClaw vs Claude Code — honest tradeoffs | RDTS Learn';
+const description = 'OpenClaw vs Claude Code compared honestly. One is open-source and model-agnostic, the other is Anthropic\'s polished CLI. Here is which one fits which kind of team.';
+const canonical = '/learn/openclaw-vs-claude-code/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'OpenClaw vs Claude Code — honest tradeoffs',
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  datePublished: '2026-05-21',
+  dateModified: '2026-05-21',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://www.rubberducktechsolutions.com/learn/openclaw-vs-claude-code/',
+  },
+};
+
+const faqs = [
+  {
+    q: 'Is OpenClaw actually a Claude Code clone?',
+    a: 'It started in the same shape — agent CLI, plan-and-execute loop, file editing, tool use. But the project has diverged. OpenClaw added multi-provider model routing, community-driven extensions, and a more aggressive iteration cadence. Claude Code stayed tighter on the Anthropic-specific experience — skills, MCP, Claude-tuned prompts. Calling OpenClaw a clone undersells where it has gone. They share DNA but they have grown into different products solving overlapping problems.',
+  },
+  {
+    q: 'Why does OpenClaw have so many GitHub stars?',
+    a: 'Stars track curiosity, not necessarily production use. The 373K+ figure reflects strong open-source signal — developers liked the idea of a vendor-neutral agent CLI and showed up to support it. That said, the project has real users running it in production too. Star counts are a vibes-check, not proof of fit. The harder question is whether OpenClaw fits your specific stack, which depends on your model preferences, your team\'s comfort with open source, and your tolerance for community-shaped product decisions.',
+  },
+  {
+    q: 'Can OpenClaw use Claude models?',
+    a: 'Yes. OpenClaw is model-agnostic and supports Anthropic\'s API as one of several providers. You can run OpenClaw with Claude Opus or Sonnet behind it, and you will get reasonable results. What you will not get is the Claude Code-level integration where the CLI is tuned end-to-end for Claude\'s behavior — system prompts, context management, tool patterns all written for Claude specifically. Using Claude through OpenClaw is a B+ experience. Using Claude through Claude Code is the A-grade integration because that is what Anthropic ships and maintains.',
+  },
+  {
+    q: 'Does OpenClaw support MCP servers?',
+    a: 'Most current builds do, yes — the Model Context Protocol has become enough of a standard that the major open-source agent CLIs have implemented it. The catalog of MCP servers that work cleanly with OpenClaw is smaller than the Claude Code ecosystem and the maintainers ship at community pace, which means new MCP integrations can take longer to land. If MCP is core to your workflow and you want the broadest server compatibility today, Claude Code is the safer pick. If you are willing to file issues or contribute fixes, OpenClaw will get there.',
+  },
+  {
+    q: 'Is OpenClaw safe to use on a production codebase?',
+    a: 'The code is open source so you can audit it yourself, which is a real security advantage over closed-source tools. The same openness means the project moves fast and breaking changes ship more often than from a vendor-backed CLI. The right call for production work is to pin a known-good version, run it in a sandbox or container where appropriate, and update on your own schedule rather than tracking main. The same hygiene you would apply to any open-source tool.',
+  },
+  {
+    q: 'Why would I pay for Claude Pro when OpenClaw is free?',
+    a: 'Claude Pro is not a Claude Code tax — it is a bundle that includes Claude.ai, Claude desktop apps, IDE extensions, and Claude Code, all using the same generous usage allowance. If you already pay for Pro for other reasons, Claude Code is included. If you do not pay for Pro and only want a CLI, OpenClaw plus a pay-as-you-go API key from Anthropic, OpenAI, or another provider can be cheaper for light use. The pricing comparison is rarely apples to apples — it is "what bundle do you already have?"',
+  },
+  {
+    q: 'Do you help set up OpenClaw or Claude Code for clients?',
+    a: 'Both. The setup work is mostly the same shape — write the project rules, configure the model, install the relevant skills or extensions, wire up MCP servers, encode your team\'s workflows. The choice between OpenClaw and Claude Code usually depends on whether the team values open-source flexibility or vendor-supported polish. Talk to the duck if you want help making the call and getting the environment dialed in.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+  <!-- 1. HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="status-pill mb-8">
+        <span class="status-pill__dot"></span>
+        <span>Comparison — updated May 2026</span>
+      </div>
+      <h1 class="display-h1 max-w-5xl">
+        <span class="label label--dim block mb-4">// Learn</span>
+        OpenClaw vs <span class="underline-saffron">Claude Code</span> — honest tradeoffs<span class="cursor"></span>
+      </h1>
+      <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
+        Two agent CLIs that look similar at first glance and diverge fast under load. OpenClaw is the open-source,
+        model-agnostic project with 373K+ GitHub stars and a community-driven roadmap. Claude Code is Anthropic's
+        official CLI — closed source, Claude-only, vendor-supported, and tuned end-to-end for Claude's behavior.
+        Both can drive real engineering work. The question is which trade matches how your team operates.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="#verdict" class="btn btn-outline-light">Jump to the verdict</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. INTRO -->
+  <Section tone="cream" label="The short version">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Vendor-neutral and community-shaped, or vendor-supported and Claude-tuned.</h2>
+      <p>
+        OpenClaw is what happens when the open-source community decides it wants its own version of the agent CLI
+        category. The project is on GitHub, the license is permissive, the maintainers take pull requests, and the
+        roadmap is shaped by the people actually using it. Model-agnostic by design — point it at Claude, GPT,
+        Gemini, Mistral, a local Llama, whatever provider you have an API key for. The product moves fast and
+        sometimes the ground shifts under you.
+      </p>
+      <p>
+        Claude Code is Anthropic's official CLI. It runs Claude models only, full stop. Everything from the system
+        prompts to the context-management strategy to the tool-use patterns is tuned for Claude specifically. The
+        product moves at vendor pace — slower than OpenClaw, more stable, with an official changelog and an
+        official support story. Skills, MCP servers, slash commands, plan mode, hooks, and subagents are all
+        first-class features.
+      </p>
+      <p>
+        Both tools cover the same territory — terminal-based agent that can read files, write code, run commands,
+        and orchestrate multi-step work. The split is philosophical, not functional. Pick the values you want
+        backing your tool.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 3. QUICK VERDICT TABLE -->
+  <Section tone="dark" label="Quick verdict" id="verdict">
+    <div class="prose-rdts max-w-3xl mb-10">
+      <h2>If you want this, pick this</h2>
+      <p>
+        These are the decisions that push teams one way or the other in practice. Read the rows that match how
+        you actually operate, ignore the rest.
+      </p>
+    </div>
+    <div class="overflow-x-auto -mx-4 px-4">
+      <table class="w-full text-left border-collapse min-w-[640px]">
+        <thead>
+          <tr class="border-b border-ink-border">
+            <th class="py-4 pr-6 text-bone-dim font-mono text-sm uppercase tracking-wider">If you want...</th>
+            <th class="py-4 text-bone-dim font-mono text-sm uppercase tracking-wider">Pick</th>
+          </tr>
+        </thead>
+        <tbody class="text-bone">
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Use Claude, GPT, Gemini, or local models from one CLI</td>
+            <td class="py-4 text-bone-dim">OpenClaw</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">The best possible Claude integration end to end</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Open source you can audit, fork, and self-host</td>
+            <td class="py-4 text-bone-dim">OpenClaw</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Vendor support and a stable release cadence</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Skills, MCP servers, and the broadest tool ecosystem today</td>
+            <td class="py-4 text-bone-dim">Claude Code</td>
+          </tr>
+          <tr class="border-b border-ink-border">
+            <td class="py-4 pr-6 font-medium">Community-driven extensions and faster iteration</td>
+            <td class="py-4 text-bone-dim">OpenClaw</td>
+          </tr>
+          <tr>
+            <td class="py-4 pr-6 font-medium">Vendor-neutral setup that survives provider switches</td>
+            <td class="py-4 text-bone-dim">OpenClaw</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <!-- 4. WHERE OPENCLAW WINS -->
+  <Section tone="cream" label="Where OpenClaw wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Where OpenClaw beats Claude Code on the merits</h2>
+      <p>
+        OpenClaw wins on model freedom. The whole point of the project is that you choose the model. Claude today,
+        GPT tomorrow, a local Llama for the parts of your codebase that cannot leave the building. Provider
+        switches are a config change, not a tool migration. If your team has strong opinions about model
+        diversity — or strong fear of being locked to one vendor — OpenClaw is the safer bet.
+      </p>
+      <p>
+        OpenClaw wins on openness. The source is on GitHub. You can read every line of the agent loop, audit the
+        system prompts, see exactly what context the model gets, and patch behavior you do not like. For teams
+        in regulated industries or teams that have been burned by closed-source AI tooling, this is not a nice-to-have.
+        It is the only acceptable shape.
+      </p>
+      <p>
+        OpenClaw wins on iteration speed. The community ships fast. A new MCP server pattern, a new prompt
+        technique, a new model routing strategy — these often land in OpenClaw weeks before equivalent features
+        show up in vendor-backed tools. The downside is the same as the upside — fast iteration means breaking
+        changes, but for teams that want the bleeding edge, that is the deal.
+      </p>
+      <p>
+        OpenClaw wins on self-hosting. The CLI runs anywhere you can install a runtime. There is no proprietary
+        cloud service in the middle, no required login, no remote telemetry you cannot disable. Air-gapped
+        environments are real. OpenClaw works there. Claude Code requires reaching out to Anthropic's API to
+        function at all.
+      </p>
+      <p>
+        OpenClaw wins on extensibility patterns built by the community. Custom skills, custom workflows, custom
+        provider adapters — the project's plugin surface is shaped by what users actually need rather than what
+        a product team prioritizes. If you have a niche use case, the odds someone else has already built a
+        community extension for it are higher with OpenClaw than with the vendor CLI.
+      </p>
+      <p>
+        OpenClaw wins on cost flexibility. You pay per token to whichever provider you choose. No subscription
+        tier, no bundled service you may or may not use. For teams with predictable usage and a preference for
+        their own provider relationships, that direct cost model is cleaner than a vendor bundle.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 5. WHERE CLAUDE CODE WINS -->
+  <Section tone="dark" label="Where Claude Code wins">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Where Claude Code beats OpenClaw on the merits</h2>
+      <p>
+        Claude Code wins on Claude integration. When the lab that builds the model also builds the CLI, the
+        result is tighter than any third-party wrapper can be. The system prompts are tuned for how Claude
+        actually behaves. The context management knows Claude's window quirks. The tool-use patterns match
+        Claude's strengths. OpenClaw using Claude is a good experience. Claude Code using Claude is the canonical
+        experience.
+      </p>
+      <p>
+        Claude Code wins on the official MCP ecosystem. MCP is an Anthropic spec, and the broadest catalog of
+        production-tested MCP servers is the catalog that ships against Claude Code. Postgres, GitHub, Slack,
+        AWS, Linear, hundreds more — they work in Claude Code on day one. OpenClaw has caught up on the protocol
+        side, but the breadth of tested integrations still favors the vendor CLI.
+      </p>
+      <p>
+        Claude Code wins on stability. Anthropic ships releases on a vendor cadence — slower than open-source
+        velocity, but with backward compatibility, official changelogs, and a real deprecation policy. For teams
+        running CLIs in production CI pipelines or in shared developer environments, that stability is worth more
+        than raw feature velocity.
+      </p>
+      <p>
+        Claude Code wins on skills as a first-class concept. The skill format, the directory layout, the way
+        skills are loaded and composed — all of this is documented as Anthropic's recommended pattern. OpenClaw
+        has its own skill story but it is shaped by the community, which means more variation and less
+        consistency across teams. Claude Code's opinionated approach is friction-reducing if you accept its
+        opinions.
+      </p>
+      <p>
+        Claude Code wins on vendor support. When something breaks, you have an actual company to escalate to.
+        Bugs get triaged, security issues get a real disclosure process, enterprise contracts include SLAs.
+        OpenClaw's support is community-shaped — fast, often helpful, but not contractually guaranteed. For
+        compliance-heavy customers, the vendor relationship is sometimes a hard requirement.
+      </p>
+      <p>
+        Claude Code wins on the bundled Claude Pro plan. If you already pay for Claude Pro for Claude.ai, the
+        desktop app, and the IDE extensions, Claude Code is included with no separate cost. That bundle is a
+        real practical advantage for teams already committed to Anthropic's stack. OpenClaw is free as software
+        but you pay token costs directly, which can be cheaper or more expensive depending on usage shape.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 6. HOW THEY DIFFER STRUCTURALLY -->
+  <Section tone="cream" label="Architecture">
+    <div class="prose-rdts max-w-3xl">
+      <h2>How they differ structurally</h2>
+      <p>
+        The fundamental split is governance. OpenClaw is governed by a community. Claude Code is governed by a
+        product team at Anthropic. Both can produce good software but they produce it in different shapes and at
+        different speeds. Community-governed projects iterate fast on what users want today. Vendor-governed
+        products move slower but commit harder to the choices they make.
+      </p>
+      <p>
+        On model architecture, OpenClaw treats the model as a swappable backend behind a provider abstraction.
+        The agent loop is model-aware but not model-specific. Claude Code treats the model as part of the product
+        — the loop is designed around Claude's particular strengths and quirks. Swappable means more flexibility
+        and slightly more friction. Bundled means less friction and slightly less flexibility.
+      </p>
+      <p>
+        On the tool surface, both CLIs implement MCP, both support custom skills or their equivalent, both have
+        plan-then-execute loops, both can spawn subagents or workers for parallel tasks. The capability matrix
+        is closer than the philosophical gap implies. What differs is which integrations are tested in production
+        and which are still community-shaped.
+      </p>
+      <p>
+        On context management, Claude Code makes Claude-specific decisions about what to send to the model and
+        when. OpenClaw exposes more knobs and lets you decide. The right answer depends on whether you want
+        opinionated defaults that work for most teams or configurable defaults that let your team tune for your
+        own workload.
+      </p>
+      <p>
+        On the cultural axis, the OpenClaw community tilts toward developers who want full control and are
+        willing to do the configuration work to get it. The Claude Code culture tilts toward teams that want
+        Anthropic's expertise baked in. Neither is better. Both are valid.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 7. WHO SHOULD USE WHICH -->
+  <Section tone="dark" label="Who picks which">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Who should use OpenClaw, who should use Claude Code</h2>
+      <p>
+        Use OpenClaw if your team values open-source as a principle, if you want to swap between model providers
+        without changing tools, if you work in environments where the agent must run locally or air-gapped, or
+        if you want the fastest community-driven iteration. OpenClaw is the right shape for teams that prefer
+        their own provider relationships, want auditable source, and have the engineering bandwidth to track
+        an actively-evolving project. It also fits teams hedging against vendor risk — if Anthropic, OpenAI, or
+        Google changes terms tomorrow, your CLI does not break.
+      </p>
+      <p>
+        Use Claude Code if Claude is already your preferred model, if you want the most polished agent experience
+        on the market today, if MCP is core to your workflow, or if your team values vendor support and stable
+        releases over bleeding-edge features. Claude Code is the right shape for teams that have committed to
+        Anthropic and want the cleanest end-to-end experience that commitment buys. It also fits teams that
+        prefer opinionated defaults — fewer decisions to make, more time to spend on actual work.
+      </p>
+      <p>
+        Some teams run both for different reasons — OpenClaw for self-hosted or cross-provider workflows, Claude
+        Code for the heavy Claude-specific work. Two CLIs is annoying but not incoherent. If you are starting
+        fresh, pick one to standardize on and revisit the choice in a year when both products will have moved.
+      </p>
+    </div>
+  </Section>
+
+  <!-- 8. FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="cursor-pointer font-medium text-coal text-lg list-none flex justify-between items-start gap-4">
+            <span>{f.q}</span>
+            <span class="text-saffron-deep flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-4 text-coal-dim leading-relaxed">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 9. RELATED -->
+  <Section tone="cream" label="Related">
+    <div class="prose-rdts max-w-3xl">
+      <h2>Setting one of these up properly</h2>
+      <p>
+        Both CLIs ship with defaults that get you 30% of the way. The other 70% is project rules, MCP servers,
+        skills, model selection, and team-specific workflows. Setup guides for both:
+      </p>
+      <ul>
+        <li><a href="/solutions/openclaw-setup/">OpenClaw setup — done by a real person, not a tutorial</a></li>
+        <li><a href="/solutions/claude-code-setup/">Claude Code setup — done by a real person, not a tutorial</a></li>
+        <li><a href="/services/">Services — AI environment setup overview</a></li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- 10. FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-24">
+      <span class="label label--dim">// Still deciding</span>
+      <h2 class="display-h2 mt-6 max-w-3xl">Not sure which one fits? <span class="accent-saffron">Talk to the duck.</span></h2>
+      <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
+        Tell me what models you actually use, what your team looks like, what is broken about your current AI
+        setup. I will tell you which CLI fits and what to configure first. If the answer is "neither, you want a
+        different tool entirely," I will say that too.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="/services/" class="btn btn-outline-light">See services</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

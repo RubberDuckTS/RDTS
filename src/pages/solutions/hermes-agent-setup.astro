@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Hermes Agent setup — done by a real person, not a tutorial | RDTS';
+const description = 'Hermes Agent is open-source autonomous agent code. Get the model, tools, memory store, loop guards, and cost caps configured so it works instead of spinning.';
+
+const canonical = '/solutions/hermes-agent-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Hermes Agent setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/hermes-agent-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Hermes Agent setup and configuration',
+  serviceType: 'Autonomous agent setup',
+  description: 'Configure Hermes Agent end to end: model selection, tool registration, memory store, infinite-loop guards, observability, and cost monitoring.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+  areaServed: 'Worldwide',
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Software developers and engineering teams',
+  },
+};
+
+const faqs = [
+  {
+    q: 'What is Hermes Agent?',
+    a: "Hermes Agent is an open-source autonomous agent framework — one of the most-starred AI agent projects on GitHub, north of 157,000 stars. It gives you the scaffolding for multi-step task execution: a planning loop, a tool-use interface, a memory store, and the glue to keep all three talking. You bring the model, the tools, and the goal. The framework runs the loop. The catch is that everything interesting about an autonomous agent — what model it uses, what tools it can call, what it remembers between steps, when it gives up — is configuration, not default behavior.",
+  },
+  {
+    q: 'Why does my Hermes Agent keep looping forever?',
+    a: "Almost always because no real stopping condition was wired in. The default loop runs until the model says it is done, which is fine in theory and disastrous in practice when the model gets confused. The fix is layered guards — a hard maximum step count, a token-budget ceiling, a per-task timeout, and a detector for repeated-state loops where the agent keeps calling the same tool with the same arguments. I configure all four on every Hermes Agent setup. None of them are in the default config.",
+  },
+  {
+    q: 'Which model should I run Hermes Agent on?',
+    a: "Depends on the work, but the honest answer for most setups is: a frontier model for the planning step, a cheaper model for routine tool selection, and never the same model for both. Running the frontier model on every step is how people end up with surprise bills. Running a small model on planning is how people end up with agents that spin uselessly. A real setup splits the roles. I configure the model routing per loop phase and put a hard monthly budget cap behind the whole thing.",
+  },
+  {
+    q: 'How do I register custom tools with Hermes Agent?',
+    a: "The framework expects each tool to declare a name, a description that the model actually reads, an input schema, and a function. Most setups stop at name and function and skip the rest. The result is an agent that does not know when to call your tools, or calls them with bad arguments. A real tool registration is more like writing API docs for the model — a description that names the cases where the tool helps, an input schema with required fields and clear types, and a return value the model can use in the next step. I write the registrations with you on every setup.",
+  },
+  {
+    q: 'What memory store should I use?',
+    a: "Hermes Agent does not enforce one — that is on you to wire. The right answer depends on what you need the agent to remember and for how long. For short-lived task memory, in-process state is fine. For cross-session memory, you want a vector store with the agent's notes embedded so it can recall related context on future runs. For shared team memory, that vector store has to be hosted somewhere the team can both write to and read from. I match the memory store to the use case, not the other way around.",
+  },
+  {
+    q: 'How do I stop the agent from burning through my API budget?',
+    a: "Three controls, all of which are off by default. First, a token budget per task — when the agent crosses it, the loop halts and asks for human input. Second, a global monthly cap on the API account itself, set at the provider level so even a runaway cannot exceed it. Third, observability — a real log of token usage per step so you can see in advance when an agent is heading off the rails. I configure all three and write a short doc so the team knows where to look when costs surprise them.",
+  },
+  {
+    q: 'Is Hermes Agent production-ready?',
+    a: "It is open-source code, not a managed product. Production-ready depends entirely on how you configure it. With model routing, real tool registrations, a memory store fit to your use case, loop guards, observability, and cost caps, Hermes Agent can run real autonomous workflows in production. Without those, it is a research toy that will eventually do something expensive. The whole point of a setup engagement is to get you to the first state, not the second.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Hermes Agent setups — booking this week</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">Hermes Agent setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          Hermes Agent is the open-source autonomous agent framework with more than 157,000 stars on GitHub, and the most popular way to get an AI to actually do multi-step work without holding its hand. It is also the most popular way to spend a weekend watching an agent loop forever, call the same tool with the same arguments seventeen times, and quietly drain an API budget. I set it up so it does work, then stops.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THIS PAGE EXISTS -->
+  <Section tone="cream" label="What Hermes Agent is, why people get stuck">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">An autonomous agent framework is scaffolding. The interesting decisions are all yours.</h2>
+      <p>
+        Hermes Agent gives you three components in one repo: a planning loop that lets a model decide what to do next, a tool-use interface for registering functions the agent can call, and a memory layer for what the agent remembers between steps. Out of the box, you can clone it, plug in an API key, and watch an agent attempt a task. That demo works in about ten minutes. Production use is a different problem.
+      </p>
+      <p>
+        The production problem is that every interesting question about how the agent behaves is a configuration decision. Which model runs the planning step. Which model picks tools. What tools exist and how they describe themselves to the model. Where memory lives. When the loop stops. How much an individual run is allowed to cost. What the agent does when it gets confused. None of those have a single right answer. All of them have wrong answers that cost money or break trust.
+      </p>
+      <p>
+        A real Hermes Agent setup is the work of making those decisions deliberately — once, with reasons, written down — so the agent runs predictably and you stop hovering over it. After that, you can hand it actual tasks and walk away. If you want to see how Hermes Agent fits next to other agent stacks, the <a href="/services/" class="link-coal">services page</a> covers the lineup. If you are past comparison shopping and just need it to work, keep reading.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHERE HERMES BREAKS -->
+  <Section tone="dark" label="Where Hermes Agent breaks for most people">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">Seven failure modes I see every week</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        These are the patterns behind almost every "my agent is not working" message. They are not bugs in the framework. They are decisions that were never made.
+      </p>
+      <div class="space-y-8 text-bone-dim leading-relaxed">
+        <div>
+          <h3 class="display-h3 text-bone mb-3">1. The agent loops forever</h3>
+          <p>
+            The default loop runs until the model declares the task done. When the model gets confused, the loop runs until something else stops it — which without explicit guards is "your API budget." The fix is a layered set of stopping conditions: a maximum step count, a token budget per task, a wall-clock timeout, and a repeated-state detector that halts when the agent calls the same tool with the same arguments twice in a row.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">2. Model selection is wrong for the loop phase</h3>
+          <p>
+            Using a frontier model for every step is a budget fire. Using a small model on planning is a quality fire. The right setup splits roles — frontier for plans and hard reasoning, cheaper for routine tool selection, fast and small for ranking or filtering. Hermes Agent supports per-phase model overrides. Almost nobody uses them.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">3. Tool registrations are thin</h3>
+          <p>
+            The framework expects tools to declare name, description, input schema, and function. Most setups stop at name and function. The model then either ignores your tools or calls them with bad arguments. A real registration treats the description like docs for the model and the schema like a real contract — required fields, clear types, examples in the description. The agent gets dramatically better the moment you fix this.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">4. No memory store, or the wrong one</h3>
+          <p>
+            Hermes Agent does not pick a memory store for you. People either skip memory entirely and watch the agent forget the task halfway through, or they wire a heavyweight vector store for a workflow that needed five lines of in-process state. The right memory layer matches the task — in-memory for short tasks, a real vector store for cross-session recall, a shared store for team workflows.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">5. There is no cost cap</h3>
+          <p>
+            A runaway agent on a frontier model can spend more in an hour than a developer makes in a day. The default config has no provider-level cap, no per-task budget, no alert when a single run crosses a threshold. The fix is layered — provider account cap, per-task token budget, real-time spend observability. None of this is free to set up. All of it is non-optional for production.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">6. The agent runs without observability</h3>
+          <p>
+            People run Hermes Agent like a black box and then cannot explain why it did what it did. The fix is logging every step — the model used, the prompt, the tools considered, the tool called, the arguments, the return value, the token spend — and writing it somewhere you can search later. The first time an agent does something surprising in production, observability is the only thing standing between you and a rewrite.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">7. No human-in-the-loop for risky actions</h3>
+          <p>
+            Autonomous does not mean unsupervised. Any tool that mutates state outside the agent — sends an email, writes to a database, posts to a public channel, hits a paid API — should require explicit approval until you trust the agent on that exact action. The framework supports this. The default does not enforce it. I configure the policy explicitly and document which tools are auto and which need approval.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="cream" label="What I actually set up">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">What is in the box when I hand Hermes Agent back to you</h2>
+      <p>
+        Every Hermes Agent setup I do covers the same core checklist and adapts to your use case. The output is a checked-in configuration, real tool definitions, a memory layer fit to your workflow, and a short doc explaining how every piece fits together.
+      </p>
+      <h3>Loop guards on every run</h3>
+      <p>
+        A maximum step count, a token budget per task, a wall-clock timeout, and a repeated-state detector. The agent stops when something has gone wrong, not when the budget runs out.
+      </p>
+      <h3>Model routing per loop phase</h3>
+      <p>
+        Frontier for planning and hard reasoning, balanced for routine tool selection, fast small for filtering and ranking. Anthropic, OpenAI, or a mix. A hard provider-level cost cap behind all of it.
+      </p>
+      <h3>Real tool registrations</h3>
+      <p>
+        Each tool documented for the model — a description that names the cases where it helps, an input schema with required fields and clear types, examples where they matter. Written with you so the descriptions reflect what your tools actually do.
+      </p>
+      <h3>Memory store fit to the use case</h3>
+      <p>
+        In-memory for short-lived tasks, a vector store for cross-session recall, a shared store for team workflows. Embedded notes, scoped retrieval, and a clear write policy so the agent does not pollute its own memory.
+      </p>
+      <h3>Approval policy for risky tools</h3>
+      <p>
+        Read-only tools auto-approved, write actions explicit by default, paid-API calls explicit until trust is earned. Written down so nobody has to guess what the agent is allowed to do.
+      </p>
+      <h3>Observability and cost monitoring</h3>
+      <p>
+        Every step logged — model, prompt, tools considered, tool called, arguments, return, token spend. A weekly readout of cost per task type so you can see early when an agent is drifting.
+      </p>
+      <h3>A real first task</h3>
+      <p>
+        Setup is not done until the agent runs an actual workflow you care about, end to end, twice in a row. Demos are easy. Real tasks reveal everything the demo hid. We run yours and fix what the run uncovers before I hand it over.
+      </p>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="dark" label="Shapes of engagement">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Three shapes for getting Hermes Agent dialed in</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10">
+        The duck quotes the work, not the menu. These are the three shapes a Hermes Agent engagement usually fits.
+      </p>
+      <div class="space-y-8 text-bone-dim leading-relaxed">
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Quick fix</h3>
+          <p>
+            One specific Hermes Agent problem, fixed in a day. The loop will not stop, a tool is failing silently, the memory store is wrong, a runaway burned through the budget. You describe the symptom, the duck scopes it, I fix it. Single deliverable, one calendar day.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Tuneup</h3>
+          <p>
+            Your personal Hermes Agent workflow, dialed in over about a week. Loop guards, model routing, tool registrations, memory store, approval policy, cost monitoring, a real first task running cleanly end to end. You end with a setup that works on the task you actually care about and a short doc explaining what every piece does.
+          </p>
+        </div>
+        <div>
+          <h3 class="display-h3 text-bone mb-3">Workspace</h3>
+          <p>
+            Your team on Hermes Agent, configured consistently. Shared configuration repo, shared tool definitions, a shared memory store with a clear write policy, an approval policy your team agrees with, and a thirty-minute walkthrough so the people who will run agents at 2am know what they are looking at. One to two weeks, depending on team size.
+          </p>
+        </div>
+      </div>
+      <p class="text-bone-dim text-lg leading-relaxed mt-10">
+        Not sure which shape fits? Tell the duck what is breaking and how many people are affected. The duck names a shape and a price in plain English on the call.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Questions people ask before booking</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring the task you want the agent to do. I will tell you what to wire.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          The first call is honest. Sometimes the answer is "your loop guards are missing, here is the fix, do not pay me." Sometimes it is "this is a one-day Quick fix." Sometimes it is "your team needs a Workspace and here is the timeline." Either way you leave with a clearer picture of what the agent is missing and what a real production setup would look like. Open the duck and start there.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
+          <a href="/services/" class="btn btn-outline-light">See services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

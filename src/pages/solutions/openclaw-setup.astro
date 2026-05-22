@@ -1,0 +1,260 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'OpenClaw setup — done by a real person, not a tutorial | RDTS';
+const description = 'Install OpenClaw the right way — model backend chosen, tools wired, agent loop tuned. Open-source agent CLI configured for your stack instead of a clean-room demo.';
+
+const canonical = '/solutions/openclaw-setup/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'OpenClaw setup — done by a real person, not a tutorial',
+  description,
+  datePublished: '2026-05-21T08:00:00+00:00',
+  dateModified: '2026-05-21T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/solutions/openclaw-setup/',
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'OpenClaw setup',
+  serviceType: 'AI agent CLI installation and configuration',
+  provider: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com',
+  },
+  areaServed: 'Worldwide',
+  description: 'Hands-on OpenClaw installation, model-backend selection, tool wiring, and agent-loop tuning for individual developers and teams.',
+};
+
+const faqs = [
+  {
+    q: 'What is OpenClaw and how is it different from Claude Code?',
+    a: "OpenClaw is an open-source agent CLI — a community-driven alternative to Anthropic's Claude Code that you can point at any model you want. It is model-agnostic by design, so you bring your own API key (or a local model) and OpenClaw runs the agent loop on top. Claude Code is closed-source, Anthropic-only, and more polished out of the box. OpenClaw is the right pick when you want full control over the agent loop, want to swap models without rewriting tools, or want to run against a local Llama / Qwen / DeepSeek setup. The tradeoff is more wiring up front, which is the part I do.",
+  },
+  {
+    q: 'Which model backend should I use with OpenClaw?',
+    a: "Depends on the work. For coding tasks where you need long-context reasoning, Claude (Sonnet or Opus) is usually the best value once you account for the retry rate of cheaper models. For high-volume routine tasks, a cheaper model like Haiku or a GPT-mini variant works fine and saves real money. For privacy-sensitive work, a local model via Ollama or llama.cpp is the right answer even if it is slower. I do not have a single answer because the right one depends on what you are running through it; I do have a one-call answer once you tell me the workload.",
+  },
+  {
+    q: 'My agent loop runs forever and burns tokens. How do you fix that?',
+    a: "Three usual causes. First, no stopping condition — the loop keeps calling tools because nothing tells it the task is done. Second, tools that return huge blobs (a full file dump, a 5000-line log) and the model spends a turn just acknowledging the noise. Third, the system prompt does not give the model permission to say 'done' early. The fix is structural: tighter stop criteria, tool outputs that summarize before returning, and a system prompt that makes 'I have enough information' a first-class option. Token usage typically drops 50–70% after that work.",
+  },
+  {
+    q: 'Can OpenClaw talk to MCP servers, or do I have to write custom tools?',
+    a: "OpenClaw's tool-calling layer is the universal piece — whatever wire format it expects on your version, the same MCP servers that work with Claude Code or other harnesses can usually be adapted with a thin shim. Some MCP servers work directly. Others need a wrapper that translates between MCP and OpenClaw's tool schema. I do that wrapping when the server is worth keeping, and I write a native OpenClaw tool when it is cleaner. By the time I am done your OpenClaw setup has the same tool reach as a Claude Code install.",
+  },
+  {
+    q: 'Is OpenClaw production-ready, or just a hobby project?',
+    a: "Honest answer — it depends on your definition. The agent loop is solid and the community is active. The thing it is not is a turnkey product with paid support and an SLA. If you need an enterprise vendor with a phone number to call, OpenClaw is the wrong pick and you should be on a commercial harness. If you are comfortable running open-source code in production and you want the control that gives you, OpenClaw is the right pick. Most of my OpenClaw clients fall into the second bucket — indie devs and small teams who already run plenty of open-source infrastructure.",
+  },
+  {
+    q: 'Can you set OpenClaw up to run a local model with no cloud calls?',
+    a: "Yes. The usual stack is OpenClaw plus Ollama (for model serving) plus a quantized variant of whichever model fits your machine. For an M-series Mac with 32 GB+ RAM, a 30B-class quantized model is comfortable. For a Linux box with a recent NVIDIA GPU, you have a lot more headroom. The configuration work is non-trivial — context-window sizing, prompt formatting per model family, quantization tradeoffs, performance tuning — and it is the most common reason people ask me to do an OpenClaw setup. Privacy and cost are both wins; the speed will not match a frontier API call, which is the honest tradeoff.",
+  },
+  {
+    q: 'I am picking between OpenClaw and Claude Code. Which one should I install?',
+    a: "If you only use Claude and you want the most polished setup with the least friction, Claude Code. If you want to mix models, run local, or keep your harness independent of any single vendor, OpenClaw. Most working devs I set up run both — Claude Code for the day-to-day, OpenClaw for the workloads that need a non-Claude model or a local backend. The shape of the answer for you is on the call. I am not partisan; I install whichever fits.",
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, serviceSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="status-pill mb-8">
+          <span class="status-pill__dot"></span>
+          <span>Booking OpenClaw setups</span>
+        </div>
+        <h1 class="display-h1 mb-8">
+          <span class="underline-saffron">OpenClaw setup</span> — done by a real person, not a tutorial<span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
+          OpenClaw is the open-source agent CLI — model-agnostic, community-driven, the harness you pick when you want the agent loop to be yours instead of a vendor's. The flexibility is the whole point and also the whole problem. You decide the model, the tools, the loop, the stop conditions, the prompts. I make those decisions for your stack so OpenClaw stops being a science project and starts being a tool you reach for.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+          <a href="/services/" class="btn btn-outline-light">See all services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE IT BREAKS -->
+  <Section tone="cream" label="Where it breaks">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Where OpenClaw breaks for most people</h2>
+      <p>
+        Open-source freedom is real and so is open-source friction. These are the spots people get stuck — almost always in the first week of trying to run OpenClaw on actual work.
+      </p>
+      <h3>1. Choosing a model backend, then changing it three times</h3>
+      <p>
+        You start with whatever the README suggests, hit a context-window limit, swap to a different model, hit a prompt-format mismatch, swap again, and now you are tuning prompts instead of doing work. The right move is to pick the model based on the workload first — long-context coding, structured extraction, classification, privacy-sensitive — and configure OpenClaw once for that profile. Decision first, install second.
+      </p>
+      <h3>2. Agent loops that run forever and burn tokens</h3>
+      <p>
+        The default agent loop is loose on purpose — that is what makes OpenClaw flexible. Without explicit stop criteria, the agent keeps calling tools because nothing tells it the task is done. The fix is a stop policy that names what "done" looks like for each task class plus a system prompt that makes "I have enough" a legal option.
+      </p>
+      <h3>3. Tools that return raw blobs the model cannot parse</h3>
+      <p>
+        Bash output, file contents, API responses dumped in raw — the model wastes a turn just acknowledging the noise. Tools should summarize before returning, truncate long outputs with a continuation token, and structure results as something the model can scan. Five of OpenClaw's default tools are fine; the rest need wrappers.
+      </p>
+      <h3>4. Local-model setups that work in the demo and not in real work</h3>
+      <p>
+        Ollama with a small quantized model gives a great five-message demo. Then you ask for a real refactor and it stalls because the context window is too small or the quantization hurt tool-calling reliability. The fix is picking the right model size and quantization for the work, plus a fallback configuration so OpenClaw uses the local model for routine tasks and a cloud model for the heavy lifts.
+      </p>
+      <h3>5. MCP-style servers that need a shim, and breaking when versions change</h3>
+      <p>
+        OpenClaw's tool schema is its own; existing MCP servers may need a thin translation layer. People write the shim, get it working, then a server update breaks it silently. The fix is a thin, well-tested adapter layer with version pinning and a script that verifies tool reachability at session start.
+      </p>
+      <h3>6. Environment configuration scattered across half a dozen files</h3>
+      <p>
+        API keys here, model config there, tool config in a third file, system prompts in a fourth. Six months in nobody remembers which file owns what. The fix is a single canonical config with the layered overrides OpenClaw supports, plus a one-page doc explaining where each kind of setting lives.
+      </p>
+      <h3>7. No telemetry, so no idea why a session went sideways</h3>
+      <p>
+        OpenClaw will run a 40-step agent loop and produce a bad answer with no record of where the wheels came off. Adding lightweight session logging — tool calls, tokens per step, model latency, retry counts — turns debugging from guesswork into a five-minute read.
+      </p>
+    </div>
+  </Section>
+
+  <!-- WHAT I SET UP -->
+  <Section tone="dark" label="What I set up">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-8">What I install when I set up your OpenClaw</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10 max-w-3xl">
+        Real specifics for a typical Tuneup. Adjusted for whether you are running cloud-only, local-only, or a mix.
+      </p>
+
+      <h3 class="display-h3 text-bone mb-4">Model backend, picked for your workload</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Primary model selected based on the workload profile, not the README example</li>
+        <li>A cheaper fallback configured for routine tasks (classification, summarization)</li>
+        <li>For local-model setups: Ollama plus a quantized model sized to your hardware</li>
+        <li>API key management out of the shell history and into a proper secret store</li>
+        <li>Budget caps and rate limits wired in so a runaway loop has a fuse</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Tools and tool adapters</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>File-system access scoped to your project, with read/write separation</li>
+        <li>A bash tool with a guard against destructive commands outside the working tree</li>
+        <li>MCP-to-OpenClaw adapters for the servers you actually need (database, error tracker, GitHub)</li>
+        <li>Native OpenClaw tools written for anything that does not have a clean MCP equivalent</li>
+        <li>Tool outputs wrapped to summarize and truncate before returning to the model</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Agent loop tuning</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Explicit stop conditions per task class</li>
+        <li>System prompt that makes "I have enough information" a first-class option</li>
+        <li>Step budget and token budget caps with sensible defaults</li>
+        <li>Retry policy with exponential backoff on transient model errors</li>
+        <li>A planner-style first turn for any task above a complexity threshold</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Skills and prompt scaffolding</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>A library of task-specific system prompts you can swap in by name</li>
+        <li>Project-level context file that loads at session start with the conventions OpenClaw should respect</li>
+        <li>Slash-command-style shortcuts for the workflows you run every day</li>
+        <li>A code-review prompt and a debugging prompt tuned to your stack</li>
+      </ul>
+
+      <h3 class="display-h3 text-bone mb-4">Observability and the knowledge layer</h3>
+      <ul class="text-bone-dim text-lg leading-relaxed space-y-3 mb-10 list-disc pl-6">
+        <li>Per-session logs capturing tool calls, tokens, latency, retries</li>
+        <li>A daily/weekly summary script so you can see where tokens went</li>
+        <li>A README in your config repo that explains every choice — model, tools, stop policy, prompts — and why</li>
+        <li>For a Workspace: shared configs, shared prompts, and an onboarding doc the rest of your team can follow</li>
+      </ul>
+    </div>
+  </Section>
+
+  <!-- SHAPES -->
+  <Section tone="cream" label="Shapes of engagement">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Three shapes — pick the one that matches the work</h2>
+      <h3>Quick fix — one OpenClaw thing, fixed in a day</h3>
+      <p>
+        Your agent loop is burning tokens. A tool is returning garbage to the model. Your local-model setup hangs on a long task. Your MCP adapter broke after an update. You bring the symptom; I dig into the actual session logs and fix the underlying cause. You leave with a working install and a one-page note on what the root cause was. About a day, sometimes less.
+      </p>
+      <h3>Tuneup — your personal OpenClaw, dialed in</h3>
+      <p>
+        Your OpenClaw, configured for the way you actually work. We start with a session where I watch a real task run end to end. Then I pick the right model backend, write the prompts you need, wrap the tools so they behave, set the stop policy, and put telemetry in so the next regression is debuggable. You walk out with a config repo you own, a README that explains every choice, and an install you trust. About a week.
+      </p>
+      <h3>Workspace — your team on OpenClaw, configured consistently</h3>
+      <p>
+        For teams who want a shared open-source agent stack instead of five drifted personal setups. I run a workshop to pull out the conventions, then build the shared config: team-level prompts, shared tool adapters, model-routing policy that fits your budget, and an onboarding doc that gets a new hire productive in fifteen minutes. About one to two weeks. The output is a repo your team clones, runs one command, and is fully set up.
+      </p>
+      <p>
+        Not sure which shape fits? Describe what you are trying to fix. <a href="/talk/" class="link-coal">Talk to the duck →</a>
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">// Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Bring the workload. The duck picks the model and the loop.
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          You do not need to know whether your problem is a model choice, a stop-condition bug, a quantization issue, or a tool-output problem. Describe what you are trying to do with OpenClaw and what is annoying about how it runs today. I will name the shape of the work in one message. <a href="/services/" class="link-saffron">All services →</a>
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
