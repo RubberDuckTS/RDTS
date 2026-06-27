@@ -67,6 +67,16 @@ const faqSchema = {
   })),
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.rubberducktechsolutions.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Learn', item: 'https://www.rubberducktechsolutions.com/learn/' },
+    { '@type': 'ListItem', position: 3, name: 'ChatGPT for Business', item: 'https://www.rubberducktechsolutions.com/learn/chatgpt-for-business/' },
+  ],
+};
+
 const mistakes = [
   {
     title: 'Using the blank chat every time',
@@ -87,7 +97,7 @@ const mistakes = [
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
   <!-- HERO -->
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
@@ -96,7 +106,10 @@ const mistakes = [
         <h1 class="display-h1 mb-8">
           ChatGPT for business: <span class="underline-saffron">how to actually</span> make it useful<span class="cursor">_</span>
         </h1>
-        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-6">
+          ChatGPT for business means using OpenAI's ChatGPT — and the GPT-4o and o-series models behind it — as a real operational tool: drafting, summarizing, extracting, and automating work your team repeats daily. The default blank-chat experience is the floor, not the ceiling. A proper business setup adds Custom GPTs per job type, file uploads for internal docs, and tool integrations that connect ChatGPT to your actual data.
+        </p>
+        <p class="text-bone-dim text-lg leading-relaxed max-w-3xl">
           Most teams pay for ChatGPT and use 10% of it. They open a blank chat, type something vague, get something mediocre, and conclude that AI is overhyped. It is not overhyped. The setup is just wrong. This is a practical guide to getting real work out of ChatGPT in your business — what works, what breaks, and when it is time to bring in someone who does this full-time.
         </p>
       </div>
@@ -168,7 +181,7 @@ const mistakes = [
       </p>
       <h3>Long workflows that need memory</h3>
       <p>
-        ChatGPT forgets everything between sessions (the memory feature helps at the margins but is not reliable for structured, multi-step business workflows). If your workflow has more than three or four steps, spans multiple days, or requires the model to know what happened in a previous conversation, you need a real workflow tool — not a chat window. This is where proper AI automation earns its keep.
+        ChatGPT forgets everything between sessions (the memory feature helps at the margins but is not reliable for structured, multi-step business workflows). If your workflow has more than three or four steps, spans multiple days, or requires the model to know what happened in a previous conversation, you need a real workflow tool — not a chat window. This is where <a href="/services/ai-automation-agency/" class="link-coal">proper AI automation</a> earns its keep.
       </p>
       <h3>Tasks requiring your internal data</h3>
       <p>

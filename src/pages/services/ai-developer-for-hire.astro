@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
-const title = "AI consulting services for startups & growing companies | RDTS";
+const title = "AI Consulting Services for Startups | RDTS";
 const description = "Fractional AI consulting — strategy, the right tools, and hands-on integration. One senior AI lead who keeps up with the field so your team ships with AI instead of drowning in it.";
 
 const canonical = '/services/ai-developer-for-hire/';
@@ -65,6 +65,16 @@ const faqSchema = {
   })),
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.rubberducktechsolutions.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.rubberducktechsolutions.com/services/' },
+    { '@type': 'ListItem', position: 3, name: 'AI Consulting', item: 'https://www.rubberducktechsolutions.com/services/ai-developer-for-hire/' },
+  ],
+};
+
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -94,11 +104,11 @@ const whatWeDoCategories = [
   },
   {
     title: 'Hands-on AI integration',
-    body: 'Strategy without implementation is a slide deck. I wire the models into your existing stack — your CRM, your CMS, your internal admin, your content database. Custom skills that encode your team standards. MCP servers that give agents first-class access to your tools. Agents that actually run in production, not just in a Colab notebook. See also: <a href="/services/ai-automation-agency/">AI automation</a> and <a href="/services/ai-integration/">AI integration</a> for specific service shapes.',
+    body: 'Strategy without implementation is a slide deck. I wire the models into your existing stack — your CRM, your CMS, your internal admin, your content database. Custom skills that encode your team standards. MCP servers that give agents first-class access to your tools. Agents that actually run in production, not just in a Colab notebook. See also: <a href="/services/ai-automation-agency/">AI automation</a> and <a href="/services/ai-developer-for-hire/">AI consulting</a> for specific service shapes.',
   },
   {
     title: 'Team training & enablement',
-    body: 'Shipping the integration is half the job. I train your team on what shipped — how to use it, how to prompt it well, what to watch for when it goes wrong, and how to iterate on it without me in the room. Walk-through recordings, short guides, and a async Q&A window are included in every engagement, not billed as consulting hours.',
+    body: 'Shipping the integration is half the job. I train your team on what shipped — how to use it, how to prompt it well, what to watch for when it goes wrong, and how to iterate on it without me in the room. Walk-through recordings, short guides, and an async Q&A window are included in every engagement, not billed as consulting hours. If your team is still getting started with AI tools like ChatGPT, see also: <a href="/learn/chatgpt-for-business/" class="link-saffron">ChatGPT for business</a>.',
   },
   {
     title: 'Fractional AI lead (ongoing)',
@@ -133,7 +143,7 @@ const processSteps = [
   },
 ];
 ---
-<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, serviceSchema]}>
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, serviceSchema, breadcrumbSchema]}>
 
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
@@ -144,8 +154,11 @@ const processSteps = [
       <h1 class="display-h1 mb-8">
         AI consulting services<br />that actually <span class="accent-saffron">ship</span><span class="cursor">_</span>
       </h1>
-      <p class="text-bone-dim text-lg lg:text-xl max-w-3xl mb-10 leading-relaxed">
+      <p class="text-bone-dim text-lg lg:text-xl max-w-3xl mb-6 leading-relaxed">
         I am Long Nguyen — the engineer and AI consultant behind Rubber Duck Tech Solutions. Funded startups and growing companies hire me as a fractional AI lead: one senior person who owns the strategy, picks the tools that matter, and handles the hands-on integration. AI keeps up with you instead of the other way around.
+      </p>
+      <p class="text-bone-dim text-base max-w-3xl mb-10 leading-relaxed">
+        A fractional Chief AI Officer (fractional CAIO) is a part-time senior AI lead embedded in your company — owning strategy, tool selection, and hands-on implementation without a full-time hire. That's the RDTS model.
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>

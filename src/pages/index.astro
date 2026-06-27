@@ -48,12 +48,12 @@ const capabilities = [
   {
     no: '03',
     title: 'Agents & automation',
-    desc: 'Long-running, tool-using agents that own the repeated work — research, content drafts, ops triage, code review. Scoped to what your team actually does.',
+    desc: 'Long-running, tool-using agents that own the repeated work — research, content drafts, ops triage, code review. Scoped to what your team actually does. See <a href="/services/ai-automation-agency/" class="link-coal">AI automation</a>.',
   },
   {
     no: '04',
     title: 'Integrations',
-    desc: 'MCP servers and API wiring into the systems you already pay for — CRM, CMS, analytics, support, repos, drives. Connected to your stack, not a demo environment.',
+    desc: 'MCP servers and API wiring into the systems you already pay for — CRM, CMS, analytics, support, repos, drives. Connected to your stack, not a demo environment. See <a href="/services/ai-developer-for-hire/" class="link-coal">AI consulting</a>.',
   },
   {
     no: '05',
@@ -125,7 +125,7 @@ const steps = [
         <p>
           I work on retainer as your fractional AI lead &mdash; one trusted person who tracks
           the firehose, filters the noise, and puts the few things that actually matter to work
-          in your stack.
+          in your stack. (Some companies call this a fractional Chief AI Officer &mdash; same role, less jargon.)
         </p>
       </div>
 
@@ -195,7 +195,7 @@ const steps = [
           <div class="card-cream p-6">
             <div class="font-mono text-[11px] tracking-spec uppercase text-coal-mute mb-3">{c.no}</div>
             <h3 class="text-[20px] font-semibold tracking-tight2 text-coal mb-3">{c.title}</h3>
-            <p class="text-[14px] text-coal-dim leading-[1.6]">{c.desc}</p>
+            <p class="text-[14px] text-coal-dim leading-[1.6]" set:html={c.desc} />
           </div>
         ))}
       </div>
