@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 
-const title = 'Talk to the duck — scope your AI setup | RDTS';
-const description = 'Tell the duck what your team needs. Get a one-page brief with shape, scope, budget range, and timeline. Long replies within 24 hours.';
+const title = 'Talk to the duck — fractional AI lead | RDTS';
+const description = 'Short conversation with the duck. Tell it about your team and your AI situation — it qualifies whether a fractional AI lead fits and sends Long a brief. Replies within 24 hours.';
 ---
 
 <BaseLayout title={title} description={description} noindex={false}>
@@ -17,9 +17,9 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
             what your team <span class="accent-saffron">needs</span><span class="cursor"></span>
           </h1>
           <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-            Short conversation with the duck — the scoping agent for RDTS. It reads
-            the shape of the work, asks about budget directly, and lines up a brief
-            with scope, range, and timeline. Long follows up within 24 hours.
+            Short conversation with the duck — the qualification agent for RDTS. It reads
+            your AI situation, asks about the team and the overwhelm, and sends Long a
+            brief so the first call is already scoped. Replies within 24 hours.
           </p>
         </div>
         <div class="hidden lg:flex col-span-5 justify-end items-center">
@@ -29,7 +29,7 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
     </div>
   </section>
 
-  <Section tone="cream" label="Scope sheet builder">
+  <Section tone="cream" label="Qualification sheet">
     <div class="grid grid-cols-12 gap-4 lg:gap-6">
 
       {/* === Conversation panel === */}
@@ -37,7 +37,7 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
         <div class="border-b border-cream-border px-5 py-3 flex items-center justify-between bg-cream-light">
           <div class="flex items-center gap-3">
             <span class="status-pill__dot"></span>
-            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Session · scope mode</span>
+            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Session · qualification mode</span>
           </div>
           <span id="rev-counter" class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">Rev A · draft</span>
         </div>
@@ -48,17 +48,17 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
           <div id="thread" class="flex flex-col justify-end space-y-5 mb-5 flex-1 min-h-[280px] overflow-y-auto">
             <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
               <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
-              <span>What are you trying to set up — your own tooling, or for a team?</span>
+              <span>Tell me about the company — what do you do and roughly how big is the team?</span>
             </div>
           </div>
 
           {/* Composer */}
           <form id="composer" class="border-t border-cream-border pt-4 mt-auto">
-            <label for="scope-input" class="sr-only">Tell the duck what you're building</label>
+            <label for="scope-input" class="sr-only">Tell the duck about your team and AI situation</label>
             <textarea
               id="scope-input"
               class="w-full min-h-[120px] bg-cream-light border border-cream-border p-4 text-[15px] text-coal font-sans resize-y focus:outline-none focus:border-saffron-shadow rounded-soft placeholder:text-coal-mute/70"
-              placeholder="e.g. Six-person agency. Everyone pays for ChatGPT but uses it differently — nothing knows our client docs. Want one shared setup so the team stops reinventing."
+              placeholder="e.g. 30-person Series A. We've tried ChatGPT, Notion AI, a few others — nothing has stuck and we still don't have a real AI strategy. It feels like we're falling behind and no one owns it."
               required
               maxlength="4000"
             ></textarea>
@@ -78,19 +78,19 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
       <div class="col-span-12 lg:col-span-5 flex flex-col">
       <aside class="card-cream overflow-hidden flex flex-col">
         <div class="border-b border-cream-border px-5 py-3 flex items-center justify-between bg-cream-light">
-          <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Spec sheet · live</span>
+          <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Qualification sheet · live</span>
           <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">auto</span>
         </div>
         <div class="p-6 lg:p-7 flex-1 flex flex-col">
           <div id="spec-fields" class="space-y-5 flex-1">
             {[
-              ['Shape', 'shape', 'awaiting input…'],
+              ['Engagement shape', 'shape', 'awaiting input…'],
               ['Team size', 'team_size', 'awaiting input…'],
-              ['Budget range', 'budget_range', 'awaiting input…'],
-              ['Urgency', 'urgency', 'awaiting input…'],
-              ['Current stack', 'current_stack', 'awaiting input…'],
-              ['Current pain', 'current_pain', 'awaiting input…'],
-              ['Scope proposed', 'scope_proposed', 'awaiting input…'],
+              ['Retainer / budget', 'budget_range', 'awaiting input…'],
+              ['Urgency / forcing function', 'urgency', 'awaiting input…'],
+              ['Current AI tools', 'current_stack', 'awaiting input…'],
+              ['Pain / overwhelm', 'current_pain', 'awaiting input…'],
+              ['Proposed engagement', 'scope_proposed', 'awaiting input…'],
             ].map(([label, key, val]) => (
               <div>
                 <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-1">{label}</div>
@@ -121,7 +121,7 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
             <input id="lead-honeypot" name="website" type="text" tabindex="-1" autocomplete="off"
               class="absolute left-[-9999px] opacity-0 pointer-events-none" aria-hidden="true"/>
             <button id="lead-submit" type="submit" class="btn btn-primary text-[13px] mt-1">
-              Email this spec to me
+              Email this brief to me
             </button>
             <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener"
                class="btn btn-outline-dark text-[13px]">
@@ -132,14 +132,14 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
 
           {/* Pre-ready state */}
           <div id="lead-prompt" class="text-[12px] font-mono text-coal-mute italic">
-            // submit + book buttons appear once the spec locks
+            // submit + book buttons appear once the brief locks
           </div>
 
           {/* Success state */}
           <div id="lead-success" class="hidden">
             <div class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow mb-2">Sent</div>
             <p class="text-[14px] text-coal-dim leading-[1.6] mb-4">
-              Brief is in your inbox. Long replies within 24 hours. If anything in the summary looks off, reply to that email.
+              Qualification brief is in your inbox. Long replies within 24 hours. If anything in the summary looks off, reply to that email.
             </p>
             <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener" class="btn btn-primary text-[13px]">
               Book a call now →
@@ -342,7 +342,7 @@ const description = 'Tell the duck what your team needs. Get a one-page brief wi
           leadError.textContent = 'Send failed: ' + err.message;
           leadError.classList.remove('hidden');
           leadSubmit.disabled = false;
-          leadSubmit.textContent = 'Email this spec to me';
+          leadSubmit.textContent = 'Email this brief to me';
         }
       });
     })();

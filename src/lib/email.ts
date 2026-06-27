@@ -20,13 +20,13 @@ const CALENDLY_URL   = import.meta.env.CALENDLY_URL   || 'https://calendly.com/n
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 /**
- * State object captured by the duck during the scoping conversation.
+ * State object captured by the duck during the qualification conversation.
  * Matches Section 3H of the pivot design spec.
  */
 export interface SpecSheet {
   shape: string;                  // "Quick fix" | "Tuneup" | "Workspace" | "Rollout" | "Custom" | "Ad iteration" | "Software build" | "unsure"
-  team_size: string | null;       // "solo" | "4" | "12" | ...
-  budget_range: string | null;    // "$2K" | "$3-5K" | "open" | ...
+  team_size: string | null;       // "solo" | "4" | "12" | "40" | ...
+  budget_range: string | null;    // "monthly retainer" | "open" | "project budget ~$20K" | ...
   budget_flex: string;            // "below_floor" | "in_band" | "above_ceiling" | "unknown"
   current_stack: string | null;
   current_pain: string | null;
@@ -48,13 +48,13 @@ export interface LeadPayload {
 
 function formatSpecText(spec: SpecSheet): string {
   return [
-    `Shape: ${spec.shape || 'unsure'}`,
+    `Engagement shape: ${spec.shape || 'unsure'}`,
     `Team size: ${spec.team_size || '(unset)'}`,
-    `Budget range: ${spec.budget_range || '(unset)'} (${spec.budget_flex || 'unknown'})`,
-    `Urgency: ${spec.urgency || '(unset)'}`,
-    `Current stack: ${spec.current_stack || '(unset)'}`,
-    `Current pain: ${spec.current_pain || '(unset)'}`,
-    `Scope proposed: ${spec.scope_proposed || '(unset)'}`,
+    `Retainer / budget: ${spec.budget_range || '(unset)'} (${spec.budget_flex || 'unknown'})`,
+    `Urgency / forcing function: ${spec.urgency || '(unset)'}`,
+    `Current AI tools: ${spec.current_stack || '(unset)'}`,
+    `Pain / overwhelm: ${spec.current_pain || '(unset)'}`,
+    `Proposed engagement: ${spec.scope_proposed || '(unset)'}`,
     `Hard-no triggered: ${spec.hard_no_triggered ? 'YES' : 'no'}`,
   ].join('\n');
 }
@@ -71,17 +71,18 @@ function formatTranscript(transcript: LeadPayload['transcript']): string {
  */
 function buyerSummary(spec: SpecSheet): string {
   const teamPhrase = spec.team_size === 'solo' || spec.team_size === '1'
-    ? 'a solo setup'
+    ? 'a solo engagement'
     : spec.team_size
       ? `a team of ${spec.team_size}`
-      : 'your setup';
-  return `${spec.shape || 'A setup'} for ${teamPhrase}. ${spec.scope_proposed || ''}`.trim();
+      : 'your team';
+  const shape = spec.shape && spec.shape !== 'unsure' ? spec.shape : 'Fractional AI lead';
+  return `${shape} for ${teamPhrase}. ${spec.scope_proposed || ''}`.trim();
 }
 
 export async function sendLeadToLong(payload: LeadPayload) {
   if (!resend) throw new Error('RESEND_API_KEY not configured');
 
-  const subject = `[RDTS lead] ${payload.name} · ${payload.spec.shape || 'unsure'}${payload.spec.budget_range ? ` · ${payload.spec.budget_range}` : ''}`;
+  const subject = `[RDTS lead] ${payload.name} · ${payload.spec.shape || 'unsure'}${payload.spec.team_size ? ` · ${payload.spec.team_size} people` : ''}${payload.spec.budget_range ? ` · ${payload.spec.budget_range}` : ''}`;
 
   const body = [
     payload.intakeBrief,
@@ -108,16 +109,16 @@ export async function sendSpecToVisitor(payload: LeadPayload) {
   if (!resend) throw new Error('RESEND_API_KEY not configured');
 
   const firstName = payload.name.split(' ')[0];
-  const shape = payload.spec.shape || 'setup';
-  const subject = `Your AI setup brief — ${shape}`;
+  const shape = payload.spec.shape && payload.spec.shape !== 'unsure' ? payload.spec.shape : 'Fractional AI lead';
+  const subject = `Your qualification brief — ${shape}`;
 
   const tldr = buyerSummary(payload.spec);
-  const scopeShort = payload.spec.scope_proposed || '(scope to be confirmed)';
+  const scopeShort = payload.spec.scope_proposed || '(engagement shape to be confirmed on call)';
 
   // "Not included" — derive from spec; if nothing explicit, give a short honest line.
   const notIncluded = payload.spec.hard_no_triggered
     ? 'This one is outside what I take on — see the note above.'
-    : 'Anything outside the scope above is a separate conversation. If you want it folded in, just reply.';
+    : 'Anything outside the engagement above is a separate conversation. If the scope should be different, just reply.';
 
   const body = [
     `Hey ${firstName},`,
@@ -126,7 +127,7 @@ export async function sendSpecToVisitor(payload: LeadPayload) {
     '',
     tldr,
     '',
-    `What I'd actually do:`,
+    'What the engagement would cover:',
     scopeShort,
     '',
     'Not included:',
