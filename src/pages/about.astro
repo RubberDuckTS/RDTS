@@ -4,8 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import headshot from '../assets/long-headshot.webp';
 
-const title = 'About Long Nguyen — founder of RDTS';
-const description = 'I\'m Long. Nearly a decade writing production code, since 2018 — pre-LLM. I install your AI environment: skills, agents, integrations, the harness your team actually uses. Solo studio in Missouri.';
+const title = 'About Long Nguyen — fractional AI lead at RDTS';
+const description = 'I\'m Long. Nearly a decade shipping production code. I track the AI firehose daily — agents, Claude/GPT, MCP — so the companies I work with don\'t have to. Fractional AI lead on monthly retainer.';
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -58,15 +58,15 @@ const personSchema = {
           <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>// fractional AI lead</span></div>
           <h1 class="display-h1 mb-6 max-w-[18ch]">
             I'm <span class="accent-saffron">Long</span>.<br/>
-            I install your<br/>
-            <span class="underline-saffron">AI environment</span><span class="cursor"></span>
+            I keep up with<br/>
+            <span class="underline-saffron">AI so you don't</span><span class="cursor"></span>
           </h1>
           <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-            Solo founder of RDTS. Nearly a decade writing production software — started in 2018,
-            before Midjourney existed and well before LLMs could ship usable code. Spent the agency
-            years as the in-house dev other teams called when their tools stopped working the way
-            their work actually worked. Went solo to set that up properly, on purpose, for whoever
-            needs it.
+            Solo founder of RDTS. Nearly a decade shipping production software — started in 2018,
+            before Midjourney existed and well before LLMs could write usable code. I build with AI
+            daily: agents, Claude/GPT, MCP servers, custom harnesses. That's the job. Funded
+            startups and growing companies hire me as their fractional AI lead so they don't have to
+            keep up themselves.
           </p>
         </div>
         <div class="hidden lg:flex col-span-4 justify-end">
@@ -109,32 +109,24 @@ const personSchema = {
 
           <p>
             What I kept watching, at both shops and at every team I've worked with since, is the same
-            scene. Someone pays for ChatGPT Teams or Claude. A couple of people on the team use it
-            constantly. Most don't touch it. The tools don't know the company's work. Each person
-            who uses them does it differently. Nobody on the team actually knows what's possible. So
-            the seat licenses go on the budget review and the work goes on being done the way it was
-            done before.
+            scene: the firehose never stops. New models, new harnesses, new integrations, new
+            capabilities announced every two weeks. Most operators don't have time to evaluate any of
+            it. They're running the company. So the team misses what matters, adopts what's hyped,
+            and ends up with a pile of seat licenses that don't do much.
           </p>
 
           <p>
-            That gap isn't a "your people need more training" problem. It's a setup problem. The
-            harness (Claude Code, Cursor, Codex, OpenClaw, whatever fits the team) needs skills that
-            know your codebase, your clients, your standards. It needs MCP servers wired into the
-            tools you already pay for. It needs agents that can actually do the work, not just
-            describe it. None of that is the buyer's job to figure out.
+            That's the problem a fractional AI lead solves. I track the firehose for you. I know
+            which releases matter for your stack and which are noise. I audit what your team is
+            using, build what should exist, wire in the integrations that compound over time, and
+            show up on retainer so there's always someone who keeps up — without you having to hire
+            a full-time head of AI.
           </p>
 
           <p>
-            That's RDTS. I install your AI environment — skills, agents, integrations, the whole
-            stack — configured for the way your team actually operates. Harness-agnostic,
-            model-agnostic, opinionated about matching the right pieces to the use case.
-          </p>
-
-          <p>
-            I also build custom software and websites when the duck spots that's what you
-            actually need. The setup work is the wedge, but if you describe the problem and it
-            turns out you need an app, not a stack — I build the app. Same engineer, same fixed
-            pricing, source code yours on day one.
+            That's RDTS. The offer is a fractional AI lead on monthly retainer for funded startups
+            and growing companies. Harness-agnostic, model-agnostic, opinionated about matching the
+            right pieces to the use case.
           </p>
 
           <p>
@@ -150,12 +142,12 @@ const personSchema = {
   <Section tone="dark" label="What I believe">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {[
-        ['The tools aren\'t the problem.', 'Most teams already pay for the right AI tools. They\'re just installed wrong, configured wrong, or sitting next to the actual work instead of inside it.'],
+        ['Keeping up is the job.', 'The AI release calendar doesn\'t pause for your roadmap. Part of what you\'re paying for on retainer is someone who reads the announcements, filters the noise, and tells you what actually changes your stack.'],
         ['Harness-agnostic, on purpose.', 'Claude Code, Cursor, Codex, OpenClaw, Cline, Aider — they\'re all good for something. I pick the one that fits the team and the work, not the one I have a discount code for.'],
         ['Source code transfers to you.', 'Skills, agents, MCP servers, software builds — all of it ships into your repo, your infra, your accounts. Take it anywhere later.'],
-        ['Solo, on purpose.', 'No agency layer between you and the engineer. The person you talk to first is the person doing the setup. That\'s the entire point.'],
+        ['Solo, on purpose.', 'No agency layer between you and the engineer. The person you talk to first is the person doing the work. That\'s the entire point.'],
         ['Specific over generic.', 'I tell you which harness, which model, which integration — and why. You hire me for opinions, not vibes.'],
-        ['Honest no-list.', 'Foundation-model pre-training and cleared work — I refer those out. Everything else in the AI setup lane, I\'ll quote honestly.'],
+        ['Honest no-list.', 'Foundation-model pre-training and cleared work — I refer those out. Everything else in the fractional AI lead lane, I\'ll quote honestly.'],
       ].map(([head, body]) => (
         <div class="card-dark p-6">
           <h3 class="text-[18px] font-semibold tracking-tight2 text-bone mb-2">{head}</h3>
@@ -169,10 +161,10 @@ const personSchema = {
   <Section tone="cream" label="The receipts">
     <div class="grid grid-cols-12 gap-x-8 gap-y-10">
       <div class="col-span-12 lg:col-span-5">
-        <h2 class="display-h2 mb-5">Real builds.<br/>Not lorem ipsum.</h2>
+        <h2 class="display-h2 mb-5">Ships things.<br/>Keeps up with AI.</h2>
         <p class="text-[15px] text-coal-dim leading-[1.65] max-w-[44ch] mb-6">
-          The clearest signal of "is this person actually a working engineer?" is real software with
-          real users. Three projects worth pointing at:
+          The two things you want from a fractional AI lead: real engineering chops and genuine
+          fluency with current AI. Three builds that show both:
         </p>
       </div>
 
@@ -240,7 +232,7 @@ const personSchema = {
             <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Studio</dt><dd class="text-bone font-medium">RDTS / Long Win LLC</dd></div>
             <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Based</dt><dd class="text-bone font-medium">Missouri, US</dd></div>
             <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Working solo</dt><dd class="text-bone font-medium">Yes</dd></div>
-            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Primary work</dt><dd class="text-bone font-medium text-right">AI environment setup</dd></div>
+            <div class="flex justify-between gap-4 border-b border-ink-border pb-3"><dt class="text-bone-mute">Primary offer</dt><dd class="text-bone font-medium text-right">fractional AI lead<br/>on retainer</dd></div>
             <div class="flex justify-between gap-4"><dt class="text-bone-mute">Also builds</dt><dd class="text-bone font-medium text-right">custom software<br/>and websites</dd></div>
           </dl>
           <div class="flex gap-3 mt-5 pt-4 border-t border-ink-border">
