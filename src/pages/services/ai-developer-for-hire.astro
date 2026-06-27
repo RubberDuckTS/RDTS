@@ -2,15 +2,15 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
-const title = 'Hire an AI developer who actually ships | Long Nguyen / RDTS';
-const description = 'AI developer for hire — I install your AI environment (skills, agents, MCP servers, harnesses) and build custom software when you need the app, not the stack. Source code yours, solo engineer in MO.';
+const title = "AI consulting services for startups & growing companies | RDTS";
+const description = "Fractional AI consulting — strategy, the right tools, and hands-on integration. One senior AI lead who keeps up with the field so your team ships with AI instead of drowning in it.";
 
 const canonical = '/services/ai-developer-for-hire/';
 
 const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Hire an AI developer who actually ships',
+  headline: 'AI consulting services for startups & growing companies',
   description,
   author: {
     '@type': 'Person',
@@ -25,29 +25,33 @@ const articleSchema = {
     '@id': 'https://www.rubberducktechsolutions.com/services/ai-developer-for-hire/',
   },
   datePublished: '2026-05-05',
-  dateModified: '2026-05-21',
+  dateModified: '2026-06-27',
 };
 
 const faqs = [
   {
-    q: 'How experienced are you as an AI developer for hire?',
-    a: 'Nearly a decade writing production software, since 2018 — back when LLMs could not yet ship usable code. Spent the agency years as the in-house dev other teams called when their tools stopped fitting their work. Since going solo as RDTS I have shipped real production AI software — including ClipMango, a multi-model AI music video pipeline, and a creator booking platform with AI-assisted matching. I work full time on Anthropic Claude (frontier and small variants), OpenAI GPT models, MCP servers, Claude skills, and the harnesses people actually use day-to-day: Claude Code, Cursor, Codex, OpenClaw, Cline, Aider. No bench, no offshore handoff — you talk to the engineer doing the work.',
+    q: 'What do your AI consulting services actually include?',
+    a: 'Strategy and roadmap first — I audit what you have, map where AI earns its keep, and prioritize ruthlessly. Then tooling: I pick the two or three things worth building or buying (and name the ten you should ignore). Then hands-on integration — I wire the models into your existing stack, write the agents and skills, and ship something your team runs every day. Training your team on what shipped is part of the engagement, not a paid add-on. No slide decks without implementation to back them up.',
   },
   {
-    q: 'What is your availability and turnaround time?',
-    a: 'I typically start new engagements within one to two weeks of the scoping conversation. One-day micro-jobs (single skill install, one MCP wiring, page-speed fix) start at $500 and ship in days. Tuneup-shaped work for one person ships in about a week. Team Workspace setups ship in one to two weeks. Larger Rollouts (agency, role-specific configs, adoption work) run three to six weeks. I run one to two engagements at a time so deadlines are real, not aspirational. If I cannot start in your window I will say so on the scoping call.',
+    q: 'How experienced are you as an AI consultant?',
+    a: 'Nearly a decade writing production software, since 2018 — before LLMs could ship usable code. Spent agency years as the in-house engineer other teams called when their tools stopped fitting their work. Since going solo as RDTS I have shipped real production AI projects: ClipMango (a multi-model AI music video pipeline), Lee De Card (a creator booking platform with AI-assisted matching), and Dragon Wagons (a content automation backend). I work daily with Anthropic Claude, OpenAI GPT models, MCP servers, Claude skills, and the harnesses teams actually use. When you hire me for AI consulting, you get the engineer who did the work — not a strategist who subcontracts the build.',
+  },
+  {
+    q: 'What is the engagement model — retainer, project, or both?',
+    a: 'Both, depending on what you need. Some clients want a scoped project: define the roadmap, pick the stack, build the integration, hand it off. Others want an ongoing fractional AI lead — monthly retainer for strategy, model upgrades, new integrations, and keeping up with a field that moves every week. Most start with a defined first engagement and move to retainer once the fit is clear. The duck scoping call reads which shape fits your situation and names a price in plain English.',
   },
   {
     q: 'Will you sign an NDA?',
     a: 'Yes. I sign mutual NDAs before any scoping conversation that touches sensitive data, prompts, customer lists, or proprietary workflows. If you have a standard NDA on hand, send it. If not, I have a short one that works for most engagements.',
   },
   {
-    q: 'Do I own the source code and the IP?',
-    a: 'Yes. Every engagement transfers full source code, configs, and IP rights to you on final payment. You get the GitHub repo, the deploy keys, the prompt files, the skill definitions, the MCP server source — everything. No platform lock-in, no licensed black box, no per-seat fee on top. If you want to fire me and hand the codebase to another engineer next quarter, the codebase is structured so that works.',
+    q: 'Do I own the source code and IP?',
+    a: 'Yes. Every engagement transfers full source code, configs, and IP rights to you on final payment. You get the GitHub repo, the deploy keys, the prompt files, the skill definitions, the MCP server source — everything. No platform lock-in, no licensed black box, no per-seat fee on top. If you want to bring it in-house or hand it to another engineer, the codebase is structured so that works.',
   },
   {
-    q: 'Do you offer ongoing support after launch?',
-    a: 'Yes, optionally. After ship I include a short bug-fix window at no charge. Beyond that I offer a monthly retainer for ongoing skill iteration, model upgrades, integration work, and additional builds — scoped per client. Some clients want one setup and disappear. Some keep me on for new skills and new pipelines every month. Both are fine.',
+    q: 'How do you differ from AI consulting firms?',
+    a: 'Most AI consulting companies separate the strategy layer from the build layer — you pay a consultant to produce a roadmap, then you hire someone else (or the same firm at a higher rate) to implement it. By the time the implementation starts, the strategy is already stale. I am the same person writing the roadmap and shipping the code. The strategy gets tested against reality immediately. When the model behavior surprises us, I adjust the architecture — not in a follow-up engagement six months later.',
   },
 ];
 
@@ -64,8 +68,8 @@ const faqSchema = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'AI Developer for Hire',
-  description: 'AI environment setup — skills, agents, MCP servers, harness configuration — plus custom AI software development when the work calls for an app, not a stack.',
+  name: 'AI Consulting Services',
+  description: 'Fractional AI consulting — strategy, tool selection, hands-on integration, and team training for startups and growing companies.',
   provider: { '@type': 'Organization', name: 'Rubber Duck Tech Solutions' },
   areaServed: { '@type': 'Country', name: 'US' },
   offers: {
@@ -79,30 +83,30 @@ const serviceSchema = {
   },
 };
 
-const buildCategories = [
+const whatWeDoCategories = [
   {
-    title: 'AI environment setup',
-    body: 'The primary lane. I install your harness (Claude Code, Cursor, Codex, OpenClaw, Cline, Aider — whichever fits the work), write the skills that know your codebase and standards, wire up the MCP servers that connect your existing tools, and configure agents that can actually do the work — not just describe it. Set up for the way your team operates, not a generic template off a tutorial.',
+    title: 'AI strategy & roadmap',
+    body: 'Before anything gets built, I audit your current stack and map where AI actually earns its keep. Most teams have five ideas and bandwidth for one. I help you pick the one — or the three, in the right order — and build a roadmap that survives contact with your engineering capacity and your actual business goals. No generic playbooks copied from a conference slide.',
   },
   {
-    title: 'Custom skills and MCP servers',
-    body: 'Claude skills that encode your team\'s playbooks. MCP servers that plug your internal tools, databases, and APIs into Claude Code, Claude Desktop, Cursor, and custom agents. First-class access to your data and actions, no scraping, no brittle browser automation, no credentials leaking into prompts.',
+    title: 'Tool selection (the real kind)',
+    body: 'The market has hundreds of AI tools, wrappers, and platforms, most of which will not exist in two years. I pick the two or three worth integrating — and name the ten you should ignore. Model selection (which LLM, which tier, which fine-tune if any), harness selection (Claude Code, Cursor, or something custom), and vendor decisions get made on what ships reliably in production, not what looks good in a demo.',
   },
   {
-    title: 'Agent harnesses, wired correctly',
-    body: 'Most "AI agents" people ask for are really one or two prompted calls with tool use — those do not need a full agent loop. When agents are the right answer, I pick the harness, write the tool surface, set up the retry and guardrail layers, and ship something your team actually runs every day.',
+    title: 'Hands-on AI integration',
+    body: 'Strategy without implementation is a slide deck. I wire the models into your existing stack — your CRM, your CMS, your internal admin, your content database. Custom skills that encode your team standards. MCP servers that give agents first-class access to your tools. Agents that actually run in production, not just in a Colab notebook. See also: <a href="/services/ai-automation-agency/">AI automation</a> and <a href="/services/ai-integration/">AI integration</a> for specific service shapes.',
+  },
+  {
+    title: 'Team training & enablement',
+    body: 'Shipping the integration is half the job. I train your team on what shipped — how to use it, how to prompt it well, what to watch for when it goes wrong, and how to iterate on it without me in the room. Walk-through recordings, short guides, and a async Q&A window are included in every engagement, not billed as consulting hours.',
+  },
+  {
+    title: 'Fractional AI lead (ongoing)',
+    body: 'AI moves fast enough that the right answer in January is often wrong by April. On monthly retainer I keep up with the field so you do not have to — new model releases, new tooling, new integration patterns. I flag what changes, update what matters, and keep your stack from going stale. One senior AI person who knows your codebase, at a fraction of the cost of a full-time hire.',
   },
   {
     title: 'Custom AI software',
-    body: 'When the duck spots that you need an app, not a setup — I build the app. Full-stack applications where AI is a feature, not the marketing. Next.js or Astro on the front, Node and Postgres or Supabase on the back, model calls wired in where they earn their keep. Auth, billing, file storage, queueing — the boring pieces that turn a demo into software customers pay for.',
-  },
-  {
-    title: 'Internal AI dashboards',
-    body: 'Teams hire me to build the dashboard their ops team actually wants — bulk classification, prompt libraries, generation queues, cost tracking, output review. Tailored to your workflow. You stop paying per-seat for a SaaS that does 30% of what you need and start owning the tool that does 100%.',
-  },
-  {
-    title: 'AI integrations into existing software',
-    body: 'You already have a CRM, a CMS, a content database, an internal admin panel. I drop AI capabilities into what you already run — semantic search, auto-tagging, draft generation, summarization, translation. Behind your existing auth, in your existing UI, on your existing infra.',
+    body: 'When the consulting engagement surfaces a gap that a third-party tool will not fill, I build the app. Internal dashboards, AI pipelines, creator platforms, content automation backends — full-stack production software where AI is a real feature, not the marketing. Source code yours on ship day.',
   },
 ];
 
@@ -110,22 +114,22 @@ const processSteps = [
   {
     label: 'Step 01',
     title: 'Talk to the duck',
-    body: 'Five-minute scoping conversation with the duck — a custom AI agent I built. You describe what you\'re trying to set up, who\'s on the team, what\'s broken. The duck reads the shape, names a price in plain English, and sends a brief to both of us. No qualification grid, no funnel, no follow-up sequence.',
+    body: 'Five-minute scoping conversation with the duck — a custom AI agent I built. You describe what you are trying to accomplish, who is on the team, and what you have already tried. The duck reads the shape of the engagement, names a price in plain English, and sends a brief to both of us. No qualification grid, no funnel.',
   },
   {
     label: 'Step 02',
     title: 'Scope',
-    body: 'I send back a one-page scope inside 48 hours: what gets installed or built, what does not, the shape (Quick fix, Tuneup, Workspace, Rollout, or Custom), the timeline, the deliverables, the price. Fixed. If you want changes, we change it before we start, not halfway through. Once you sign, the scope is the contract.',
+    body: 'I send back a one-page scope inside 48 hours: what the engagement covers, what it does not, the format (project, roadmap, retainer, or some mix), the timeline, the deliverables, and the price. Fixed. We align on this before anything starts.',
   },
   {
     label: 'Step 03',
-    title: 'Install / build',
-    body: 'I do the work solo, in your GitHub org if you have one or a fresh repo I transfer at the end. You see commits as they land. Mid-build check-ins are async — Loom and a shared doc — unless you want a weekly call. No status meetings for the sake of meetings.',
+    title: 'Strategy → build',
+    body: 'Roadmap first, then integration. I audit the stack, pick the tools, and — in the same engagement — build what needs building. No strategy-only engagements that leave you with a doc and no one to implement it. You see commits as they land and get async check-ins throughout.',
   },
   {
     label: 'Step 04',
     title: 'Ship and hand off',
-    body: 'On ship day you get the deploy, the source code, the skill definitions, the MCP server configs, a README another engineer can pick up cold, and a walkthrough recording. A short bug-fix window is included. After that you can take it in-house, hand it to your team, or keep me on monthly retainer for the next round.',
+    body: 'On ship day you get the deploy, the source code, the configs, a README another engineer can pick up cold, and a walkthrough recording. A short bug-fix window is included. After that: bring it in-house, keep me on monthly retainer, or call me in for the next round.',
   },
 ];
 ---
@@ -138,10 +142,10 @@ const processSteps = [
         <span>// fractional AI lead</span>
       </div>
       <h1 class="display-h1 mb-8">
-        Hire an AI developer<br />who actually <span class="accent-saffron">ships</span><span class="cursor">_</span>
+        AI consulting services<br />that actually <span class="accent-saffron">ship</span><span class="cursor">_</span>
       </h1>
       <p class="text-bone-dim text-lg lg:text-xl max-w-3xl mb-10 leading-relaxed">
-        I am Long Nguyen, the engineer behind Rubber Duck Tech Solutions. If you are looking to hire an AI developer for a real production engagement — installing your AI environment (skills, agents, MCP servers, harness configuration), or building the custom software your team needs — this page tells you exactly how I work and why I do not bid on Upwork. Solo engineer, fixed price, source code yours on day one.
+        I am Long Nguyen — the engineer and AI consultant behind Rubber Duck Tech Solutions. Funded startups and growing companies hire me as a fractional AI lead: one senior person who owns the strategy, picks the tools that matter, and handles the hands-on integration. AI keeps up with you instead of the other way around.
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
@@ -151,61 +155,61 @@ const processSteps = [
 
   <Section tone="cream" label="Who I am">
     <div class="prose-rdts max-w-3xl">
-      <h2 class="display-h2 mb-8">Solo engineer, two agency stints, real projects shipped</h2>
+      <h2 class="display-h2 mb-8">A decade shipping AI — before the hype, through it, after it</h2>
       <p>
-        Before RDTS, I spent years as the in-house dev inside two marketing agencies. That is where I learned what teams actually need from software — and how badly most agencies and freelancers miss it. I am not an ex-creator who picked up code last year. I have been writing production software since 2018 — pre-LLM, pre-Midjourney — and I happened to spend a long stretch of that inside content shops.
+        Before RDTS, I spent years as the in-house engineer inside two marketing agencies. That is where I learned what teams need from software — and how badly most consultants miss it. I have been writing production software since 2018, pre-LLM, and I have been building with AI models since they were too slow and too expensive for most companies to care.
       </p>
       <p>
-        I run RDTS — Rubber Duck Tech Solutions, the trade name of Long Win LLC, registered in Missouri — as a solo practice. No bench, no offshore subcontractors, no project managers in the way. When you hire me, you get me. The engineer on the call is the engineer doing the setup and the engineer responding to bugs at 11pm before launch.
+        I run RDTS — Rubber Duck Tech Solutions, the trade name of Long Win LLC, registered in Missouri — as a solo practice. No bench, no offshore subcontractors, no PM between you and the person doing the work. The AI consultant on the call is the engineer wiring the integration.
       </p>
       <p>
-        My current default kit: Anthropic Claude (the frontier model for reasoning, a smaller Claude variant for high-volume classification), OpenAI's flagship GPT where it specifically wins, MCP servers and the Claude Agent SDK for tool-using agents, custom Claude skills for team standards, harness configuration across Claude Code, Cursor, Codex, OpenClaw, Cline, and Aider, Node and TypeScript on the server, Postgres or Supabase for data, and Astro or Next.js on the front. I built ClipMango — an end-to-end AI music video pipeline that orchestrates lyric segmentation, keyframe generation, and Seedance video models — entirely solo. I shipped Lee De Card, a creator booking platform, and Dragon Wagons, a content automation backend, the same way.
+        Proof points from recent engagements: <strong>ClipMango</strong> — an end-to-end AI music video pipeline orchestrating lyric segmentation, keyframe generation, and Seedance video models, built entirely solo. <strong>Lee De Card</strong> — a creator booking platform with AI-assisted matching. <strong>Dragon Wagons</strong> — a content automation backend. These are not proofs-of-concept. They are production software that runs every day.
       </p>
       <p>
-        If you want <a href="/about/" class="link-coal">more about my background</a>, the about page goes deeper. If you want to skip ahead and talk, <a href="/talk/" class="link-coal">talk to the duck</a>.
+        My current default kit for artificial intelligence consulting services: Anthropic Claude (frontier for reasoning and long-context work, smaller variants for high-volume classification), OpenAI's flagship GPT where it specifically wins, MCP servers and the Claude Agent SDK for tool-using agents, and custom skills that encode team standards. Harness depends on the team: Claude Code, Cursor, Codex, OpenClaw, Cline, Aider — whichever fits.
+      </p>
+      <p>
+        If you want <a href="/about/" class="link-coal">more background</a>, the about page goes deeper. If you want to skip ahead, <a href="/talk/" class="link-coal">talk to the duck</a>.
       </p>
     </div>
   </Section>
 
-  <Section tone="dark" label="What I build (and ship)">
-    <h2 class="display-h2 mb-12">What hiring an AI developer actually gets you</h2>
+  <Section tone="dark" label="What AI consulting includes">
+    <h2 class="display-h2 mb-12">What an AI consulting engagement covers</h2>
     <div class="grid md:grid-cols-2 gap-6">
-      {buildCategories.map(cat => (
+      {whatWeDoCategories.map(cat => (
         <article class="card-dark p-7 lg:p-8">
           <h3 class="display-h3 mb-4">{cat.title}</h3>
-          <p class="text-bone-dim leading-relaxed">{cat.body}</p>
+          <p class="text-bone-dim leading-relaxed" set:html={cat.body} />
         </article>
       ))}
     </div>
     <div class="mt-12">
       <p class="text-bone-dim max-w-3xl leading-relaxed">
-        Most engagements are some mix of these. A typical team Workspace looks like harness configuration plus a handful of custom skills plus one or two MCP servers wired into the tools the team already pays for. A typical custom-software engagement looks like an internal dashboard plus an integration into the client's existing CMS. The duck reads which one you need on the scoping call.
+        Most engagements combine several of these. A typical first project: strategy + roadmap plus one or two integrations built and shipped. A typical retainer: ongoing model upgrades, new skill development, and quarterly roadmap refreshes. The duck reads which shape fits your situation on the scoping call.
       </p>
     </div>
   </Section>
 
-  <Section tone="cream" label="Why not Upwork or Toptal">
+  <Section tone="cream" label="Why not a consulting firm">
     <div class="prose-rdts max-w-3xl">
-      <h2 class="display-h2 mb-8">Why not just hire an AI developer on Upwork or Toptal</h2>
+      <h2 class="display-h2 mb-8">Why not hire one of the big AI consulting firms</h2>
       <p>
-        Honest answer: for the right job, you should. If you need a 4-hour script to clean up a CSV, posting on Upwork or Fiverr is the right move. I do not compete on $25 one-offs and you should not pay me solo-engineer prices for one.
+        Honest answer: for the right situation, you should. If you need a team of ten, a six-month enterprise rollout, and a PM layer between you and the engineers — hire one of the large AI consulting companies. That is not what I do, and you should not pay solo-consultant prices for it.
       </p>
       <p>
-        Where the marketplace model breaks down is real engagements. The bid model rewards the lowest bid, not the best engineer, which means you spend your time filtering scammers and re-interviewing juniors with stolen portfolios. Even when you find a good freelance AI developer, the platform incentivizes them to disappear at the end of the contract — Upwork penalizes off-platform continuity, so the moment your project ships, your engineer's incentive is to be done. There is no second engagement, no model upgrade six months later, no "hey can you fix that MCP server that broke when Anthropic shipped a new SDK." You are starting over with a stranger every time.
+        Where the large AI consulting firms break down for startups and growing companies: the strategy layer and the implementation layer are different people. A partner writes the roadmap. A junior team implements it. By the time implementation starts, the strategy is already stale — and no one on the implementation team has the context to push back on it. You end up with a perfectly executed plan for the problem you had six months ago.
       </p>
       <p>
-        Toptal and Arc.dev solve part of this with vetted talent, and they are better than the open marketplaces. The problem there is the agency layer — you are paying retail-plus-margin to a middleman, your engineer often has three other clients, and the source code patterns are whatever the placement engineer happens to like that month. Continuity exists in theory. In practice, when your engineer rolls off, the next one starts the codebase tour from scratch.
+        I am the same person writing the roadmap and shipping the code. When the model behavior surprises us mid-integration, I update the strategy in the same afternoon, not in a follow-up engagement. When a new model drops and changes what was the right call two months ago, I catch it and bring it to you. That is what a fractional AI lead actually is — someone who holds the whole picture, not just the deliverable they were scoped for.
       </p>
       <p>
-        My pitch is the opposite of all of that. The duck quotes shape, scope, and price before we ever talk on a call. One engineer who knows your setup end to end. Source code, IP, repos, deploy keys, skill definitions, MCP configs — yours on ship day. If you want to fire me and bring it in-house, the codebase is structured so any competent Node engineer can take it over in an afternoon. If you want to keep me on retainer for the next pipeline, that is also there.
-      </p>
-      <p>
-        I will not pretend I am the right hire for every job. If your build is genuinely 6 hours of work, hire someone on Upwork. If you need a team of 5 and a PM, hire an agency. If you need one focused engineer to install your AI environment or build a real piece of AI software end to end, that is the lane I built RDTS for.
+        I will not pretend I am the right hire for every job. If your engagement is genuinely 6 hours of scripting, post on Upwork. If you need an army, hire an agency. If you need one focused AI consultant who does the strategy and the build — that is the lane RDTS exists for.
       </p>
     </div>
   </Section>
 
-  <Section tone="dark" label="What hiring me looks like">
+  <Section tone="dark" label="How it works">
     <h2 class="display-h2 mb-12">From first message to shipped work</h2>
     <div class="grid md:grid-cols-2 gap-6">
       {processSteps.map(step => (
@@ -218,26 +222,8 @@ const processSteps = [
     </div>
   </Section>
 
-  <Section tone="cream" label="Tech stack I default to">
-    <div class="prose-rdts max-w-3xl">
-      <h2 class="display-h2 mb-8">The stack I default to (and why)</h2>
-      <p>
-        I am model-agnostic and harness-agnostic in theory, very opinionated in practice. For most production AI work, I default to the <strong>Anthropic API</strong>: the frontier Claude model for anything that needs strong reasoning, content judgment, or long-context document work, and a smaller Claude variant for high-volume classification, tagging, and lightweight extraction where the frontier is overkill on cost. I reach for <strong>OpenAI's flagship GPT</strong> when it specifically wins — image understanding in a few niches, certain structured-output cases, and as a fallback when an Anthropic incident hits.
-      </p>
-      <p>
-        For agents, I use the <strong>Claude Agent SDK</strong> when the workflow is actually agentic and the raw Anthropic API when it is not. Most "AI agents" people ask for are really one or two prompted calls with tool use — those do not need a full agent loop and pretending they do makes the system slower and more expensive. When agents are the right answer, I write <strong>MCP servers</strong> for them so the tool surface is reusable across Claude Code, Claude Desktop, Cursor, and custom agents.
-      </p>
-      <p>
-        For harnesses, I pick what fits the team and the work: <strong>Claude Code</strong> for engineering teams that want a terminal-native loop, <strong>Cursor</strong> for teams that prefer an IDE, <strong>Codex</strong> for OpenAI-shop standardization, <strong>OpenClaw</strong> when the team wants an open alternative to Claude Code, <strong>Cline</strong> and <strong>Aider</strong> when those fit the workflow better. The harness is a tool, not a religion.
-      </p>
-      <p>
-        On the application side: Node and TypeScript on the server (boring, debuggable, hireable), Postgres or Supabase for data (Supabase when you want auth and storage in the same place, raw Postgres when you do not), Astro for marketing sites, Next.js for apps that need real client interactivity, and Vercel for deploys. No vendor lock-in stack. Every choice picks the option another engineer can take over without a six-week ramp.
-      </p>
-    </div>
-  </Section>
-
   <Section tone="cream" label="FAQ">
-    <h2 class="display-h2 mb-10">Common questions about hiring an AI developer</h2>
+    <h2 class="display-h2 mb-10">Common questions about AI consulting services</h2>
     <div class="space-y-4 max-w-3xl">
       {faqs.map(item => (
         <details class="card-cream p-6 lg:p-7 group">
@@ -258,10 +244,10 @@ const processSteps = [
       <div class="max-w-3xl">
         <div class="label label--dim mb-6">Next step</div>
         <h2 class="display-h2 mb-8">
-          Tell the duck what you're <span class="accent-saffron">setting up</span>
+          Tell the duck what you're <span class="accent-saffron">building</span>
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          Five-minute conversation with the duck — no scoping form, no slide deck. You describe the situation, the duck reads the shape and names a price, and a brief lands in both our inboxes. If I'm wrong for it, the duck says so and points you elsewhere. You can also see ClipMango and the rest of the projects on <a href="/work/" class="link-saffron">the work page</a>.
+          Five-minute conversation with the duck — no scoping form, no slide deck. You describe the situation, the duck reads the shape of the AI consulting engagement, names a price, and a brief lands in both our inboxes. If I am the wrong fit, the duck says so. You can also see ClipMango and the rest of the projects on <a href="/work/" class="link-saffron">the work page</a>.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
