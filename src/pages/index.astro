@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 
-const title = 'RDTS — I install your AI environment';
-const description = 'Your team pays for ChatGPT or Claude and barely uses it. I install your AI environment — skills, agents, integrations, the whole stack — so it actually works for the way your team operates.';
+const title = "RDTS — Fractional AI lead who keeps up with AI so you don't have to";
+const description = "A fractional AI lead for funded startups and growing companies. I track the firehose of new AI tools and models so your team doesn't have to — and put the few that matter to work.";
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -15,21 +15,21 @@ const websiteSchema = {
 
 const shapes = [
   {
-    tag: '01 · solo / indie dev',
-    head: 'You\'re the whole team.',
-    body: 'You pay for Claude or ChatGPT, use 10% of it, and don\'t have time to figure out the rest. I tune your environment — skills, shortcuts, agents wired to your stack — so the tools start pulling weight in your actual workflow.',
+    tag: '01 · funded startup',
+    head: 'AI moves faster than your roadmap.',
+    body: 'A new model drops every two weeks. Your team debates tools while competitors ship. A fractional AI lead tracks all of it, filters the noise, and keeps your stack pointed at the things that actually compound.',
     href: '/talk/',
   },
   {
-    tag: '02 · small team · 1–6',
-    head: 'Your team uses AI five different ways.',
-    body: 'Everyone has their own prompts, their own habits, their own blind spots. I install a shared AI environment — same skills, same agents, same knowledge layer — so the team works off one stack instead of five.',
+    tag: '02 · growing company · ops-led',
+    head: 'You\'re the one fielding every AI question.',
+    body: 'Your team looks to you when a new tool lands. You don\'t have time to evaluate every release, but you also can\'t afford to miss the one that changes your ops. I do that work on retainer so you don\'t have to.',
     href: '/talk/',
   },
   {
-    tag: '03 · agency · 5–20',
-    head: 'You bought seats; nobody knows what\'s possible.',
-    body: 'AI is in the stack but adoption is uneven and the wins are accidental. I roll out a real environment across the team — role-specific configs, agents for the repeated work, training so it sticks past week one.',
+    tag: '03 · scaling team · 10–50',
+    head: 'Adoption is uneven and the wins are accidental.',
+    body: 'Some people are using AI daily. Most aren\'t. A fractional lead audits what\'s working, closes the gaps, and makes sure the few tools that matter are actually used — not just paid for.',
     href: '/talk/',
   },
 ];
@@ -37,33 +37,33 @@ const shapes = [
 const capabilities = [
   {
     no: '01',
-    title: 'Skills',
-    desc: 'Reusable instructions and workflows the model actually follows. Vetted public skills plus custom skills tuned to your team\'s work.',
+    title: 'Signal filtering',
+    desc: 'A new model or tool drops every week. I read the releases, run the evals, and tell you which three actually matter — so you\'re not reacting to every announcement.',
   },
   {
     no: '02',
-    title: 'Agents',
-    desc: 'Long-running, tool-using agents that own the repeated work — research, content drafts, code review, ops triage. Scoped to what your team actually does.',
+    title: 'Stack decisions',
+    desc: 'Which model for which job. Which agent framework is actually production-ready. Which integrations are worth the implementation cost. Opinionated recommendations, not a list of options.',
   },
   {
     no: '03',
-    title: 'Integrations',
-    desc: 'MCP servers and direct API wiring into the systems you already pay for — CRM, CMS, analytics, support, repos, drives.',
+    title: 'Agents & automation',
+    desc: 'Long-running, tool-using agents that own the repeated work — research, content drafts, ops triage, code review. Scoped to what your team actually does.',
   },
   {
     no: '04',
-    title: 'Knowledge layer',
-    desc: 'Your docs, your style guides, your past work — indexed and retrievable so the model answers in your voice, not the generic one.',
+    title: 'Integrations',
+    desc: 'MCP servers and API wiring into the systems you already pay for — CRM, CMS, analytics, support, repos, drives. Connected to your stack, not a demo environment.',
   },
   {
     no: '05',
-    title: 'Role configs',
-    desc: 'Different setups for engineers, marketers, support, ops. Each role gets the skills, agents, and context that match their work — not one bloated profile for everyone.',
+    title: 'Monthly retainer',
+    desc: 'One person, on retainer, keeping up with AI so your team doesn\'t have to. Available for decisions, reviews, and rapid-fire questions without spinning up a full engagement.',
   },
   {
     no: '06',
-    title: 'Adoption',
-    desc: 'Walkthroughs, recorded training, and a written playbook so the environment outlives the install. The point is the team uses it in week six, not just week one.',
+    title: 'Team rollout',
+    desc: 'Role-specific configs, walkthroughs, and a written playbook. The point is the team is using it in month three — not just month one.',
   },
 ];
 
@@ -81,17 +81,17 @@ const steps = [
   {
     no: '01',
     title: 'Talk to the duck',
-    detail: 'Free 5-minute conversation. Walk me through what your team uses today and where it\'s falling short. No deck, no funnel.',
+    detail: 'Free 5-minute conversation. Walk me through where your team is today and what\'s slowing you down. No deck, no funnel.',
   },
   {
     no: '02',
     title: 'Get a scoping brief',
-    detail: 'I send a one-page brief: what gets installed, which tools, which roles, fixed timeline, what\'s out of scope. Sign or pass.',
+    detail: 'I send a one-page brief: what the retainer covers, which problems we tackle first, what\'s out of scope. Sign or pass.',
   },
   {
     no: '03',
-    title: 'Long ships it',
-    detail: 'Solo install. Skills built, agents wired, integrations live, team trained. One week for a tuneup, up to six weeks for a full agency rollout.',
+    title: 'I keep up. You ship.',
+    detail: 'On retainer, I track the firehose and filter it to what matters for your specific context. You get clear decisions, not a list of things to evaluate.',
   },
 ];
 ---
@@ -112,18 +112,20 @@ const steps = [
       </div>
 
       <h1 class="display-h1 max-w-[22ch] mb-6 lg:mb-8">
-        Your team's AI is<br/>
-        <span class="accent-saffron">set up wrong.</span><span class="cursor"></span>
+        I keep up with AI<br/>
+        <span class="accent-saffron">so you don't have to.</span><span class="cursor"></span>
       </h1>
 
       <div class="space-y-5 text-[18px] lg:text-[20px] text-bone-dim leading-[1.55] max-w-[62ch] mb-10">
         <p>
-          Most teams pay for ChatGPT Teams or Claude and barely use it. The tools don't know your work,
-          the team uses them differently, and nobody knows what's possible.
+          If you run a funded startup or a growing company, you already know the feeling:
+          a new model drops, a new tool gets hyped, and everyone looks to you to figure out
+          what it means. It never stops.
         </p>
         <p>
-          I install your AI environment &mdash; skills, agents, integrations, the whole stack &mdash;
-          so it actually works for the way your team operates.
+          I work on retainer as your fractional AI lead &mdash; one trusted person who tracks
+          the firehose, filters the noise, and puts the few things that actually matter to work
+          in your stack.
         </p>
       </div>
 
@@ -139,15 +141,15 @@ const steps = [
   </section>
 
   {/* === THREE BUYER-SEGMENT SHAPES (DARK) === */}
-  <Section tone="dark" label="Three shapes" id="shapes">
+  <Section tone="dark" label="Who this is for" id="shapes">
     <div class="grid grid-cols-12 gap-x-6 gap-y-8">
       <div class="col-span-12 lg:col-span-5">
         <h2 class="display-h2 mb-5">
-          Pick the shape<br/>
-          that <span class="accent-saffron">sounds like you</span>.
+          Does this<br/>
+          <span class="accent-saffron">sound familiar?</span>
         </h2>
         <p class="text-[16px] text-bone-dim leading-[1.65] max-w-[44ch]">
-          Three buyer shapes, three different installs. If none of them fit cleanly,
+          Funded startups and growing companies with revenue and no time. If none of these fit cleanly,
           <a href="/talk/" class="link-saffron">talk to the duck</a> and it'll route you.
         </p>
       </div>
@@ -169,21 +171,22 @@ const steps = [
     </div>
   </Section>
 
-  {/* === WHAT I ACTUALLY SET UP (CREAM) === */}
-  <Section tone="cream" label="What I actually set up" id="what">
+  {/* === WHAT THE RETAINER COVERS (CREAM) === */}
+  <Section tone="cream" label="What the retainer covers" id="what">
     <div class="grid grid-cols-12 gap-x-6 gap-y-8">
       <div class="col-span-12 lg:col-span-5">
         <h2 class="display-h2 mb-5">
-          The install,<br/>
-          <span class="accent-saffron">end to end</span>.
+          One person.<br/>
+          <span class="accent-saffron">The whole picture.</span>
         </h2>
         <p class="text-[17px] text-coal-dim leading-[1.65] mb-3 max-w-[44ch]">
-          AI environments aren't one thing. They're six things stacked together &mdash;
-          and they only work when all six are set up for your team specifically.
+          A fractional AI lead isn't a consultant who shows up with a deck. It's an ongoing
+          relationship — someone who knows your stack, tracks the field, and tells you
+          what to do next.
         </p>
         <p class="text-[15px] text-coal-mute leading-[1.65] max-w-[44ch]">
-          Not sure which pieces you need? <a href="/talk/" class="link-coal">Talk to the duck</a>
-          &nbsp;and I'll tell you the right move.
+          Not sure what you actually need? <a href="/talk/" class="link-coal">Talk to the duck</a>
+          &nbsp;and I'll tell you the right scope.
         </p>
       </div>
 
@@ -199,18 +202,18 @@ const steps = [
     </div>
   </Section>
 
-  {/* === TOOLS I WORK WITH (DARK) === */}
-  <Section tone="dark" label="Tools I work with" id="tools">
+  {/* === THE STACK I ACTUALLY WORK ACROSS (DARK) === */}
+  <Section tone="dark" label="// the stack I actually work across" id="tools">
     <div class="grid grid-cols-12 gap-x-6 gap-y-8 items-end mb-10">
       <div class="col-span-12 lg:col-span-7">
         <h2 class="display-h2">
-          Seven tools I install,<br/>
-          <span class="accent-saffron">tune, and train teams on</span>.
+          Not every tool.<br/>
+          <span class="accent-saffron">The ones that ship.</span>
         </h2>
       </div>
       <div class="col-span-12 lg:col-span-5 text-[15px] text-bone-dim lg:text-right">
-        Use the one that fits your team. Or talk to the duck<br class="hidden lg:block"/>
-        and it'll tell you which one matches your stack.
+        I work across agents, IDEs, and coding tools daily — so I know which ones are
+        production-ready<br class="hidden lg:block"/> and which are still demo ware.
       </div>
     </div>
 
@@ -236,11 +239,11 @@ const steps = [
       <div class="col-span-12 lg:col-span-5">
         <h2 class="display-h2 mb-5">
           From <span class="accent-saffron">talk</span> to<br/>
-          <span class="accent-saffron">installed</span> in three steps.
+          <span class="accent-saffron">on retainer</span> in three steps.
         </h2>
         <p class="text-[17px] text-coal-dim leading-[1.65] mb-6 max-w-[44ch]">
-          Solo studio. No agency layers, no AE handoffs. The person you talk to first
-          is the person installing your environment &mdash; that's the entire point.
+          Solo. No agency layers, no AE handoffs. The person you talk to first
+          is the person on retainer &mdash; one relationship, not a rotating cast.
         </p>
         <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
       </div>
@@ -266,12 +269,13 @@ const steps = [
       <div class="col-span-12 lg:col-span-8">
         <div class="label mb-5">Next move</div>
         <h2 class="display-h2 mb-5">
-          Your AI stack should<br/>
-          <span class="accent-saffron">earn its seat.</span>
+          Stop fielding every<br/>
+          <span class="accent-saffron">AI question yourself.</span>
         </h2>
         <p class="text-[17px] text-bone-dim leading-[1.6] max-w-[58ch] mb-8">
-          Free 5-minute conversation. Tell the duck how your team works today and you'll leave
-          with a one-page scoping brief, a fixed timeline, and a clear shape.
+          Free 5-minute conversation. Tell the duck what your team is dealing with today
+          and you'll leave with a one-page scoping brief and a clear shape for what a
+          retainer looks like.
         </p>
         <div class="flex flex-col sm:flex-row flex-wrap gap-3">
           <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
