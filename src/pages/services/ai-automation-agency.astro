@@ -1,0 +1,254 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = "AI automation agency for growing teams | RDTS";
+const description = "An AI automation agency run by one senior operator — not a junior-stacked shop. I wire agents and automations into the tools you already use, then keep them running as the AI landscape shifts.";
+
+const canonical = '/services/ai-automation-agency/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'AI automation agency for growing teams',
+  description,
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': 'https://www.rubberducktechsolutions.com/services/ai-automation-agency/',
+  },
+  datePublished: '2026-06-27',
+  dateModified: '2026-06-27',
+};
+
+const faqs = [
+  {
+    q: 'What does an AI automation agency actually build?',
+    a: 'Agents and automations wired into the tools your team already uses — your CRM, your project tracker, your content stack, your internal admin. Not Zapier templates with an AI label on them. Actual agents that reason, make decisions, and hand off to the next step without a human in the loop. I also build the MCP servers that give those agents real access to your systems, and the n8n or custom orchestration layer that keeps everything running.',
+  },
+  {
+    q: 'How are you different from a typical AI automation agency?',
+    a: 'Most AI automation agencies stack junior operators on top of no-code tools and sell you the output as "AI automation." What you get is a Zapier workflow that breaks the third time something changes upstream. I am one senior operator who has spent years in the Zapier and n8n world before the AI layer existed — and who now builds agents and agentic workflows on top of that foundation. When something breaks at 2am, there is no tier-one support queue. I fix it.',
+  },
+  {
+    q: 'Do you use no-code tools like Zapier or n8n, or do you write custom code?',
+    a: 'Both, depending on what earns its keep. Zapier and n8n are genuinely good for certain jobs — high-volume triggers, standard app connectors, things that would take a week to wire from scratch. I use them where they are the right tool. When they are not — when the logic is too complex, the data too bespoke, or the AI layer too important to trust to a node wrapper — I write the code. The output is whatever runs reliably in production, not whatever was fastest to demo.',
+  },
+  {
+    q: 'What AI models and frameworks do you use for automation?',
+    a: 'Anthropic Claude for reasoning-heavy automation — classification, extraction, summarization, decision steps that need judgment. OpenAI GPT where it specifically wins. For orchestration: the Claude Agent SDK, n8n, custom Python where the job demands it. MCP servers to give agents real access to your internal tools. The stack is matched to the job, not picked from a vendor preference.',
+  },
+  {
+    q: 'How does the ongoing retainer work for automation?',
+    a: 'AI automation is not a one-time build. Models change. The apps you plug into update their APIs. Your workflow evolves. On monthly retainer I keep the automations running, update what breaks, add new flows as the audit surfaces them, and stay ahead of the AI releases that change what is possible. You get a senior operator who knows your entire automation stack — not a freelancer you re-brief from scratch every quarter.',
+  },
+  {
+    q: 'Can you automate something I already started in Zapier or Make?',
+    a: 'Yes. Auditing existing automations and wiring AI into them is a common first engagement. Most teams have a Zap graveyard — automations that worked for six months and then quietly broke or got turned off. I audit what you have, identify what is worth salvaging, and either fix or replace it with something more robust. If your existing n8n or Make flows are doing real work, we keep them; if they are duct tape, we say so.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'AI Automation Agency',
+  description: 'AI automation agency for growing teams — agents, n8n and Zapier wiring, MCP servers, and ongoing maintenance run by one senior operator.',
+  provider: { '@type': 'Organization', name: 'Rubber Duck Tech Solutions' },
+  areaServed: { '@type': 'Country', name: 'US' },
+};
+
+const whatIBuild = [
+  {
+    title: 'Agent-powered workflows',
+    body: 'Agents that reason, classify, and decide — not just trigger-and-action chains. I build agentic workflows that handle the edge cases, escalate when they should, and keep running without a human in the loop. Claude Agent SDK for the orchestration, MCP servers for the tool access, your existing stack for the data.',
+  },
+  {
+    title: 'n8n and Zapier integration',
+    body: 'Years in the Zapier and n8n world before the AI layer existed. I know where no-code tools earn their slot and where they fall over. I use them where they are genuinely the right choice, wire AI into them where that adds real value, and replace them with custom code when the job demands it.',
+  },
+  {
+    title: 'MCP servers for internal tools',
+    body: 'Your internal admin, your CRM, your support queue — most of your tools do not have a native AI integration that does anything useful. I write the MCP servers that give agents first-class access to your systems, so they can look things up, take action, and hand off correctly. See also: <a href="/services/ai-developer-for-hire/">AI consulting</a> for the broader strategy layer.',
+  },
+  {
+    title: 'Document and data extraction',
+    body: 'Contracts, invoices, intake forms, support tickets — anything that arrives as unstructured text and needs to become structured data. Extraction pipelines that run on Claude, validate their own output, and route exceptions to a human review queue instead of silently dropping them.',
+  },
+  {
+    title: 'Content and communications automation',
+    body: 'Drafts, summaries, first-pass responses — the things your team writes from scratch a dozen times a week. AI workflows that generate a strong first draft and get it in front of a human for the final call. Not fully automated publishing. Useful automation that respects that judgment still matters.',
+  },
+  {
+    title: 'Ongoing maintenance and monitoring',
+    body: 'Automations break. APIs change. Models get updated and the prompt that worked last quarter sometimes does not work this quarter. On retainer I keep the stack running — alerts for failures, quarterly reviews of what has drifted, and updates shipped before your team notices something is wrong.',
+  },
+];
+
+const processSteps = [
+  {
+    label: 'Step 01',
+    title: 'Talk to the duck',
+    body: 'Describe what you are trying to automate, what tools your team runs on, and what you have already tried. The duck reads the shape of the engagement — one-off build, retainer, or both — names a price in plain English, and sends a brief to both of us.',
+  },
+  {
+    label: 'Step 02',
+    title: 'Automation audit',
+    body: 'I map what your team does that is repetitive, where AI can take over the judgment step, and what you already have running (working or broken). The output is a short written roadmap: the two or three automations worth building first, in the order that compounds.',
+  },
+  {
+    label: 'Step 03',
+    title: 'Build and wire',
+    body: 'Agents, MCP servers, orchestration layer — shipped into your stack, your accounts, your infra. You see the work as it lands. I test against real data, not demo inputs. When something surprises us mid-build, I adjust the architecture the same afternoon.',
+  },
+  {
+    label: 'Step 04',
+    title: 'Hand off and maintain',
+    body: 'You get the source code, the deploy configs, a walkthrough of how each automation works, and a short reference for what to watch. After that: bring it in-house, keep me on retainer to maintain and expand it, or call me in for the next build.',
+  },
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, serviceSchema]}>
+
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="status-pill mb-8">
+        <span class="status-pill__dot"></span>
+        <span>// fractional AI lead</span>
+      </div>
+      <h1 class="display-h1 mb-8">
+        AI automation agency<br />run by one <span class="accent-saffron">senior operator</span><span class="cursor">_</span>
+      </h1>
+      <p class="text-bone-dim text-lg lg:text-xl max-w-3xl mb-10 leading-relaxed">
+        Most AI automation agencies stack junior operators on no-code tools and call it "agentic." I am Long Nguyen — one senior operator with years in the Zapier and n8n automation world. I wire agents and automations into the tools you already use, then keep them running as the AI landscape shifts. Part of the fractional AI lead relationship, not a one-time deliverable.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
+      </div>
+    </div>
+  </section>
+
+  <Section tone="cream" label="Why one operator beats a team">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">The junior-stacked AI automation agency problem</h2>
+      <p>
+        There is a pattern in the AI automation agency space right now: a senior salesperson who understands the pitch, a team of junior operators who run the no-code tools, and a delivery model that looks fine on a Loom walkthrough and breaks six months later when you are not looking. The senior person is not on your account after the sale.
+      </p>
+      <p>
+        I work differently. I am the person on the sales call and the person who builds the automation and the person you reach when something breaks. Years in the Zapier and n8n world means I know the failure modes — the Zap that silently drops records when the upstream API changes its schema, the n8n workflow that works fine until the rate limit gets hit at 4x the volume you tested at. I build to avoid those failure modes, not just to pass a demo.
+      </p>
+      <p>
+        AI automation for growing teams is part of the fractional engagement — not a separate product. When I am on retainer, the automations I build stay current as the models, the tools, and your workflows evolve. That continuity is most of what makes them useful long-term.
+      </p>
+      <p>
+        If you want to see what hands-on AI builds look like, <a href="/work/" class="link-coal">the work page</a> has examples. If you want to understand the broader consulting layer, <a href="/services/ai-developer-for-hire/" class="link-coal">AI consulting</a> covers that. If you already know what you need automated, <a href="/talk/" class="link-coal">talk to the duck</a>.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="dark" label="What I build">
+    <h2 class="display-h2 mb-12">Six things an AI automation engagement covers</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {whatIBuild.map(item => (
+        <article class="card-dark p-7 lg:p-8">
+          <h3 class="display-h3 mb-4">{item.title}</h3>
+          <p class="text-bone-dim leading-relaxed" set:html={item.body} />
+        </article>
+      ))}
+    </div>
+    <div class="mt-12">
+      <p class="text-bone-dim max-w-3xl leading-relaxed">
+        Most engagements start with two or three of these and expand from there. The audit tells us which ones earn their keep first. See also: <a href="/services/ai-integration/" class="link-saffron">AI integration</a> if the primary need is wiring models into your product stack rather than internal workflows.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="cream" label="How it works">
+    <h2 class="display-h2 mb-12">From first message to running automations</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {processSteps.map(step => (
+        <article class="card-cream p-7 lg:p-8">
+          <div class="label label--coal mb-3">{step.label}</div>
+          <h3 class="display-h3 mb-4">{step.title}</h3>
+          <p class="text-coal-dim leading-relaxed">{step.body}</p>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section tone="dark" label="Related services">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 mb-8">Automation is one lane. Here are the others.</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-10">
+        AI automation sits inside a broader fractional engagement. Depending on what your audit surfaces, the work may also touch AI consulting strategy or deeper model integration.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <a href="/services/ai-developer-for-hire/" class="card-dark p-7 lg:p-8 block group">
+          <div class="flex items-start justify-between gap-6 mb-3">
+            <h3 class="display-h3">// AI consulting</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+          <p class="text-bone-dim leading-relaxed">Strategy, roadmap, tool selection, and hands-on AI builds. The engineering arm of the fractional engagement.</p>
+        </a>
+        <a href="/services/ai-integration/" class="card-dark p-7 lg:p-8 block group">
+          <div class="flex items-start justify-between gap-6 mb-3">
+            <h3 class="display-h3">// AI integration</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+          <p class="text-bone-dim leading-relaxed">Claude, GPT, and open-source models wired into your existing product stack — APIs, internal tools, the data your team actually uses.</p>
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="cream" label="FAQ">
+    <h2 class="display-h2 mb-10">Common questions about AI automation</h2>
+    <div class="space-y-4 max-w-3xl">
+      {faqs.map(item => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="cursor-pointer flex justify-between items-start gap-6">
+            <span class="display-h3">{item.q}</span>
+            <span class="text-saffron text-2xl leading-none transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div class="mt-5 text-coal-dim leading-relaxed">
+            {item.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <div class="label label--dim mb-6">Next step</div>
+        <h2 class="display-h2 mb-8">
+          Tell the duck what you want <span class="accent-saffron">automated</span>
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Five-minute conversation with the duck — no intake form, no qualification grid. Describe what your team does manually that should not be manual, what tools you run on, and what you have already tried. The duck reads the shape of the AI automation engagement, names a price, and sends a brief to both of us. If I am the wrong fit, it says so.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
