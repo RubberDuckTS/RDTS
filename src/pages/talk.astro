@@ -269,7 +269,7 @@ const description = 'Short conversation with the duck. Tell it about your team a
         setBusy(true);
 
         try {
-          const res = await fetch('/api/scope', {
+          const res = await fetch('/api/scope/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ messages }),
@@ -327,7 +327,7 @@ const description = 'Short conversation with the duck. Tell it about your team a
         leadSubmit.disabled = true;
         leadSubmit.textContent = 'Sending…';
         try {
-          const res = await fetch('/api/lead', {
+          const res = await fetch('/api/lead/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, company, honeypot, spec: currentSpec, transcript }),
