@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
-const title = 'AI environment setup — Claude Code, MCPs, agents, skills | RDTS';
-const description = 'Install a working AI environment for your team — Claude Code, MCP servers, agent harnesses, skills, knowledge layer. Real person, no tutorials.';
+const title = 'Fractional AI lead on retainer — what a month looks like | RDTS';
+const description = 'Audit what matters, ship the tools that compound, train so it sticks. A fractional AI lead on monthly retainer for funded startups and growing companies.';
 
 const canonical = '/services/';
 
@@ -23,18 +23,18 @@ const webPageSchema = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'AI environment setup',
-  description: 'Hands-on installation and configuration of AI tooling — Claude Code, MCP servers, agent harnesses, skills, knowledge layers — for solo developers, small teams, and agencies.',
+  name: 'Fractional AI lead on retainer',
+  description: 'A fractional AI lead on monthly retainer for funded startups and growing companies — audit, roadmap, ship the tools that matter, train so it sticks.',
   provider: {
     '@type': 'Organization',
     name: 'Rubber Duck Tech Solutions',
     url: 'https://www.rubberducktechsolutions.com/',
   },
   areaServed: { '@type': 'Country', name: 'US' },
-  serviceType: 'AI tooling configuration and integration',
+  serviceType: 'Fractional AI leadership and implementation',
   audience: {
     '@type': 'BusinessAudience',
-    audienceType: 'Solo developers, small teams, agencies',
+    audienceType: 'Funded startups and growing companies',
   },
 };
 
@@ -78,29 +78,29 @@ const tools = [
 
 const shapes = [
   {
-    name: 'Quick fix',
-    buyer: 'Anyone with one specific job',
-    body: 'One deliverable, single day. A broken MCP wired correctly. A skill that finally loads. A model swap that drops latency. Single output, no rollout.',
+    name: 'Audit + roadmap',
+    buyer: 'Month one of an engagement',
+    body: 'What your team is actually using, what is working, what is noise. A short written roadmap: the two or three things that will compound if we build them this quarter. No 40-page deck.',
   },
   {
-    name: 'Tuneup',
-    buyer: 'Solo / indie dev',
-    body: 'Your personal AI environment, dialed in. Claude Code or Cursor (or both) configured around your repos, your docs, your habits. About a week.',
+    name: 'Build the tools that matter',
+    buyer: 'Ongoing retainer work',
+    body: 'Agents, MCP wiring, harness configs, integrations with your internal stack. The things the audit identified. Shipped into your repo, your infra, your accounts.',
   },
   {
-    name: 'Workspace',
-    buyer: 'Small team (1–6)',
-    body: 'Shared knowledge layer, consistent configs across the team, MCPs wired into the tools you already use. One to two weeks.',
+    name: 'Train so it sticks',
+    buyer: 'After each build',
+    body: 'Short walkthroughs, written norms, repeatable patterns the team actually follows. A setup nobody uses is a setup that does not exist. Adoption is part of the month.',
   },
   {
-    name: 'Rollout',
-    buyer: 'Agency (5–20)',
-    body: 'Role-specific configs (engineer / writer / ops / leadership), skills library, adoption runway, and the workflow standards that keep it from drifting. Three to six weeks.',
+    name: 'Keep up',
+    buyer: 'What the retainer is for',
+    body: 'New models, new harnesses, new integrations — the firehose does not pause. Part of every month is reading the releases, filtering the noise, and telling you what actually changes your stack.',
   },
   {
-    name: 'Custom',
-    buyer: 'Anything bigger or open-ended',
-    body: 'Multi-tenant setups. Multi-month retainers. Cross-org rollouts. Heavy compliance scope. Scoped on the call.',
+    name: 'Custom scope',
+    buyer: 'Larger or more complex',
+    body: 'Multi-team rollouts. Heavy compliance scope. A specific build that needs full-time attention for a sprint. Scoped on the call.',
   },
 ];
 
@@ -129,32 +129,32 @@ const setupAreas = [
 
 const faqs = [
   {
-    q: 'What does "AI environment setup" actually mean?',
-    a: "It means installing and configuring the AI tools your team uses every day so they fit your work, not the defaults. That includes coding agents (Claude Code, Cursor, Cline, Codex, Aider, OpenClaw, Hermes), MCP servers that connect those agents to your internal tools and data, custom skills that encode how your team writes code or content, and the knowledge layer that lets the agent see your repos and docs without copy-paste. The tool install is the easy part. Making the stack actually fit how your team operates is the work.",
+    q: 'What does a fractional AI lead actually do?',
+    a: "Keeps up with AI so you don't have to, then does the work that keeping up reveals. Month one is usually an audit: what your team is using, what is working, what is noise, what two or three things would compound if we built them. Months after that are the build-and-train rhythm: ship the tools the audit identified, show the team how to use them, read the releases with your stack in mind, and show up for the next iteration. Not a one-off setup. An ongoing relationship with someone who knows your codebase, your team, and your goals.",
   },
   {
-    q: "Why hire someone for this — can't I follow a tutorial?",
-    a: "You can, and for a single tool on a single laptop you probably should. The reason teams call me is the second-order problem. Each tool has a configuration surface that grew faster than the docs. Two tools that overlap (Claude Code and Cursor, say) need to be told which one owns which workflow or they fight each other. MCP servers need policies, allowlists, and credentials that most tutorials wave at. And once more than one person is using the stack, you need shared conventions or everyone drifts into their own snowflake setup inside a month. That coordination is what you are hiring for.",
+    q: "Why retainer rather than a one-off project?",
+    a: "Because AI is not a one-off problem. The release calendar does not pause. What is best practice for your stack in January may be outdated by March. A one-off setup gets you to a good place once. A retainer means there is always someone who keeps up — so you do not spend a quarter running on a harness that has been superseded. That said, if you genuinely have a one-off job (a specific build, a broken integration), the duck will quote that shape too and say so plainly.",
   },
   {
     q: 'Are you tied to a specific tool or model?',
     a: "No. Harness-agnostic and model-agnostic on purpose. I default to Anthropic Claude because it earns the slot for most code and content work, and I reach for OpenAI's flagship GPT when it specifically wins. On the harness side, I will set up whatever fits — Claude Code, Cursor, Cline, Codex, Aider, OpenClaw, or Hermes. Most engagements end up using more than one. The opinionated part is matching the right stack to the use case, not selling you whatever I happen to like that month.",
   },
   {
-    q: 'Do you handle the AI environment for just one person, or only teams?',
-    a: 'Both. A Tuneup is one person\'s setup, dialed in over about a week — that is a real engagement and a real shape. A Workspace is a small team with a shared knowledge layer. A Rollout is an agency with role-specific configs. The work compounds as the team grows, but a solo developer getting their own environment right is a perfectly normal engagement.',
+    q: 'What size company is this for?',
+    a: 'Funded startups and growing companies — typically teams where the operator is too busy to track AI releases themselves but the company is moving fast enough that falling behind matters. The work scales with the team: a three-person engineering team and a twenty-person org need different configs, different adoption work, different retainer scopes. The duck figures out which shape fits on the call.',
   },
   {
-    q: 'What does ownership look like after the engagement?',
-    a: "Everything lives in your accounts and your repos. Configs are checked into a repo you own. MCP servers are deployed to your infrastructure. Credentials are yours. Documentation lives in your wiki or your repo, not in a vendor portal. If you want to fire me and hand the setup to another engineer next quarter, that handoff takes an afternoon — no proprietary DSL, no agency retainer holding the keys.",
+    q: 'What does ownership look like?',
+    a: "Everything lives in your accounts and your repos. Configs are checked into a repo you own. MCP servers are deployed to your infrastructure. Credentials are yours. Documentation lives in your wiki or your repo, not in a vendor portal. If you want to end the retainer and hand the stack to another engineer, that handoff takes an afternoon — no proprietary DSL, no agency holding the keys.",
   },
   {
     q: 'How is pricing handled?',
-    a: 'No public numbers. The shapes above give you a feel for scope — Quick fix, Tuneup, Workspace, Rollout, Custom — and the duck quotes the actual work on a 30-minute call. You leave with a real number, a real timeline, and a real scope, or you leave with an honest "this is not in my lane" and a pointer to who is.',
+    a: 'No public numbers. Retainer scope and monthly rate are set on a 30-minute call. You leave with a real number, a real scope, and a real first-month plan — or you leave with an honest "this is not in my lane" and a pointer to who is.',
   },
   {
-    q: "What if I'm not sure whether I need setup work or a full software build?",
-    a: "Most people are not sure on the first call, which is fine. The duck reads what you describe and names the shape. If you are describing a tool install that fits a Tuneup or Workspace, that is setup work. If you are describing a thing that needs to exist that does not exist yet — a custom dashboard, a pipeline, an internal app — that is a software build, and RDTS still does those (see /work/ for examples). The shape gets named on the call, not by you in advance.",
+    q: "What if I'm not sure whether I need a retainer or a full software build?",
+    a: "Most people are not sure on the first call, which is fine. The duck reads what you describe and names the shape. If you are describing something that needs to exist that does not — a custom dashboard, a pipeline, an internal app — that may be a software build rather than a retainer, and RDTS still does those (see /work/ for examples). The shape gets named on the call, not by you in advance.",
   },
 ];
 
@@ -184,39 +184,39 @@ const faqSchema = {
           <span>// fractional AI lead</span>
         </div>
         <h1 class="display-h1 mb-8">
-          AI environment setup — done by a <span class="underline-saffron">real person</span><span class="cursor">_</span>
+          What a month with a <span class="underline-saffron">fractional AI lead</span> looks like<span class="cursor">_</span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
-          Most teams pay for Claude or ChatGPT and barely use it. The tools do not know your code, your docs, or your clients. Each person on the team uses them a different way, and nobody knows what the stack is actually capable of. I install your AI environment — skills, agents, MCP servers, the knowledge layer, the role configs — so the tools you already pay for finally do real work for the way your team operates.
+          The AI release calendar does not pause for your roadmap. Every month there are new models, new harnesses, new integrations — and most operators don't have time to evaluate any of it. A fractional AI lead tracks the firehose for you, audits what your team is using, ships the tools that compound, and trains so it sticks. Part-time senior AI person, on retainer, without the full-time headcount.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
-          <a href="#tools" class="btn btn-outline-light">See the tools I set up</a>
+          <a href="#what-a-month-looks-like" class="btn btn-outline-light">See what a month looks like</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHAT SETUP MEANS -->
-  <Section tone="cream" label="What setup actually means">
+  <!-- WHAT A MONTH LOOKS LIKE -->
+  <Section tone="cream" label="What a month looks like" id="what-a-month-looks-like">
     <div class="prose-rdts max-w-3xl">
-      <h2 class="display-h2 mb-8">Setup is the bottleneck, not the model.</h2>
+      <h2 class="display-h2 mb-8">The model is not the bottleneck. Keeping up is.</h2>
       <p>
-        The models are good. They have been good for a while. The bottleneck for most teams is not the model — it is the gap between the model and your work. Out of the box, Claude does not know your codebase. It does not know which client folder lives where. It does not know the writing rules your editor enforces or the build commands your CI expects. It does not know that your team has agreed to never push directly to main. It is a brand-new hire with no onboarding.
+        The models are good. They have been good for a while. What kills most companies on AI is not the model — it is the firehose. New releases every two weeks. Tool upgrades, new harness capabilities, better integrations. Most operators are running a company; they do not have time to read every announcement and decide what matters. So they miss what compounds and adopt what is hyped.
       </p>
       <p>
-        "AI environment setup" is the onboarding. It is the configuration layer that turns a generic model into a teammate that knows your work. That layer is real, it is specific, and it is the difference between a team that uses AI for a week and gives up versus a team that ships measurably faster six months later. Tutorials get you to the first run. They do not get you to the stack that survives Monday morning.
+        A fractional AI lead is the person who keeps up for you. Month one: audit what your team is using, identify the two or three things that will actually compound, write the roadmap. Month two and on: build the tools that matter, train so they stick, and read every release with your stack in mind. Not a one-off setup — an ongoing relationship with someone who knows your codebase, your team, and your goals.
       </p>
       <p>
-        I do this work hands-on. No course, no playbook PDF, no async Loom dump. I sit with your environment, install the right tools, write the configs, wire the integrations, and stay around long enough that the setup sticks.
+        I do this work hands-on. No course, no playbook PDF, no async Loom dump. I sit with your environment, build the right things, wire the integrations, and stay on retainer so there is always someone who actually keeps up.
       </p>
     </div>
   </Section>
 
-  <!-- WHAT I SET UP -->
-  <Section tone="dark" label="What I set up">
+  <!-- WHAT I BUILD AND MAINTAIN -->
+  <Section tone="dark" label="What I build and maintain">
     <div class="max-w-4xl">
-      <h2 class="display-h2 text-bone mb-12">The five layers of an AI environment</h2>
+      <h2 class="display-h2 text-bone mb-12">The five layers that compound over time</h2>
       <div class="grid md:grid-cols-2 gap-6">
         {setupAreas.map((area) => (
           <article class="card-dark p-7 lg:p-8">
@@ -226,17 +226,44 @@ const faqSchema = {
         ))}
       </div>
       <p class="text-bone-dim mt-10 max-w-3xl leading-relaxed">
-        Most engagements touch three or four of these layers. A Tuneup is heavy on tool config and knowledge layer. A Workspace adds shared configs and light adoption. A Rollout is all five, on a clock.
+        Most retainer months touch three or four of these layers. The audit identifies which ones are gaps. The build work fills them. The retainer keeps them from drifting as the AI landscape shifts.
       </p>
     </div>
   </Section>
 
-  <!-- TOOLS I WORK WITH -->
-  <Section tone="cream" label="Tools I work with" id="tools">
+  <!-- SERVICE PILLARS -->
+  <Section tone="cream" label="Service pillars" id="tools">
     <div class="max-w-4xl">
-      <h2 class="display-h2 mb-8">The harnesses, configured</h2>
+      <h2 class="display-h2 mb-8">Three pillars of the engagement</h2>
       <p class="text-coal-dim text-lg leading-relaxed mb-12 max-w-3xl">
-        I am harness-agnostic. The right answer is usually two of these working together, not one of them used like a hammer. Each page below covers where the tool earns its slot, where it tends to break, and what a setup looks like.
+        Depending on what your audit surfaces, a retainer month will pull from one or more of these lanes. The duck routes the conversation to the right one.
+      </p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <a href="/services/ai-developer-for-hire/" class="card-cream p-7 lg:p-8 block group">
+          <div class="flex items-start justify-between gap-6 mb-3">
+            <h3 class="display-h3 text-coal">// AI consulting</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </div>
+          <p class="text-coal-dim leading-relaxed">Strategy, roadmap, tool selection, and hands-on AI builds. The engineering arm of the fractional engagement.</p>
+        </a>
+        <a href="/services/ai-automation-agency/" class="card-cream p-7 lg:p-8 block group">
+          <div class="flex items-start justify-between gap-6 mb-3">
+            <h3 class="display-h3 text-coal">// AI automation</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </div>
+          <p class="text-coal-dim leading-relaxed">Agents, MCP wiring, and workflow automation that remove the repetitive work from your team's day.</p>
+        </a>
+        <a href="/services/ai-developer-for-hire/" class="card-cream p-7 lg:p-8 block group">
+          <div class="flex items-start justify-between gap-6 mb-3">
+            <h3 class="display-h3 text-coal">// AI integration</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </div>
+          <p class="text-coal-dim leading-relaxed">Claude, GPT, and open-source models wired into your existing stack — APIs, internal tools, the data your team actually uses.</p>
+        </a>
+      </div>
+      <h3 class="display-h3 text-coal mb-6">Harnesses I work with</h3>
+      <p class="text-coal-dim leading-relaxed mb-8 max-w-3xl">
+        Harness-agnostic. The right answer is usually two of these working together. Each page covers where the tool earns its slot and what configuration looks like.
       </p>
       <div class="grid md:grid-cols-2 gap-6">
         {tools.map((tool) => (
@@ -253,11 +280,11 @@ const faqSchema = {
   </Section>
 
   <!-- SHAPES OF ENGAGEMENT -->
-  <Section tone="dark" label="Shapes of engagement">
+  <Section tone="dark" label="What a month looks like">
     <div class="max-w-4xl">
-      <h2 class="display-h2 text-bone mb-8">Five shapes. The duck names yours on the call.</h2>
+      <h2 class="display-h2 text-bone mb-8">A fractional month has a rhythm.</h2>
       <p class="text-bone-dim text-lg leading-relaxed mb-12 max-w-3xl">
-        These are not tiers in a SaaS sense. They are the recognizable shapes that real engagements actually take. You do not need to pick one in advance — the duck reads what you describe and tells you which one it is.
+        These are the recurring pieces of a retainer engagement, not one-off project deliverables. The mix shifts month to month based on what the audit found and what the team needs next.
       </p>
       <div class="overflow-x-auto rounded-2xl border border-ink-border">
         <table class="w-full text-left text-bone">
@@ -280,7 +307,7 @@ const faqSchema = {
         </table>
       </div>
       <p class="text-bone-dim mt-8 max-w-3xl leading-relaxed">
-        No public pricing. The duck quotes the work on the call — real number, real timeline, real scope. If your job is below the floor, the duck says so and points you at a self-serve route instead of selling you something you do not need.
+        No public pricing. Retainer scope is set on the call — real monthly rate, real deliverables, real scope. If what you need is a one-off rather than a retainer, the duck says so and quotes that instead.
       </p>
     </div>
   </Section>
@@ -309,9 +336,9 @@ const faqSchema = {
   <!-- ALSO BUILD SOFTWARE -->
   <Section tone="dark" label="I also build software and websites">
     <div class="max-w-3xl">
-      <h2 class="display-h2 text-bone mb-8">Setup is primary. Builds happen too.</h2>
+      <h2 class="display-h2 text-bone mb-8">Retainer is primary. Builds happen inside it.</h2>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
-        Before RDTS pivoted toward setup work, I shipped custom AI software and marketing sites — ClipMango, Lee De Card, Dragon Wagons, and a longer list on <a href="/work/" class="link-saffron">the work page</a>. That side of the practice did not go away. It moved off the front of the menu because setup work is the lane I serve best now, but if your problem is "build the thing that does not exist yet," I still do that. A duck conversation figures out which shape it actually is — setup, build, or both — without making you pre-classify.
+        The fractional engagement often includes shipping real software — ClipMango, Lee De Card, Dragon Wagons, and a longer list on <a href="/work/" class="link-saffron">the work page</a>. If your audit surfaces "this thing needs to exist and it does not," building it is part of the retainer. If you need a fixed-price build scoped separately, that is a different shape and the duck will say so.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed">
         If you already know you want a full build with a fixed-price scope, <a href="/services/ai-developer-for-hire/" class="link-saffron">the AI developer for hire page</a> covers that lane in detail.
@@ -322,7 +349,7 @@ const faqSchema = {
   <!-- FAQ -->
   <Section tone="cream" label="FAQ">
     <div class="max-w-3xl space-y-4">
-      <h2 class="display-h2 mb-8">Common questions before the call</h2>
+      <h2 class="display-h2 mb-8">Common questions about the fractional engagement</h2>
       {faqs.map((f) => (
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
@@ -343,10 +370,10 @@ const faqSchema = {
       <div class="max-w-3xl">
         <span class="label label--dim mb-6">// Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
-          Describe the stack. The duck names the shape.
+          Describe the team. The duck names the shape.
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          A 30-minute call. You describe what your team is using, what is not working, and what you want to be true in a month. The duck names the shape — Quick fix, Tuneup, Workspace, Rollout, or Custom — quotes the work, and either books the next step or sends you somewhere better. No scoping form. No qualification grid. No slide deck.
+          A 30-minute call. You describe what your team is using, what is falling behind, and what you want to be true in three months. The duck reads whether this is a retainer, a one-off build, or something else — quotes the scope, and either books the next step or sends you somewhere better. No scoping form. No qualification grid. No slide deck.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
