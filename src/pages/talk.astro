@@ -33,7 +33,7 @@ const description = 'Short conversation with the duck. Tell it about your team a
     <div class="grid grid-cols-12 gap-4 lg:gap-6">
 
       {/* === Conversation panel === */}
-      <div class="col-span-12 lg:col-span-7 card-cream overflow-hidden flex flex-col">
+      <div class="col-span-12 lg:col-span-7 card-cream overflow-hidden flex flex-col h-[600px] lg:h-[680px]">
         <div class="border-b border-cream-border px-5 py-3 flex items-center justify-between bg-cream-light">
           <div class="flex items-center gap-3">
             <span class="status-pill__dot"></span>
@@ -42,11 +42,13 @@ const description = 'Short conversation with the duck. Tell it about your team a
           <span id="rev-counter" class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">Rev A · draft</span>
         </div>
 
-        <div class="p-6 lg:p-7 flex-1 flex flex-col">
-          {/* Message thread — populated by JS. flex-col-reverse with reversed children
-              keeps the newest message anchored to the bottom, empty space at top. */}
-          <div id="thread" class="flex flex-col justify-end space-y-5 mb-5 flex-1 min-h-[280px] overflow-y-auto">
-            <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
+        <div class="p-6 lg:p-7 flex-1 flex flex-col min-h-0">
+          {/* Message thread — populated by JS. Fixed-height parent + min-h-0 lets this
+              scroll internally instead of growing the card. mt-auto on the first child
+              keeps short conversations bottom-anchored without the flex justify-end
+              overflow-clipping bug; JS scrolls to bottom on each new message. */}
+          <div id="thread" class="flex flex-col space-y-5 mb-5 flex-1 min-h-0 overflow-y-auto">
+            <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim mt-auto">
               <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
               <span>Tell me about the company — what do you do and roughly how big is the team?</span>
             </div>
