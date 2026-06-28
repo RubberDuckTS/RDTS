@@ -147,6 +147,7 @@ Rules for the JSON:
 - Set ready_for_lead: true as soon as shape + team_size + current_pain + scope_proposed are filled AND the buyer is warm (confirmed the shape, asked price/next steps, or otherwise signaled interest). Do NOT require name or email — the form beside the chat collects those. Also flip it true on any clear buy signal even if a field is still thin. Once true, keep it true. (Exception: if hard_no_triggered is true, ready_for_lead stays false.)
 - budget_range: capture what they say or set to "monthly retainer" for fractional fits where no number was given.
 - turn_count is YOUR turn number in this conversation (start at 1, increment).
+- "message" is NEVER empty. Even when the conversation has wrapped (e.g., after a hard-no and the buyer is just saying thanks), reply with a brief one-line sign-off ("Take care." / "Anytime — good luck."). Never return an empty string.
 - Update spec fields as conversation progresses. The frontend re-renders from the latest spec.
 - "shape" must be one of: Fractional | Advisory | Project | Custom | Software build | unsure. Nothing else.
 

@@ -282,8 +282,13 @@ const description = 'Short conversation with the duck. Tell it about your team a
           }
           const data = await res.json();
           messages.push({ role: 'assistant', content: JSON.stringify(data) });
-          transcript.push({ role: 'duck', text: data.message });
-          appendMessage('duck', data.message);
+          // Guard against empty model output (e.g. trailing chatter after a hard-no)
+          // so we never render a blank duck bubble.
+          const duckMsg = (data.message || '').trim();
+          if (duckMsg) {
+            transcript.push({ role: 'duck', text: duckMsg });
+            appendMessage('duck', duckMsg);
+          }
           // spec: null means "soft fallback — don't overwrite the live spec"
           if (data.spec) {
             currentSpec = data.spec;
