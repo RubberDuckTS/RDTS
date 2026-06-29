@@ -27,18 +27,23 @@ const caseStudies = [
     shape: 'Software build',
     status: 'Alpha',
     link: 'https://rumbleofages.com',
+    linkLabel: 'Play the alpha →',
     body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in alpha at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Alpha means what it says — playable and improving in the open, not a finished launch.',
   },
   {
     title: 'Lee De Card — Creator booking platform',
     shape: 'Software build',
     status: 'Shipped',
+    link: 'https://leedecard.com',
+    linkLabel: 'Visit the site →',
     body: 'A booking platform for a creator who needed a workflow that did not exist in any off-the-shelf tool. AI-assisted matching between event briefs and the creator\'s availability, a clean public booking surface, and an admin panel the operator actually wants to open every morning. Started life as a Zapier mess; ended as a typed Next.js app.',
   },
   {
     title: 'Dragon Wagons — Content automation backend',
     shape: 'Software build',
     status: 'Shipped',
+    link: 'https://dragonwagonkc.com',
+    linkLabel: 'Visit the site →',
     body: 'Marketing site plus the content automation backend that feeds it. Scheduled generation, prompt library, output review queue, and a small dashboard for the team running the content calendar. Boring infrastructure done right so the AI work on top has somewhere stable to live.',
   },
   {
@@ -117,7 +122,7 @@ const statusStyles = {
             <h3 class="display-h3 text-coal mb-4">{cs.title}</h3>
             <p class="text-coal-dim leading-relaxed">{cs.body}</p>
             {cs.link && (
-              <a href={cs.link} target="_blank" rel="noopener" class="link-saffron inline-block mt-4 text-sm font-mono">Play the alpha &rarr;</a>
+              <a href={cs.link} target="_blank" rel="noopener" class="link-saffron inline-block mt-4 text-sm font-mono">{cs.linkLabel || 'View live →'}</a>
             )}
           </article>
         ))}
