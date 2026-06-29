@@ -23,6 +23,13 @@ const collectionSchema = {
 
 const caseStudies = [
   {
+    title: 'Rumble of Ages — Gachapon game',
+    shape: 'Software build',
+    status: 'Alpha',
+    link: 'https://rumbleofages.com',
+    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in alpha at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Alpha means what it says — playable and improving in the open, not a finished launch.',
+  },
+  {
     title: 'ClipMango — AI music video pipeline',
     shape: 'Software build',
     status: 'Shipped',
@@ -66,6 +73,7 @@ const shapeStyles = {
 const statusStyles = {
   Shipped: 'text-bone-dim',
   'Coming soon': 'text-bone-mute italic',
+  Alpha: 'text-saffron',
 };
 ---
 
@@ -114,6 +122,9 @@ const statusStyles = {
             </div>
             <h3 class="display-h3 text-coal mb-4">{cs.title}</h3>
             <p class="text-coal-dim leading-relaxed">{cs.body}</p>
+            {cs.link && (
+              <a href={cs.link} target="_blank" rel="noopener" class="link-saffron inline-block mt-4 text-sm font-mono">Play the alpha &rarr;</a>
+            )}
           </article>
         ))}
       </div>
