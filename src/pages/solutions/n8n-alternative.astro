@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: 'Can a custom build really handle multi-model AI routing better than n8n?',
-    a: "Yes, and it is the most common reason people call me. n8n nodes are tied to one provider per node. Real code lets me route per task — Claude for the long-context reasoning step, GPT for the structured output step, a cheaper model for classification — inside a single function with retries, fallbacks, and a budget cap. ClipMango, my AI music video pipeline, does exactly this across four providers. That kind of routing is fighting the framework in n8n. In code it is a switch statement.",
+    a: "Yes, and it is the most common reason people call me. n8n nodes are tied to one provider per node. Real code lets me route per task — Claude for the long-context reasoning step, GPT for the structured output step, a cheaper model for classification — inside a single function with retries, fallbacks, and a budget cap. A multi-model AI pipeline I built solo does exactly this across four providers. That kind of routing is fighting the framework in n8n. In code it is a switch statement.",
   },
   {
     q: 'Do I own the code? What happens if you disappear?',
@@ -176,7 +176,7 @@ const faqSchema = {
       </p>
       <h3>3. Multi-model AI routing is impossible without ugly workarounds</h3>
       <p>
-        n8n's AI nodes are tied to one provider per node. Real production AI flows route per task — Claude for long-context reasoning, GPT for structured extraction, a small fast model for classification. In n8n that is a switch node, three branches, three credentials, and three places to break. In code it is fifteen lines. ClipMango, my AI music video pipeline, runs four providers in one request and costs less than the equivalent n8n workflow ran on a single premium model.
+        n8n's AI nodes are tied to one provider per node. Real production AI flows route per task — Claude for long-context reasoning, GPT for structured extraction, a small fast model for classification. In n8n that is a switch node, three branches, three credentials, and three places to break. In code it is fifteen lines. A multi-model AI pipeline I built solo runs four providers in one request and costs less than the equivalent n8n workflow ran on a single premium model.
       </p>
       <h3>4. Custom integrations you need do not exist as nodes</h3>
       <p>
@@ -207,7 +207,7 @@ const faqSchema = {
         You get the GitHub repo from commit one. No proprietary DSL, no platform lock-in, no monthly retainer to make a typo fix. When the project ships, the source code transfers cleanly to your engineering team or whoever you hire next. If you want ongoing work on it, that is a separate conversation — never a hostage situation. If you would rather <a href="/services/ai-developer-for-hire/" class="link-saffron">hire directly</a> for a longer engagement, that is on the table too.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed">
-        Same playbook has shipped for ClipMango (the multi-model AI music video pipeline), Lee De Card (a creator booking platform that started life as a Zapier mess), and Dragon Wagons (marketing site plus content automation backend). Different domains, same translation step.
+        Same playbook has shipped for Lee De Card (a creator booking platform that started life as a Zapier mess) and Dragon Wagons (marketing site plus content automation backend). Different domains, same translation step.
       </p>
     </div>
   </Section>
