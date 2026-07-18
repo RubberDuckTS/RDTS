@@ -14,12 +14,12 @@ const description = 'Short conversation with the duck. Tell it what you need —
           <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Free · short conversation · no signup</span></div>
           <h1 class="display-h1 mb-6 max-w-[18ch]">
             Tell the duck<br/>
-            what your team <span class="accent-saffron">needs</span><span class="cursor"></span>
+            what you <span class="accent-saffron">need</span><span class="cursor"></span>
           </h1>
           <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-            Short conversation with the duck — the qualification agent for RDTS. It reads
-            your AI situation, asks about the team and the overwhelm, and sends Long a
-            brief so the first call is already scoped. Replies within 24 hours.
+            Short conversation with the duck — RDTS's intake agent. Tell it what you want
+            built, fixed, integrated, or figured out, and it sends Long a brief so the first
+            call is already scoped. Prefer a human? Long's email and calendar are right below.
           </p>
         </div>
         <div class="hidden lg:flex col-span-5 justify-end items-center">
@@ -47,7 +47,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
               scroll internally instead of growing the card. mt-auto on the first child
               keeps short conversations bottom-anchored without the flex justify-end
               overflow-clipping bug; JS scrolls to bottom on each new message. */}
-          <div id="thread" class="flex flex-col space-y-5 mb-5 flex-1 min-h-0 overflow-y-auto">
+          <div id="thread" role="log" aria-live="polite" aria-atomic="false" aria-label="Conversation with the duck" class="flex flex-col space-y-5 mb-5 flex-1 min-h-0 overflow-y-auto">
             <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim mt-auto">
               <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
               <span>Tell me about the company — what do you do and roughly how big is the team?</span>
@@ -141,9 +141,21 @@ const description = 'Short conversation with the duck. Tell it what you need —
             <p id="lead-error" class="hidden text-[12px] text-red-700 font-mono"></p>
           </form>
 
-          {/* Pre-ready state */}
-          <div id="lead-prompt" class="text-[12px] font-mono text-coal-mute italic">
-            // submit + book buttons appear once the brief locks
+          {/* Pre-ready state — the form unlocks once the duck has a brief, but
+              contact is NEVER gated: email + calendar are always available. */}
+          <div id="lead-prompt" class="flex flex-col gap-3">
+            <p class="text-[12px] font-mono text-coal-mute italic">
+              // chat with the duck and a pre-filled brief appears here — or reach Long directly:
+            </p>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener"
+                 data-track="calendly" class="btn btn-outline-dark text-[13px]">
+                Book a call →
+              </a>
+              <a href="mailto:long@rubberducktechsolutions.com" class="btn btn-outline-dark text-[13px]">
+                Email Long
+              </a>
+            </div>
           </div>
 
           {/* Success state */}

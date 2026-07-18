@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Solutions — AI coding tool setup, done by a real person | RDTS';
+const description = 'Paid, done-for-you setup of the AI coding tools your team actually uses — Claude Code, Cursor, Codex, Cline, Aider, OpenClaw — plus honest Zapier and n8n migration guides.';
+
+const canonical = '/solutions/';
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'RDTS Solutions',
+  description,
+  url: 'https://www.rubberducktechsolutions.com/solutions/',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Rubber Duck Tech Solutions',
+    url: 'https://www.rubberducktechsolutions.com/',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.rubberducktechsolutions.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Solutions', item: 'https://www.rubberducktechsolutions.com/solutions/' },
+  ],
+};
+
+const setups = [
+  { title: 'Claude Code setup', href: '/solutions/claude-code-setup/', blurb: "Anthropic's terminal-native coding agent, configured for your repo — permissions, skills, MCP servers, and a team-safe default config." },
+  { title: 'Cursor setup', href: '/solutions/cursor-setup/', blurb: 'The AI-first IDE, set up so it actually understands your codebase — rules, context, and the model choices that matter.' },
+  { title: 'Codex setup', href: '/solutions/codex-setup/', blurb: "OpenAI's coding agent wired into your workflow, with the guardrails and config a team needs before turning it loose." },
+  { title: 'Cline setup', href: '/solutions/cline-setup/', blurb: 'The VS Code agent extension, configured for your stack — model routing, approvals, and MCP connections.' },
+  { title: 'Aider setup', href: '/solutions/aider-setup/', blurb: 'The terminal pair-programmer, tuned for your repo and your git workflow so the diffs land clean.' },
+  { title: 'OpenClaw setup', href: '/solutions/openclaw-setup/', blurb: 'The open-source coding agent, self-hosted and configured — a real alternative when you want to own the stack.' },
+  { title: 'Hermes Agent setup', href: '/solutions/hermes-agent-setup/', blurb: 'The autonomous task agent, scoped and configured for the repeated work you want off your plate.' },
+];
+
+const migrations = [
+  { title: 'Zapier alternative', href: '/solutions/zapier-alternative/', blurb: 'When Zapier stops making sense at your scale — the honest stay-or-migrate call, and what a custom build actually costs.' },
+  { title: 'n8n alternative', href: '/solutions/n8n-alternative/', blurb: 'Where n8n fits, where it breaks, and when a purpose-built automation beats a workflow tool you have to babysit.' },
+  { title: 'n8n vs Zapier', href: '/solutions/n8n-vs-zapier/', blurb: 'The decision table first, the narrative second — which one to reach for, and when the answer is neither.' },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[collectionSchema, breadcrumbSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x pt-24 lg:pt-32 pb-16">
+      <div class="max-w-4xl">
+        <span class="label label--dim mb-6">// Solutions</span>
+        <h1 class="display-h1 mt-4 mb-6">
+          Tool setup,<br/>
+          <span class="accent-saffron">done by a real person.</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          Every AI coding tool ships with a "just install it" tutorial. None of them tell you how to
+          configure it for a real team on a real codebase without it going sideways. That's the part I do —
+          set up right the first time, or migrated off something you've outgrown.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETUPS -->
+  <Section tone="cream" label="Tool setup">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 mb-4">Get a tool set up right</h2>
+      <p class="text-coal-dim text-lg leading-relaxed max-w-3xl mb-12">
+        Done-for-you configuration of the AI coding agents teams actually use. Each page covers what the
+        paid setup delivers and what you'll need to provide. Not sure which one? <a href="/talk/" class="link-coal">Talk to the duck</a> and it'll route you.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {setups.map((c) => (
+          <a href={c.href} class="card-cream p-7 group block">
+            <h3 class="display-h3 text-coal mb-3 group-hover:text-saffron-shadow transition-colors">{c.title}</h3>
+            <p class="text-coal-dim leading-relaxed">{c.blurb}</p>
+            <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Scope this setup →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- MIGRATIONS -->
+  <Section tone="dark" label="Migrate & compare">
+    <div class="max-w-4xl">
+      <h2 class="display-h2 text-bone mb-4">Outgrowing Zapier or n8n?</h2>
+      <p class="text-bone-dim text-lg leading-relaxed max-w-3xl mb-12">
+        Honest guides for the point where an off-the-shelf automation tool starts costing more than it saves —
+        and what a custom build looks like instead.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {migrations.map((c) => (
+          <a href={c.href} class="bg-ink-card border border-ink-border rounded-2xl p-7 group block hover:border-saffron transition-colors">
+            <h3 class="display-h3 text-bone mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
+            <p class="text-bone-dim leading-relaxed text-[15px]">{c.blurb}</p>
+            <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Read →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-cream">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--coal mb-6">// Ask the duck</span>
+        <h2 class="display-h2 mt-4 mb-8">
+          Not sure which tool — or whether you need one?
+        </h2>
+        <p class="text-coal-dim text-lg leading-relaxed mb-10">
+          These pages cover the setups. They won't pick the stack for your specific team, codebase, or workflow —
+          that part's a conversation. Tell the duck what you're trying to do and what's broken, and you'll leave
+          with a clear next step instead of another tab to read.
+        </p>
+        <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

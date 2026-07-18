@@ -109,9 +109,9 @@ const comparisons = [
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {concepts.map((c) => (
           <a href={c.href} class="card-cream p-7 group block">
-            <h3 class="display-h3 text-coal mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
+            <h3 class="display-h3 text-coal mb-3 group-hover:text-saffron-shadow transition-colors">{c.title}</h3>
             <p class="text-coal-dim leading-relaxed">{c.blurb}</p>
-            <span class="inline-block mt-5 text-saffron font-mono text-sm">Read →</span>
+            <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Read →</span>
           </a>
         ))}
       </div>
@@ -130,7 +130,7 @@ const comparisons = [
           <a href={c.href} class="bg-ink-card border border-ink-border rounded-2xl p-7 group block hover:border-saffron transition-colors">
             <h3 class="display-h3 text-bone mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
             <p class="text-bone-dim leading-relaxed text-[15px]">{c.blurb}</p>
-            <span class="inline-block mt-5 text-saffron font-mono text-sm">Compare →</span>
+            <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Compare →</span>
           </a>
         ))}
       </div>
