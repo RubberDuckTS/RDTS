@@ -1,0 +1,23 @@
+---
+/**
+ * Microsoft Clarity — free, unlimited scroll + click heatmaps and session
+ * replay. Answers "where do visitors scroll, what do they click, where do
+ * they rage-click and bail." Renders ONLY when PUBLIC_CLARITY_ID is set, so
+ * the site stays clean until the Clarity project exists.
+ *
+ * Setup: create a project at https://clarity.microsoft.com, copy the project
+ * ID, set PUBLIC_CLARITY_ID in Vercel (and site/.env for local). No cookie
+ * banner needed — Clarity is cookieless by default.
+ */
+const clarityId = import.meta.env.PUBLIC_CLARITY_ID;
+---
+{clarityId && (
+  <script is:inline define:vars={{ clarityId }}>
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1;
+      t.src = 'https://www.clarity.ms/tag/' + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, 'clarity', 'script', clarityId);
+  </script>
+)}

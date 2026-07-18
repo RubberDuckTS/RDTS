@@ -75,8 +75,51 @@ function buyerSummary(spec: SpecSheet): string {
     : spec.team_size
       ? `a team of ${spec.team_size}`
       : 'your team';
-  const shape = spec.shape && spec.shape !== 'unsure' ? spec.shape : 'Fractional AI lead';
+  const shape = spec.shape && spec.shape !== 'unsure' ? spec.shape : 'Custom engagement';
   return `${shape} for ${teamPhrase}. ${spec.scope_proposed || ''}`.trim();
+}
+
+/**
+ * Chat-lead notification — fires when a visitor volunteers an email address
+ * IN the chat instead of using the form. Goes to Long ONLY; the visitor
+ * receives nothing until Long replies personally (so the chat can never be
+ * used to send mail to arbitrary third-party addresses). Deduped per
+ * conversation in scope.ts. replyTo is the visitor, so Long answers in one click.
+ */
+export async function sendChatLeadToLong(
+  visitorEmail: string,
+  chatMessages: { role: string; content: string }[],
+) {
+  if (!resend) throw new Error('RESEND_API_KEY not configured');
+
+  const lines: string[] = [];
+  for (const m of chatMessages) {
+    if (m.role === 'user') {
+      lines.push(`Visitor: ${m.content}`);
+    } else {
+      // assistant turns hold the duck's raw JSON — surface just its message
+      try {
+        lines.push(`Duck: ${JSON.parse(m.content).message ?? m.content}`);
+      } catch {
+        lines.push(`Duck: ${m.content}`);
+      }
+    }
+  }
+
+  return resend.emails.send({
+    from:    `RDTS Duck <${RDTS_FROM}>`,
+    to:      [RDTS_INBOX],
+    replyTo: visitorEmail,
+    subject: `[RDTS chat lead] ${visitorEmail} left their email in the duck chat`,
+    text: [
+      `${visitorEmail} shared their email in the /talk chat without submitting the form.`,
+      'Reply to this email to reach them directly.',
+      '',
+      '— — — — — — — — — — — — — —',
+      'Conversation so far:',
+      lines.join('\n\n'),
+    ].join('\n'),
+  });
 }
 
 export async function sendLeadToLong(payload: LeadPayload) {
@@ -109,7 +152,7 @@ export async function sendSpecToVisitor(payload: LeadPayload) {
   if (!resend) throw new Error('RESEND_API_KEY not configured');
 
   const firstName = payload.name.split(' ')[0];
-  const shape = payload.spec.shape && payload.spec.shape !== 'unsure' ? payload.spec.shape : 'Fractional AI lead';
+  const shape = payload.spec.shape && payload.spec.shape !== 'unsure' ? payload.spec.shape : 'Custom engagement';
   const subject = `Your qualification brief — ${shape}`;
 
   const tldr = buyerSummary(payload.spec);

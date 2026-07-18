@@ -12,6 +12,9 @@
 import type { APIRoute } from 'astro';
 import Anthropic from '@anthropic-ai/sdk';
 import { SCOPING_SYSTEM_PROMPT } from '../../lib/prompts';
+import { sendChatLeadToLong } from '../../lib/email';
+
+const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 
 export const prerender = false;
 
@@ -28,6 +31,8 @@ interface ScopeResponse {
   message: string;
   spec: Record<string, unknown> | null;
   ready_for_lead: boolean;
+  /** True when the duck has wrapped the session (visitor said they're done). */
+  session_complete?: boolean;
   turn_count: number;
 }
 
@@ -108,9 +113,31 @@ export const POST: APIRoute = async ({ request }) => {
 
   const anthropic = new Anthropic({ apiKey });
 
+  // Chat-lead capture: the visitor volunteered an email in their latest
+  // message. Forward it to Long BEFORE generating the reply, so the duck can
+  // confirm honestly — or recover honestly if the send fails. Sent to Long
+  // only (never to the typed address), deduped per conversation.
+  const lastMsg = messages[messages.length - 1];
+  const volunteered =
+    lastMsg?.role === 'user' ? lastMsg.content?.match?.(EMAIL_RE)?.[0] : undefined;
+  const alreadyForwarded = volunteered
+    ? messages.slice(0, -1).some(m => typeof m.content === 'string' && m.content.includes(volunteered))
+    : false;
+
+  let chatLeadNote: string | undefined;
+  if (volunteered && !alreadyForwarded) {
+    try {
+      await sendChatLeadToLong(volunteered, messages);
+      chatLeadNote = `SYSTEM NOTE: the visitor just shared their email (${volunteered}) in the chat, and it has ALREADY been forwarded to Long together with this conversation. Confirm that honestly — Long will follow up within 24 hours. Do not tell them nothing happened, and do not demand the form (you may mention it as an optional way to add details).`;
+    } catch (err) {
+      console.error('[scope] chat-lead forward failed:', err);
+      chatLeadNote = `SYSTEM NOTE: the visitor shared an email in chat but automatic forwarding FAILED. Do NOT claim Long received anything — point them to the form beside the chat or long@rubberducktechsolutions.com.`;
+    }
+  }
+
   try {
     // Attempt 1: standard prefill
-    let raw = await callHaiku(anthropic, messages);
+    let raw = await callHaiku(anthropic, messages, chatLeadNote);
     let parsed = tryParseScope(raw);
 
     // Attempt 2: retry with stricter instruction if first attempt didn't parse
@@ -119,7 +146,10 @@ export const POST: APIRoute = async ({ request }) => {
       raw = await callHaiku(
         anthropic,
         messages,
-        'Your previous response failed to parse as JSON. Output ONLY the JSON object, starting with { and ending with }. No markdown, no prose, no preamble.',
+        [
+          chatLeadNote,
+          'Your previous response failed to parse as JSON. Output ONLY the JSON object, starting with { and ending with }. No markdown, no prose, no preamble.',
+        ].filter(Boolean).join('\n'),
       );
       parsed = tryParseScope(raw);
     }

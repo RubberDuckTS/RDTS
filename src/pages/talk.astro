@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 
-const title = 'Talk to the duck — fractional AI lead | RDTS';
-const description = 'Short conversation with the duck. Tell it about your team and your AI situation — it qualifies whether a fractional AI lead fits and sends Long a brief. Replies within 24 hours.';
+const title = 'Talk to the duck — scope your project | RDTS';
+const description = 'Short conversation with the duck. Tell it what you need — software, AI integration, training, or ongoing help — and it briefs Long. He replies within 24 hours.';
 ---
 
 <BaseLayout title={title} description={description} noindex={false}>
@@ -73,6 +73,15 @@ const description = 'Short conversation with the duck. Tell it about your team a
               </button>
             </div>
           </form>
+
+          {/* Closed state — shown when the duck wraps the session. Reopen
+              restores the composer with the full conversation intact. */}
+          <div id="chat-closed" class="hidden items-center justify-between gap-3 border-t border-cream-border pt-4 mt-auto">
+            <span class="font-mono text-[11px] tracking-[0.06em] text-coal-mute">// session closed — Long has the brief</span>
+            <button id="chat-reopen" type="button" class="btn btn-outline-dark text-[13px]">
+              Reopen chat
+            </button>
+          </div>
         </div>
       </div>
 
@@ -185,6 +194,12 @@ const description = 'Short conversation with the duck. Tell it about your team a
       let currentSpec = null;
       let readyForLead = false;
       let turnCount = 0;
+      let startedTracked = false;   // duck_started fires once per session
+      let qualifiedTracked = false; // duck_qualified fires once per session
+
+      function track(name, data) {
+        if (window.va) window.va('event', { name: name, data: data || {} });
+      }
 
       const thread = document.getElementById('thread');
       const composer = document.getElementById('composer');
@@ -197,6 +212,19 @@ const description = 'Short conversation with the duck. Tell it about your team a
       const leadError = document.getElementById('lead-error');
       const leadSubmit = document.getElementById('lead-submit');
       const leadSuccess = document.getElementById('lead-success');
+      const chatClosed = document.getElementById('chat-closed');
+      const chatReopen = document.getElementById('chat-reopen');
+
+      function setSessionClosed(closed) {
+        composer.classList.toggle('hidden', closed);
+        chatClosed.classList.toggle('hidden', !closed);
+        chatClosed.classList.toggle('flex', closed);
+      }
+      chatReopen.addEventListener('click', () => {
+        setSessionClosed(false);
+        input.focus();
+        track('duck_reopened', {});
+      });
 
       function appendMessage(role, text) {
         const wrap = document.createElement('div');
@@ -264,6 +292,7 @@ const description = 'Short conversation with the duck. Tell it about your team a
       }
 
       async function sendTurn(userText) {
+        if (!startedTracked) { track('duck_started', { from: document.referrer || 'direct' }); startedTracked = true; }
         messages.push({ role: 'user', content: userText });
         transcript.push({ role: 'visitor', text: userText });
         appendMessage('visitor', userText);
@@ -294,10 +323,22 @@ const description = 'Short conversation with the duck. Tell it about your team a
             currentSpec = data.spec;
             renderSpec(currentSpec);
           }
-          readyForLead = !!data.ready_for_lead;
+          // Monotonic: once the form is unlocked it never re-locks, even if a
+          // later model turn regresses ready_for_lead.
+          readyForLead = readyForLead || !!data.ready_for_lead;
           turnCount = data.turn_count || (turnCount + 1);
           revCounter.textContent = 'Rev ' + String.fromCharCode(65 + Math.min(turnCount, 25)) + ' · ' + (readyForLead ? 'ready' : 'draft');
-          if (readyForLead) showLeadForm();
+          if (readyForLead) {
+            showLeadForm();
+            if (!qualifiedTracked) {
+              track('duck_qualified', { shape: (currentSpec && currentSpec.shape) || 'unsure', turns: turnCount });
+              qualifiedTracked = true;
+            }
+          }
+          if (data.session_complete) {
+            setSessionClosed(true);
+            track('duck_closed', { turns: turnCount });
+          }
         } catch (err) {
           appendMessage('duck', 'The duck hit a snag (' + err.message + '). Try again, or email long@rubberducktechsolutions.com directly.');
         } finally {
@@ -345,6 +386,7 @@ const description = 'Short conversation with the duck. Tell it about your team a
           }
           leadForm.classList.add('hidden');
           leadSuccess.classList.remove('hidden');
+          track('lead_submitted', { shape: (currentSpec && currentSpec.shape) || 'unsure' });
         } catch (err) {
           leadError.textContent = 'Send failed: ' + err.message;
           leadError.classList.remove('hidden');

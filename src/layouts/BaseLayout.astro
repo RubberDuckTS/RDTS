@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
+import Clarity from '../components/Clarity.astro';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -182,8 +183,46 @@ const schemas = schema
       </div>
     </footer>
 
-    {/* Analytics — Vercel Analytics + Speed Insights. ~1KB combined, cookie-free. */}
+    {/* Analytics — Vercel (page views + custom conversion events) + Speed
+        Insights + Microsoft Clarity (heatmaps/replay, env-gated). Cookie-free. */}
     <Analytics />
     <SpeedInsights />
+    <Clarity />
+
+    {/* Conversion tracking — sitewide CTA clicks + scroll depth. Fires named
+        Vercel Analytics events so the funnel (page → CTA → duck → lead) is
+        measurable. Guarded on window.va, so it's a no-op if analytics is blocked. */}
+    <script is:inline>
+      (function () {
+        function track(name, data) {
+          if (window.va) window.va('event', { name: name, data: data || {} });
+        }
+        var from = location.pathname;
+
+        // Delegated CTA clicks — one listener covers every page.
+        document.addEventListener('click', function (e) {
+          var a = e.target && e.target.closest && e.target.closest('a');
+          if (!a) return;
+          var href = a.getAttribute('href') || '';
+          if (href.indexOf('/talk') !== -1)          track('cta_talk_click', { from: from });
+          else if (href.indexOf('calendly') !== -1)  track('calendly_click', { from: from });
+          else if (href.indexOf('mailto:') === 0)    track('email_click', { from: from });
+        }, { passive: true });
+
+        // Scroll depth — fire each milestone once per page.
+        var hit = {};
+        function onScroll() {
+          var doc = document.documentElement;
+          var scrollable = doc.scrollHeight - doc.clientHeight;
+          if (scrollable <= 0) return;
+          var pct = Math.round((doc.scrollTop / scrollable) * 100);
+          [25, 50, 75, 100].forEach(function (m) {
+            if (pct >= m && !hit[m]) { hit[m] = true; track('scroll_depth', { depth: m, path: from }); }
+          });
+          if (hit[100]) window.removeEventListener('scroll', onScroll);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
   </body>
 </html>
