@@ -19,6 +19,7 @@ const collectionSchema = {
     url: 'https://www.rubberducktechsolutions.com/',
   },
   about: [
+    'Claude Code for Teams',
     'Model Context Protocol',
     'Claude Skills',
     'AI Agent Harness',
@@ -31,6 +32,11 @@ const collectionSchema = {
 };
 
 const concepts = [
+  {
+    title: 'Claude Code for teams: the rollout playbook',
+    href: '/learn/claude-code-for-teams/',
+    blurb: 'Deployment options, permission scoping, the security review, a two-week pilot, and who owns it afterward. The playbook for getting a whole team on Claude Code.',
+  },
   {
     title: 'What is MCP?',
     href: '/learn/what-is-mcp/',
@@ -98,7 +104,7 @@ const comparisons = [
     <div class="max-w-4xl">
       <h2 class="display-h2 mb-4">Start here if you are new</h2>
       <p class="text-coal-dim text-lg leading-relaxed max-w-3xl mb-12">
-        Four explainers that cover the vocabulary you will run into the moment you start configuring any AI tool. Read them in any order.
+        Explainers that cover the vocabulary you will run into the moment you start configuring any AI tool — plus the team rollout playbook. Read them in any order.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {concepts.map((c) => (

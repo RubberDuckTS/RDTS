@@ -6,6 +6,16 @@
       "has": [{ "type": "host", "value": "rubberducktechsolutions.com" }],
       "destination": "https://www.rubberducktechsolutions.com/$1",
       "permanent": true
+    },
+    {
+      "source": "/pricing",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/pricing/",
+      "destination": "/services/",
+      "permanent": true
     }
   ]
 }

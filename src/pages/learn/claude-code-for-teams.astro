@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+
+const title = 'Claude Code for teams — the enterprise rollout playbook | RDTS';
+const description =
+  'Roll out Claude Code to a team without burning trust: deployment options, permissions, the security review, a two-week pilot, and who owns it after launch.';
+
+const canonical = '/learn/claude-code-for-teams/';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Claude Code for teams: the rollout playbook',
+  description,
+  datePublished: '2026-07-17T08:00:00+00:00',
+  dateModified: '2026-07-17T08:00:00+00:00',
+  author: {
+    '@type': 'Person',
+    name: 'Long Nguyen',
+    url: 'https://www.rubberducktechsolutions.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Rubber Duck Tech Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.rubberducktechsolutions.com/favicon.svg',
+    },
+  },
+  mainEntityOfPage: 'https://www.rubberducktechsolutions.com/learn/claude-code-for-teams/',
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.rubberducktechsolutions.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Learn', item: 'https://www.rubberducktechsolutions.com/learn/' },
+    { '@type': 'ListItem', position: 3, name: 'Claude Code for teams' },
+  ],
+};
+
+const faqs = [
+  {
+    q: 'Does Claude Code have a team or enterprise plan?',
+    a: 'Yes. Anthropic sells Claude Code seats on its Team and Enterprise plans, and Claude Code can also run against models you already buy through AWS Bedrock or Google Vertex AI. Which route makes sense depends on where your compliance and billing already live: if your company runs on AWS and infosec has already approved Bedrock, pointing Claude Code at Bedrock is usually the shortest path through review. If you have no cloud-provider relationship in the way, the Team plan is the least setup.',
+  },
+  {
+    q: 'Is Claude Code safe to use on a private codebase?',
+    a: 'The honest answer is: as safe as you configure it to be. Your code is sent to the model provider you choose (Anthropic directly, or your own Bedrock or Vertex tenancy), so the data-handling question is a vendor-review question, and Anthropic publishes its compliance posture through its Trust Center. The riskier surface is usually local: what the agent is allowed to run, edit, and read on the machine. That is controlled by its permission settings — which is why permission scoping is phase zero of this playbook, not an afterthought.',
+  },
+  {
+    q: 'What is a CLAUDE.md file and why does every rollout guide mention it?',
+    a: 'CLAUDE.md is the instruction file Claude Code reads at the start of every session — project conventions, build commands, architecture notes, things it should never touch. It is the difference between an agent that acts like a new hire on day one and one that acts like a new hire in month three. It layers: an enterprise-level file for company-wide rules, a project file committed to git that the whole team shares, and a personal file for individual preferences. Writing the shared project file well is the highest-value hour of the whole rollout.',
+  },
+  {
+    q: 'What permission mode should a team default to?',
+    a: 'Start stricter than you think you need. The default mode asks for approval before edits and commands, which is right for a pilot. Once trust is established on a repo, acceptEdits — auto-approve file edits, still gate shell commands — is the sensible team tier. The bypass mode that skips all prompts has legitimate uses in sandboxed CI, and almost none on a developer laptop with production credentials in the environment. Set the team default centrally with managed settings rather than hoping twelve laptops agree.',
+  },
+  {
+    q: 'How many developers should be in the pilot?',
+    a: 'Five to ten. Fewer than five and you learn nothing about how conventions collide between people; more than ten and you are running a rollout without the lessons of a pilot. Pick a mix: at least one enthusiast, at least one skeptic, at least two codebases with different shapes. Two weeks is enough to surface the real issues — permission friction, CLAUDE.md gaps, which MCP servers people actually need.',
+  },
+  {
+    q: 'How do we measure whether Claude Code is paying off?',
+    a: 'Do not start with company-wide dashboards. In the pilot, track three things that are cheap to collect: how often agent-written changes survive review unchanged, where developers say they stopped trusting it (be specific — which task, which repo), and whether cycle time on small well-scoped tickets moves. Claude Code exports usage metrics over OpenTelemetry, so the quantitative side can feed the observability stack you already run once you scale past the pilot.',
+  },
+  {
+    q: 'Who should own Claude Code after the rollout?',
+    a: 'Someone specific, by name — not "the platform team" in the abstract. The published playbooks in this space converge on a fraction of one senior engineer\'s time as the steady state: curating CLAUDE.md files, reviewing permission and MCP requests, tracking what changed in the tool that month. If nobody inside the team wants to carry that, it is a natural thing to bring in fractionally — which is, not coincidentally, a service we offer.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, breadcrumbSchema, faqSchema]}>
+  <!-- HERO -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-4xl">
+        <div class="label label--dim mb-6">Learn / Playbook</div>
+        <h1 class="display-h1 mb-8">
+          Claude Code for teams: the <span class="underline-saffron">rollout playbook</span><span class="cursor">_</span>
+        </h1>
+        <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
+          Installing Claude Code takes a developer ten minutes. Rolling it out to a team of twelve — past the security review, without someone's agent rewriting a payment module unsupervised, with conventions that make the tool better every week instead of noisier — is a different job. This is the playbook for that job: deployment options, permission scoping, the pilot, the phases, and the question nobody budgets for, which is who owns it afterward.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO THIS IS FOR -->
+  <Section tone="cream" label="Who this is for">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Two very different "Claude Code setup" problems</h2>
+      <p>
+        If you are one developer setting up Claude Code for yourself, you do not need this page — install it, point it at a repo, and learn by doing. We keep a shorter <a href="/solutions/claude-code-setup/" class="link-coal">solo setup guide</a> for exactly that.
+      </p>
+      <p>
+        This page is for the other situation: you are the platform lead, engineering manager, or staff engineer who has been handed "get the team on Claude Code" as a project. You have a dozen engineers with a dozen different ideas about AI tools, an infosec team with questions, at least one codebase that touches money or customer data, and a hunch that letting everyone configure their own agent from scratch ends badly. That hunch is correct. The difference between teams where Claude Code compounds and teams where it quietly gets abandoned is almost never the model — it is the rollout.
+      </p>
+    </div>
+  </Section>
+
+  <!-- THE SHAPE -->
+  <Section tone="dark" label="The shape of it">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-6">One page version</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-8">
+        A rollout that works has four phases, and the order is load-bearing:
+      </p>
+      <ol class="space-y-6 mb-10">
+        <li class="flex gap-5">
+          <span class="text-saffron font-mono text-lg shrink-0">0.</span>
+          <p class="text-bone-dim text-lg leading-relaxed"><strong class="text-bone">Decide the plumbing before anyone installs anything.</strong> Deployment route, credential audit, permission defaults. One afternoon of decisions that prevents a month of infosec escalations.</p>
+        </li>
+        <li class="flex gap-5">
+          <span class="text-saffron font-mono text-lg shrink-0">1.</span>
+          <p class="text-bone-dim text-lg leading-relaxed"><strong class="text-bone">Pilot with 5–10 developers for two weeks.</strong> Real tickets, real repos, one shared CLAUDE.md per repo, deliberately mixed enthusiasm levels.</p>
+        </li>
+        <li class="flex gap-5">
+          <span class="text-saffron font-mono text-lg shrink-0">2.</span>
+          <p class="text-bone-dim text-lg leading-relaxed"><strong class="text-bone">Expand to the department, 10–20 developers.</strong> This is where ad-hoc convention breaks and central management starts to matter: managed settings, a reviewed MCP server list, approval gates in front of anything that ships.</p>
+        </li>
+        <li class="flex gap-5">
+          <span class="text-saffron font-mono text-lg shrink-0">3.</span>
+          <p class="text-bone-dim text-lg leading-relaxed"><strong class="text-bone">Go org-wide with a named owner.</strong> Rollout is not a finish line. Someone curates the setup on an ongoing basis or it decays.</p>
+        </li>
+      </ol>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        The rest of this page walks each phase in enough detail to actually run it.
+      </p>
+    </div>
+  </Section>
+
+  <!-- PHASE 0 -->
+  <Section tone="cream" label="Phase 0">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Before anyone installs anything</h2>
+
+      <h3>Pick the deployment route</h3>
+      <p>
+        Claude Code can run three ways, and the right one is usually decided by your compliance situation rather than by preference. Buying seats on Anthropic's Team or Enterprise plan is the least setup and gets central billing and admin controls. Running it against <strong>AWS Bedrock</strong> or <strong>Google Vertex AI</strong> keeps inference inside a cloud tenancy your security team has already reviewed, which can turn a three-month vendor review into a configuration ticket. If your company already has an approved Bedrock or Vertex footprint, start there; if not, the Team plan is the shortest path. Decide once, centrally — a team split across routes cannot share settings cleanly.
+      </p>
+
+      <h3>Run the credential audit</h3>
+      <p>
+        An agent that can execute shell commands can read whatever the shell can read. Before the pilot, walk through what actually lives on a developer laptop: cloud credentials in home directories, .env files with production keys, database URLs in shell history, tokens in dotfiles. The goal is not to make laptops perfect — it is to know what the agent could reach, move the worst of it (production credentials do not belong in plaintext on laptops regardless of AI tools), and write down what you decided. This one document is most of what infosec will ask for, produced before they ask.
+      </p>
+
+      <h3>Set permission defaults centrally</h3>
+      <p>
+        Claude Code has permission modes ranging from ask-before-every-change to fully autonomous. The mistake teams make is leaving this to individual choice, which yields one developer running unattended full-access sessions next to another who approves every semicolon. Decide the tiers up front — default mode for new repos and new users, auto-accepted edits with gated shell commands as the earned tier, autonomous modes reserved for sandboxed environments — and enforce them with managed settings files deployed by your device-management tooling rather than by memo.
+      </p>
+    </div>
+  </Section>
+
+  <!-- PHASE 1 -->
+  <Section tone="dark" label="Phase 1">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-6">The two-week pilot</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        Pick 5–10 developers. The composition matters more than the count: at least one person who is excited, at least one who is skeptical, spread across two or three repos with different shapes — a well-tested service, a legacy area, something frontend. If the pilot only contains enthusiasts working on clean code, it will succeed and teach you nothing.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        <strong class="text-bone">Write the shared CLAUDE.md before day one.</strong> Every repo in the pilot gets an instruction file committed to git: how to build and test, the conventions that are not obvious from the code, the areas the agent should not touch. No single hour of the rollout pays back harder than this one — it is the difference between ten developers teaching the agent the same lessons ten times and the repo teaching every session once.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        <strong class="text-bone">Give it real work.</strong> Pilots that route only toy tasks to the agent produce a verdict about toy tasks. Use it on actual tickets — small, well-scoped ones first — and let the normal review process judge the output. Code an agent wrote goes through the same pull request review as code a person wrote. No exceptions during the pilot, and honestly, few after it.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        <strong class="text-bone">Measure three things</strong>, all cheap: how often agent-authored changes survive review without rework, where each developer stopped trusting it (specific task, specific repo), and what people wired up on their own — the unofficial MCP servers and skills that appear during a pilot are a map of what the team actually needs.
+      </p>
+    </div>
+  </Section>
+
+  <!-- PHASE 2 -->
+  <Section tone="cream" label="Phase 2">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">Department rollout — where it usually breaks</h2>
+      <p>
+        Going from eight users to twenty is where informal agreements stop working. Three things need to become explicit at this stage.
+      </p>
+      <h3>Central configuration replaces convention</h3>
+      <p>
+        At pilot scale, "we all agreed to use acceptEdits" holds. At department scale it does not. This is what managed settings are for: a policy file deployed to every machine that pins the permission defaults, allowed tools, and the settings individuals cannot override. Ship the baseline centrally and leave room for personal preference above it, not below it.
+      </p>
+      <h3>The MCP server list gets reviewed</h3>
+      <p>
+        MCP servers are how Claude Code reaches your real systems — databases, ticketing, internal APIs. They are also, from a security perspective, integrations with real credentials that need the same review as any other integration. Collect what the pilot group adopted organically, review it once, and publish an approved list with shared configuration in each repo. New server requests go through the owner (phase 3) rather than through whoever finds a GitHub repo first. If MCP is a new concept for part of your team, our <a href="/learn/what-is-mcp/" class="link-coal">plain-English MCP explainer</a> and <a href="/learn/skills-vs-mcps/" class="link-coal">skills vs MCPs</a> pages exist for exactly that conversation.
+      </p>
+      <h3>Approval gates in front of production</h3>
+      <p>
+        The rule that keeps engineering leadership comfortable at scale is boring and absolute: nothing an agent writes reaches production without a human approving it, and the gate is enforced by the platform — branch protection, required reviews, CI — not by individual discipline. Claude Code's hook system can add checks at the tool level (blocking classes of commands, requiring confirmation on sensitive paths), which is useful defense in depth. But the load-bearing gate lives in the same place it always has: the pull request.
+      </p>
+    </div>
+  </Section>
+
+  <!-- PHASE 3 / OWNERSHIP -->
+  <Section tone="dark" label="Phase 3">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-6">Org-wide, and the ownership question</h2>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        The org-wide phase is mostly repetition of phase 2 with better documentation: onboarding notes, the approved server list, the CLAUDE.md patterns that worked, usage metrics flowing into your observability stack so the ROI conversation runs on data instead of vibes.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed mb-6">
+        The part that determines whether the rollout still matters in six months is ownership. Agent tooling changes monthly — models improve, features ship, defaults shift, yesterday's workaround becomes today's footgun. A rollout with no owner decays: CLAUDE.md files go stale, permission requests pile up, developers drift back to whatever they used before. Every serious playbook in this space lands on the same answer — a named senior engineer spending a real, budgeted fraction of their time as the Claude Code owner. Curating configuration, reviewing what the tool learned this month, being the person who answers "can we wire it up to the billing database?" with a decision instead of a shrug.
+      </p>
+      <p class="text-bone-dim text-lg leading-relaxed">
+        If nobody on the team can carry that fraction — or nobody wants to — that is the gap our <a href="/services/ai-developer-for-hire/" class="text-saffron hover:underline">fractional AI lead service</a> exists to fill: same ownership, bought by the slice instead of the headcount.
+      </p>
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section tone="cream" label="FAQ">
+    <div class="max-w-3xl space-y-4">
+      <h2 class="display-h2 mb-8">Common questions about Claude Code for teams</h2>
+      {faqs.map((f) => (
+        <details class="card-cream p-6 lg:p-7 group">
+          <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
+            <h3 class="display-h3 text-coal">{f.q}</h3>
+            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <div class="mt-4 text-coal-dim leading-relaxed">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="section-dark">
+    <div class="container-x py-20 lg:py-28">
+      <div class="max-w-3xl">
+        <span class="label label--dim mb-6">Ask the duck</span>
+        <h2 class="display-h2 text-bone mb-8 mt-4">
+          Running this rollout is a job. Want it done by someone who has done it?
+        </h2>
+        <p class="text-bone-dim text-lg leading-relaxed mb-10">
+          Everything on this page is doable in-house — that is why we published it. What we sell is the version where it happens faster and the mistakes are ones we already made somewhere else: the deployment decision argued once instead of quarterly, CLAUDE.md files that read like they were written by someone on their fortieth repo, a pilot that produces a verdict your CTO believes. Tell the duck where your team is stuck. You will leave with a plan either way.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
+          <a href="/learn/setting-up-claude-skills/" class="btn btn-outline-light">How to set up Claude skills</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
