@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { makeRateLimiter, clientIp } from './ratelimit';
 
 describe('rate limiter', () => {
@@ -21,11 +21,21 @@ describe('rate limiter', () => {
 });
 
 describe('clientIp', () => {
-  it('extracts first IP from x-forwarded-for header', () => {
+  it('extracts first IP from x-forwarded-for header when x-real-ip is absent', () => {
     const req = new Request('https://x/', {
       headers: { 'x-forwarded-for': '1.1.1.1, 2.2.2.2' }
     });
     expect(clientIp(req)).toBe('1.1.1.1');
+  });
+  it('prefers x-real-ip over a (spoofable) x-forwarded-for', () => {
+    const req = new Request('https://x/', {
+      headers: { 'x-real-ip': '9.9.9.9', 'x-forwarded-for': '1.1.1.1, 2.2.2.2' }
+    });
+    expect(clientIp(req)).toBe('9.9.9.9');
+  });
+  it('uses x-real-ip when it is the only header', () => {
+    const req = new Request('https://x/', { headers: { 'x-real-ip': '8.8.8.8' } });
+    expect(clientIp(req)).toBe('8.8.8.8');
   });
   it('returns "unknown" when no IP headers are present', () => {
     const req = new Request('https://x/', { headers: {} });

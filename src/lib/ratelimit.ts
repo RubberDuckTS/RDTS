@@ -30,10 +30,24 @@ const realLimiter: Limiter =
       })
     : null;
 
+if (!realLimiter) {
+  console.warn(
+    '[ratelimit] UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN not set — ' +
+      'rate limiting is DISABLED (fail-open). Public LLM endpoints are unthrottled ' +
+      'until these are configured in the environment.',
+  );
+}
+
 export const checkRateLimit = makeRateLimiter(realLimiter);
 
-/** Best-effort client IP from proxy headers (Vercel sets x-forwarded-for). */
+/** Best-effort client IP from proxy headers. Prefer x-real-ip: on Vercel it is
+ *  the true client IP set by the platform and is NOT client-appendable, unlike
+ *  the leftmost x-forwarded-for token (which a caller can spoof to dodge the
+ *  per-IP rate limit). Fall back to the leftmost x-forwarded-for only if
+ *  x-real-ip is absent (e.g. local dev). */
 export function clientIp(request: Request): string {
+  const real = request.headers.get('x-real-ip');
+  if (real) return real.trim();
   const fwd = request.headers.get('x-forwarded-for');
-  return (fwd ? fwd.split(',')[0].trim() : '') || request.headers.get('x-real-ip') || 'unknown';
+  return (fwd ? fwd.split(',')[0].trim() : '') || 'unknown';
 }

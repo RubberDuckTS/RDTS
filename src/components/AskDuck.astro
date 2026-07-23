@@ -101,7 +101,8 @@ const { topic, toolName } = Astro.props;
       const honeypot = root.querySelector('[data-lead-honeypot]').value;
       const name = root.querySelector('[data-lead-name]').value.trim();
       const email = root.querySelector('[data-lead-email]').value.trim();
-      if (!name || !email || !currentSpec) return;
+      if (!name || !email) return;
+      if (!currentSpec) { leadError.textContent = 'Something went off on my end — email long@rubberducktechsolutions.com directly.'; leadError.classList.remove('hidden'); return; }
       leadSubmit.disabled = true; leadSubmit.textContent = 'Sending…';
       try {
         const res = await fetch('/api/lead/', { method: 'POST', headers: { 'Content-Type': 'application/json' },
