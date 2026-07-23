@@ -1,0 +1,118 @@
+---
+interface Props { topic: string; toolName: string }
+const { topic, toolName } = Astro.props;
+---
+<div class="card-cream overflow-hidden flex flex-col max-w-3xl" data-askduck data-topic={topic}>
+  <div class="border-b border-cream-border px-5 py-3 flex items-center gap-3 bg-cream-light">
+    <span class="status-pill__dot"></span>
+    <span class="font-mono text-[11px] tracking-spec uppercase text-coal-dim">Ask the duck about {toolName}</span>
+  </div>
+  <div class="p-6 lg:p-7 flex flex-col">
+    <div data-thread role="log" aria-live="polite" aria-label={`Questions about ${toolName}`} class="flex flex-col space-y-5 mb-5 max-h-[420px] overflow-y-auto">
+      <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
+        <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck</span>
+        <span>Ask me anything about {toolName} — config, models, MCP, what breaks. If it needs Long, I'll say so.</span>
+      </div>
+    </div>
+    <form data-composer class="border-t border-cream-border pt-4">
+      <label class="sr-only" for={`ask-input-${topic}`}>Ask about {toolName}</label>
+      <textarea id={`ask-input-${topic}`} data-input required maxlength="4000"
+        class="w-full min-h-[84px] bg-cream-light border border-cream-border p-4 text-[15px] text-coal font-sans resize-y focus:outline-none focus:border-saffron-shadow rounded-soft placeholder:text-coal-mute/70"
+        placeholder={`e.g. how do I stop ${toolName} from auto-approving edits?`}></textarea>
+      <div class="flex items-center justify-between gap-3 pt-3">
+        <span data-status class="font-mono text-[11px] tracking-[0.06em] text-coal-mute">⌘ + Enter to send</span>
+        <button data-send type="submit" class="btn btn-dark text-[14px] py-3 px-5">Send →</button>
+      </div>
+    </form>
+    <!-- Lead form (hidden until handoff) -->
+    <form data-lead-form class="hidden flex-col gap-3 border-t border-cream-border pt-4 mt-4">
+      <p class="text-[13px] text-coal-dim">Sounds like one for Long. Drop your name + email and he'll follow up within 24 hours.</p>
+      <input data-lead-name name="name" type="text" required maxlength="200" placeholder="Name"
+        class="w-full bg-cream-light border border-cream-border px-3 py-2 text-[14px] text-coal rounded-soft focus:outline-none focus:border-saffron-shadow"/>
+      <input data-lead-email name="email" type="email" required maxlength="200" placeholder="Email"
+        class="w-full bg-cream-light border border-cream-border px-3 py-2 text-[14px] text-coal rounded-soft focus:outline-none focus:border-saffron-shadow"/>
+      <input data-lead-honeypot name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute left-[-9999px] opacity-0 pointer-events-none"/>
+      <button data-lead-submit type="submit" class="btn btn-primary text-[13px]">Send to Long</button>
+      <p data-lead-error class="hidden text-[12px] text-red-700 font-mono"></p>
+    </form>
+    <div data-lead-success class="hidden border-t border-cream-border pt-4 mt-4">
+      <p class="text-[14px] text-coal-dim leading-[1.6]">Sent — Long replies within 24 hours. Meanwhile, keep asking here or email <a class="link-coal" href="mailto:long@rubberducktechsolutions.com">long@rubberducktechsolutions.com</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-askduck]').forEach((root) => {
+    const topic = root.getAttribute('data-topic');
+    const messages = [];        // { role, content }
+    const transcript = [];      // { role: 'duck'|'visitor', text }
+    let currentSpec = null, readyForLead = false;
+
+    const $ = (s) => root.querySelector(s);
+    const thread = $('[data-thread]'), composer = $('[data-composer]'), input = $('[data-input]');
+    const sendBtn = $('[data-send]'), status = $('[data-status]');
+    const leadForm = $('[data-lead-form]'), leadError = $('[data-lead-error]'),
+          leadSubmit = $('[data-lead-submit]'), leadSuccess = $('[data-lead-success]');
+
+    function append(role, text) {
+      const wrap = document.createElement('div');
+      wrap.className = 'flex gap-3 text-[15px] leading-[1.65]';
+      const tag = document.createElement('span');
+      tag.className = 'font-mono text-[10px] tracking-spec uppercase shrink-0 mt-0.5 ' + (role === 'duck' ? 'text-saffron-shadow' : 'text-coal-mute');
+      tag.textContent = role === 'duck' ? 'Duck' : 'You';
+      const body = document.createElement('span');
+      body.className = role === 'duck' ? 'text-coal-dim' : 'text-coal';
+      body.textContent = text;
+      wrap.append(tag, body);
+      thread.append(wrap);
+      thread.scrollTop = thread.scrollHeight;
+    }
+    function setBusy(b) { sendBtn.disabled = b; input.disabled = b; sendBtn.classList.toggle('opacity-50', b); status.textContent = b ? 'duck is thinking…' : '⌘ + Enter to send'; }
+    function showLeadForm() { if (leadForm.classList.contains('hidden')) { leadForm.classList.remove('hidden'); leadForm.classList.add('flex'); } }
+
+    async function send(text) {
+      messages.push({ role: 'user', content: text });
+      transcript.push({ role: 'visitor', text });
+      append('visitor', text); input.value = ''; setBusy(true);
+      try {
+        const res = await fetch('/api/ask/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic, messages }) });
+        if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error || ('Server error ' + res.status)); }
+        const data = await res.json();
+        messages.push({ role: 'assistant', content: JSON.stringify(data) });
+        const msg = (data.message || '').trim();
+        if (msg) { transcript.push({ role: 'duck', text: msg }); append('duck', msg); }
+        if (data.spec) currentSpec = data.spec;
+        readyForLead = readyForLead || !!data.ready_for_lead;
+        if (readyForLead) showLeadForm();
+      } catch (err) {
+        // Drop the un-answered user turn so a retry keeps strict user/assistant
+        // alternation — the model API rejects two consecutive user messages,
+        // which would otherwise brick the chat until reload.
+        if (messages[messages.length - 1]?.role === 'user') messages.pop();
+        append('duck', 'Hit a snag (' + err.message + '). Try again, or email long@rubberducktechsolutions.com.');
+      } finally { setBusy(false); input.focus(); }
+    }
+
+    composer.addEventListener('submit', (e) => { e.preventDefault(); const t = input.value.trim(); if (t && !sendBtn.disabled) send(t); });
+    input.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); composer.requestSubmit(); } });
+
+    leadForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); leadError.classList.add('hidden');
+      const honeypot = root.querySelector('[data-lead-honeypot]').value;
+      const name = root.querySelector('[data-lead-name]').value.trim();
+      const email = root.querySelector('[data-lead-email]').value.trim();
+      if (!name || !email) return;
+      if (!currentSpec) { leadError.textContent = 'Something went off on my end — email long@rubberducktechsolutions.com directly.'; leadError.classList.remove('hidden'); return; }
+      leadSubmit.disabled = true; leadSubmit.textContent = 'Sending…';
+      try {
+        const res = await fetch('/api/lead/', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, honeypot, spec: currentSpec, transcript }) });
+        if (!res.ok) { const er = await res.json().catch(() => ({})); throw new Error(er.error || ('Server error ' + res.status)); }
+        leadForm.classList.add('hidden'); leadSuccess.classList.remove('hidden');
+      } catch (err) {
+        leadError.textContent = 'Send failed: ' + err.message; leadError.classList.remove('hidden');
+        leadSubmit.disabled = false; leadSubmit.textContent = 'Send to Long';
+      }
+    });
+  });
+</script>

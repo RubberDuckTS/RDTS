@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
+import AskDuck from '../../components/AskDuck.astro';
+import { cline } from '../../lib/duck-knowledge/cline';
+
+const videoUrl: string | null = null;
 
 const title = 'Cline setup — done by a real person, not a tutorial | RDTS';
 const description = 'Cline is powerful and finicky. Get your VS Code extension, API keys, model routing, and MCP servers configured so it actually ships code instead of churning.';
@@ -48,36 +52,7 @@ const serviceSchema = {
   },
 };
 
-const faqs = [
-  {
-    q: 'What is Cline, exactly?',
-    a: "Cline is an open-source AI coding assistant that runs as a VS Code extension. It used to be called Claude Dev. The thing that makes it different from Copilot or Cursor is that Cline is model-agnostic — you bring your own API key for Claude, GPT, Gemini, or a local model, and Cline drives the editor with file edits, terminal commands, and tool calls that you approve step by step. It is closer to a CLI agent that happens to live inside VS Code than it is to an autocomplete tool. That is the source of both its power and its rough edges.",
-  },
-  {
-    q: 'Why does Cline keep burning through my API credits?',
-    a: "Almost always one of three things. First, your model selection is wrong for the task — running Claude Opus on a simple lint fix is a money fire when a cheaper model does the same job. Second, the context window is bloated because Cline is reading the entire repo on every turn instead of the slice that matters. Third, the agent is looping because a tool call is silently failing and Cline is retrying with more context each pass. The fix is a per-task model policy, a tight workspace context strategy, and a hard budget cap. I configure all three on every Cline setup I touch.",
-  },
-  {
-    q: 'Can Cline use MCP servers?',
-    a: "Yes, and this is where most setups stop short. Cline supports the Model Context Protocol, which means you can wire it to your Linear, your Postgres, your internal docs, your filesystem outside the workspace, your design tokens, whatever has an MCP server. The default setup ships with none of this configured. A working setup has three to five MCP servers registered, scoped to the projects that need them, with the auth tokens kept out of version control. That single change moves Cline from a clever autocomplete to something that actually knows your stack.",
-  },
-  {
-    q: 'How do I stop Cline from making changes I did not approve?',
-    a: "Cline has an auto-approve setting that is off by default and should usually stay off. The right configuration is to leave file edits manual, allow read-only commands automatically, and require approval for any write to the filesystem or any shell command that mutates state. If you have ever had an agent run rm in the wrong directory, you understand why this matters. I set the approval policy explicitly on every setup and walk you through which categories to trust and which to keep on a leash.",
-  },
-  {
-    q: 'Cline versus Cursor versus Claude Code — which should I use?',
-    a: "They are not interchangeable. Cursor is a fork of VS Code with deep editor integration and a paid subscription that bundles model access. Claude Code is a CLI agent from Anthropic, terminal-first, Claude-only. Cline is an extension that runs inside vanilla VS Code, brings your own keys, and is model-agnostic. If you want the smoothest in-editor experience and do not mind the subscription, Cursor. If you live in the terminal and want raw agent power, Claude Code. If you want VS Code that you already use, with full control over which model runs which task and a clean MCP story, Cline. I have set up all three. The right answer depends on how your day actually looks.",
-  },
-  {
-    q: 'Can you set up Cline for a whole team, not just me?',
-    a: "Yes — this is the Workspace shape. The work is more than copying one config. You need a shared settings repo, an agreed model routing policy, MCP servers wired to team resources instead of personal accounts, and a written approval policy so junior developers and senior developers do not drift into different habits. I usually do this as a one-week engagement that ends with a checked-in cline.config.json, a short internal doc, and a thirty-minute walkthrough for the team. After that the setup is yours to evolve.",
-  },
-  {
-    q: 'I tried Cline and it felt slow. Is that fixable?',
-    a: "Usually, yes. Slow Cline is almost always context bloat, model choice, or a misconfigured tool call retrying in the background. The first thing I check is the system prompt and the workspace context — a lot of people leave the defaults that pull half the repo on every message. The second is whether you are using a thinking model when you do not need to. The third is the MCP server response times. Half the slow setups I see get fixed by trimming context and switching the default model. The other half need a deeper look at which tools are blocking the agent loop.",
-  },
-];
+const faqs = cline.faqs;
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -128,6 +103,14 @@ const faqSchema = {
       </p>
     </div>
   </Section>
+
+  {videoUrl && (
+    <Section tone="dark" label="Watch the setup">
+      <div class="max-w-3xl aspect-video">
+        <iframe src={videoUrl} title="Cline setup walkthrough" loading="lazy" class="w-full h-full rounded-soft border border-cream-border" allowfullscreen></iframe>
+      </div>
+    </Section>
+  )}
 
   <!-- WHERE CLINE BREAKS -->
   <Section tone="dark" label="Where Cline breaks for most people">
@@ -245,6 +228,27 @@ const faqSchema = {
       <p class="text-bone-dim text-lg leading-relaxed mt-10">
         Not sure which one fits? Tell the duck what is breaking and how many people are affected. The duck names a shape and a price in plain English on the call.
       </p>
+    </div>
+  </Section>
+
+  <!-- REFERENCE -->
+  <Section tone="cream" label="Cline, configured — the reference">
+    <div class="prose-rdts max-w-3xl">
+      <h2 class="display-h2 mb-8">How each part of Cline actually gets set up</h2>
+      {cline.reference.map((s) => (
+        <div class="mb-8">
+          <h3 class="display-h3 text-coal mb-3">{s.heading}</h3>
+          <p class="text-coal-dim leading-relaxed">{s.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ASK THE DUCK -->
+  <Section tone="dark" label="Ask the duck">
+    <div class="max-w-3xl">
+      <h2 class="display-h2 text-bone mb-8">Stuck on something specific? Ask.</h2>
+      <AskDuck topic="cline" toolName="Cline" />
     </div>
   </Section>
 
