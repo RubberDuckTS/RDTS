@@ -19,5 +19,8 @@ describe('DUCK_PERSONA', () => {
     // Intake-specific content that must survive the refactor:
     expect(SCOPING_SYSTEM_PROMPT).toContain('ready_for_lead');
     expect(SCOPING_SYSTEM_PROMPT).toContain('hard_no_triggered');
+    // Creative/marketing positioning is a locked direction — dropping it is a regression:
+    expect(SCOPING_SYSTEM_PROMPT).toContain('technical AND creative/marketing teams alike');
+    expect(SCOPING_SYSTEM_PROMPT).toContain('creative / marketing / content team using AI');
   });
 });
