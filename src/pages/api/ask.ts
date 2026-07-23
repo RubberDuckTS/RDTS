@@ -40,11 +40,24 @@ export const POST: APIRoute = async ({ request }) => {
   let body: { topic?: string; messages?: ChatMessage[] };
   try { body = await request.json(); } catch { return jsonResponse({ error: 'Invalid JSON' }, 400); }
 
+  if (typeof body.topic !== 'string') return jsonResponse({ error: 'Unknown topic' }, 400);
+
   const knowledge = getKnowledge(body.topic || '');
   if (!knowledge) return jsonResponse({ error: 'Unknown topic' }, 400);
 
   const messages = body.messages ?? [];
   if (!Array.isArray(messages) || messages.length === 0) return jsonResponse({ error: 'messages required' }, 400);
+
+  if (messages.length > MAX_USER_TURNS * 2) return jsonResponse({ error: 'Too many messages.' }, 400);
+
+  if (
+    messages.some(
+      m => typeof m !== 'object' || m === null || typeof (m as any).role !== 'string' || typeof (m as any).content !== 'string',
+    )
+  ) {
+    return jsonResponse({ error: 'Invalid message format.' }, 400);
+  }
+
   const userTurns = messages.filter(m => m.role === 'user').length;
   if (userTurns > MAX_USER_TURNS) {
     return jsonResponse({ error: `Conversation limit reached (${MAX_USER_TURNS} turns). Email Long to keep going.` }, 429);

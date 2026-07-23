@@ -13,6 +13,7 @@ import type { APIRoute } from 'astro';
 import Anthropic from '@anthropic-ai/sdk';
 import { SCOPING_SYSTEM_PROMPT } from '../../lib/prompts';
 import { sendChatLeadToLong } from '../../lib/email';
+import { checkRateLimit, clientIp } from '../../lib/ratelimit';
 
 const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 
@@ -91,6 +92,9 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  const { ok } = await checkRateLimit(clientIp(request));
+  if (!ok) return jsonResponse({ error: "You've hit the limit. Email long@rubberducktechsolutions.com directly." }, 429);
+
   let body: { messages?: ChatMessage[] };
   try {
     body = await request.json();
@@ -101,6 +105,18 @@ export const POST: APIRoute = async ({ request }) => {
   const messages = body.messages ?? [];
   if (!Array.isArray(messages) || messages.length === 0) {
     return jsonResponse({ error: 'messages required' }, 400);
+  }
+
+  if (messages.length > MAX_USER_TURNS * 2) {
+    return jsonResponse({ error: 'Too many messages.' }, 400);
+  }
+
+  if (
+    messages.some(
+      m => typeof m !== 'object' || m === null || typeof (m as any).role !== 'string' || typeof (m as any).content !== 'string',
+    )
+  ) {
+    return jsonResponse({ error: 'Invalid message format.' }, 400);
   }
 
   const userTurns = messages.filter(m => m.role === 'user').length;
