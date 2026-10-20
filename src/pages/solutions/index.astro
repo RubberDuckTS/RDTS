@@ -74,8 +74,8 @@ const migrations = [
         paid setup delivers and what you'll need to provide. Not sure which one? <a href="/talk/" class="link-coal">Talk to the duck</a> and it'll route you.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {setups.map((c) => (
-          <a href={c.href} class="card-cream p-7 group block">
+        {setups.map((c, i) => (
+          <a href={c.href} class:list={['card-cream p-7 group block', i === setups.length - 1 && setups.length % 2 === 1 && 'md:col-span-2']}>
             <h3 class="display-h3 text-coal mb-3 group-hover:text-saffron-shadow transition-colors">{c.title}</h3>
             <p class="text-coal-dim leading-relaxed">{c.blurb}</p>
             <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Scope this setup →</span>
