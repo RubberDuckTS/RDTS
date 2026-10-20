@@ -116,7 +116,7 @@ const statusStyles = {
 
   <!-- CASE STUDIES -->
   <Section tone="cream" label="Case studies">
-    <div class="max-w-4xl">
+    <div class="max-w-6xl">
       <h2 class="display-h2 mb-12">Projects, with shape tags</h2>
       <div class="space-y-6">
         {caseStudies.map((cs) => (
@@ -126,7 +126,7 @@ const statusStyles = {
                 src={cs.shot}
                 alt={cs.shotAlt}
                 widths={[600, 824, 1240]}
-                sizes="(min-width: 1024px) 824px, calc(100vw - 96px)"
+                sizes="(min-width: 1024px) 1080px, calc(100vw - 96px)"
                 width={1240}
                 height={775}
                 quality={70}
@@ -144,7 +144,7 @@ const statusStyles = {
               </span>
             </div>
             <h3 class="display-h3 text-coal mb-4">{cs.title}</h3>
-            <p class="text-coal-dim leading-relaxed">{cs.body}</p>
+            <p class="text-coal-dim leading-relaxed max-w-[68ch]">{cs.body}</p>
             {cs.link && (
               <a href={cs.link} target="_blank" rel="noopener" class="link-saffron inline-block mt-4 text-sm font-mono">{cs.linkLabel || 'View live →'}</a>
             )}

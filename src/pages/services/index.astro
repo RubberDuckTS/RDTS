@@ -223,17 +223,17 @@ const faqSchema = {
 
   <!-- WHAT I BUILD AND MAINTAIN -->
   <Section tone="dark" label="What I build and maintain">
-    <div class="max-w-4xl">
+    <div class="max-w-6xl">
       <h2 class="display-h2 text-bone mb-12">The five layers that compound over time</h2>
       <div class="grid md:grid-cols-2 gap-6">
         {setupAreas.map((area, i) => (
           <article class:list={['card-dark p-7 lg:p-8', i === setupAreas.length - 1 && setupAreas.length % 2 === 1 && 'md:col-span-2']}>
             <h3 class="display-h3 mb-4">{area.title}</h3>
-            <p class="text-bone-dim leading-relaxed">{area.body}</p>
+            <p class="text-bone-dim leading-relaxed max-w-[68ch]">{area.body}</p>
           </article>
         ))}
       </div>
-      <p class="text-bone-dim mt-10 max-w-3xl leading-relaxed">
+      <p class="text-bone-dim mt-10 max-w-[68ch] leading-relaxed">
         Most retainer months touch three or four of these layers. The audit identifies which ones are gaps. The build work fills them. The retainer keeps them from drifting as the AI landscape shifts.
       </p>
     </div>
@@ -241,9 +241,9 @@ const faqSchema = {
 
   <!-- SERVICE PILLARS -->
   <Section tone="cream" label="Service pillars" id="tools">
-    <div class="max-w-4xl">
+    <div class="max-w-6xl">
       <h2 class="display-h2 mb-8">Three pillars of the engagement</h2>
-      <p class="text-coal-dim text-lg leading-relaxed mb-12 max-w-3xl">
+      <p class="text-coal-dim text-lg leading-relaxed mb-12 max-w-[68ch]">
         Depending on what your audit surfaces, a retainer month will pull from one or more of these lanes. The duck routes the conversation to the right one.
       </p>
       <div class="grid md:grid-cols-3 gap-6 mb-12">
@@ -270,7 +270,7 @@ const faqSchema = {
         </a>
       </div>
       <h3 class="display-h3 text-coal mb-6">Harnesses I work with</h3>
-      <p class="text-coal-dim leading-relaxed mb-8 max-w-3xl">
+      <p class="text-coal-dim leading-relaxed mb-8 max-w-[68ch]">
         Harness-agnostic. The right answer is usually two of these working together. Each page covers where the tool earns its slot and what configuration looks like.
       </p>
       <div class="grid md:grid-cols-2 gap-6">
@@ -280,7 +280,7 @@ const faqSchema = {
               <h3 class="display-h3 text-coal">{tool.name}</h3>
               <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
             </div>
-            <p class="text-coal-dim leading-relaxed">{tool.blurb}</p>
+            <p class="text-coal-dim leading-relaxed max-w-[68ch]">{tool.blurb}</p>
           </a>
         ))}
       </div>
