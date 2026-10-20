@@ -8,10 +8,11 @@
  * }
  *
  * Flow:
+ *   0. Reject oversize (413) or malformed (400) input before any API call.
  *   1. Synthesize an intake brief via Haiku (full transcript → 350-word brief).
  *   2. Resend two emails:
  *      - to Long  (intake brief + spec + transcript)
- *      - to visitor (clean spec + Calendly link)
+ *      - to visitor (fixed confirmation + Calendly link; echoes no visitor text)
  */
 
 import type { APIRoute } from 'astro';
@@ -21,8 +22,8 @@ import {
   sendLeadToLong,
   sendSpecToVisitor,
   type LeadPayload,
-  type SpecSheet,
 } from '../../lib/email';
+import { isOversizeBody, validateLeadBody } from '../../lib/lead-request';
 
 export const prerender = false;
 
@@ -36,20 +37,32 @@ function jsonResponse(data: unknown, status = 200) {
   });
 }
 
-function isValidEmail(s: string) {
-  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s) && s.length < 200;
-}
-
-interface LeadRequest {
-  name?: string;
-  email?: string;
-  company?: string;
-  honeypot?: string;
-  spec?: SpecSheet;
-  transcript?: { role: 'duck' | 'visitor'; text: string }[];
-}
-
 export const POST: APIRoute = async ({ request }) => {
+  // Validate before anything else, so oversize or malformed input never
+  // reaches Anthropic or Resend.
+  const raw = await request.text();
+  if (isOversizeBody(raw)) {
+    return jsonResponse({ error: 'Request too large.' }, 413);
+  }
+
+  let body: { honeypot?: unknown };
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+
+  // Honeypot — bot defense
+  if (body?.honeypot) {
+    return jsonResponse({ ok: true }, 200);
+  }
+
+  const check = validateLeadBody(body);
+  if (!check.ok) {
+    return jsonResponse({ error: check.error }, check.status);
+  }
+  const { name, email, company, spec, transcript } = check.lead;
+
   const apiKey = import.meta.env.ANTHROPIC_API_KEY;
   const resendKey = import.meta.env.RESEND_API_KEY;
 
@@ -58,34 +71,6 @@ export const POST: APIRoute = async ({ request }) => {
       { error: 'Lead capture not configured. Email long@rubberducktechsolutions.com directly.' },
       503,
     );
-  }
-
-  let body: LeadRequest;
-  try {
-    body = await request.json();
-  } catch {
-    return jsonResponse({ error: 'Invalid JSON' }, 400);
-  }
-
-  // Honeypot — bot defense
-  if (body.honeypot) {
-    return jsonResponse({ ok: true }, 200);
-  }
-
-  const name = (body.name || '').trim();
-  const email = (body.email || '').trim().toLowerCase();
-  const company = (body.company || '').trim() || undefined;
-  const spec = body.spec;
-  const transcript = body.transcript;
-
-  if (!name || name.length > 200) {
-    return jsonResponse({ error: 'Name required.' }, 400);
-  }
-  if (!isValidEmail(email)) {
-    return jsonResponse({ error: 'Valid email required.' }, 400);
-  }
-  if (!spec || !transcript || !Array.isArray(transcript) || transcript.length === 0) {
-    return jsonResponse({ error: 'Spec and transcript required.' }, 400);
   }
 
   const anthropic = new Anthropic({ apiKey });
