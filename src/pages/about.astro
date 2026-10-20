@@ -65,13 +65,14 @@ const personSchema = {
             keep up themselves.
           </p>
         </div>
-        <div class="hidden lg:flex col-span-4 justify-end">
-          <div class="relative w-full max-w-[300px] aspect-[4/5] overflow-hidden rounded-soft border border-ink-border">
+        {/* Phones: a 96 px round portrait above the intro. lg+: the 4:5 photo in the right column. */}
+        <div class="flex order-first col-span-12 lg:order-none lg:col-span-4 lg:justify-end">
+          <div class="relative w-24 h-24 rounded-full lg:w-full lg:h-auto lg:max-w-[300px] lg:aspect-[4/5] lg:rounded-soft overflow-hidden border border-ink-border">
             <Image
               src={headshot}
               alt="Long Nguyen, founder of Rubber Duck Tech Solutions"
               widths={[300, 600]}
-              sizes="(min-width: 1024px) 300px, 100vw"
+              sizes="(min-width: 1024px) 300px, 96px"
               format="webp"
               quality={82}
               class="w-full h-full object-cover object-[70%_center]"
