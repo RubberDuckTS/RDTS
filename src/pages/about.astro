@@ -10,16 +10,12 @@ const description = "I'm Long Nguyen, an engineer with nearly a decade of produc
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': 'https://www.rubberducktechsolutions.com/about/#long-nguyen',
   name: 'Long Nguyen',
   url: 'https://www.rubberducktechsolutions.com/about/',
-  image: 'https://www.rubberducktechsolutions.com/long-headshot.jpg',
+  image: new URL(headshot.src, 'https://www.rubberducktechsolutions.com').href,
   jobTitle: 'Founder & Engineer',
-  worksFor: {
-    '@type': 'Organization',
-    name: 'Rubber Duck Tech Solutions',
-    legalName: 'Long Win LLC',
-    url: 'https://www.rubberducktechsolutions.com/',
-  },
+  worksFor: { '@id': 'https://www.rubberducktechsolutions.com/#organization' },
   knowsAbout: [
     'Claude Code setup',
     'Cursor setup',
