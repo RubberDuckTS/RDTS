@@ -1,6 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
+import leedecardShot from '../../assets/work/leedecard.webp';
+import dragonWagonShot from '../../assets/work/dragon-wagon.webp';
+import rumbleShot from '../../assets/work/rumble-of-ages.webp';
 
 const title = 'Recent work — AI setups and custom builds | RDTS';
 const description = 'Recent RDTS projects — AI retainer engagements and custom AI software builds. Honest case studies with shape tags, no breathless wins.';
@@ -28,6 +32,8 @@ const caseStudies = [
     status: 'Shipped',
     link: 'https://leedecard.com',
     linkLabel: 'Visit the site →',
+    shot: leedecardShot,
+    shotAlt: 'The LeedECard homepage',
     body: 'A digital business card with lead capture and AI follow-up, live at leedecard.com. Each card shares by link or QR code with a booking link; everyone who reaches out is saved as a scored lead, and AI drafts the follow-up email. A Next.js app with Stripe billing.',
   },
   {
@@ -36,15 +42,19 @@ const caseStudies = [
     status: 'Shipped',
     link: 'https://dragonwagonkc.com',
     linkLabel: 'Visit the site →',
+    shot: dragonWagonShot,
+    shotAlt: 'The Dragon Wagon homepage',
     body: 'Marketing site plus the content automation backend that feeds it. Scheduled generation, prompt library, output review queue, and a small dashboard for the team running the content calendar. Boring infrastructure done right so the AI work on top has somewhere stable to live.',
   },
   {
     title: 'Rumble of Ages — Gachapon game',
     shape: 'Software build',
-    status: 'Alpha',
+    status: 'Open beta',
     link: 'https://rumbleofages.com',
-    linkLabel: 'Play the alpha →',
-    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in alpha at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Alpha means what it says — playable and improving in the open, not a finished launch.',
+    linkLabel: 'Play the beta →',
+    shot: rumbleShot,
+    shotAlt: 'The Rumble of Ages homepage',
+    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in open beta at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Open beta means what it says — playable and improving in the open, not a finished launch.',
   },
   {
     title: 'Content team Claude Code setup',
@@ -72,7 +82,7 @@ const shapeStyles = {
 const statusStyles = {
   Shipped: 'text-coal-dim',
   'Coming soon': 'text-coal-mute italic',
-  Alpha: 'text-saffron-shadow',
+  'Open beta': 'text-saffron-shadow',
 };
 ---
 
@@ -111,6 +121,20 @@ const statusStyles = {
       <div class="space-y-6">
         {caseStudies.map((cs) => (
           <article class="card-cream p-7 lg:p-9">
+            {cs.shot && (
+              <Image
+                src={cs.shot}
+                alt={cs.shotAlt}
+                widths={[600, 824, 1240]}
+                sizes="(min-width: 1024px) 824px, calc(100vw - 96px)"
+                width={1240}
+                height={775}
+                quality={70}
+                loading="lazy"
+                decoding="async"
+                class="block w-full h-auto rounded-soft border border-cream-border mb-6"
+              />
+            )}
             <div class="flex flex-wrap items-center gap-3 mb-4">
               <span class={`inline-flex items-center gap-2 rounded-pill border px-3 py-1 text-xs font-mono uppercase tracking-wider ${shapeStyles[cs.shape] ?? 'bg-ink-card text-bone border-ink-border'}`}>
                 {cs.shape}

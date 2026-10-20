@@ -105,7 +105,7 @@ const steps = [
       aria-hidden="true"
     />
 
-    <div class="container-x pt-24 lg:pt-36 pb-20 lg:pb-28 relative">
+    <div class="container-x pt-8 sm:pt-16 lg:pt-36 pb-20 lg:pb-28 relative">
       <div class="status-pill mb-7 lg:mb-8">
         <span class="status-pill__dot"></span>
         <span>// AI consultant &amp; developer</span>
@@ -218,10 +218,16 @@ const steps = [
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {tools.map((t) => (
+      {tools.map((t, i) => (
         <a
           href={`/solutions/${t.slug}/`}
-          class="card-dark p-5 lg:p-6 hover:-translate-y-0.5 hover:border-saffron/40 transition-all group block"
+          class:list={[
+            'card-dark p-5 lg:p-6 hover:-translate-y-0.5 hover:border-saffron/40 transition-all group block',
+            // Stretch the last card across a final row it would otherwise sit in alone.
+            i === tools.length - 1 && tools.length % 2 === 1 && 'sm:col-span-2',
+            i === tools.length - 1 && tools.length % 3 === 1 && 'lg:col-span-3',
+            i === tools.length - 1 && tools.length % 2 === 1 && tools.length % 3 !== 1 && 'lg:col-span-1',
+          ]}
         >
           <div class="flex items-baseline justify-between mb-2">
             <h3 class="text-[20px] font-semibold tracking-tight2 text-bone group-hover:text-saffron transition-colors">{t.name}</h3>

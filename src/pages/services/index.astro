@@ -226,8 +226,8 @@ const faqSchema = {
     <div class="max-w-4xl">
       <h2 class="display-h2 text-bone mb-12">The five layers that compound over time</h2>
       <div class="grid md:grid-cols-2 gap-6">
-        {setupAreas.map((area) => (
-          <article class="card-dark p-7 lg:p-8">
+        {setupAreas.map((area, i) => (
+          <article class:list={['card-dark p-7 lg:p-8', i === setupAreas.length - 1 && setupAreas.length % 2 === 1 && 'md:col-span-2']}>
             <h3 class="display-h3 mb-4">{area.title}</h3>
             <p class="text-bone-dim leading-relaxed">{area.body}</p>
           </article>
@@ -274,8 +274,8 @@ const faqSchema = {
         Harness-agnostic. The right answer is usually two of these working together. Each page covers where the tool earns its slot and what configuration looks like.
       </p>
       <div class="grid md:grid-cols-2 gap-6">
-        {tools.map((tool) => (
-          <a href={tool.href} class="card-cream p-7 lg:p-8 block group">
+        {tools.map((tool, i) => (
+          <a href={tool.href} class:list={['card-cream p-7 lg:p-8 block group', i === tools.length - 1 && tools.length % 2 === 1 && 'md:col-span-2']}>
             <div class="flex items-start justify-between gap-6 mb-3">
               <h3 class="display-h3 text-coal">{tool.name}</h3>
               <span class="text-saffron text-2xl font-mono shrink-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
