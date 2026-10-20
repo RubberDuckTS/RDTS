@@ -54,7 +54,7 @@ const faqs = [
   },
   {
     q: 'How much does a custom Zapier replacement cost compared to staying on Zapier?',
-    a: "It depends on the flow. A single sharp tool — one trigger, a couple of integrations, an AI step or two — ships in about a week. A full pipeline with multiple integrations, branching, and observability is a multi-week build. You pay once. After that, infra is your Vercel and your Supabase — usually under $20/month. Compare that to a Zapier Professional plan plus per-task overage that compounds. Most teams break even on the rebuild inside six to nine months and own the source code forever. Talk to the duck for a real quote — no specific numbers go on the public site because the work always varies.",
+    a: "It depends on the flow. A single sharp tool — one trigger, a couple of integrations, an AI step or two — ships in about a week. A full pipeline with multiple integrations, branching, and observability is a multi-week build. You pay once. After that, infra is your Vercel and your Supabase — usually under $20/month. Compare that to a Zapier Professional plan plus per-task overage that compounds. Most teams break even on the rebuild inside six to nine months and own the source code forever. Talk to the duck, and Long gives you a real quote on the call — no specific numbers go on the public site because the work always varies.",
   },
 ];
 
@@ -72,14 +72,14 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
         <div class="status-pill mb-8">
           <span class="status-pill__dot"></span>
-          <span>// fractional AI lead</span>
+          <span>// AI consultant &amp; developer</span>
         </div>
         <h1 class="display-h1 mb-8">
-          The honest <span class="underline-saffron">Zapier alternative</span> guide for teams hitting the wall<span class="cursor">_</span>
+          The honest <span class="underline-saffron">Zapier alternative</span> guide for teams hitting the wall<span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
           Your Zapier bill jumped again, the 5,000-task plan ran out by the third week, and you are hacking JavaScript inside Code by Zapier nodes because the platform cannot express what you actually need. This is a guide to every reasonable Zapier alternative — free, open source, and code-first — written by someone who has shipped all three. No affiliate links, no pretending one tool fits everyone. Just an honest map of which path is right for which problem.
@@ -117,7 +117,7 @@ const faqSchema = {
       </p>
       <div class="grid gap-6 lg:gap-8">
         <div class="card-dark p-8 lg:p-10">
-          <div class="label label--dim mb-4">// Path 01</div>
+          <div class="label label--dim mb-4">Path 01</div>
           <h3 class="display-h3 text-bone mb-4">Switch to a free or cheaper no-code tool</h3>
           <p class="text-bone-dim leading-relaxed mb-4">
             If your problem is mostly the bill — your flows are simple, you do not need exotic logic, but Zapier's per-task pricing has gotten silly — switch. Make.com is the most common destination because its operations meter is more generous and the visual editor handles branching better. Pabbly Connect undercuts both on price for high-volume teams. Activepiece is the open-source dark horse if you can self-host. n8n is the heavyweight pick if you actually want to own your stack and you have someone who can read a Docker file.
@@ -128,7 +128,7 @@ const faqSchema = {
         </div>
 
         <div class="card-dark p-8 lg:p-10">
-          <div class="label label--dim mb-4">// Path 02</div>
+          <div class="label label--dim mb-4">Path 02</div>
           <h3 class="display-h3 text-bone mb-4">Stick with Zapier, fix the per-task bill</h3>
           <p class="text-bone-dim leading-relaxed mb-4">
             Sometimes the right move is to stay. The team is trained on Zapier, the integrations are battle-tested, and the only real problem is that the per-task bill went vertical. Three fixes usually claw back most of it. First, batch — collect items in a Google Sheet or Airtable for fifteen minutes and process them in one Zap run instead of one run per item. Second, replace polling triggers with webhooks anywhere the source app supports them. Third, audit task history for Zaps that fire and then filter out — those count as billable tasks even when nothing happens.
@@ -139,7 +139,7 @@ const faqSchema = {
         </div>
 
         <div class="card-dark p-8 lg:p-10">
-          <div class="label label--dim mb-4">// Path 03</div>
+          <div class="label label--dim mb-4">Path 03</div>
           <h3 class="display-h3 text-bone mb-4">Skip no-code entirely, go custom</h3>
           <p class="text-bone-dim leading-relaxed mb-4">
             If your flow is load-bearing — meaning if it breaks, someone notices in under an hour — and you are already hacking JavaScript inside Code by Zapier nodes to do things the platform cannot express, you are past the point where another no-code tool will save you. The honest path is real code. A small TypeScript service deployed to your Vercel, talking to Postgres or Supabase, calling whatever AI providers you actually need. Source code yours from day one. No retainer.
@@ -164,7 +164,7 @@ const faqSchema = {
           The right choice depends on whether you want to self-host, how much branching logic your flows need, and whether anyone on your team can keep a Docker container alive. If the answer to that last question is "no," skip the self-hosted options and go straight to Make.com or Pabbly. There is no shame in picking the managed tool — your time is worth more than your hosting bill.
         </p>
       </div>
-      <div class="overflow-x-auto rounded-2xl border border-cream-border">
+      <div class="overflow-x-auto rounded-2xl border border-cream-border" tabindex="0">
         <table class="w-full text-left text-coal">
           <thead class="bg-cream-light text-coal-dim">
             <tr>
@@ -252,7 +252,7 @@ const faqSchema = {
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
             <h3 class="display-h3 text-coal">{f.q}</h3>
-            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+            <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
           </summary>
           <div class="mt-4 text-coal-dim leading-relaxed">
             <p>{f.a}</p>
@@ -271,21 +271,21 @@ const faqSchema = {
       </p>
       <div class="grid gap-6 lg:grid-cols-3">
         <div class="card-dark p-7">
-          <div class="label label--dim mb-3">// Tuneup</div>
+          <div class="label label--dim mb-3">Tuneup</div>
           <h3 class="display-h3 text-bone mb-3">Solo / indie dev</h3>
           <p class="text-bone-dim leading-relaxed">
             Your own AI environment, dialed in. Claude Code, Cursor, Codex, or whichever harness you live in — set up with skills, MCP servers, and the integrations your day-to-day actually needs.
           </p>
         </div>
         <div class="card-dark p-7">
-          <div class="label label--dim mb-3">// Workspace</div>
+          <div class="label label--dim mb-3">Workspace</div>
           <h3 class="display-h3 text-bone mb-3">Small team (1–6)</h3>
           <p class="text-bone-dim leading-relaxed">
             A shared AI workflow your team can actually use. Standardized configs, a knowledge layer that knows your codebase and docs, and the adoption work that keeps people from silently going back to a browser tab.
           </p>
         </div>
         <div class="card-dark p-7">
-          <div class="label label--dim mb-3">// Rollout</div>
+          <div class="label label--dim mb-3">Rollout</div>
           <h3 class="display-h3 text-bone mb-3">Agency (5–20)</h3>
           <p class="text-bone-dim leading-relaxed">
             Role-specific configs across the team, integrations into your delivery stack, and the training that turns a paid AI seat into an asset instead of a line item.
@@ -299,12 +299,12 @@ const faqSchema = {
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
           Bring the Zap — or the AI tool nobody on your team uses.
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          The honest call is sometimes "stay on Zapier, here are three changes that fix the bill." Sometimes it is "the flow is fine — your team's AI setup is the actual problem." Navigating the no-code-to-code migration and keeping your automation layer honest as the market moves is squarely in the fractional AI lead wheelhouse — someone to own that question without a new agency every time. Either way the call is free, it takes thirty minutes, and you leave with a clearer picture.
+          The honest call is sometimes "stay on Zapier, here are three changes that fix the bill." Sometimes it is "the flow is fine — your team's AI setup is the actual problem." Navigating the no-code-to-code migration and keeping your automation layer honest as the market moves is squarely what the retainer is for — someone to own that question without a new agency every time. Either way it starts with a short chat with the duck, which sends me a brief. I reply within 24 hours, and pricing gets settled on a free 30-minute call.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>

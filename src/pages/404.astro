@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Page not found | Rubber Duck Tech Solutions';
+const description = 'That page does not exist or has moved. Head to services, the guides, or talk to the duck about what you were looking for.';
+
+const exits = [
+  { href: '/services/', tag: 'Services', head: 'What I take on', body: 'Custom software, AI integration and team training, as a project or a retainer.' },
+  { href: '/talk/',     tag: 'Talk to the duck', head: 'Ask about your project', body: 'A short chat about what you need. Long gets the brief and follows up.' },
+  { href: '/learn/',    tag: 'Learn', head: 'Guides and comparisons', body: 'Plain-English AI setup guides, tool comparisons and explainers.' },
+];
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="section-dark">
+    <div class="container-x pt-8 sm:pt-20 lg:pt-28 pb-20 lg:pb-28">
+      <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>404 · not found</span></div>
+      <h1 class="display-h1 mb-6 max-w-[18ch]">
+        Nothing lives<br/>
+        <span class="accent-saffron">at this address.</span>
+      </h1>
+      <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[56ch] mb-12">
+        The link may be old, or the page moved. One of these is probably what you were after.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {exits.map((e) => (
+          <a
+            href={e.href}
+            class="card-dark p-6 lg:p-7 hover:-translate-y-0.5 hover:border-saffron/40 transition-all group block"
+          >
+            <div class="font-mono text-[11px] tracking-spec uppercase text-saffron mb-3">{e.tag}</div>
+            <h2 class="text-[22px] font-semibold tracking-tight2 text-bone mb-2 group-hover:text-saffron transition-colors">{e.head}</h2>
+            <p class="text-[15px] text-bone-dim leading-[1.6]">{e.body}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

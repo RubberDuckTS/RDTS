@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
-const title = 'Solutions — AI coding tool setup, done by a real person | RDTS';
-const description = 'Paid, done-for-you setup of the AI coding tools your team actually uses — Claude Code, Cursor, Codex, Cline, Aider, OpenClaw — plus honest Zapier and n8n migration guides.';
+const title = "AI coding tool setup, done by a real person | RDTS";
+const description = "Done-for-you setup of the AI coding tools your team uses: Claude Code, Cursor, Codex, Cline, Aider, OpenClaw. Plus honest Zapier and n8n migration guides.";
 
 const canonical = '/solutions/';
 
@@ -49,9 +49,9 @@ const migrations = [
 <BaseLayout title={title} description={description} canonical={canonical} schema={[collectionSchema, breadcrumbSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x pt-24 lg:pt-32 pb-16">
+    <div class="container-x pt-8 sm:pt-24 lg:pt-32 pb-16">
       <div class="max-w-4xl">
-        <span class="label label--dim mb-6">// Solutions</span>
+        <span class="label label--dim mb-6">Solutions</span>
         <h1 class="display-h1 mt-4 mb-6">
           Tool setup,<br/>
           <span class="accent-saffron">done by a real person.</span>
@@ -74,8 +74,8 @@ const migrations = [
         paid setup delivers and what you'll need to provide. Not sure which one? <a href="/talk/" class="link-coal">Talk to the duck</a> and it'll route you.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {setups.map((c) => (
-          <a href={c.href} class="card-cream p-7 group block">
+        {setups.map((c, i) => (
+          <a href={c.href} class:list={['card-cream p-7 group block', i === setups.length - 1 && setups.length % 2 === 1 && 'md:col-span-2']}>
             <h3 class="display-h3 text-coal mb-3 group-hover:text-saffron-shadow transition-colors">{c.title}</h3>
             <p class="text-coal-dim leading-relaxed">{c.blurb}</p>
             <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Scope this setup →</span>
@@ -98,7 +98,7 @@ const migrations = [
           <a href={c.href} class="bg-ink-card border border-ink-border rounded-2xl p-7 group block hover:border-saffron transition-colors">
             <h3 class="display-h3 text-bone mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
             <p class="text-bone-dim leading-relaxed text-[15px]">{c.blurb}</p>
-            <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Read →</span>
+            <span class="inline-block mt-5 text-saffron font-mono text-sm">Read →</span>
           </a>
         ))}
       </div>
@@ -109,7 +109,7 @@ const migrations = [
   <section class="section-cream">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--coal mb-6">// Ask the duck</span>
+        <span class="label label--coal mb-6">Ask the duck</span>
         <h2 class="display-h2 mt-4 mb-8">
           Not sure which tool — or whether you need one?
         </h2>

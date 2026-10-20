@@ -1,9 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
+import leedecardShot from '../../assets/work/leedecard.webp';
+import dragonWagonShot from '../../assets/work/dragon-wagon.webp';
+import rumbleShot from '../../assets/work/rumble-of-ages.webp';
 
 const title = 'Recent work — AI setups and custom builds | RDTS';
-const description = 'Recent RDTS projects — fractional AI lead engagements and custom AI software builds. Honest case studies with shape tags, no breathless wins.';
+const description = 'Recent RDTS projects — AI retainer engagements and custom AI software builds. Honest case studies with shape tags, no breathless wins.';
 
 const canonical = '/work/';
 
@@ -13,7 +17,7 @@ const collectionSchema = {
   name: 'Recent work — Rubber Duck Tech Solutions',
   description,
   url: 'https://www.rubberducktechsolutions.com/work/',
-  about: 'Fractional AI lead engagements and custom AI software builds shipped by Long Nguyen',
+  about: 'AI consulting engagements and custom AI software builds shipped by Long Nguyen',
   isPartOf: {
     '@type': 'WebSite',
     name: 'Rubber Duck Tech Solutions',
@@ -23,28 +27,34 @@ const collectionSchema = {
 
 const caseStudies = [
   {
-    title: 'Rumble of Ages — Gachapon game',
-    shape: 'Software build',
-    status: 'Alpha',
-    link: 'https://rumbleofages.com',
-    linkLabel: 'Play the alpha →',
-    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in alpha at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Alpha means what it says — playable and improving in the open, not a finished launch.',
-  },
-  {
-    title: 'Lee De Card — Creator booking platform',
+    title: 'LeedECard — Digital business card SaaS',
     shape: 'Software build',
     status: 'Shipped',
     link: 'https://leedecard.com',
     linkLabel: 'Visit the site →',
-    body: 'A booking platform for a creator who needed a workflow that did not exist in any off-the-shelf tool. AI-assisted matching between event briefs and the creator\'s availability, a clean public booking surface, and an admin panel the operator actually wants to open every morning. Started life as a Zapier mess; ended as a typed Next.js app.',
+    shot: leedecardShot,
+    shotAlt: 'The LeedECard homepage',
+    body: 'A digital business card with lead capture and AI follow-up, live at leedecard.com. Each card shares by link or QR code with a booking link; everyone who reaches out is saved as a scored lead, and AI drafts the follow-up email. A Next.js app with Stripe billing.',
   },
   {
-    title: 'Dragon Wagons — Content automation backend',
+    title: 'Dragon Wagon — Content automation backend',
     shape: 'Software build',
     status: 'Shipped',
     link: 'https://dragonwagonkc.com',
     linkLabel: 'Visit the site →',
+    shot: dragonWagonShot,
+    shotAlt: 'The Dragon Wagon homepage',
     body: 'Marketing site plus the content automation backend that feeds it. Scheduled generation, prompt library, output review queue, and a small dashboard for the team running the content calendar. Boring infrastructure done right so the AI work on top has somewhere stable to live.',
+  },
+  {
+    title: 'Rumble of Ages — Gachapon game',
+    shape: 'Software build',
+    status: 'Open beta',
+    link: 'https://rumbleofages.com',
+    linkLabel: 'Play the beta →',
+    shot: rumbleShot,
+    shotAlt: 'The Rumble of Ages homepage',
+    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in open beta at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Open beta means what it says — playable and improving in the open, not a finished launch.',
   },
   {
     title: 'Content team Claude Code setup',
@@ -62,17 +72,17 @@ const caseStudies = [
 
 const shapeStyles = {
   'Software build': 'bg-ink-card text-bone border-ink-border',
-  Tuneup: 'bg-saffron/15 text-saffron border-saffron/30',
-  Workspace: 'bg-saffron/15 text-saffron border-saffron/30',
-  Rollout: 'bg-saffron/15 text-saffron border-saffron/30',
-  'Quick fix': 'bg-saffron/15 text-saffron border-saffron/30',
-  Custom: 'bg-saffron/15 text-saffron border-saffron/30',
+  Tuneup: 'bg-saffron/15 text-saffron-shadow border-saffron/40',
+  Workspace: 'bg-saffron/15 text-saffron-shadow border-saffron/40',
+  Rollout: 'bg-saffron/15 text-saffron-shadow border-saffron/40',
+  'Quick fix': 'bg-saffron/15 text-saffron-shadow border-saffron/40',
+  Custom: 'bg-saffron/15 text-saffron-shadow border-saffron/40',
 };
 
 const statusStyles = {
-  Shipped: 'text-bone-dim',
-  'Coming soon': 'text-bone-mute italic',
-  Alpha: 'text-saffron',
+  Shipped: 'text-coal-dim',
+  'Coming soon': 'text-coal-mute italic',
+  'Open beta': 'text-saffron-shadow',
 };
 ---
 
@@ -84,14 +94,14 @@ const statusStyles = {
 >
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
         <div class="status-pill mb-8">
           <span class="status-pill__dot"></span>
-          <span>// fractional AI lead</span>
+          <span>// AI consultant &amp; developer</span>
         </div>
         <h1 class="display-h1 mb-8">
-          Recent <span class="underline-saffron">work</span><span class="cursor">_</span>
+          Recent <span class="underline-saffron">work</span><span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-10">
           Two kinds of outcomes show up here. Custom AI software — pipelines, platforms, and backends built from scratch and handed over with the source code. And AI environments built for teams: the toolchains, agent configs, and knowledge layers that change how a company's engineers and operators actually work. Both shapes are shown below. Case studies are short, concrete, and honest about what was shipped versus what is still in flight.
@@ -106,11 +116,25 @@ const statusStyles = {
 
   <!-- CASE STUDIES -->
   <Section tone="cream" label="Case studies">
-    <div class="max-w-4xl">
+    <div class="max-w-6xl">
       <h2 class="display-h2 mb-12">Projects, with shape tags</h2>
       <div class="space-y-6">
         {caseStudies.map((cs) => (
           <article class="card-cream p-7 lg:p-9">
+            {cs.shot && (
+              <Image
+                src={cs.shot}
+                alt={cs.shotAlt}
+                widths={[600, 824, 1240]}
+                sizes="(min-width: 1024px) 1080px, calc(100vw - 96px)"
+                width={1240}
+                height={775}
+                quality={70}
+                loading="lazy"
+                decoding="async"
+                class="block w-full h-auto rounded-soft border border-cream-border mb-6"
+              />
+            )}
             <div class="flex flex-wrap items-center gap-3 mb-4">
               <span class={`inline-flex items-center gap-2 rounded-pill border px-3 py-1 text-xs font-mono uppercase tracking-wider ${shapeStyles[cs.shape] ?? 'bg-ink-card text-bone border-ink-border'}`}>
                 {cs.shape}
@@ -120,7 +144,7 @@ const statusStyles = {
               </span>
             </div>
             <h3 class="display-h3 text-coal mb-4">{cs.title}</h3>
-            <p class="text-coal-dim leading-relaxed">{cs.body}</p>
+            <p class="text-coal-dim leading-relaxed max-w-[68ch]">{cs.body}</p>
             {cs.link && (
               <a href={cs.link} target="_blank" rel="noopener" class="link-saffron inline-block mt-4 text-sm font-mono">{cs.linkLabel || 'View live →'}</a>
             )}
@@ -138,7 +162,7 @@ const statusStyles = {
         The tag on each case study — Software build, Tuneup, Workspace — names the recognizable shape the engagement actually took, not a tier in a SaaS price grid. A Software build is what it sounds like: a new thing that needed to exist. A Tuneup is one person's AI environment, dialed in. A Workspace is a small team's shared setup. A Rollout is the agency-scale version. A Quick fix is a single-day job with one deliverable.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
-        You do not pick a shape in advance. The duck reads what you describe on the call and names the shape that fits. Most engagements end up being one shape, cleanly. Some are a build plus a Tuneup on the same project. The duck quotes whichever combination is honest.
+        You do not pick a shape in advance. The duck reads what you describe and names the shape that fits. Most engagements end up being one shape, cleanly. Some are a build plus a Tuneup on the same project. Long prices whichever combination is honest on the call.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed">
         The full shape breakdown lives on <a href="/services/" class="link-saffron">the services page</a>. The case studies marked "coming soon" will fill in as engagements wrap and clients sign off on writeups.
@@ -150,12 +174,12 @@ const statusStyles = {
   <section class="section-dark border-t border-ink-border">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
           Talk to the duck about your project
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          Describe what your team is doing, what is broken, what you wish was true. The duck reads the shape, quotes the work, and either books the next step or sends you somewhere better. Thirty minutes. No scoping form. No slide deck. Real numbers on the call.
+          Describe what your team is doing, what is broken, what you wish was true. The duck reads the shape and sends Long a brief, or points you somewhere better if this is not the right fit. A short chat, no slide deck. Real numbers on the call.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>

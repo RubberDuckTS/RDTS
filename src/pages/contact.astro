@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 
-const title = 'Contact RDTS — prefer to skip the duck? | Rubber Duck Tech Solutions';
+const title = "Contact Rubber Duck Tech Solutions: email or book a call";
 const description = 'The duck is the main intake. If you would rather email or book a call directly, here are the links. Long replies within a business day.';
 
 const calendlyUrl = 'https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration';
@@ -10,28 +10,30 @@ const calendlyUrl = 'https://calendly.com/nguy4227/let-s-connect-project-role-or
 
 <BaseLayout title={title} description={description}>
   <section class="section-dark">
-    <div class="container-x pt-20 lg:pt-28 pb-12 lg:pb-16">
-      <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>// fractional AI lead</span></div>
+    <div class="container-x pt-8 sm:pt-20 lg:pt-28 pb-12 lg:pb-16">
+      <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>// AI consultant &amp; developer</span></div>
       <h1 class="display-h1 mb-6 max-w-[20ch]">
         Prefer to skip<br/>
         the <span class="accent-saffron">duck</span>?
       </h1>
       <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-        The duck is the main way in. Five minutes, it reads what your team is trying to do with
-        AI, reads whether a retainer or a one-off fits, and sends a scoping brief to both of us.
-        It's faster than email and gets to a real number sooner. If you'd still rather not, the
+        The duck is the main way in. In a short chat it reads what your team is trying to do with
+        AI and whether a retainer or a one-off fits, then sends me a brief. It's faster than
+        email, and we get to a real number on the first call. If you'd still rather not, the
         two links below work.
       </p>
     </div>
   </section>
 
   <Section tone="cream">
-    <div class="grid grid-cols-12 gap-x-8 gap-y-6">
+    <div class="grid grid-cols-12 gap-x-4 lg:gap-x-8 gap-y-6">
       <div class="col-span-12 lg:col-span-8 lg:col-start-3">
-        <div class="card-cream p-7 lg:p-8 mb-5">
+        <div class="card-cream p-5 sm:p-7 lg:p-8 mb-5">
           <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">Email</div>
-          <h2 class="text-[26px] font-semibold tracking-tight2 text-coal mb-3">
-            <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@rubberducktechsolutions.com</a>
+          {/* The address can't hyphenate: break after the @ on narrow phones
+              instead of pushing the page wider than the viewport. */}
+          <h2 class="text-[clamp(17px,5.4vw,22px)] sm:text-[26px] font-semibold tracking-tight2 text-coal mb-3 [overflow-wrap:anywhere]">
+            <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@<wbr />rubberducktechsolutions.com</a>
           </h2>
           <p class="text-[15px] text-coal-dim leading-[1.65]">
             Tell me what your company does, what the AI situation looks like right now, and your

@@ -108,15 +108,17 @@
   .accent-saffron {
     color: theme('colors.saffron.DEFAULT');
   }
+  /* Saffron text is 1.3:1 on cream; use the shadow tone there (5.6:1). */
+  .section-cream .accent-saffron { color: theme('colors.saffron.shadow'); }
+  /* A thick underline under the baseline, not a marker band behind the
+     glyphs: the band put cream text on saffron at ~1.3:1. */
   .underline-saffron {
-    background-image: linear-gradient(
-      180deg,
-      transparent 60%,
-      theme('colors.saffron.DEFAULT') 60%,
-      theme('colors.saffron.DEFAULT') 92%,
-      transparent 92%
-    );
-    padding: 0 0.08em;
+    text-decoration-line: underline;
+    text-decoration-color: theme('colors.saffron.DEFAULT');
+    text-decoration-thickness: 0.12em;
+    /* Sits on the same rows as the `_` cursor glyph, so the line doesn't step. */
+    text-underline-offset: 0.055em;
+    text-decoration-skip-ink: none;
   }
 
   /* === BUTTONS (rounded pill, like live site) === */
@@ -254,6 +256,13 @@
   .link-saffron:hover {
     border-bottom-color: theme('colors.saffron.DEFAULT');
   }
+  .section-cream .link-saffron {
+    color: theme('colors.saffron.shadow');
+    border-bottom-color: rgba(122, 90, 0, 0.4);
+  }
+  .section-cream .link-saffron:hover {
+    border-bottom-color: theme('colors.saffron.shadow');
+  }
 
   .link-coal {
     color: theme('colors.coal.DEFAULT');
@@ -283,6 +292,8 @@
     margin-top: 2.5em;
     margin-bottom: 0.8em;
   }
+  /* The section label already sits above an opening h2. */
+  .prose-rdts > h2:first-child { margin-top: 0; }
   .prose-rdts h3 {
     font-size: clamp(20px, 2.4vw, 26px);
     font-weight: 600;
@@ -310,6 +321,12 @@
     border-radius: 4px;
     font-family: theme('fontFamily.mono');
     font-size: 0.9em;
+  }
+  /* Code blocks style their own <pre>; don't paint the inline-code chip inside. */
+  .prose-rdts pre code {
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
   }
   .prose-rdts blockquote {
     border-left: 3px solid theme('colors.saffron.DEFAULT');
@@ -345,4 +362,17 @@
     border-top: 1px solid theme('colors.cream.border');
     margin: 2.5em 0;
   }
+
+  /* Prose inside <Section tone="dark">: the defaults above are coal-on-cream,
+     which renders near-invisible (1.04:1) on ink. Swap to the dark palette. */
+  .section-dark .prose-rdts {
+    --prose-text: theme('colors.bone.DEFAULT');
+    --prose-muted: theme('colors.bone.dim');
+    --prose-link: theme('colors.saffron.DEFAULT');
+  }
+  .section-dark .prose-rdts a:hover { color: theme('colors.saffron.light'); }
+  .section-dark .prose-rdts code { background: theme('colors.ink.card'); }
+  .section-dark .prose-rdts th,
+  .section-dark .prose-rdts td,
+  .section-dark .prose-rdts hr { border-color: theme('colors.ink.border'); }
 }

@@ -75,11 +75,11 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
-        <div class="label label--dim mb-6">// Learn / How-to</div>
+        <div class="label label--dim mb-6">Learn / How-to</div>
         <h1 class="display-h1 mb-8">
-          How to set up <span class="underline-saffron">Claude skills</span><span class="cursor">_</span>
+          How to set up <span class="underline-saffron">Claude skills</span><span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
           A working step-by-step for installing Claude skills in Claude Code — where files go, what the frontmatter needs, how invocation works, and the half-dozen things that quietly stop a skill from loading. Includes two complete example skills you can copy and adapt.
@@ -111,12 +111,12 @@ const faqSchema = {
       <p class="text-bone-dim text-lg leading-relaxed mb-4">
         <strong class="text-bone">Global skill</strong> — available in every project. Lives here:
       </p>
-      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8"><code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></pre>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8" tabindex="0"><code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></pre>
 
       <p class="text-bone-dim text-lg leading-relaxed mb-4">
         <strong class="text-bone">Project skill</strong> — scoped to one project, shared with the team via git. Lives here:
       </p>
-      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8"><code>&lt;project-root&gt;/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></pre>
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8" tabindex="0"><code>&lt;project-root&gt;/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></pre>
 
       <p class="text-bone-dim text-lg leading-relaxed">
         Rule of thumb: personal preferences and cross-project habits go global. Team conventions, project context, and codebase-specific rules go in the project. Commit project skills to git so every teammate gets them on clone.
@@ -131,7 +131,7 @@ const faqSchema = {
       <p>
         Each skill is a folder with a SKILL.md file inside. The folder name is the skill's identifier; the SKILL.md is the actual content. From your project root, for example:
       </p>
-      <pre class="bg-coal text-bone rounded-xl p-5 font-mono text-sm overflow-x-auto"><code>mkdir -p .claude/skills/writing-prs
+      <pre class="bg-coal text-bone rounded-xl p-5 font-mono text-sm overflow-x-auto" tabindex="0"><code>mkdir -p .claude/skills/writing-prs
 touch .claude/skills/writing-prs/SKILL.md</code></pre>
       <p>
         Two file-naming gotchas worth flagging now. The filename is <strong>SKILL.md</strong>, uppercase, exact. Lowercase <code>skill.md</code> will not be picked up. The directory name should match the skill identifier you put in the frontmatter — convention is kebab-case. Inconsistency between directory name and frontmatter name is the most common reason a skill silently fails to load.
@@ -146,7 +146,7 @@ touch .claude/skills/writing-prs/SKILL.md</code></pre>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
         Every SKILL.md starts with a YAML frontmatter block — that is how Claude Code knows what the skill is called and when to consider invoking it. The minimum looks like this:
       </p>
-      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8"><code>---
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-sm overflow-x-auto mb-8" tabindex="0"><code>---
 name: writing-prs
 description: Use when drafting pull request descriptions, summaries, or commit messages — encodes team voice and required sections.
 ---</code></pre>
@@ -197,7 +197,7 @@ description: Use when drafting pull request descriptions, summaries, or commit m
       <p class="text-bone-dim text-lg leading-relaxed mb-4">
         File: <code class="text-saffron">.claude/skills/writing-prs/SKILL.md</code>
       </p>
-      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-xs lg:text-sm overflow-x-auto mb-10"><code>---
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-xs lg:text-sm overflow-x-auto mb-10" tabindex="0"><code>---
 name: writing-prs
 description: Use when drafting pull request descriptions, commit messages, or PR summaries. Encodes team voice and required structure.
 ---
@@ -247,7 +247,7 @@ Good:
       <p class="text-bone-dim text-lg leading-relaxed mb-4">
         File: <code class="text-saffron">.claude/skills/querying-customers-db/SKILL.md</code> — pairs with a Postgres MCP server.
       </p>
-      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-xs lg:text-sm overflow-x-auto"><code>---
+      <pre class="bg-ink-card border border-ink-border rounded-xl p-5 text-bone font-mono text-xs lg:text-sm overflow-x-auto" tabindex="0"><code>---
 name: querying-customers-db
 description: Use when querying the customers database via the Postgres MCP server. Encodes table conventions, safe query patterns, and PII rules.
 ---
@@ -335,7 +335,7 @@ Avoid OFFSET on this table — it gets slow past page 5.</code></pre>
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
             <h3 class="display-h3 text-coal">{f.q}</h3>
-            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+            <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
           </summary>
           <div class="mt-4 text-coal-dim leading-relaxed">
             <p>{f.a}</p>
@@ -349,7 +349,7 @@ Avoid OFFSET on this table — it gets slow past page 5.</code></pre>
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
           Want this dialed in by someone who has set up dozens?
         </h2>

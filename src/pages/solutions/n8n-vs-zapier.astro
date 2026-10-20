@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
 const title = 'n8n vs Zapier — which one breaks first at your scale? | RDTS';
-const description = 'A no-bullshit comparison of n8n vs Zapier. Both have a ceiling. Honest read on which one hits it first and when to skip both for code-first AI setup.';
+const description = "A plain comparison of n8n vs Zapier. Both have a ceiling. Which one hits it first at your scale, and when to skip both for a code-first AI setup.";
 const canonical = '/solutions/n8n-vs-zapier/';
 
 const articleSchema = {
@@ -70,13 +70,13 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- 1. HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="status-pill mb-8">
         <span class="status-pill__dot"></span>
-        <span>// fractional AI lead</span>
+        <span>// AI consultant &amp; developer</span>
       </div>
       <h1 class="display-h1 max-w-5xl">
-        <span class="label label--dim block mb-4">// Comparison</span>
+        <span class="label label--dim block mb-4">Comparison</span>
         n8n vs <span class="underline-saffron">Zapier</span> — which one breaks first at your scale?<span class="cursor"></span>
       </h1>
       <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
@@ -129,7 +129,7 @@ const faqSchema = {
         having.
       </p>
     </div>
-    <div class="overflow-x-auto -mx-4 px-4">
+    <div class="overflow-x-auto -mx-4 px-4" tabindex="0">
       <table class="w-full text-left border-collapse min-w-[720px]">
         <thead>
           <tr class="border-b border-ink-border">
@@ -166,7 +166,7 @@ const faqSchema = {
           </tr>
           <tr class="border-b border-ink-border">
             <td class="py-4 pr-6 font-medium">Multi-model AI routing</td>
-            <td class="py-4 pr-6 text-bone-dim text-saffron-shadow">Locked to bundled providers</td>
+            <td class="py-4 pr-6 text-saffron">Locked to bundled providers</td>
             <td class="py-4 pr-6 text-bone-dim">Possible but verbose</td>
             <td class="py-4 text-bone-dim">Native — Claude, GPT, Gemini side by side</td>
           </tr>
@@ -327,8 +327,8 @@ const faqSchema = {
         It worked for a demo and broke the moment proper retry logic on failed segments and routing between
         Seedance and Grok based on shot type became real requirements. Three weeks later it was a Node app with
         Postgres, hosted on Vercel, costing $40/month to run. The n8n version would have been north of $200/month
-        at the same usage and impossible to debug. <a href="/work/" class="link-coal">You can see the projects on the work page</a>.
-        Same story for Lee De Card and the Dragon Wagons content backend — both started in no-code and graduated.
+        at the same usage and impossible to debug.
+        Same story for the Dragon Wagon content backend, which started in no-code and graduated.
       </p>
       <p>
         This is the work I do. Single sharp tools, full pipelines, code-first AI environments — sized to the
@@ -346,7 +346,7 @@ const faqSchema = {
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="cursor-pointer font-medium text-coal text-lg list-none flex justify-between items-start gap-4">
             <span>{f.q}</span>
-            <span class="text-saffron-deep flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+            <span class="text-saffron-shadow flex-shrink-0 transition-transform group-open:rotate-45">+</span>
           </summary>
           <p class="mt-4 text-coal-dim leading-relaxed">{f.a}</p>
         </details>
@@ -366,21 +366,21 @@ const faqSchema = {
       </p>
       <div class="grid gap-6 lg:grid-cols-3">
         <div class="card-dark p-7">
-          <div class="label label--dim mb-3">// Tuneup</div>
+          <div class="label label--dim mb-3">Tuneup</div>
           <h3 class="display-h3 text-bone mb-3">Solo / indie dev</h3>
           <p class="text-bone-dim leading-relaxed">
             Your own AI environment, dialed in. Claude Code, Cursor, Codex, or whichever harness you live in — set up with skills, MCP servers, and the integrations your day-to-day actually needs.
           </p>
         </div>
         <div class="card-dark p-7">
-          <div class="label label--dim mb-3">// Workspace</div>
+          <div class="label label--dim mb-3">Workspace</div>
           <h3 class="display-h3 text-bone mb-3">Small team (1–6)</h3>
           <p class="text-bone-dim leading-relaxed">
             A shared AI workflow your team can actually use. Standardized configs, a knowledge layer that knows your codebase and docs, and the adoption work that keeps people from silently going back to a browser tab.
           </p>
         </div>
         <div class="card-dark p-7">
-          <div class="label label--dim mb-3">// Rollout</div>
+          <div class="label label--dim mb-3">Rollout</div>
           <h3 class="display-h3 text-bone mb-3">Agency (5–20)</h3>
           <p class="text-bone-dim leading-relaxed">
             Role-specific configs across the team, integrations into your delivery stack, and the training that turns a paid AI seat into an asset instead of a line item.
@@ -393,13 +393,13 @@ const faqSchema = {
   <!-- 9. FINAL CTA -->
   <section class="section-dark">
     <div class="container-x py-20 lg:py-24">
-      <span class="label label--dim">// Last call</span>
+      <span class="label label--dim">Last call</span>
       <h2 class="display-h2 mt-6 max-w-3xl">Still not sure? <span class="accent-saffron">Talk to the duck.</span></h2>
       <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
         No push toward code if Zapier solves your problem. Bring the flow you are stuck on — the one bleeding
         tasks, or the one your operator stopped trusting — or just the AI tool nobody on your team uses, and you
         get a straight answer: fix it in n8n, fix it in Zapier, rebuild it, or set up the AI environment your team
-        actually needs. Picking the right automation layer and keeping it working is also a core part of the fractional AI lead engagement — one person who owns that question for your company month to month. Free 30-minute call.
+        actually needs. Picking the right automation layer and keeping it working is also a core part of the retainer engagement — one person who owns that question for your company month to month. It starts with a short chat with the duck, which sends me a brief. I reply within 24 hours, and pricing gets settled on a free 30-minute call.
       </p>
       <div class="flex flex-wrap gap-4 mt-10">
         <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>

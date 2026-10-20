@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
-const title = 'Learn — plain-English AI setup explainers and tool comparisons | RDTS';
+const title = "Learn: plain-English AI setup guides and comparisons | RDTS";
 const description = 'Plain-English explainers and honest tool comparisons for people setting up AI: MCP, skills, agent harnesses, Claude Code, Cursor, Codex, Cline, OpenClaw.';
 
 const canonical = '/learn/';
@@ -86,11 +86,11 @@ const comparisons = [
 <BaseLayout title={title} description={description} canonical={canonical} schema={collectionSchema}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
-        <div class="label label--dim mb-6">// Learn</div>
+        <div class="label label--dim mb-6">Learn</div>
         <h1 class="display-h1 mb-8">
-          Plain-English AI setup, <span class="underline-saffron">no jargon tax</span><span class="cursor">_</span>
+          Plain-English AI setup, <span class="underline-saffron">no jargon tax</span><span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
           Most "AI setup" content is written by people who already know what an MCP server is. These pages are not that. Read these if you are trying to figure out which tool to use, what a skill actually does, or why your AI assistant feels broken. Honest comparisons, opinionated takes, and definitions in human language.
@@ -130,7 +130,7 @@ const comparisons = [
           <a href={c.href} class="bg-ink-card border border-ink-border rounded-2xl p-7 group block hover:border-saffron transition-colors">
             <h3 class="display-h3 text-bone mb-3 group-hover:text-saffron transition-colors">{c.title}</h3>
             <p class="text-bone-dim leading-relaxed text-[15px]">{c.blurb}</p>
-            <span class="inline-block mt-5 text-saffron-shadow font-mono text-sm">Compare →</span>
+            <span class="inline-block mt-5 text-saffron font-mono text-sm">Compare →</span>
           </a>
         ))}
       </div>
@@ -141,16 +141,16 @@ const comparisons = [
   <section class="section-cream">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--coal mb-6">// Ask the duck</span>
+        <span class="label label--coal mb-6">Ask the duck</span>
         <h2 class="display-h2 mt-4 mb-8">
           Read everything and still not sure?
         </h2>
         <p class="text-coal-dim text-lg leading-relaxed mb-10">
-          The pages here cover the concepts. They will not pick the stack for your specific team, codebase, or workflow. That part is a conversation. Tell the duck what you are trying to do, what you have tried, and what is broken — you will leave with a clear next step, not another tab to read. If what you really need is someone to own the AI toolchain question for your company on an ongoing basis, that is the fractional AI lead offer.
+          The pages here cover the concepts. They will not pick the stack for your specific team, codebase, or workflow. That part is a conversation. Tell the duck what you are trying to do, what you have tried, and what is broken — you will leave with a clear next step, not another tab to read. If what you really need is someone to own the AI toolchain question for your company on an ongoing basis, that is the retainer offer.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
-          <a href="/services/ai-developer-for-hire/" class="btn btn-outline-coal">See services</a>
+          <a href="/services/" class="btn btn-outline-dark">See services</a>
         </div>
       </div>
     </div>

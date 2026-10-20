@@ -75,11 +75,11 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
-        <div class="label label--dim mb-6">// Learn / Concepts</div>
+        <div class="label label--dim mb-6">Learn / Concepts</div>
         <h1 class="display-h1 mb-8">
-          Skills vs MCPs: <span class="underline-saffron">different jobs</span>, often confused<span class="cursor">_</span>
+          Skills vs MCPs: <span class="underline-saffron">different jobs</span>, often confused<span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
           Claude skills are packaged instructions that shape how the model behaves on a task. MCP servers are connections that let the model actually touch the real world — files, databases, APIs. One is the playbook; the other is the toolbox. People mix them up constantly because both ship as "extensions" you install into Claude.
@@ -108,7 +108,7 @@ const faqSchema = {
   <Section tone="dark" label="Side by side">
     <div class="max-w-5xl">
       <h2 class="display-h2 text-bone mb-8">Skills vs MCP servers, line by line</h2>
-      <div class="overflow-x-auto rounded-2xl border border-ink-border">
+      <div class="overflow-x-auto rounded-2xl border border-ink-border" tabindex="0">
         <table class="w-full text-left text-bone">
           <thead class="bg-ink-card text-bone-dim">
             <tr>
@@ -230,7 +230,7 @@ const faqSchema = {
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
             <h3 class="display-h3 text-coal">{f.q}</h3>
-            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+            <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
           </summary>
           <div class="mt-4 text-coal-dim leading-relaxed">
             <p>{f.a}</p>
@@ -244,12 +244,12 @@ const faqSchema = {
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
           Want both set up properly?
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          Picking which MCP servers your team needs, writing the skills that make them work consistently, and getting both deployed across every AI tool your team uses — that is the bulk of what a fractional AI engagement actually delivers. Tell the duck what your team uses today and what it is supposed to do tomorrow.
+          Picking which MCP servers your team needs, writing the skills that make them work consistently, and getting both deployed across every AI tool your team uses — that is the bulk of what an AI retainer actually delivers. Tell the duck what your team uses today and what it is supposed to do tomorrow.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>

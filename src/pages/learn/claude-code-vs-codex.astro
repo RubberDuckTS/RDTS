@@ -73,13 +73,13 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- 1. HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="status-pill mb-8">
         <span class="status-pill__dot"></span>
         <span>Comparison — updated May 2026</span>
       </div>
       <h1 class="display-h1 max-w-5xl">
-        <span class="label label--dim block mb-4">// Learn</span>
+        <span class="label label--dim block mb-4">Learn</span>
         Claude Code vs <span class="underline-saffron">Codex</span> — honest tradeoffs<span class="cursor"></span>
       </h1>
       <p class="text-bone-dim text-lg lg:text-xl mt-8 max-w-3xl leading-relaxed">
@@ -89,7 +89,7 @@ const faqSchema = {
         The question is which shape of problem you are actually trying to solve.
       </p>
       <div class="flex flex-wrap gap-4 mt-10">
-        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
         <a href="#verdict" class="btn btn-outline-light">Jump to the verdict</a>
       </div>
     </div>
@@ -128,7 +128,7 @@ const faqSchema = {
         unambiguously you, the whole choice is decided.
       </p>
     </div>
-    <div class="overflow-x-auto -mx-4 px-4">
+    <div class="overflow-x-auto -mx-4 px-4" tabindex="0">
       <table class="w-full text-left border-collapse min-w-[640px]">
         <thead>
           <tr class="border-b border-ink-border">
@@ -319,7 +319,7 @@ const faqSchema = {
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="cursor-pointer font-medium text-coal text-lg list-none flex justify-between items-start gap-4">
             <span>{f.q}</span>
-            <span class="text-saffron-deep flex-shrink-0 transition-transform group-open:rotate-45">+</span>
+            <span class="text-saffron-shadow flex-shrink-0 transition-transform group-open:rotate-45">+</span>
           </summary>
           <p class="mt-4 text-coal-dim leading-relaxed">{f.a}</p>
         </details>
@@ -338,7 +338,7 @@ const faqSchema = {
       <ul>
         <li><a href="/solutions/claude-code-setup/">Claude Code setup — done by a real person, not a tutorial</a></li>
         <li><a href="/solutions/codex-setup/">Codex setup — done by a real person, not a tutorial</a></li>
-        <li><a href="/services/">Services — fractional AI lead & consulting</a></li>
+        <li><a href="/services/">Services — AI consulting & development</a></li>
       </ul>
     </div>
   </Section>
@@ -346,7 +346,7 @@ const faqSchema = {
   <!-- 10. FINAL CTA -->
   <section class="section-dark">
     <div class="container-x py-20 lg:py-24">
-      <span class="label label--dim">// Still deciding</span>
+      <span class="label label--dim">Still deciding</span>
       <h2 class="display-h2 mt-6 max-w-3xl">Not sure which one fits? <span class="accent-saffron">Talk to the duck.</span></h2>
       <p class="text-bone-dim text-lg mt-6 max-w-2xl leading-relaxed">
         Tell me how you actually work — what kind of tasks, what stack, what is annoying you about your current
@@ -354,7 +354,7 @@ const faqSchema = {
         different tool," I will say that too.
       </p>
       <div class="flex flex-wrap gap-4 mt-10">
-        <a href="/talk/" class="btn btn-primary">Talk to the duck</a>
+        <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
         <a href="/services/" class="btn btn-outline-light">See services</a>
       </div>
     </div>

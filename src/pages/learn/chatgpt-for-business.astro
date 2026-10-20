@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
 const title = "ChatGPT for business: how to actually make it useful | RDTS";
-const description = "Most teams pay for ChatGPT and use 10% of it. A practical, no-hype guide to getting real work out of ChatGPT and AI in your business — and when to bring in a fractional AI lead.";
+const description = "Most teams pay for ChatGPT and use 10% of it. A practical, no-hype guide to getting real work out of ChatGPT in your business, and when to bring in help.";
 
 const canonical = '/learn/chatgpt-for-business/';
 
@@ -41,7 +41,7 @@ const faqs = [
   },
   {
     q: 'How do we stop everyone using ChatGPT differently?',
-    a: "Custom GPTs and shared instructions are the answer, and most teams never touch them. A Custom GPT is just a system prompt plus optional file uploads plus optional tool access, packaged with a name so your team can open it instead of a blank chat. Build one per job: a 'Proposal Draft' GPT that knows your pricing and tone, a 'Support Response' GPT that knows your policies, a 'Meeting Summary' GPT with your preferred format. The team uses the right tool instead of trying to remember the right prompt. This is also where a fractional AI lead earns their slot — building and maintaining the custom tools your team actually adopts.",
+    a: "Custom GPTs and shared instructions are the answer, and most teams never touch them. A Custom GPT is just a system prompt plus optional file uploads plus optional tool access, packaged with a name so your team can open it instead of a blank chat. Build one per job: a 'Proposal Draft' GPT that knows your pricing and tone, a 'Support Response' GPT that knows your policies, a 'Meeting Summary' GPT with your preferred format. The team uses the right tool instead of trying to remember the right prompt. This is also where an AI lead on retainer earns their slot — building and maintaining the custom tools your team actually adopts.",
   },
   {
     q: 'Can ChatGPT connect to our internal tools and data?',
@@ -100,11 +100,11 @@ const mistakes = [
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, breadcrumbSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
-        <div class="label label--dim mb-6">// Learn / Practical guides</div>
+        <div class="label label--dim mb-6">Learn / Practical guides</div>
         <h1 class="display-h1 mb-8">
-          ChatGPT for business: <span class="underline-saffron">how to actually</span> make it useful<span class="cursor">_</span>
+          ChatGPT for business: <span class="underline-saffron">how to actually</span> make it useful<span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl mb-6">
           ChatGPT for business means using OpenAI's ChatGPT — and the current GPT-5 family of models behind it — as a real operational tool: drafting, summarizing, extracting, and automating work your team repeats daily. The default blank-chat experience is the floor, not the ceiling. A proper business setup adds Custom GPTs per job type, file uploads for internal docs, and tool integrations that connect ChatGPT to your actual data.
@@ -211,7 +211,7 @@ const mistakes = [
         <li class="flex gap-3"><span class="text-saffron font-mono shrink-0">—</span><span><strong class="text-bone">Job Post Builder:</strong> knows your culture, your role levels, your benefits, and outputs a consistent format across every hire.</span></li>
       </ul>
       <p class="text-bone-dim text-lg leading-relaxed">
-        Building these takes an afternoon. Maintaining them and expanding them as your workflows evolve is where a fractional AI lead earns the retainer — not as a one-time setup, but as the person who keeps the tooling current as ChatGPT adds new capabilities and your business changes.
+        Building these takes an afternoon. Maintaining them and expanding them as your workflows evolve is where an AI lead earns the retainer — not as a one-time setup, but as the person who keeps the tooling current as ChatGPT adds new capabilities and your business changes.
       </p>
     </div>
   </Section>
@@ -224,7 +224,7 @@ const mistakes = [
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
             <h3 class="display-h3 text-coal">{f.q}</h3>
-            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+            <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
           </summary>
           <div class="mt-4 text-coal-dim leading-relaxed">
             <p>{f.a}</p>
@@ -238,12 +238,12 @@ const mistakes = [
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
-          When to bring in a fractional AI lead
+          When to bring in an AI lead on retainer
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          This guide covers the concepts. What it cannot do is pick the right setup for your specific team, tools, and workflows — or build it for you. If your team is using ChatGPT inconsistently and you want it to actually compound, or if you want to wire it into your internal tools and data, that is what the fractional engagement is for. Tell the duck what you are working with. You will get a real plan back, not another guide to read.
+          This guide covers the concepts. What it cannot do is pick the right setup for your specific team, tools, and workflows — or build it for you. If your team is using ChatGPT inconsistently and you want it to actually compound, or if you want to wire it into your internal tools and data, that is what the retainer is for. Tell the duck what you are working with. You will get a real plan back, not another guide to read.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>

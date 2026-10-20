@@ -75,11 +75,11 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
-        <div class="label label--dim mb-6">// Learn / Concepts</div>
+        <div class="label label--dim mb-6">Learn / Concepts</div>
         <h1 class="display-h1 mb-8">
-          What is MCP? <span class="underline-saffron">Plain-English</span> explanation<span class="cursor">_</span>
+          What is MCP? <span class="underline-saffron">Plain-English</span> explanation<span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
           MCP — short for Model Context Protocol — is an open standard for letting AI assistants like Claude talk to your databases, files, and external services. Think of it as a universal adapter: instead of every AI tool needing a custom integration for every data source, MCP gives them all one common way to plug in.
@@ -179,7 +179,7 @@ const faqSchema = {
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
             <h3 class="display-h3 text-coal">{f.q}</h3>
-            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+            <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
           </summary>
           <div class="mt-4 text-coal-dim leading-relaxed">
             <p>{f.a}</p>
@@ -193,7 +193,7 @@ const faqSchema = {
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
           Want MCP set up for your stack?
         </h2>

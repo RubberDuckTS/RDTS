@@ -75,11 +75,11 @@ const faqSchema = {
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema]}>
   <!-- HERO -->
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="max-w-4xl">
-        <div class="label label--dim mb-6">// Learn / Concepts</div>
+        <div class="label label--dim mb-6">Learn / Concepts</div>
         <h1 class="display-h1 mb-8">
-          What is an <span class="underline-saffron">AI agent harness</span>? Plain-English<span class="cursor">_</span>
+          What is an <span class="underline-saffron">AI agent harness</span>? Plain-English<span class="cursor"></span>
         </h1>
         <p class="text-bone-dim text-lg lg:text-xl leading-relaxed max-w-3xl">
           An agent harness is the software that wraps a language model and turns it into something that can take real actions — edit files, run commands, remember between turns, recover from errors. Claude Code, Cursor, Cline, Aider, and OpenClaw are all harnesses. The model inside is roughly the same. The harness around it is doing the work you actually feel.
@@ -179,7 +179,7 @@ const faqSchema = {
   <Section tone="dark" label="When to pick which">
     <div class="max-w-3xl">
       <h2 class="display-h2 text-bone mb-8">A rough decision guide</h2>
-      <div class="overflow-x-auto rounded-2xl border border-ink-border">
+      <div class="overflow-x-auto rounded-2xl border border-ink-border" tabindex="0">
         <table class="w-full text-left text-bone">
           <thead class="bg-ink-card text-bone-dim">
             <tr>
@@ -229,7 +229,7 @@ const faqSchema = {
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="flex items-start justify-between gap-6 cursor-pointer list-none">
             <h3 class="display-h3 text-coal">{f.q}</h3>
-            <span class="text-saffron text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
+            <span class="text-saffron-shadow text-2xl font-mono shrink-0 group-open:rotate-45 transition-transform">+</span>
           </summary>
           <div class="mt-4 text-coal-dim leading-relaxed">
             <p>{f.a}</p>
@@ -243,7 +243,7 @@ const faqSchema = {
   <section class="section-dark">
     <div class="container-x py-20 lg:py-28">
       <div class="max-w-3xl">
-        <span class="label label--dim mb-6">// Ask the duck</span>
+        <span class="label label--dim mb-6">Ask the duck</span>
         <h2 class="display-h2 text-bone mb-8 mt-4">
           Want the right harness picked for your team?
         </h2>

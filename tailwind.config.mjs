@@ -35,7 +35,7 @@ export default {
         coal: {
           DEFAULT: '#1A1410',  // dark text on cream
           dim:     '#5A4F42',  // muted text on cream
-          mute:    '#7A6E5E',  // very muted text on cream
+          mute:    '#6E6252',  // very muted text on cream (≥4.5:1 on cream + cream.deep)
         },
       },
       fontFamily: {

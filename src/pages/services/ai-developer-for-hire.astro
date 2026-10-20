@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 
 const title = "AI Consulting Services for Startups | RDTS";
-const description = "Fractional AI consulting — strategy, the right tools, and hands-on integration. One senior AI lead who keeps up with the field so your team ships with AI instead of drowning in it.";
+const description = "AI consulting for startups: strategy, the right tools, and hands-on integration. One senior AI lead who keeps up so your team ships with AI, not drowns in it.";
 
 const canonical = '/services/ai-developer-for-hire/';
 
@@ -35,11 +35,11 @@ const faqs = [
   },
   {
     q: 'How experienced are you as an AI consultant?',
-    a: 'Nearly a decade writing production software, since 2018 — before LLMs could ship usable code. Spent agency years as the in-house engineer other teams called when their tools stopped fitting their work. Since going solo as RDTS I have shipped real production AI projects: a multi-model AI music video pipeline, Lee De Card (a creator booking platform with AI-assisted matching), and Dragon Wagons (a content automation backend). I work daily with Anthropic Claude, OpenAI GPT models, MCP servers, Claude skills, and the harnesses teams actually use. When you hire me for AI consulting, you get the engineer who did the work — not a strategist who subcontracts the build.',
+    a: 'Nearly a decade writing production software, since 2018 — before LLMs could ship usable code. Spent agency years as the in-house engineer other teams called when their tools stopped fitting their work. Since going solo as RDTS I have shipped real production AI projects: a multi-model AI music video pipeline, LeedECard (digital business cards with lead capture and AI follow-up), and Dragon Wagon (a content automation backend). I work daily with Anthropic Claude, OpenAI GPT models, MCP servers, Claude skills, and the harnesses teams actually use. When you hire me for AI consulting, you get the engineer who did the work — not a strategist who subcontracts the build.',
   },
   {
     q: 'What is the engagement model — retainer, project, or both?',
-    a: 'Both, depending on what you need. Some clients want a scoped project: define the roadmap, pick the stack, build the integration, hand it off. Others want an ongoing fractional AI lead — monthly retainer for strategy, model upgrades, new integrations, and keeping up with a field that moves every week. Most start with a defined first engagement and move to retainer once the fit is clear. The duck scoping call reads which shape fits your situation and names a price in plain English.',
+    a: 'Both, depending on what you need. Some clients want a scoped project: define the roadmap, pick the stack, build the integration, hand it off. Others want an ongoing AI lead — a monthly retainer for strategy, model upgrades, new integrations, and keeping up with a field that moves every week. Most start with a defined first engagement and move to retainer once the fit is clear. The duck reads which shape fits your situation, and Long names a price in plain English on the call.',
   },
   {
     q: 'Will you sign an NDA?',
@@ -79,7 +79,7 @@ const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'AI Consulting Services',
-  description: 'Fractional AI consulting — strategy, tool selection, hands-on integration, and team training for startups and growing companies.',
+  description: 'AI consulting — strategy, tool selection, hands-on integration, and team training for startups and growing companies.',
   provider: { '@type': 'Organization', name: 'Rubber Duck Tech Solutions' },
   areaServed: { '@type': 'Country', name: 'US' },
   offers: {
@@ -111,7 +111,7 @@ const whatWeDoCategories = [
     body: 'Shipping the integration is half the job. I train your team on what shipped — how to use it, how to prompt it well, what to watch for when it goes wrong, and how to iterate on it without me in the room. Walk-through recordings, short guides, and an async Q&A window are included in every engagement, not billed as consulting hours. If your team is still getting started with AI tools like ChatGPT, see also: <a href="/learn/chatgpt-for-business/" class="link-saffron">ChatGPT for business</a>.',
   },
   {
-    title: 'Fractional AI lead (ongoing)',
+    title: 'AI lead on retainer (ongoing)',
     body: 'AI moves fast enough that the right answer in January is often wrong by April. On monthly retainer I keep up with the field so you do not have to — new model releases, new tooling, new integration patterns. I flag what changes, update what matters, and keep your stack from going stale. One senior AI person who knows your codebase, at a fraction of the cost of a full-time hire.',
   },
   {
@@ -124,7 +124,7 @@ const processSteps = [
   {
     label: 'Step 01',
     title: 'Talk to the duck',
-    body: 'Five-minute scoping conversation with the duck — a custom AI agent I built. You describe what you are trying to accomplish, who is on the team, and what you have already tried. The duck reads the shape of the engagement, names a price in plain English, and sends a brief to both of us. No qualification grid, no funnel.',
+    body: 'A short scoping conversation with the duck — a custom AI agent I built. You describe what you are trying to accomplish, who is on the team, and what you have already tried. The duck reads the shape of the engagement and sends me a brief, so our first call starts scoped. Pricing comes on that call.',
   },
   {
     label: 'Step 02',
@@ -146,19 +146,19 @@ const processSteps = [
 <BaseLayout title={title} description={description} canonical={canonical} schema={[articleSchema, faqSchema, serviceSchema, breadcrumbSchema]}>
 
   <section class="section-dark">
-    <div class="container-x py-20 lg:py-28">
+    <div class="container-x pt-8 pb-20 sm:pt-20 lg:py-28">
       <div class="status-pill mb-8">
         <span class="status-pill__dot"></span>
-        <span>// fractional AI lead</span>
+        <span>// AI consultant &amp; developer</span>
       </div>
       <h1 class="display-h1 mb-8">
-        AI consulting services<br />that actually <span class="accent-saffron">ship</span><span class="cursor">_</span>
+        AI consulting services<br />that actually <span class="accent-saffron">ship</span><span class="cursor"></span>
       </h1>
       <p class="text-bone-dim text-lg lg:text-xl max-w-3xl mb-6 leading-relaxed">
-        I am Long Nguyen — the engineer and AI consultant behind Rubber Duck Tech Solutions. Funded startups and growing companies hire me as a fractional AI lead: one senior person who owns the strategy, picks the tools that matter, and handles the hands-on integration. AI keeps up with you instead of the other way around.
+        I am Long Nguyen — the engineer and AI consultant behind Rubber Duck Tech Solutions. Funded startups and growing companies hire me as their AI lead on retainer: one senior person who owns the strategy, picks the tools that matter, and handles the hands-on integration. AI keeps up with you instead of the other way around.
       </p>
       <p class="text-bone-dim text-base max-w-3xl mb-10 leading-relaxed">
-        A fractional Chief AI Officer (fractional CAIO) is a part-time senior AI lead embedded in your company — owning strategy, tool selection, and hands-on implementation without a full-time hire. That's the RDTS model.
+        Think of it as a part-time senior AI lead embedded in your company — owning strategy, tool selection, and hands-on implementation without a full-time hire. That's the RDTS model.
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
@@ -176,7 +176,7 @@ const processSteps = [
         I run RDTS — Rubber Duck Tech Solutions, the trade name of Long Win LLC, registered in Missouri — as a solo practice. No bench, no offshore subcontractors, no PM between you and the person doing the work. The AI consultant on the call is the engineer wiring the integration.
       </p>
       <p>
-        Proof points from recent engagements: an end-to-end AI music video pipeline I built entirely solo — lyric segmentation, keyframe generation, Seedance video models, multi-model orchestration. <strong>Lee De Card</strong> — a creator booking platform with AI-assisted matching. <strong>Dragon Wagons</strong> — a content automation backend. These are not proofs-of-concept. They are production software that runs every day.
+        Proof points from recent engagements: an end-to-end AI music video pipeline I built entirely solo — lyric segmentation, keyframe generation, Seedance video models, multi-model orchestration. <strong>LeedECard</strong> — digital business cards with lead capture and AI follow-up. <strong>Dragon Wagon</strong> — a content automation backend. These are not proofs-of-concept. They are production software that runs every day.
       </p>
       <p>
         My current default kit for artificial intelligence consulting services: Anthropic Claude (frontier for reasoning and long-context work, smaller variants for high-volume classification), OpenAI's flagship GPT where it specifically wins, MCP servers and the Claude Agent SDK for tool-using agents, and custom skills that encode team standards. Harness depends on the team: Claude Code, Cursor, Codex, OpenClaw, Cline, Aider — whichever fits.
@@ -214,7 +214,7 @@ const processSteps = [
         Where the large AI consulting firms break down for startups and growing companies: the strategy layer and the implementation layer are different people. A partner writes the roadmap. A junior team implements it. By the time implementation starts, the strategy is already stale — and no one on the implementation team has the context to push back on it. You end up with a perfectly executed plan for the problem you had six months ago.
       </p>
       <p>
-        I am the same person writing the roadmap and shipping the code. When the model behavior surprises us mid-integration, I update the strategy in the same afternoon, not in a follow-up engagement. When a new model drops and changes what was the right call two months ago, I catch it and bring it to you. That is what a fractional AI lead actually is — someone who holds the whole picture, not just the deliverable they were scoped for.
+        I am the same person writing the roadmap and shipping the code. When the model behavior surprises us mid-integration, I update the strategy in the same afternoon, not in a follow-up engagement. When a new model drops and changes what was the right call two months ago, I catch it and bring it to you. That is what an AI lead on retainer actually is — someone who holds the whole picture, not just the deliverable they were scoped for.
       </p>
       <p>
         I will not pretend I am the right hire for every job. If your engagement is genuinely 6 hours of scripting, post on Upwork. If you need an army, hire an agency. If you need one focused AI consultant who does the strategy and the build — that is the lane RDTS exists for.
@@ -242,7 +242,7 @@ const processSteps = [
         <details class="card-cream p-6 lg:p-7 group">
           <summary class="cursor-pointer flex justify-between items-start gap-6">
             <span class="display-h3">{item.q}</span>
-            <span class="text-saffron text-2xl leading-none transition-transform group-open:rotate-45">+</span>
+            <span class="text-saffron-shadow text-2xl leading-none transition-transform group-open:rotate-45">+</span>
           </summary>
           <div class="mt-5 text-coal-dim leading-relaxed">
             {item.a}
@@ -260,7 +260,7 @@ const processSteps = [
           Tell the duck what you're <span class="accent-saffron">building</span>
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          Five-minute conversation with the duck — no scoping form, no slide deck. You describe the situation, the duck reads the shape of the AI consulting engagement, names a price, and a brief lands in both our inboxes. If I am the wrong fit, the duck says so. You can also see the rest of the work on <a href="/work/" class="link-saffron">the work page</a>.
+          A short conversation with the duck, no slide deck. You describe the situation, the duck reads the shape of the AI consulting engagement, and a brief lands in my inbox. Pricing comes on the call. If I am the wrong fit, the duck says so. You can also see the rest of the work on <a href="/work/" class="link-saffron">the work page</a>.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
