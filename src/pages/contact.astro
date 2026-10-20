@@ -30,8 +30,10 @@ const calendlyUrl = 'https://calendly.com/nguy4227/let-s-connect-project-role-or
       <div class="col-span-12 lg:col-span-8 lg:col-start-3">
         <div class="card-cream p-7 lg:p-8 mb-5">
           <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">Email</div>
-          <h2 class="text-[26px] font-semibold tracking-tight2 text-coal mb-3">
-            <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@rubberducktechsolutions.com</a>
+          {/* The address can't hyphenate: break after the @ on narrow phones
+              instead of pushing the page wider than the viewport. */}
+          <h2 class="text-[22px] sm:text-[26px] font-semibold tracking-tight2 text-coal mb-3 [overflow-wrap:anywhere]">
+            <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@<wbr />rubberducktechsolutions.com</a>
           </h2>
           <p class="text-[15px] text-coal-dim leading-[1.65]">
             Tell me what your company does, what the AI situation looks like right now, and your

@@ -294,7 +294,17 @@ const faqSchema = {
       <p class="text-bone-dim text-lg leading-relaxed mb-12 max-w-3xl">
         These are the recurring pieces of a retainer engagement, not one-off project deliverables. The mix shifts month to month based on what the audit found and what the team needs next.
       </p>
-      <div class="overflow-x-auto rounded-2xl border border-ink-border" tabindex="0">
+      {/* Phones get the same rows as stacked cards; three columns don't fit at 390 px. */}
+      <div class="md:hidden space-y-4">
+        {shapes.map((shape) => (
+          <div class="card-dark p-6">
+            <h3 class="text-bone font-semibold text-lg">{shape.name}</h3>
+            <p class="font-mono text-xs uppercase tracking-wider text-bone-dim mt-1">{shape.buyer}</p>
+            <p class="text-bone-dim leading-relaxed mt-3">{shape.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="hidden md:block overflow-x-auto rounded-2xl border border-ink-border" tabindex="0">
         <table class="w-full text-left text-bone">
           <thead class="bg-ink-card text-bone-dim">
             <tr>
