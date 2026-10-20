@@ -305,7 +305,10 @@ const description = 'Short conversation with the duck. Tell it what you need —
         sendBtn.disabled = busy;
         input.disabled = busy;
         sendBtn.classList.toggle('opacity-50', busy);
-        composerStatus.textContent = busy ? 'duck is thinking…' : sendHint;
+        // On touch the status slot is empty and hidden so Send spans the row;
+        // filling it mid-turn would shrink Send, so the button carries the state.
+        if (sendHint) composerStatus.textContent = busy ? 'duck is thinking…' : sendHint;
+        else sendBtn.textContent = busy ? 'Duck is thinking…' : 'Send →';
       }
 
       async function sendTurn(userText) {
