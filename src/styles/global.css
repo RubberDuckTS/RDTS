@@ -116,7 +116,8 @@
     text-decoration-line: underline;
     text-decoration-color: theme('colors.saffron.DEFAULT');
     text-decoration-thickness: 0.12em;
-    text-underline-offset: 0.1em;
+    /* Sits on the same rows as the `_` cursor glyph, so the line doesn't step. */
+    text-underline-offset: 0.055em;
     text-decoration-skip-ink: none;
   }
 
@@ -291,6 +292,8 @@
     margin-top: 2.5em;
     margin-bottom: 0.8em;
   }
+  /* The section label already sits above an opening h2. */
+  .prose-rdts > h2:first-child { margin-top: 0; }
   .prose-rdts h3 {
     font-size: clamp(20px, 2.4vw, 26px);
     font-weight: 600;
