@@ -345,4 +345,17 @@
     border-top: 1px solid theme('colors.cream.border');
     margin: 2.5em 0;
   }
+
+  /* Prose inside <Section tone="dark">: the defaults above are coal-on-cream,
+     which renders near-invisible (1.04:1) on ink. Swap to the dark palette. */
+  .section-dark .prose-rdts {
+    --prose-text: theme('colors.bone.DEFAULT');
+    --prose-muted: theme('colors.bone.dim');
+    --prose-link: theme('colors.saffron.DEFAULT');
+  }
+  .section-dark .prose-rdts a:hover { color: theme('colors.saffron.light'); }
+  .section-dark .prose-rdts code { background: theme('colors.ink.card'); }
+  .section-dark .prose-rdts th,
+  .section-dark .prose-rdts td,
+  .section-dark .prose-rdts hr { border-color: theme('colors.ink.border'); }
 }
