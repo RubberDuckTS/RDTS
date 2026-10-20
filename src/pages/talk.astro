@@ -52,7 +52,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
               like any chat; JS scrolls to bottom on each new message. */}
           <div id="thread" role="log" aria-live="polite" aria-atomic="false" aria-label="Conversation with the duck" class="flex flex-col space-y-5 mb-5 flex-1 min-h-0 overflow-y-auto">
             <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
-              <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
+              <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 w-14 mt-0.5">Duck&nbsp;01</span>
               <span>Tell me about the company — what do you do and roughly how big is the team?</span>
             </div>
           </div>
@@ -68,10 +68,9 @@ const description = 'Short conversation with the duck. Tell it what you need —
               maxlength="4000"
             ></textarea>
             <div class="flex items-center justify-between gap-3 pt-3">
-              {/* The keyboard hint only makes sense with a keyboard: hidden on touch. */}
-              <span id="composer-status" class="font-mono text-[11px] tracking-[0.06em] text-coal-mute">
-                <span class="hidden [@media(pointer:fine)]:inline">⌘ + Enter to send</span>
-              </span>
+              {/* Filled by the script: the keyboard hint with a fine pointer, nothing on
+                  touch. Empty, it drops out of the row so Send takes the full width. */}
+              <span id="composer-status" class="font-mono text-[11px] tracking-[0.06em] text-coal-mute empty:hidden"></span>
               <button id="send-btn" type="submit" class="btn btn-dark text-[14px] py-3 px-5">
                 Send →
               </button>
@@ -246,7 +245,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
         const wrap = document.createElement('div');
         wrap.className = 'flex gap-3 text-[15px] leading-[1.65]';
         const tag = document.createElement('span');
-        tag.className = 'font-mono text-[10px] tracking-spec uppercase shrink-0 mt-0.5';
+        tag.className = 'font-mono text-[10px] tracking-spec uppercase shrink-0 w-14 mt-0.5';
         const body = document.createElement('span');
         body.className = role === 'duck' ? 'text-coal-dim' : 'text-coal';
         body.textContent = text;
@@ -301,6 +300,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
       }
 
       const sendHint = window.matchMedia('(pointer: fine)').matches ? '⌘ + Enter to send' : '';
+      composerStatus.textContent = sendHint;
       function setBusy(busy) {
         sendBtn.disabled = busy;
         input.disabled = busy;
