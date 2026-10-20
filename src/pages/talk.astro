@@ -8,7 +8,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
 
 <BaseLayout title={title} description={description} noindex={false}>
   <section class="section-dark">
-    <div class="container-x pt-20 lg:pt-28 pb-12">
+    <div class="container-x pt-8 sm:pt-20 lg:pt-28 pb-12">
       <div class="grid grid-cols-12 gap-x-8 gap-y-8 items-center">
         <div class="col-span-12 lg:col-span-7">
           <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>Free · short conversation · no signup</span></div>
@@ -34,8 +34,10 @@ const description = 'Short conversation with the duck. Tell it what you need —
 
       {/* === Conversation panel === */}
       {/* Below lg the card grows with the conversation (capped, then the thread
-          scrolls), so a phone doesn't open on ~250 px of empty thread. */}
-      <div class="col-span-12 lg:col-span-7 card-cream overflow-hidden flex flex-col max-h-[600px] lg:max-h-none lg:h-[680px]">
+          scrolls), so a phone doesn't open on ~250 px of empty thread. At lg,
+          contain:size keeps the thread from sizing the row: the card stretches
+          to the sheet's height and the thread scrolls inside it. */}
+      <div class="col-span-12 lg:col-span-7 card-cream overflow-hidden flex flex-col max-h-[600px] lg:max-h-none lg:[contain:size] lg:min-h-[560px]">
         <div class="border-b border-cream-border px-5 py-3 flex items-center justify-between gap-3 bg-cream-light">
           <div class="flex items-center gap-3 min-w-0">
             <span class="status-pill__dot shrink-0"></span>
@@ -46,11 +48,10 @@ const description = 'Short conversation with the duck. Tell it what you need —
 
         <div class="p-6 lg:p-7 flex-1 flex flex-col min-h-0">
           {/* Message thread — populated by JS. Fixed-height parent + min-h-0 lets this
-              scroll internally instead of growing the card. mt-auto on the first child
-              keeps short conversations bottom-anchored without the flex justify-end
-              overflow-clipping bug; JS scrolls to bottom on each new message. */}
+              scroll internally instead of growing the card. Messages start at the top,
+              like any chat; JS scrolls to bottom on each new message. */}
           <div id="thread" role="log" aria-live="polite" aria-atomic="false" aria-label="Conversation with the duck" class="flex flex-col space-y-5 mb-5 flex-1 min-h-0 overflow-y-auto">
-            <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim mt-auto">
+            <div class="flex gap-3 text-[15px] leading-[1.65] text-coal-dim">
               <span class="font-mono text-[10px] tracking-spec uppercase text-saffron-shadow shrink-0 mt-0.5">Duck&nbsp;01</span>
               <span>Tell me about the company — what do you do and roughly how big is the team?</span>
             </div>
@@ -62,7 +63,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
             <textarea
               id="scope-input"
               class="w-full min-h-[120px] bg-cream-light border border-cream-border p-4 text-[15px] text-coal font-sans resize-y focus:outline-none focus:border-saffron-shadow rounded-soft placeholder:text-coal-mute/70"
-              placeholder="e.g. 30-person Series A. We've tried ChatGPT, Notion AI, a few others — nothing has stuck and we still don't have a real AI strategy. It feels like we're falling behind and no one owns it."
+              placeholder="e.g. 30-person Series A. We've tried ChatGPT and Notion AI, nothing stuck, and no one owns our AI strategy."
               required
               maxlength="4000"
             ></textarea>
