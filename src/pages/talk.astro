@@ -132,7 +132,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
             <input id="lead-honeypot" name="website" type="text" tabindex="-1" autocomplete="off"
               class="absolute left-[-9999px] opacity-0 pointer-events-none" aria-hidden="true"/>
             <button id="lead-submit" type="submit" class="btn btn-primary text-[13px] mt-1">
-              Email this brief to me
+              Send this brief to Long
             </button>
             <a href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener"
                class="btn btn-outline-dark text-[13px]">
@@ -403,7 +403,7 @@ const description = 'Short conversation with the duck. Tell it what you need —
           leadError.textContent = 'Send failed: ' + err.message;
           leadError.classList.remove('hidden');
           leadSubmit.disabled = false;
-          leadSubmit.textContent = 'Email this brief to me';
+          leadSubmit.textContent = 'Send this brief to Long';
         }
       });
     })();

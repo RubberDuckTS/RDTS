@@ -23,20 +23,12 @@ const collectionSchema = {
 
 const caseStudies = [
   {
-    title: 'Rumble of Ages — Gachapon game',
-    shape: 'Software build',
-    status: 'Alpha',
-    link: 'https://rumbleofages.com',
-    linkLabel: 'Play the alpha →',
-    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in alpha at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Alpha means what it says — playable and improving in the open, not a finished launch.',
-  },
-  {
-    title: 'Lee De Card — Creator booking platform',
+    title: 'LeedECard — Digital business card SaaS',
     shape: 'Software build',
     status: 'Shipped',
     link: 'https://leedecard.com',
     linkLabel: 'Visit the site →',
-    body: 'A booking platform for a creator who needed a workflow that did not exist in any off-the-shelf tool. AI-assisted matching between event briefs and the creator\'s availability, a clean public booking surface, and an admin panel the operator actually wants to open every morning. Started life as a Zapier mess; ended as a typed Next.js app.',
+    body: 'A digital business card with lead capture and AI follow-up, live at leedecard.com. Each card shares by link or QR code with a booking link; everyone who reaches out is saved as a scored lead, and AI drafts the follow-up email. A Next.js app with Stripe billing.',
   },
   {
     title: 'Dragon Wagons — Content automation backend',
@@ -45,6 +37,14 @@ const caseStudies = [
     link: 'https://dragonwagonkc.com',
     linkLabel: 'Visit the site →',
     body: 'Marketing site plus the content automation backend that feeds it. Scheduled generation, prompt library, output review queue, and a small dashboard for the team running the content calendar. Boring infrastructure done right so the AI work on top has somewhere stable to live.',
+  },
+  {
+    title: 'Rumble of Ages — Gachapon game',
+    shape: 'Software build',
+    status: 'Alpha',
+    link: 'https://rumbleofages.com',
+    linkLabel: 'Play the alpha →',
+    body: 'A gachapon game — the pull-collect-and-build loop — built from scratch and now in alpha at rumbleofages.com. A different lane from the AI work, same discipline: a real product shipped solo and put live for players to break. Alpha means what it says — playable and improving in the open, not a finished launch.',
   },
   {
     title: 'Content team Claude Code setup',
@@ -138,7 +138,7 @@ const statusStyles = {
         The tag on each case study — Software build, Tuneup, Workspace — names the recognizable shape the engagement actually took, not a tier in a SaaS price grid. A Software build is what it sounds like: a new thing that needed to exist. A Tuneup is one person's AI environment, dialed in. A Workspace is a small team's shared setup. A Rollout is the agency-scale version. A Quick fix is a single-day job with one deliverable.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed mb-6">
-        You do not pick a shape in advance. The duck reads what you describe on the call and names the shape that fits. Most engagements end up being one shape, cleanly. Some are a build plus a Tuneup on the same project. The duck quotes whichever combination is honest.
+        You do not pick a shape in advance. The duck reads what you describe and names the shape that fits. Most engagements end up being one shape, cleanly. Some are a build plus a Tuneup on the same project. Long prices whichever combination is honest on the call.
       </p>
       <p class="text-bone-dim text-lg leading-relaxed">
         The full shape breakdown lives on <a href="/services/" class="link-saffron">the services page</a>. The case studies marked "coming soon" will fill in as engagements wrap and clients sign off on writeups.
@@ -155,7 +155,7 @@ const statusStyles = {
           Talk to the duck about your project
         </h2>
         <p class="text-bone-dim text-lg leading-relaxed mb-10">
-          Describe what your team is doing, what is broken, what you wish was true. The duck reads the shape, quotes the work, and either books the next step or sends you somewhere better. Thirty minutes. No scoping form. No slide deck. Real numbers on the call.
+          Describe what your team is doing, what is broken, what you wish was true. The duck reads the shape and sends Long a brief, or points you somewhere better if this is not the right fit. A short chat, no slide deck. Real numbers on the call.
         </p>
         <div class="flex flex-wrap gap-4">
           <a href="/talk/" class="btn btn-primary">Talk to the duck &rarr;</a>
