@@ -5,9 +5,11 @@ const isActive = (href: string) => pathname === href || pathname.startsWith(href
 const links = [
   { href: '/services/', label: 'Services' },
   { href: '/work/',     label: 'Work' },
-  { href: '/learn/',    label: 'Learn' },
   { href: '/about/',    label: 'About' },
+  { href: '/learn/',    label: 'Learn' },
+  { href: '/contact/',  label: 'Contact' },
 ];
+const BOOKING = 'https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration';
 ---
 
 <nav
@@ -40,10 +42,11 @@ const links = [
     </div>
 
     <a
-      href="/talk/"
+      href={BOOKING}
+      data-guide-book
       class="hidden sm:inline-flex items-center gap-2 bg-saffron hover:bg-saffron-light text-coal font-semibold rounded-pill px-5 py-2.5 text-[14px] transition-colors"
     >
-      Talk to the duck →
+      Book a free call →
     </a>
 
     <button
@@ -77,7 +80,7 @@ const links = [
         </li>
       ))}
       <li class="p-4">
-        <a href="/talk/" class="btn btn-primary w-full">Talk to the duck →</a>
+        <a href={BOOKING} data-guide-book class="btn btn-primary w-full">Book a free call →</a>
       </li>
     </ul>
   </div>

@@ -1,0 +1,19 @@
+---
+import { CONTACT } from '../lib/site/contact';
+interface Props { head?: string; body?: string; ask?: string; }
+const { head = 'Want to know what this would look like for you?', body = 'A free call, 15 to 45 minutes. Long reads your notes first and tells you straight what is worth doing.', ask } = Astro.props;
+---
+<section class="chapter chapter--tight">
+  <div class="container-x">
+    <div class="glass p-7 lg:p-12 text-center">
+      <h2 class="display-h2 mx-auto max-w-[22ch] mb-4">{head}</h2>
+      <p class="text-[17px] text-bone-dim leading-[1.6] max-w-[52ch] mx-auto mb-8">{body}</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a class="btn btn-primary" href={CONTACT.booking} data-guide-book>Book a free call →</a>
+        {ask ? <button type="button" class="btn btn-outline-light" data-guide-ask={ask}>Ask the duck first</button>
+             : <a class="btn btn-outline-light" href="/talk/" data-guide-open>Ask the duck first</a>}
+      </div>
+      <p class="mt-6 text-[13px] text-bone-mute">Or email <a class="link-saffron" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>{CONTACT.phone && <> · <a class="link-saffron" href={`tel:${CONTACT.phone.e164}`}>{CONTACT.phone.display}</a></>}</p>
+    </div>
+  </div>
+</section>

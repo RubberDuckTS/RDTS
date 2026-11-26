@@ -1,295 +1,267 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import { SERVICES } from '../lib/site/services';
+import { WORK } from '../lib/site/work';
+import { CONTACT } from '../lib/site/contact';
 
-const title = "AI Consultant & Developer | Rubber Duck Tech Solutions";
-const description = "AI consultant and developer for growing companies: custom software and websites, AI wired into your workflows, and team training. Project or retainer.";
+const title = 'AI Consultant & Developer in Kansas City | Rubber Duck Tech Solutions';
+const description = 'Most businesses are still just chatting with ChatGPT. Long Nguyen picks the right AI tools, builds AI agents that do real work, and builds the software and websites around them. Book a free call.';
 
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Rubber Duck Tech Solutions',
-  url: 'https://www.rubberducktechsolutions.com/',
-  description,
-};
+const faqs = [
+  { q: 'What does an AI consultant actually do for a small business?', a: 'Finds the repeated work in your business that AI can take over, picks the tools that do it well at a sensible cost, sets them up and trains your team. Long also builds the custom pieces off-the-shelf tools can\'t do, like agents wired into your own systems.' },
+  { q: 'Am I overpaying for AI tools?', a: 'Often, yes. Many AI products are a thin layer over the same few models, and businesses end up paying several subscriptions for overlapping features. Long checks what you pay for, what you use, and what could be replaced with something you own.' },
+  { q: 'Can AI run privately, without sending our data to the cloud?', a: 'Yes. Open models can run on your own hardware or private cloud. Long runs and fine-tunes local models on in-house GPUs, so he can tell you honestly when private AI is worth it and when a cloud model is the better deal.' },
+  { q: 'I\'m not technical. Is this for me?', a: 'Yes. Long explains things in plain English, recommends one option instead of ten, and sets things up so your team can use them without becoming engineers.' },
+  { q: 'How much does it cost?', a: 'It depends on scope. Long sets real numbers on the first call once he understands the work. The first call is free.' },
+  { q: 'Where are you based?', a: 'Kansas City, Missouri. Long works fully remote with businesses across the US.' },
+  { q: 'Can you put an AI guide like this one on my website?', a: 'Yes. The duck on this site is one of Long\'s builds: it answers from a fixed set of facts, won\'t invent prices or promises, and books calls. He builds the same for other businesses.' },
+];
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+const websiteSchema = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Rubber Duck Tech Solutions', url: `${CONTACT.site}/`, description };
 
-const shapes = [
-  {
-    tag: '01 · build & maintain',
-    head: 'You need something built — or kept running.',
-    body: 'A custom app, an internal tool, a website, a dashboard, an integration — with AI baked in where it earns its place. New build or ongoing upkeep of what you already have. I ship it and I maintain it.',
-    href: '/talk/',
-  },
-  {
-    tag: '02 · AI integration & automation',
-    head: 'You want AI wired into how you already work.',
-    body: 'Automations, agents, and LLM features connected to the systems you already pay for — CRM, repos, support, drives. Not a demo environment. Real work moved off your team\'s plate.',
-    href: '/talk/',
-  },
-  {
-    tag: '03 · ongoing AI partner',
-    head: 'You want a senior AI person, not a full-time hire.',
-    body: 'On retainer, I own your AI direction — vet the tools, run the experiments, train the team, keep the stack current. One accountable person instead of a head-of-AI hire you can\'t justify yet.',
-    href: '/talk/',
-  },
+const range = [
+  { name: 'Language models', icon: 'chip', plain: 'Assistants that read, write, answer and decide.', detail: 'Claude, GPT, Gemini, and open models like Qwen running locally and fine-tuned.' },
+  { name: 'Agents & automation', icon: 'agent', plain: 'AI that takes actions in your tools, not just chats.', detail: 'Tool use, MCP servers, approvals, logs and fallbacks.' },
+  { name: 'Search over your data', icon: 'search', plain: 'Answers from your own documents, not the internet.', detail: 'Retrieval (RAG), hybrid search and grounding checks.' },
+  { name: 'Voice', icon: 'mic', plain: 'Voices that sound human, for support lines, apps and video.', detail: 'Voice cloning and TTS with emotional cues: Drama 3, Zonos 3, ElevenLabs.' },
+  { name: 'Video & motion', icon: 'film', plain: 'Video, lip-sync and character motion without a film crew.', detail: 'Local video generation, lip-sync and motion models.' },
+  { name: 'Images & 3D', icon: 'cube', plain: 'Product shots, characters and 3D models on demand.', detail: 'Image models, Tripo 3D and VRoid pipelines.' },
+] as const;
+
+const overpay = [
+  { bad: 'Five AI subscriptions that overlap and nobody fully uses', good: 'One or two tools picked for the work you actually do' },
+  { bad: 'Paying per seat for a "custom AI" that is a wrapper on ChatGPT', good: 'The same thing built on the underlying model, owned by you' },
+  { bad: 'Sending customer data to whichever app was easiest', good: 'Private or self-hosted models where your data matters' },
+  { bad: 'A chatbot that invents answers in front of customers', good: 'Agents grounded in your own information, with guardrails' },
 ];
 
-const capabilities = [
-  {
-    no: '01',
-    title: 'Signal filtering',
-    desc: 'A new model or tool drops every week. I read the releases, run the evals, and tell you which three actually matter — so you\'re not reacting to every announcement.',
-  },
-  {
-    no: '02',
-    title: 'Stack decisions',
-    desc: 'Which model for which job. Which agent framework is actually production-ready. Which integrations are worth the implementation cost. Opinionated recommendations, not a list of options.',
-  },
-  {
-    no: '03',
-    title: 'Agents & automation',
-    desc: 'Long-running, tool-using agents that own the repeated work — research, content drafts, ops triage, code review. Scoped to what your team actually does. See <a href="/services/ai-automation-agency/" class="link-coal">AI automation</a>.',
-  },
-  {
-    no: '04',
-    title: 'Integrations',
-    desc: 'MCP servers and API wiring into the systems you already pay for — CRM, CMS, analytics, support, repos, drives. Connected to your stack, not a demo environment. See <a href="/services/ai-developer-for-hire/" class="link-coal">AI consulting</a>.',
-  },
-  {
-    no: '05',
-    title: 'Monthly retainer',
-    desc: 'One person, on retainer, keeping up with AI so your team doesn\'t have to. Available for decisions, reviews, and rapid-fire questions without spinning up a full engagement.',
-  },
-  {
-    no: '06',
-    title: 'Team rollout',
-    desc: 'Role-specific configs, walkthroughs, and a written playbook. The point is the team is using it in month three — not just month one.',
-  },
+const featured = WORK.filter(w => w.featured).slice(0, 4);
+const offers = [
+  { tag: 'Start here', name: 'AI tools check', body: 'A consult on what you use, what you pay and what to change. You leave knowing what to keep, what to drop and what to build first.', ask: "Can you check if I'm overpaying for AI tools?", href: '/services/ai-consulting/' },
+  { tag: 'Then', name: 'One agent or automation', body: 'Pick the single task that eats the most time. Long builds an agent or automation for it inside the tools you already use.', ask: 'I want one agent for my business', href: '/services/ai-automation-agency/' },
+  { tag: 'The full build', name: 'Your own AI operating system', body: 'One system that connects your machines, tools and agents, runs work remotely and adds abilities over time. Modelled on the one Long runs his own work on.', ask: 'Tell me about a custom AI operating system', href: '/services/ai-operating-system/' },
 ];
-
-const tools = [
-  { slug: 'claude-code-setup', name: 'Claude Code', tag: 'Anthropic · terminal-native dev agent' },
-  { slug: 'openclaw-setup',    name: 'OpenClaw',    tag: 'open-source coding agent' },
-  { slug: 'codex-setup',       name: 'Codex',       tag: 'OpenAI · coding agent' },
-  { slug: 'cursor-setup',      name: 'Cursor',      tag: 'AI-first IDE' },
-  { slug: 'cline-setup',       name: 'Cline',       tag: 'VS Code agent extension' },
-  { slug: 'aider-setup',       name: 'Aider',       tag: 'terminal pair programmer' },
-  { slug: 'hermes-agent-setup',name: 'Hermes',      tag: 'autonomous task agent' },
-];
-
 const steps = [
-  {
-    no: '01',
-    title: 'Talk to the duck',
-    detail: 'Free 5-minute conversation. Walk me through where your team is today and what\'s slowing you down. No deck, no funnel.',
-  },
-  {
-    no: '02',
-    title: 'Long gets the brief',
-    detail: 'The duck sends me a one-page brief. I follow up within 24 hours, and we set scope and price on a call: what the work covers, what comes first, what\'s out of scope. Sign or pass.',
-  },
-  {
-    no: '03',
-    title: 'I keep up. You ship.',
-    detail: 'On retainer, I track the firehose and filter it to what matters for your specific context. You get clear decisions, not a list of things to evaluate.',
-  },
+  { title: 'Free call', detail: 'Tell Long (or the duck) what the business does and where time goes. 15 to 45 minutes, no deck.' },
+  { title: 'A plain-English plan', detail: 'What to use, what to build, what to stop paying for, and what it costs. Scope and price are agreed before work starts.' },
+  { title: 'Built, set up, kept running', detail: 'Long builds it, sets it up with your team, and maintains it, or stays on as your AI partner on retainer.' },
 ];
 ---
 
-<BaseLayout title={title} description={description} schema={websiteSchema}>
-  {/* === HERO (DARK) === */}
-  <section class="section-dark relative overflow-hidden">
-    <div
-      class="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.08]"
-      style="background: radial-gradient(circle, #FFC83D 0%, transparent 65%);"
-      aria-hidden="true"
-    />
+<BaseLayout title={title} description={description} schema={[websiteSchema, faqSchema]} bodyClass="home-3d">
+  <div class="stage" aria-hidden="true">
+    <div class="stage__fallback"><img src="/logo-rdts-light.webp" alt="" width="420" height="420" fetchpriority="low" /></div>
+    <canvas class="stage__canvas" data-duck-canvas></canvas>
+    <div class="stage__scrim"></div>
+  </div>
 
-    <div class="container-x pt-8 sm:pt-16 lg:pt-36 pb-8 sm:pb-20 lg:pb-28 relative">
-      <div class="status-pill mb-7 lg:mb-8">
-        <span class="status-pill__dot"></span>
-        <span>// AI consultant &amp; developer</span>
-      </div>
-
-      <h1 class="display-h1 max-w-[24ch] mb-6 lg:mb-8">
-        I build the software,<br/>
-        <span class="accent-saffron">and the AI inside it.</span><span class="cursor"></span>
-      </h1>
-
-      <div class="space-y-5 text-[18px] lg:text-[20px] text-bone-dim leading-[1.55] max-w-[62ch] mb-10">
-        <p>
-          An AI-focused developer and consultant for growing companies. I build and maintain
-          custom software and websites, wire AI into how your team already works, and train
-          people to actually use it &mdash; as a one-off project or an ongoing retainer.
+  <section id="s-hero" data-guide-section="hero" class="chapter chapter--hero">
+    <div class="container-x">
+      <div class="hero-copy">
+        <div class="status-pill mb-7">
+          <span class="status-pill__dot"></span>
+          <span>// AI consultant &amp; developer · {CONTACT.city}</span>
+        </div>
+        <h1 class="display-h1 mb-6 max-w-[15ch]">
+          Most businesses still just chat with ChatGPT.
+          <span class="accent-saffron">Let's put AI to work.</span>
+        </h1>
+        <p class="hero-lead">
+          Long Nguyen picks the AI tools that fit your business, builds agents that take real work off
+          your team, and builds the software and websites around them. Plain English, no hype, and
+          honest about what you can stop paying for.
         </p>
-        <p>
-          I work like a forward-deployed engineer: I scope it, build it, and I'm the one who
-          answers when it breaks at 2am. One senior person, accountable end to end &mdash; no
-          junior bench, no handoff.
+        <div class="flex flex-col sm:flex-row gap-3 mt-9">
+          <a class="btn btn-primary" href={CONTACT.booking} data-guide-book>Book a free call →</a>
+          <a class="btn btn-outline-light" href="/talk/" data-guide-open>Ask the duck</a>
+        </div>
+        <ul class="trust">
+          <li>Shipping production code since 2018</li>
+          <li>Runs and fine-tunes AI on in-house GPUs</li>
+          <li>The person you talk to builds it</li>
+        </ul>
+      </div>
+    </div>
+    <a href="#s-overpay" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+  </section>
+
+  <section id="s-overpay" data-guide-section="overpay" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">Are you overpaying for AI?</div>
+        <h2 class="display-h2">Most AI products are built on the same few models.<br/><span class="accent-saffron">You might not need to rent them.</span></h2>
+        <p class="text-[17px] text-bone-dim leading-[1.65] max-w-[60ch] mt-5">
+          Under the logos, a lot of AI software is a thin layer over the same handful of models and open-source tools.
+          Long knows that layer from the inside, so he can tell you when a subscription earns its price, and when
+          the same thing can be built once, owned by you, for less.
         </p>
       </div>
-
-      <div class="flex flex-col sm:flex-row gap-3">
-        <a class="btn btn-primary" href="/talk/">
-          Talk to the duck →
-        </a>
-        <a class="btn btn-outline-light" href="#shapes">
-          See what I take on
-        </a>
+      <div class="compare mt-10">
+        <div class="glass p-6 lg:p-7 bad reveal">
+          <b class="block text-[13px] font-mono tracking-spec uppercase mb-4">What we usually find</b>
+          <ul class="tick-list">{overpay.map(o => <li>{o.bad}</li>)}</ul>
+        </div>
+        <div class="glass p-6 lg:p-7 good reveal">
+          <b class="block text-[13px] font-mono tracking-spec uppercase mb-4">What Long sets up instead</b>
+          <ul class="tick-list">{overpay.map(o => <li>{o.good}</li>)}</ul>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 mt-8">
+        <button type="button" class="btn btn-primary" data-guide-ask="Can you check if I'm overpaying for AI tools?">Get a free AI tools check →</button>
+        <a class="btn btn-outline-light" href="/services/ai-consulting/">How AI consulting works</a>
       </div>
     </div>
   </section>
 
-  {/* === THREE BUYER-SEGMENT SHAPES (DARK) === */}
-  <Section tone="dark" label="Who this is for" id="shapes">
-    <div class="grid grid-cols-12 gap-x-6 gap-y-8">
-      <div class="col-span-12 lg:col-span-5">
-        <h2 class="display-h2 mb-5">
-          Does this<br/>
-          <span class="accent-saffron">sound familiar?</span>
-        </h2>
-        <p class="text-[16px] text-bone-dim leading-[1.65] max-w-[44ch]">
-          Growing companies that need something built, integrated, or owned — with AI where it helps.
-          If none of these fit cleanly, <a href="/talk/" class="link-saffron">talk to the duck</a> and it'll route you.
-        </p>
+  <section id="s-offers" data-guide-section="offers" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">Ways to start</div>
+        <h2 class="display-h2">Start small.<br/><span class="accent-saffron">Grow into a system that runs the business.</span></h2>
       </div>
-      <div class="col-span-12 lg:col-span-7 grid grid-cols-1 gap-4">
-        {shapes.map((c) => (
-          <a
-            href={c.href}
-            class="card-dark p-6 lg:p-7 hover:-translate-y-0.5 hover:border-saffron/40 transition-all group block"
-          >
-            <div class="font-mono text-[11px] tracking-spec uppercase text-saffron mb-3">{c.tag}</div>
-            <h3 class="text-[22px] lg:text-[24px] font-semibold tracking-tight2 text-bone mb-3 group-hover:text-saffron transition-colors">{c.head}</h3>
-            <p class="text-[15px] text-bone-dim leading-[1.65]">{c.body}</p>
-            <div class="mt-4 font-mono text-[11px] tracking-spec uppercase text-bone-mute group-hover:text-saffron transition-colors">
-              Talk to the duck →
+      <div class="ladder mt-10">
+        {offers.map((o, i) => (
+          <div class:list={['glass p-6 lg:p-7 reveal ladder__step', i === offers.length - 1 && 'ladder__step--top']}>
+            <div class="font-mono text-[11px] tracking-spec uppercase text-saffron mb-3">{o.tag}</div>
+            <h3 class="text-[22px] font-semibold tracking-tight2 text-bone mb-2">{o.name}</h3>
+            <p class="text-[15px] text-bone-dim leading-[1.6] mb-5">{o.body}</p>
+            <div class="flex flex-wrap gap-4 items-center">
+              <button type="button" class="ask-link" data-guide-ask={o.ask}>Ask the duck →</button>
+              <a class="ask-link" href={o.href}>Details →</a>
             </div>
+          </div>
+        ))}
+      </div>
+      <p class="mt-5 text-[14px] text-bone-mute">Every engagement is scoped and priced on a free first call.</p>
+    </div>
+  </section>
+
+  <section id="s-services" data-guide-section="services" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">What Long does</div>
+        <h2 class="display-h2">Six ways to put AI to work.<br/><span class="accent-saffron">One person accountable.</span></h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+        {SERVICES.map(s => (
+          <a href={`/services/${s.slug}/`} class="glass glass--link p-6 lg:p-7 reveal block group">
+            <Icon name={s.icon} />
+            <h3 class="text-[21px] font-semibold tracking-tight2 text-bone mb-2 group-hover:text-saffron transition-colors">{s.name}</h3>
+            <p class="text-[15px] text-saffron-light mb-3">{s.question}</p>
+            <span class="ask-link">See how →</span>
           </a>
         ))}
       </div>
     </div>
-  </Section>
+  </section>
 
-  {/* === WHAT THE RETAINER COVERS (CREAM) === */}
-  <Section tone="cream" label="What the retainer covers" id="what">
-    <div class="grid grid-cols-12 gap-x-6 gap-y-8">
-      <div class="col-span-12 lg:col-span-5">
-        <h2 class="display-h2 mb-5">
-          One person.<br/>
-          <span class="accent-saffron">The whole picture.</span>
-        </h2>
-        <p class="text-[17px] text-coal-dim leading-[1.65] mb-3 max-w-[44ch]">
-          An AI lead on retainer isn't a consultant who shows up with a deck. It's an ongoing
-          relationship — someone who knows your stack, tracks the field, and tells you
-          what to do next.
-        </p>
-        <p class="text-[15px] text-coal-mute leading-[1.65] max-w-[44ch]">
-          Not sure what you actually need? <a href="/talk/" class="link-coal">Talk to the duck</a> and I'll tell you the right scope.
+  <section id="s-range" data-guide-section="range" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">Every kind of AI, not just chat</div>
+        <h2 class="display-h2">Most people use one kind of AI.<br/><span class="accent-saffron">Long works hands-on with all of them.</span></h2>
+        <p class="text-[17px] text-bone-dim leading-[1.65] max-w-[60ch] mt-5">
+          Language, voice, video, motion, images and 3D: he runs these models himself, on in-house GPUs and in the
+          cloud, and has built a working system that ties them together. That is why the advice is specific.
         </p>
       </div>
-
-      <div class="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {capabilities.map((c) => (
-          <div class="card-cream p-6">
-            <div class="font-mono text-[11px] tracking-spec uppercase text-coal-mute mb-3">{c.no}</div>
-            <h3 class="text-[20px] font-semibold tracking-tight2 text-coal mb-3">{c.title}</h3>
-            <p class="text-[14px] text-coal-dim leading-[1.6]" set:html={c.desc} />
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+        {range.map(r => (
+          <div class="glass p-6 reveal">
+            <Icon name={r.icon} />
+            <h3 class="text-[19px] font-semibold tracking-tight2 text-bone mb-1">{r.name}</h3>
+            <p class="text-[15px] text-bone mb-2">{r.plain}</p>
+            <p class="text-[13.5px] text-bone-mute">{r.detail}</p>
           </div>
         ))}
       </div>
     </div>
-  </Section>
+  </section>
 
-  {/* === THE STACK I ACTUALLY WORK ACROSS (DARK) === */}
-  <Section tone="dark" label="the stack I actually work across" id="tools">
-    <div class="grid grid-cols-12 gap-x-6 gap-y-8 items-end mb-10">
-      <div class="col-span-12 lg:col-span-7">
-        <h2 class="display-h2">
-          Not every tool.<br/>
-          <span class="accent-saffron">The ones that ship.</span>
-        </h2>
+  <section id="s-proof" data-guide-section="proof" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">Built &amp; shipped</div>
+        <h2 class="display-h2">The deep end, built in-house.<br/><span class="accent-saffron">In public.</span></h2>
       </div>
-      <div class="col-span-12 lg:col-span-5 text-[15px] text-bone-dim lg:text-right">
-        I work across agents, IDEs, and coding tools daily — so I know which ones are
-        production-ready<br class="hidden lg:block"/> and which are still demo ware.
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+        {featured.map((w, i) => (
+          <a href={`/work/${w.slug}/`} class:list={['glass glass--link p-6 lg:p-8 reveal block group', i === 0 && 'md:col-span-2']}>
+            <div class="font-mono text-[11px] tracking-spec uppercase text-saffron mb-3">{w.kind}</div>
+            <h3 class="text-[24px] lg:text-[28px] font-semibold tracking-tight2 text-bone mb-2 group-hover:text-saffron transition-colors">{w.name} →</h3>
+            <p class="text-[15px] text-bone-dim leading-[1.6] max-w-[70ch]">{w.summary}</p>
+            {w.numbers && <div class="stat-row mt-5">{w.numbers.map(n => <div class="stat" style="padding-left:0"><b>{n.value}</b><span>{n.label}</span></div>)}</div>}
+          </a>
+        ))}
       </div>
+      <p class="mt-6 text-[14px] text-bone-mute"><a class="link-saffron" href="/work/">All case studies →</a> · Numbers are Long's own measurements on in-house hardware.</p>
     </div>
+  </section>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {tools.map((t, i) => (
-        <a
-          href={`/solutions/${t.slug}/`}
-          class:list={[
-            'card-dark p-5 lg:p-6 hover:-translate-y-0.5 hover:border-saffron/40 transition-all group block',
-            // Stretch the last card across a final row it would otherwise sit in alone.
-            i === tools.length - 1 && tools.length % 2 === 1 && 'sm:col-span-2',
-            i === tools.length - 1 && tools.length % 3 === 1 && 'lg:col-span-3',
-            i === tools.length - 1 && tools.length % 2 === 1 && tools.length % 3 !== 1 && 'lg:col-span-1',
-          ]}
-        >
-          <div class="flex items-baseline justify-between mb-2">
-            <h3 class="text-[20px] font-semibold tracking-tight2 text-bone group-hover:text-saffron transition-colors">{t.name}</h3>
-            <span class="font-mono text-[10px] tracking-spec uppercase text-bone-mute group-hover:text-saffron transition-colors">→</span>
-          </div>
-          <div class="text-[13px] text-bone-dim leading-[1.55]">{t.tag}</div>
-        </a>
-      ))}
-    </div>
-  </Section>
-
-  {/* === HOW IT WORKS (CREAM) === */}
-  <Section tone="cream" label="How it works" id="how">
-    <div class="grid grid-cols-12 gap-x-4 lg:gap-x-8 gap-y-10">
-      <div class="col-span-12 lg:col-span-5">
-        <h2 class="display-h2 mb-5">
-          From <span class="accent-saffron">talk</span> to<br/>
-          <span class="accent-saffron">on retainer</span> in three steps.
-        </h2>
-        <p class="text-[17px] text-coal-dim leading-[1.65] mb-6 max-w-[44ch]">
-          Solo. No agency layers, no AE handoffs. The person you talk to first
-          is the person on retainer &mdash; one relationship, not a rotating cast.
-        </p>
-        <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
+  <section id="s-process" data-guide-section="process" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">How it works</div>
+        <h2 class="display-h2">From "where do I start?"<br/><span class="accent-saffron">to working AI, in three steps.</span></h2>
       </div>
-
-      <ol class="col-span-12 lg:col-span-7 grid grid-cols-1 gap-4">
-        {steps.map((s) => (
-          <li class="card-cream p-6 lg:p-7">
-            <div class="flex items-baseline gap-3 mb-3">
-              <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute">Step</span>
-              <span class="font-mono text-[28px] tracking-tight2 text-saffron-shadow leading-none tabular">{s.no}</span>
-            </div>
-            <h3 class="text-[22px] font-semibold tracking-tight2 text-coal mb-2">{s.title}</h3>
-            <p class="text-[15px] text-coal-dim leading-[1.65]">{s.detail}</p>
+      <ol class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10">
+        {steps.map((s, i) => (
+          <li class="glass p-6 lg:p-7 reveal">
+            <div class="font-mono text-[32px] tracking-tight2 text-saffron leading-none tabular mb-4">0{i + 1}</div>
+            <h3 class="text-[20px] font-semibold tracking-tight2 text-bone mb-2">{s.title}</h3>
+            <p class="text-[15px] text-bone-dim leading-[1.65]">{s.detail}</p>
           </li>
         ))}
       </ol>
     </div>
-  </Section>
+  </section>
 
-  {/* === FINAL CTA (DARK) === */}
-  <Section tone="dark">
-    <div class="grid grid-cols-12 gap-x-4 lg:gap-x-8 gap-y-8 items-center">
-      <div class="col-span-12 lg:col-span-8">
-        <div class="label mb-5">Next move</div>
-        <h2 class="display-h2 mb-5">
-          Stop fielding every<br/>
-          <span class="accent-saffron">AI question yourself.</span>
-        </h2>
-        <p class="text-[17px] text-bone-dim leading-[1.6] max-w-[58ch] mb-8">
-          Free 5-minute conversation. Tell the duck what your team is dealing with today;
-          it drafts a one-page brief as you talk and sends it to me, and we set the shape
-          and the price on a call.
-        </p>
-        <div class="flex flex-col sm:flex-row flex-wrap gap-3">
-          <a href="/talk/" class="btn btn-primary">Talk to the duck →</a>
-          <a href="/about/" class="btn btn-outline-light">About Long</a>
-        </div>
+  <section id="s-faq" data-guide-section="faq" class="chapter">
+    <div class="container-x">
+      <div class="chapter-head">
+        <div class="label mb-5">Straight answers</div>
+        <h2 class="display-h2">Questions people<br/><span class="accent-saffron">actually ask.</span></h2>
       </div>
-      <div class="col-span-12 lg:col-span-4 hidden lg:flex justify-end">
-        <img src="/logo-rdts-light.webp" alt="Rubber Duck Tech Solutions" width="240" height="240" loading="lazy" class="w-[240px] h-[240px] object-contain" />
+      <div class="faq mt-10">
+        {faqs.map(f => (<details class="glass"><summary><h3>{f.q}</h3></summary><p>{f.a}</p></details>))}
       </div>
     </div>
-  </Section>
+  </section>
+
+  <section id="s-book" data-guide-section="book" class="chapter chapter--book">
+    <div class="container-x text-center">
+      <div class="label mb-5">Next move</div>
+      <h2 class="display-h2 mx-auto max-w-[18ch]">Tell the duck what you need.<br/><span class="accent-saffron">Long takes it from there.</span></h2>
+      <p class="text-[17px] text-bone-dim leading-[1.6] max-w-[52ch] mx-auto mt-5 mb-9">A free call, 15 to 45 minutes. Long reads your notes before you meet, so you skip the "so, what do you do" part.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a class="btn btn-primary" href={CONTACT.booking} data-guide-book>Book a free call →</a>
+        <a class="btn btn-outline-light" href="/talk/" data-guide-open>Ask the duck first</a>
+      </div>
+      <p class="mt-6 text-[13px] text-bone-mute">Or email <a class="link-saffron" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
+    </div>
+  </section>
 </BaseLayout>
+
+<script>
+  import { detectTier } from '../scripts/tier';
+  const reveal = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('js-reveal');
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+    reveal.forEach(el => io.observe(el));
+  }
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-duck-canvas]');
+  const tier = detectTier();
+  if (canvas && tier) {
+    const start = async () => {
+      try {
+        const { startDuckScene } = await import('../scripts/duck-scene');
+        await startDuckScene(canvas, { tier, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches });
+        document.documentElement.classList.add('has-3d');
+      } catch (err) { console.warn('3D scene unavailable', err); }
+    };
+    const kick = () => ('requestIdleCallback' in window ? (window as any).requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 200));
+    if (document.readyState === 'complete') kick(); else window.addEventListener('load', kick, { once: true });
+  }
+</script>
