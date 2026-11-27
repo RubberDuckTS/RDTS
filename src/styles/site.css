@@ -126,3 +126,7 @@
 .js-arrive .chapter:focus-within .chapter-head > *, .js-arrive .chapter--book:focus-within .container-x > * { opacity: 1; transform: none; }
 /* Homepage: the docked guide stays low so the upper right of the frame belongs to the set pieces. */
 @media (min-width: 640px) { .home-3d .g-panel { height: min(480px, calc(100dvh - 300px)); min-height: 360px; } }
+/* While the docked guide is open on a wide screen, the homepage keeps a gutter for it so no card runs underneath. */
+@media (min-width: 1100px) {
+  .home-3d:has(.g-root[data-open="true"]) main .chapter:not(.chapter--hero) .container-x { padding-right: 440px; }
+}

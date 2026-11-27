@@ -28,6 +28,8 @@ const GLTF_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/loader
 /** three's own post-processing passes, from the same pinned CDN build. */
 const FX_URL = (p: string) => `https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/${p}/+esm`;
 /** Where the opening's glint crosses the glasses, in the duck's own space (beak down +x). */
+/** Turns the numbers on step and stone tops so they read upright from the camera. */
+const NUMBER_TURN = 2.0;
 const GLINT = { x: 0.34, y: 0.78, z0: -0.28, z1: 0.26 };
 const MODEL_BASE = (globalThis as { RDTS_MODEL_BASE?: string }).RDTS_MODEL_BASE ?? '/models/';
 /** Model files the scene looks for. Each one is optional. */
@@ -583,13 +585,13 @@ export const STATIONS: Station[] = [
   { id: 's-services', at: [5, 0, -21], cam: [0.5, 2.6, 6.4], look: [0, 1.05, 0], turn: 0.3, fr: [0.8, 0.26], frm: [0.5, 0.3], light: NIGHT },
   { id: 's-range', at: [-1, 0, -28], cam: [1.0, 2.3, 6.2], look: [0.6, 1.15, -0.8], turn: 0.3, fr: [0.8, 0.26], frm: [0.5, 0.3],
     light: { ...NIGHT, horizon: '#1f1d52', top: '#05041a', fog: '#0e0c2a', sun: '#4a3aa8' } },
-  { id: 's-proof', at: [-6, 0, -35], cam: [2.0, 1.5, 5.2], look: [1.0, 0.95, -0.5], turn: 0.55, fr: [0.8, 0.26], frm: [0.5, 0.3],
+  { id: 's-proof', at: [-6, 0, -35], cam: [2.0, 1.5, 5.2], look: [1.0, 1.2, -0.5], turn: 0.55, fr: [0.8, 0.31], frm: [0.5, 0.3],
     light: L({ key: '#56637d', keyI: 0.7, keyDir: [-3, 6, 2], rim: '#FDD02F', rimI: 2.8, sky: '#1a2030', ground: '#030405', hemiI: 0.55,
       top: '#020304', horizon: '#0b0f17', sun: '#20283a', fog: '#06080c', fogNear: 6, fogFar: 18, deep: '#020305', stars: 0, exposure: 1.0, bloom: 0.75, dust: '#FDD02F' }) },
   { id: 's-process', at: [-1, 0, -42], cam: [2.5, 2.7, 5.4], look: [1.5, 0.45, -0.8], turn: 0.4, fr: [0.8, 0.26], frm: [0.5, 0.3],
     light: L({ key: '#fff6e6', keyI: 3.0, keyDir: [3, 8, 4], rim: '#cfe6ff', rimI: 1.4, sky: '#b9d6ff', ground: '#33404f', hemiI: 1.6,
       top: '#2f6fc4', horizon: '#9cc8ee', sun: '#ffffff', fog: '#7fa9cf', fogNear: 12, fogFar: 34, deep: '#123a5e', stars: 0, exposure: 0.95, bloom: 0.35, dust: '#ffffff' }) },
-  { id: 's-faq', at: [4, 0, -49], cam: [1.7, 1.5, 5.2], look: [0.9, 1.0, -0.5], turn: 0.45, fr: [0.8, 0.26], frm: [0.5, 0.3],
+  { id: 's-faq', at: [4, 0, -49], cam: [1.7, 1.5, 5.2], look: [0.9, 1.25, -0.5], turn: 0.45, fr: [0.8, 0.31], frm: [0.5, 0.3],
     light: L({ key: '#ece4f2', keyI: 1.9, keyDir: [1, 7, 5], rim: '#ffd9a8', rimI: 1.4, sky: '#8c8fb0', ground: '#1a1b26', hemiI: 1.3,
       top: '#262a44', horizon: '#666b8c', sun: '#c9c2e0', fog: '#3e425c', fogNear: 9, fogFar: 28, deep: '#151826', stars: 0.1, exposure: 1.0, bloom: 0.45, dust: '#efe6ff' }) },
   { id: 's-book', at: [0, 0, -56], cam: [1.6, 1.5, 5.6], look: [0.6, 0.65, -0.25], turn: 0.35, fr: [0.79, 0.28], frm: [0.5, 0.26],
@@ -752,7 +754,9 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     const stepMat = toon(LOGO.slate);
     [[1.0, 0.3, -0.4, 0.42], [2.0, 0.75, -1.1, 0.5], [3.1, 1.3, -1.9, 0.62]].forEach(([x, h, z, r], i) => {
       const top = toon('#ffffff', { map: numberFace(i + 1) });
-      st.add(inkScaled(mesh(new T.CylinderGeometry(r, r, h, 40), [stepMat, top, stepMat], [x, h / 2, z]), 0.04));
+      const step = inkScaled(mesh(new T.CylinderGeometry(r, r, h, 40), [stepMat, top, stepMat], [x, h / 2, z]), 0.04);
+      step.rotation.y = NUMBER_TURN;
+      st.add(step);
     });
     const hq = buildHQ();
     holder(st, hq, [3.1, 1.3, -1.9], 0.9, -0.35);
@@ -775,7 +779,7 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     });
     return () => items.forEach((it, i) => {
       const a = lines[i].geometry.attributes.position;
-      (a.array as Float32Array).set([0, 0.7, 0, it.position.x, it.position.y, it.position.z]);
+      (a.array as Float32Array).set([0, 0.35, 0, it.position.x, it.position.y, it.position.z]);
       a.needsUpdate = true;
     });
   }
@@ -840,7 +844,9 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     const pts = [[0.9, -0.2], [1.9, -0.9], [2.9, -1.7]];
     pts.forEach(([x, z], i) => {
       const top = toon('#ffffff', { map: numberFace(i + 1) });
-      st.add(inkScaled(mesh(new T.CylinderGeometry(0.4, 0.45, 0.18, 36), [stoneMat, top, stoneMat], [x, 0.09, z]), 0.04));
+      const stone = inkScaled(mesh(new T.CylinderGeometry(0.4, 0.45, 0.18, 36), [stoneMat, top, stoneMat], [x, 0.09, z]), 0.04);
+      stone.rotation.y = NUMBER_TURN;
+      st.add(stone);
     });
     const dotMat = toon(LOGO.yellow);
     for (let i = 0; i < 2; i++) for (let k = 1; k < 4; k++) {
