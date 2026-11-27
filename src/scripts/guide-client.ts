@@ -405,11 +405,18 @@ export function initGuide(root: HTMLElement) {
   if (state.open) setOpen(true, 'restore');
   else if (firstVisit) {
     // Desktop: open the panel. Phones: a greeting bubble that doesn't cover the page.
-    setTimeout(() => {
+    const greet = () => {
       if (window.innerWidth >= 1024) setOpen(true, 'auto');
       else { peek.hidden = false; }
       say(GREETING.message);
-    }, 1400);
+    };
+    // On the homepage the opening shot plays first; the guide opens once the headline has landed.
+    if (document.documentElement.classList.contains('intro')) {
+      let done = false;
+      const go = () => { if (done) return; done = true; setTimeout(greet, 900); };
+      window.addEventListener('scene:intro-done', go, { once: true });
+      setTimeout(go, 7000);
+    } else setTimeout(greet, 1400);
   } else {
     peek.hidden = state.dismissed;
   }

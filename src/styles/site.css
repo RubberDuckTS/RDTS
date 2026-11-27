@@ -51,7 +51,7 @@
 
   @media (max-width: 639px) {
     .chapter--hero { align-items: flex-end; padding-bottom: 6rem; }
-    .stage__scrim { background: linear-gradient(180deg, rgba(14,17,22,0) 0%, rgba(14,17,22,.25) 30%, rgba(14,17,22,.88) 58%); }
+    .stage__scrim { background: linear-gradient(180deg, rgba(10,12,16,.5) 0%, rgba(10,12,16,.62) 35%, rgba(10,12,16,.86) 70%); }
     .stage__fallback { place-items: start center; padding: 14vh 0 0; }
     .stage__fallback img { width: 52vw; }
     .scroll-cue { display: none; }
@@ -117,10 +117,12 @@
 .home-3d .glass { background: rgba(16,20,26,.88); }
 .home-3d .chapter-head h2, .home-3d .hero-copy h1 { text-shadow: 0 2px 24px rgba(0,0,0,.55); }
 .home-3d .chapter-head p, .home-3d .hero-lead { text-shadow: 0 1px 12px rgba(0,0,0,.6); }
-.home-3d .chapter--book::before { content: ""; position: absolute; inset: 8% 10%; background: radial-gradient(closest-side, rgba(10,12,16,.82), rgba(10,12,16,.55) 60%, rgba(10,12,16,0)); pointer-events: none; z-index: -1; }
+.home-3d .chapter--book::before { content: ""; position: absolute; inset: 10% 22%; background: radial-gradient(closest-side, rgba(10,12,16,.82), rgba(10,12,16,.55) 60%, rgba(10,12,16,0)); pointer-events: none; z-index: -1; }
 .home-3d .chapter--book { isolation: isolate; }
 .sound-toggle .motion-toggle__play { display: none; }
 .sound-toggle[aria-pressed="true"] .motion-toggle__play { display: inline; }
 .sound-toggle[aria-pressed="true"] .motion-toggle__pause { display: none; }
 /* Keyboard users reaching a section before the camera does still see its words. */
 .js-arrive .chapter:focus-within .chapter-head > *, .js-arrive .chapter--book:focus-within .container-x > * { opacity: 1; transform: none; }
+/* Homepage: the docked guide stays low so the upper right of the frame belongs to the set pieces. */
+@media (min-width: 640px) { .home-3d .g-panel { height: min(480px, calc(100dvh - 300px)); min-height: 360px; } }

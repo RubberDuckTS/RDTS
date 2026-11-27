@@ -23,3 +23,13 @@ If a model faces the wrong way, add `public/models/manifest.json`, for example
 
 Sizes: duck under ~2.5 MB and ~30k triangles; each set piece under ~1 MB and ~10k triangles.
 No Draco or meshopt compression (the scene uses the plain glTF loader).
+
+## How the current models were made (Nov 2026)
+
+- duck-guide.glb: ChatGPT image turned the logo into a rounded toy render (three-quarter view), Tripo Studio
+  made it 3D (H3.5, 2K texture, 30k faces), then `tools/flatpaint.py` repainted it in the logo's flat colours
+  (yellow, orange beak, black glasses, white glints) with no texture, and dropped stray seam strokes:
+  `python tools/flatpaint.py in.glb public/models/duck-guide.glb "yellow=#FDD02F,orange=#F7931E,black=#141414,white=#FFF8E1,stroke=#8A8A8A" 3 3 "orange:150:1:0.7,black:40,white:4"`
+- The four set pieces: Gemini image in the logo's style, then Tripo image to 3D (2K texture, about 10k faces).
+- Generated models are made of overlapping shells, so they get an ink rim in their material instead of the
+  inverted-hull outline the built-in shapes use. The duck's beak sits 45 degrees off +z (MODEL_YAW).

@@ -571,28 +571,28 @@ const L = (l: Light) => l;
 const NIGHT = L({ key: '#86a4ff', keyI: 1.2, keyDir: [-2, 5, 3], rim: '#FDD02F', rimI: 2.4, sky: '#1c2a55', ground: '#05070c', hemiI: 0.9,
   top: '#03060f', horizon: '#14254d', sun: '#2b4a9a', fog: '#0a1226', fogNear: 9, fogFar: 26, deep: '#03060d', stars: 1, exposure: 1.05, bloom: 0.95, dust: '#FDD02F' });
 export const STATIONS: Station[] = [
-  { id: 's-hero', at: [0, 0, 0], cam: [1.2, 1.2, 4.7], look: [0, 0.68, 0], turn: 0.6, fr: [0.66, 0.4], frm: [0.5, 0.27],
+  { id: 's-hero', at: [0, 0, 0], cam: [1.2, 1.2, 4.7], look: [0, 0.68, 0], turn: 0.6, fr: [0.75, 0.34], frm: [0.5, 0.27],
     light: L({ key: '#ffd7a1', keyI: 2.7, keyDir: [3, 5, 5], rim: '#FDD02F', rimI: 3.2, sky: '#4a3a5a', ground: '#0b0d12', hemiI: 1.1,
       top: '#0a0c1a', horizon: '#4a2c22', sun: '#ff9a4a', fog: '#1d1418', fogNear: 9, fogFar: 26, deep: '#07080d', stars: 0.35, exposure: 1.0, bloom: 0.6, dust: '#ffcf7a' }) },
-  { id: 's-overpay', at: [5, 0, -7], cam: [2.2, 1.8, 5.6], look: [1.0, 1.0, -0.7], turn: 0.45, fr: [0.69, 0.36], frm: [0.5, 0.3],
+  { id: 's-overpay', at: [5, 0, -7], cam: [2.2, 2.0, 5.6], look: [1.0, 1.3, -0.7], turn: 0.45, fr: [0.8, 0.3], frm: [0.5, 0.3],
     light: L({ key: '#a9bcdc', keyI: 1.5, keyDir: [-1, 6, 4], rim: '#F7931E', rimI: 2.2, sky: '#3a4a62', ground: '#0b0e14', hemiI: 1.0,
       top: '#0c1119', horizon: '#2c3748', sun: '#56657e', fog: '#1a222e', fogNear: 7, fogFar: 22, deep: '#070a10', stars: 0, exposure: 0.95, bloom: 0.8, dust: '#9fb1c9' }) },
-  { id: 's-offers', at: [10, 0, -14], cam: [2.9, 2.1, 5.9], look: [1.7, 1.0, -1.1], turn: 0.5, fr: [0.69, 0.36], frm: [0.5, 0.3],
+  { id: 's-offers', at: [10, 0, -14], cam: [2.9, 2.3, 5.9], look: [1.7, 1.35, -1.1], turn: 0.5, fr: [0.8, 0.3], frm: [0.5, 0.3],
     light: L({ key: '#ffb37a', keyI: 2.8, keyDir: [5, 2.2, -2], rim: '#ff8a3d', rimI: 2.6, sky: '#8a5a6a', ground: '#140d10', hemiI: 1.15,
       top: '#1b1f3f', horizon: '#e27a4c', sun: '#ffb26b', fog: '#47283a', fogNear: 10, fogFar: 30, deep: '#120c16', stars: 0.15, exposure: 1.05, bloom: 0.7, dust: '#ffc58a' }) },
-  { id: 's-services', at: [5, 0, -21], cam: [0.5, 2.6, 6.4], look: [0, 1.05, 0], turn: 0.3, fr: [0.7, 0.34], frm: [0.5, 0.3], light: NIGHT },
-  { id: 's-range', at: [-1, 0, -28], cam: [1.0, 2.3, 6.2], look: [0.6, 1.15, -0.8], turn: 0.3, fr: [0.7, 0.34], frm: [0.5, 0.3],
+  { id: 's-services', at: [5, 0, -21], cam: [0.5, 2.6, 6.4], look: [0, 1.05, 0], turn: 0.3, fr: [0.8, 0.26], frm: [0.5, 0.3], light: NIGHT },
+  { id: 's-range', at: [-1, 0, -28], cam: [1.0, 2.3, 6.2], look: [0.6, 1.15, -0.8], turn: 0.3, fr: [0.8, 0.26], frm: [0.5, 0.3],
     light: { ...NIGHT, horizon: '#1f1d52', top: '#05041a', fog: '#0e0c2a', sun: '#4a3aa8' } },
-  { id: 's-proof', at: [-6, 0, -35], cam: [2.0, 1.5, 5.2], look: [1.0, 0.95, -0.5], turn: 0.55, fr: [0.69, 0.36], frm: [0.5, 0.3],
+  { id: 's-proof', at: [-6, 0, -35], cam: [2.0, 1.5, 5.2], look: [1.0, 0.95, -0.5], turn: 0.55, fr: [0.8, 0.26], frm: [0.5, 0.3],
     light: L({ key: '#56637d', keyI: 0.7, keyDir: [-3, 6, 2], rim: '#FDD02F', rimI: 2.8, sky: '#1a2030', ground: '#030405', hemiI: 0.55,
-      top: '#020304', horizon: '#0b0f17', sun: '#20283a', fog: '#06080c', fogNear: 6, fogFar: 18, deep: '#020305', stars: 0, exposure: 1.1, bloom: 1.2, dust: '#FDD02F' }) },
-  { id: 's-process', at: [-1, 0, -42], cam: [2.5, 2.7, 5.4], look: [1.5, 0.45, -0.8], turn: 0.4, fr: [0.69, 0.36], frm: [0.5, 0.3],
+      top: '#020304', horizon: '#0b0f17', sun: '#20283a', fog: '#06080c', fogNear: 6, fogFar: 18, deep: '#020305', stars: 0, exposure: 1.0, bloom: 0.75, dust: '#FDD02F' }) },
+  { id: 's-process', at: [-1, 0, -42], cam: [2.5, 2.7, 5.4], look: [1.5, 0.45, -0.8], turn: 0.4, fr: [0.8, 0.26], frm: [0.5, 0.3],
     light: L({ key: '#fff6e6', keyI: 3.0, keyDir: [3, 8, 4], rim: '#cfe6ff', rimI: 1.4, sky: '#b9d6ff', ground: '#33404f', hemiI: 1.6,
       top: '#2f6fc4', horizon: '#9cc8ee', sun: '#ffffff', fog: '#7fa9cf', fogNear: 12, fogFar: 34, deep: '#123a5e', stars: 0, exposure: 0.95, bloom: 0.35, dust: '#ffffff' }) },
-  { id: 's-faq', at: [4, 0, -49], cam: [1.7, 1.5, 5.2], look: [0.9, 1.0, -0.5], turn: 0.45, fr: [0.69, 0.36], frm: [0.5, 0.3],
+  { id: 's-faq', at: [4, 0, -49], cam: [1.7, 1.5, 5.2], look: [0.9, 1.0, -0.5], turn: 0.45, fr: [0.8, 0.26], frm: [0.5, 0.3],
     light: L({ key: '#ece4f2', keyI: 1.9, keyDir: [1, 7, 5], rim: '#ffd9a8', rimI: 1.4, sky: '#8c8fb0', ground: '#1a1b26', hemiI: 1.3,
       top: '#262a44', horizon: '#666b8c', sun: '#c9c2e0', fog: '#3e425c', fogNear: 9, fogFar: 28, deep: '#151826', stars: 0.1, exposure: 1.0, bloom: 0.45, dust: '#efe6ff' }) },
-  { id: 's-book', at: [0, 0, -56], cam: [0.2, 1.25, 4.7], look: [0.6, 0.65, -0.25], turn: -0.25, fr: [0.18, 0.46], frm: [0.5, 0.26],
+  { id: 's-book', at: [0, 0, -56], cam: [1.6, 1.5, 5.6], look: [0.6, 0.65, -0.25], turn: 0.35, fr: [0.79, 0.28], frm: [0.5, 0.26],
     light: L({ key: '#ffb24a', keyI: 3.0, keyDir: [-4, 2.4, -3], rim: '#ff7b2e', rimI: 3.0, sky: '#8a5a52', ground: '#140c0a', hemiI: 1.1,
       top: '#24193d', horizon: '#ff9448', sun: '#ffb45a', fog: '#5a3434', fogNear: 9, fogFar: 30, deep: '#160c0e', stars: 0.05, exposure: 1.05, bloom: 0.75, dust: '#ffd08a' }) },
 ];
@@ -653,7 +653,7 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     const [{ EffectComposer }, { RenderPass }, { UnrealBloomPass }, { ShaderPass }, { OutputPass }] = fx;
     composer = new EffectComposer(renderer, new T.WebGLRenderTarget(1, 1, { type: T.HalfFloatType, samples: tier === 'high' ? 4 : 2 }));
     composer.addPass(new RenderPass(scene, camera));
-    bloom = new UnrealBloomPass(new T.Vector2(256, 256), 0.6, 0.55, 0.92);
+    bloom = new UnrealBloomPass(new T.Vector2(256, 256), 0.6, 0.5, 1.05);
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
     grain = new ShaderPass(GRAIN_SHADER);
@@ -733,7 +733,7 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     const coinLight = new T.PointLight(LOGO.orange, 0, 5, 1.6);
     coinLight.position.set(1.4, 1.2, -0.6);
     st.add(coinLight);
-    glowLights.push({ light: coinLight, i: 1, base: 6 });
+    glowLights.push({ light: coinLight, i: 1, base: 1.6 });
     anim.push(t => {
       coins.forEach((c, i) => {
         const k = (t * 0.22 + i / coins.length) % 1;
@@ -756,11 +756,11 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     });
     const hq = buildHQ();
     holder(st, hq, [3.1, 1.3, -1.9], 0.9, -0.35);
-    upgrade(hq, MODEL_FILES.hq, 1.35, undefined, 1.4);
+    upgrade(hq, MODEL_FILES.hq, 1.35, undefined, 0.45);
     const hqLight = new T.PointLight(LOGO.yellow, 0, 4, 1.8);
     hqLight.position.set(2.9, 2.0, -1.2);
     st.add(hqLight);
-    glowLights.push({ light: hqLight, i: 2, base: 3 });
+    glowLights.push({ light: hqLight, i: 2, base: 1.2 });
     anim.push(t => { const d = hq.userData.spin; if (d) d.rotation.z = t * 0.8; });
   }
 
@@ -821,11 +821,11 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
     const st = piece(5, [1.6, 0.9, -0.9]);
     const rig = buildRig();
     holder(st, rig, [1.6, 0, -0.9], 1.15, -0.5);
-    upgrade(rig, MODEL_FILES.rig, 1.75, m => { m.rotation.y = 0.35; }, 1.6);
+    upgrade(rig, MODEL_FILES.rig, 1.75, m => { m.rotation.y = 0.35; }, 0.5);
     const gpu = new T.PointLight(LOGO.yellow, 0, 6, 1.4);
     gpu.position.set(1.0, 1.0, -0.4);
     st.add(gpu);
-    glowLights.push({ light: gpu, i: 5, base: 7 });
+    glowLights.push({ light: gpu, i: 5, base: 2.2 });
     anim.push(t => {
       (rig.userData.fans || []).forEach((f: any, i: number) => { f.rotation.x = t * (4 + i); });
       if (rig.userData.glow) rig.userData.glow.emissiveIntensity = 0.7 + Math.sin(t * 3) * 0.25;
@@ -898,8 +898,13 @@ export async function startDuckScene(canvas: HTMLCanvasElement, opts: { tier: Ti
   // --- the shot: one spline for the camera, one for its aim, one for the duck --
   const V = (a: number[]) => new T.Vector3(a[0], a[1], a[2]);
   function buildPath(narrow: boolean) {
-    const cams = STATIONS.map(st => V(st.at).add(new T.Vector3(st.cam[0] * (narrow ? 0.6 : 1), st.cam[1] + (narrow ? 0.3 : 0), st.cam[2] * (narrow ? 1.22 : 1))));
     const looks = STATIONS.map(st => V(st.at).add(V(st.look)));
+    // Desktop: the middle sections frame their set piece small, up and right of the words.
+    const cams = STATIONS.map((st, i) => {
+      const c = V(st.at).add(new T.Vector3(st.cam[0] * (narrow ? 0.6 : 1), st.cam[1] + (narrow ? 0.3 : 0), st.cam[2] * (narrow ? 1.22 : 1)));
+      const back = !narrow && i > 0 && i < STATIONS.length - 1 ? 1.18 : 1;
+      return looks[i].clone().add(c.sub(looks[i]).multiplyScalar(back));
+    });
     return { cam: new T.CatmullRomCurve3(cams, false, 'centripetal'), look: new T.CatmullRomCurve3(looks, false, 'centripetal') };
   }
   const paths = { wide: buildPath(false), narrow: buildPath(true) };
