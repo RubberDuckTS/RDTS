@@ -10,11 +10,12 @@
     background: radial-gradient(60vmax 50vmax at 78% 38%, rgba(255,200,61,.16), transparent 60%), radial-gradient(40vmax 30vmax at 10% 90%, rgba(255,200,61,.06), transparent 70%), #0E1116; }
   .stage__fallback img { width: min(36vw, 420px); height: auto; opacity: .22; filter: drop-shadow(0 30px 60px rgba(0,0,0,.6)); transition: opacity .8s; }
   .has-3d .stage__fallback img { opacity: 0; }
-  .stage__scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,17,22,.82) 0%, rgba(14,17,22,.45) 46%, rgba(14,17,22,0) 70%); }
+  .stage__scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,12,16,.9) 0%, rgba(10,12,16,.78) 38%, rgba(10,12,16,.35) 56%, rgba(10,12,16,0) 72%); }
 
   .chapter { position: relative; padding: clamp(5rem, 12vw, 9rem) 0; }
   .chapter--tight { padding: clamp(3rem, 7vw, 5rem) 0; }
   .chapter--hero { min-height: 100svh; display: flex; align-items: center; padding-top: 2rem; }
+  .chapter--hero > .container-x { width: 100%; }
   .hero-copy { max-width: 640px; }
   .hero-lead { font-size: clamp(18px, 2.1vw, 21px); line-height: 1.55; color: #C5BFAE; max-width: 52ch; }
   .trust { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin-top: 2.25rem; padding: 0; list-style: none; font-family: "Geist Mono", ui-monospace, monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #9DA0A6; }
@@ -86,3 +87,40 @@
 .ladder { display: grid; gap: 12px; grid-template-columns: 1fr; align-items: end; }
 @media (min-width: 900px) { .ladder { grid-template-columns: repeat(3, 1fr); } .ladder__step:nth-child(2) { margin-bottom: 18px; } .ladder__step--top { margin-bottom: 36px; } }
 .ladder__step--top { border-color: rgba(255,200,61,.5); box-shadow: 0 0 0 1px rgba(255,200,61,.25), 0 30px 70px -30px rgba(255,200,61,.35); }
+
+/* Opening: the headline stays painted but soft until the duck has surfaced, then lands. */
+.intro .hero-copy h1 { opacity: .16; filter: blur(7px); transform: translateY(16px) scale(.985); }
+.intro .hero-copy .status-pill, .intro .hero-copy .trust { opacity: 0; transform: translateY(10px); }
+.hero-copy h1, .hero-copy .status-pill, .hero-copy .trust { transition: opacity 1s cubic-bezier(.2,.8,.2,1), filter 1s cubic-bezier(.2,.8,.2,1), transform 1.1s cubic-bezier(.2,.8,.2,1); }
+.landed .hero-copy .trust { transition-delay: .35s; }
+.landed .hero-copy .accent-saffron { animation: land-glow 1.6s .25s ease-out both; }
+@keyframes land-glow { 0% { text-shadow: 0 0 0 rgba(255,200,61,0); } 35% { text-shadow: 0 0 28px rgba(255,200,61,.75); } 100% { text-shadow: 0 0 0 rgba(255,200,61,0); } }
+
+/* Section headings arrive with the camera. */
+.js-arrive .chapter:not(.chapter--hero) .chapter-head > *, .js-arrive .chapter--book .container-x > * { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1); }
+.js-arrive .chapter.is-here .chapter-head > *, .js-arrive .chapter--book.is-here .container-x > * { opacity: 1; transform: none; }
+.js-arrive .chapter.is-here .chapter-head > *:nth-child(2), .js-arrive .chapter--book.is-here .container-x > *:nth-child(2) { transition-delay: .12s; }
+.js-arrive .chapter.is-here .chapter-head > *:nth-child(3), .js-arrive .chapter--book.is-here .container-x > *:nth-child(3) { transition-delay: .24s; }
+.js-arrive .chapter--book.is-here .container-x > *:nth-child(n+4) { transition-delay: .36s; }
+
+/* Speaker toggle in the nav (homepage only, once the scene runs). */
+.sound-toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-right: 6px; border-radius: 999px; color: #9DA0A6; border: 1px solid rgba(255,255,255,.08); background: transparent; transition: color .2s, border-color .2s; }
+.sound-toggle[hidden] { display: none; }
+.sound-toggle:hover, .sound-toggle[aria-pressed="true"] { color: #FFC83D; border-color: rgba(255,200,61,.4); }
+.sound-toggle svg { width: 20px; height: 20px; }
+.sound-toggle .sound-toggle__on { display: none; }
+.sound-toggle[aria-pressed="true"] .sound-toggle__on { display: inline; }
+.sound-toggle[aria-pressed="true"] .sound-toggle__off { display: none; }
+@media (prefers-reduced-motion: reduce) { .intro .hero-copy h1 { opacity: 1; filter: none; transform: none; } }
+
+/* Readability over the moving picture (WCAG 1.4.3 / 1.4.11): words never rely on the scene being dark. */
+.home-3d .glass { background: rgba(16,20,26,.88); }
+.home-3d .chapter-head h2, .home-3d .hero-copy h1 { text-shadow: 0 2px 24px rgba(0,0,0,.55); }
+.home-3d .chapter-head p, .home-3d .hero-lead { text-shadow: 0 1px 12px rgba(0,0,0,.6); }
+.home-3d .chapter--book::before { content: ""; position: absolute; inset: 8% 10%; background: radial-gradient(closest-side, rgba(10,12,16,.82), rgba(10,12,16,.55) 60%, rgba(10,12,16,0)); pointer-events: none; z-index: -1; }
+.home-3d .chapter--book { isolation: isolate; }
+.sound-toggle .motion-toggle__play { display: none; }
+.sound-toggle[aria-pressed="true"] .motion-toggle__play { display: inline; }
+.sound-toggle[aria-pressed="true"] .motion-toggle__pause { display: none; }
+/* Keyboard users reaching a section before the camera does still see its words. */
+.js-arrive .chapter:focus-within .chapter-head > *, .js-arrive .chapter--book:focus-within .container-x > * { opacity: 1; transform: none; }

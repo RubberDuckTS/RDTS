@@ -41,6 +41,21 @@ const BOOKING = 'https://calendly.com/nguy4227/let-s-connect-project-role-or-col
       ))}
     </div>
 
+    <div class="flex items-center">
+    <button type="button" class="sound-toggle" data-motion-toggle aria-pressed="false" aria-label="Pause the background animation" hidden>
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path class="motion-toggle__pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+        <path class="motion-toggle__play" d="M8 5.5v13l10.5-6.5z" />
+      </svg>
+    </button>
+    <button type="button" class="sound-toggle" data-sound-toggle aria-pressed="false" aria-label="Sound off. Turn on ambient sound" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+        <path class="sound-toggle__on" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" />
+        <path class="sound-toggle__off" d="M16 9.5l5 5M21 9.5l-5 5" />
+      </svg>
+    </button>
+
     <a
       href={BOOKING}
       data-guide-book
@@ -48,6 +63,7 @@ const BOOKING = 'https://calendly.com/nguy4227/let-s-connect-project-role-or-col
     >
       Book a free call →
     </a>
+    </div>
 
     <button
       type="button"

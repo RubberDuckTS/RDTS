@@ -56,6 +56,10 @@ const steps = [
     <div class="stage__scrim"></div>
   </div>
 
+  <script is:inline>
+    // The headline waits for the opening shot (it stays painted, just softened). Reduced motion and data saver skip it.
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !(navigator.connection && navigator.connection.saveData)) document.documentElement.classList.add('intro');
+  </script>
   <section id="s-hero" data-guide-section="hero" class="chapter chapter--hero">
     <div class="container-x">
       <div class="hero-copy">
@@ -251,15 +255,58 @@ const steps = [
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: 0.12 });
     reveal.forEach(el => io.observe(el));
   }
+  // Section words arrive with the camera: each chapter's heading reveals as its section reaches mid-screen,
+  // which is where the scene parks on that section's set piece.
+  const root = document.documentElement;
+  const chapters = document.querySelectorAll<HTMLElement>('.chapter');
+  const here = (el: Element | null) => el?.classList.add('is-here');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    root.classList.add('js-arrive');
+    const cio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { here(e.target); cio.unobserve(e.target); } }), { rootMargin: '0px 0px -42% 0px' });
+    chapters.forEach(el => cio.observe(el));
+  }
+  window.addEventListener('scene:arrive', e => here(document.getElementById((e as CustomEvent).detail.id)));
+
+  // The headline lands when the opening shot ends (or straight away without it).
+  const land = () => { if (!root.classList.contains('intro')) return; root.classList.remove('intro'); root.classList.add('landed'); };
+  window.addEventListener('scene:intro-done', land, { once: true });
+  const landLater = (ms: number) => window.setTimeout(land, ms);
+
   const canvas = document.querySelector<HTMLCanvasElement>('[data-duck-canvas]');
   const tier = detectTier();
+  if (!canvas || !tier) land();
+  else landLater(9000);
   if (canvas && tier) {
     const start = async () => {
       try {
         const { startDuckScene } = await import('../scripts/duck-scene');
         await startDuckScene(canvas, { tier, reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches });
-        document.documentElement.classList.add('has-3d');
-      } catch (err) { console.warn('3D scene unavailable', err); }
+        root.classList.add('has-3d');
+        // Pause: freezes the moving picture (WCAG 2.2.2); scrolling still moves the camera.
+        const mbtn = document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
+        if (mbtn && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          mbtn.hidden = false;
+          mbtn.addEventListener('click', () => {
+            const paused = mbtn.getAttribute('aria-pressed') !== 'true';
+            mbtn.setAttribute('aria-pressed', String(paused));
+            mbtn.setAttribute('aria-label', paused ? 'Play the background animation' : 'Pause the background animation');
+            window.dispatchEvent(new CustomEvent('scene:pause', { detail: { paused } }));
+          });
+        }
+        // Sound: off by default, only from the speaker button.
+        const btn = document.querySelector<HTMLButtonElement>('[data-sound-toggle]');
+        if (btn && 'AudioContext' in window) {
+          btn.hidden = false;
+          const snd = await import('../scripts/scene-sound');
+          btn.addEventListener('click', async () => {
+            const next = !snd.isOn();
+            await snd.setSound(next);
+            btn.setAttribute('aria-pressed', String(next));
+            btn.setAttribute('aria-label', next ? 'Sound on. Turn off ambient sound' : 'Sound off. Turn on ambient sound');
+          });
+          window.addEventListener('scene:arrive', () => snd.tick());
+        }
+      } catch (err) { console.warn('3D scene unavailable', err); land(); }
     };
     const kick = () => ('requestIdleCallback' in window ? (window as any).requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 200));
     if (document.readyState === 'complete') kick(); else window.addEventListener('load', kick, { once: true });
