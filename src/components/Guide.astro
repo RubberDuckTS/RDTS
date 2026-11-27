@@ -1,0 +1,179 @@
+---
+/**
+ * The site guide: a docked AI panel on every page that greets visitors, shows
+ * them around and gets them booked with Long. Markup is server-rendered and
+ * hidden until the script boots, so it costs nothing for LCP.
+ */
+---
+<div class="g-root" data-guide data-open="false" data-view="chat" aria-live="off">
+  <div class="g-peek" data-g-peek hidden>
+    <button type="button" class="g-peek__body" data-g-peek-open aria-label="Open the site guide">
+      <span class="g-avatar" aria-hidden="true">
+        <img src="/logo-rdts-duck.webp" alt="" width="28" height="28" />
+      </span>
+      <span class="g-peek__text" data-g-peek-text>Hey, I'm the duck. What brings you here?</span>
+    </button>
+    <button type="button" class="g-peek__x" data-g-peek-x aria-label="Dismiss">×</button>
+  </div>
+
+  <section class="g-panel" data-g-panel hidden role="dialog" aria-modal="false" aria-labelledby="g-title">
+    <header class="g-head">
+      <span class="g-avatar" aria-hidden="true"><img src="/logo-rdts-duck.webp" alt="" width="28" height="28" /></span>
+      <div class="g-head__txt">
+        <div id="g-title" class="g-title">The duck</div>
+        <div class="g-sub"><span class="g-dot"></span>Long's guide · books his calendar</div>
+      </div>
+      <button type="button" class="g-icon" data-g-voice aria-pressed="false" aria-label="Read replies out loud" title="Voice replies">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+      </button>
+      <button type="button" class="g-icon" data-g-close aria-label="Close the guide">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="g-log" data-g-log role="log" aria-live="polite" aria-label="Conversation with the guide"></div>
+    <div class="g-typing" data-g-typing hidden aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <div class="g-sheet" data-g-book hidden>
+      <div class="g-sheet__bar">
+        <button type="button" class="g-back" data-g-back>← Back to chat</button>
+        <a class="g-ext" data-g-cal-link href="https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration" target="_blank" rel="noopener" data-track="calendly">Open in a new tab ↗</a>
+      </div>
+      <div class="g-cal" data-g-cal><p class="g-note">Loading Long's calendar…</p></div>
+    </div>
+
+    <div class="g-sheet" data-g-lead hidden>
+      <div class="g-sheet__bar"><button type="button" class="g-back" data-g-back>← Back to chat</button></div>
+      <form class="g-lead" novalidate>
+        <p class="g-note">Long reads the chat with your note and follows up within 24 hours.</p>
+        <label>Name<input name="name" autocomplete="name" required maxlength="200" /></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required maxlength="200" /></label>
+        <label>Company <span class="g-opt">(optional)</span><input name="company" autocomplete="organization" maxlength="200" /></label>
+        <label class="g-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+        <button class="btn btn-primary" type="submit">Send to Long</button>
+        <p class="g-note" data-g-lead-status role="status"></p>
+      </form>
+    </div>
+
+    <div class="g-sheet g-booked" data-g-booked hidden>
+      <p class="g-booked__big">You're booked.</p>
+      <p class="g-note">The invite is in your inbox and Long has your notes.</p>
+      <button type="button" class="g-back" data-g-back>← Back to chat</button>
+    </div>
+
+    <div class="g-chips" data-g-chips></div>
+    <form class="g-input" data-g-form>
+      <label class="sr-only" for="g-text">Message the guide</label>
+      <input id="g-text" data-g-input autocomplete="off" maxlength="1200" placeholder="Ask anything, or tell me what you need…" />
+      <button type="button" class="g-icon" data-g-mic aria-pressed="false" aria-label="Speak your message">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+      <button type="submit" class="g-send" aria-label="Send">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </section>
+
+  <button type="button" class="g-launch" data-g-launch aria-expanded="false" aria-label="Talk to the duck, Long's site guide">
+    <img src="/logo-rdts-duck.webp" alt="" width="34" height="34" />
+    <span class="g-launch__label">Ask the duck</span>
+  </button>
+</div>
+
+<script>
+  import { initGuide } from '../scripts/guide-client';
+  const root = document.querySelector<HTMLElement>('[data-guide]');
+  if (root) {
+    const boot = () => initGuide(root);
+    if ('requestIdleCallback' in window) (window as any).requestIdleCallback(boot, { timeout: 1200 });
+    else setTimeout(boot, 300);
+  }
+</script>
+
+<style is:global>
+  .g-root > * { pointer-events: auto; }
+  .g-root { pointer-events: none; position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 60; font-family: Geist, system-ui, sans-serif; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .g-root:not([data-ready]) .g-launch { opacity: 0; }
+  .g-launch { display: inline-flex; align-items: center; gap: 10px; background: #FFC83D; color: #1A1410; border: 0; border-radius: 9999px; padding: 6px 18px 6px 6px; font-weight: 600; font-size: 15px; cursor: pointer; box-shadow: 0 12px 34px -10px rgba(255,200,61,.55), 0 2px 6px rgba(0,0,0,.4); transition: transform .2s, opacity .3s; min-height: 48px; }
+  .g-launch img { width: 36px; height: 36px; border-radius: 50%; background: #0E1116; padding: 3px; }
+  .g-launch:hover { transform: translateY(-2px); }
+  .g-launch:focus-visible, .g-chip:focus-visible, .g-icon:focus-visible, .g-send:focus-visible, .g-back:focus-visible, .g-peek__body:focus-visible { outline: 2px solid #FFD970; outline-offset: 2px; }
+  .g-root[data-open="true"] .g-launch { display: none; }
+
+  .g-peek { display: flex; align-items: flex-start; gap: 4px; max-width: min(340px, calc(100vw - 32px)); animation: g-in .45s cubic-bezier(.2,.8,.2,1) both; }
+  .g-peek[hidden] { display: none; }
+  .g-peek__body { display: flex; gap: 10px; align-items: flex-start; text-align: left; background: rgba(22,27,34,.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #F5EFE0; border: 1px solid rgba(255,200,61,.35); border-radius: 18px 18px 6px 18px; padding: 12px 14px; font-size: 14.5px; line-height: 1.45; cursor: pointer; box-shadow: 0 18px 40px -18px rgba(0,0,0,.8); }
+  .g-peek__x { background: rgba(22,27,34,.9); color: #9DA0A6; border: 1px solid #1F262F; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; flex: none; }
+
+  .g-avatar { flex: none; width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFD970, #E5A700); display: grid; place-items: center; box-shadow: 0 0 0 3px rgba(255,200,61,.15); }
+  .g-avatar img { width: 26px; height: 26px; }
+
+  .g-panel { width: min(400px, calc(100vw - 24px)); height: min(620px, calc(100dvh - 110px)); display: flex; flex-direction: column; background: rgba(14,17,22,.92); backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2); color: #F5EFE0; border: 1px solid rgba(255,200,61,.22); border-radius: 22px; overflow: hidden; box-shadow: 0 30px 80px -24px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.03) inset; animation: g-in .4s cubic-bezier(.2,.8,.2,1) both; }
+  .g-panel[hidden] { display: none; }
+  @keyframes g-in { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+  .g-head { display: flex; align-items: center; gap: 10px; padding: 14px 12px 12px 16px; border-bottom: 1px solid #1F262F; }
+  .g-head__txt { flex: 1; min-width: 0; }
+  .g-title { font-weight: 700; letter-spacing: -.02em; font-size: 16px; }
+  .g-sub { font-size: 12px; color: #9DA0A6; display: flex; align-items: center; gap: 6px; }
+  .g-dot { width: 7px; height: 7px; border-radius: 50%; background: #3FD07A; box-shadow: 0 0 0 3px rgba(63,208,122,.18); }
+  .g-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; border: 0; background: transparent; color: #C5BFAE; cursor: pointer; flex: none; }
+  .g-icon:hover { background: #161B22; color: #F5EFE0; }
+  .g-icon[aria-pressed="true"] { color: #FFC83D; background: rgba(255,200,61,.1); }
+  .g-icon[hidden] { display: none; }
+
+  .g-log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; overscroll-behavior: contain; }
+  .g-msg { max-width: 86%; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.5; white-space: pre-wrap; animation: g-in .3s ease both; }
+  .g-msg--duck { background: #161B22; border: 1px solid #1F262F; border-bottom-left-radius: 6px; align-self: flex-start; }
+  .g-msg--you { background: #FFC83D; color: #1A1410; border-bottom-right-radius: 6px; align-self: flex-end; font-weight: 500; }
+  .g-typing { display: flex; gap: 4px; padding: 0 22px 8px; }
+  .g-typing[hidden] { display: none; }
+  .g-typing span { width: 7px; height: 7px; border-radius: 50%; background: #FFC83D; opacity: .4; animation: g-dot 1s infinite ease-in-out; }
+  .g-typing span:nth-child(2) { animation-delay: .15s; } .g-typing span:nth-child(3) { animation-delay: .3s; }
+  @keyframes g-dot { 0%, 100% { opacity: .25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+
+  .g-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 14px 10px; }
+  .g-chip { border: 1px solid rgba(255,200,61,.45); background: rgba(255,200,61,.06); color: #FFD970; border-radius: 9999px; padding: 8px 14px; font-size: 13.5px; font-weight: 500; cursor: pointer; min-height: 38px; transition: background .15s; }
+  .g-chip:hover { background: rgba(255,200,61,.16); }
+  .g-input { display: flex; gap: 6px; align-items: center; padding: 10px 10px 12px 14px; border-top: 1px solid #1F262F; }
+  .g-input input { flex: 1; min-width: 0; background: #161B22; border: 1px solid #1F262F; color: #F5EFE0; border-radius: 14px; padding: 12px 14px; font-size: 16px; }
+  .g-input input:focus { outline: none; border-color: rgba(255,200,61,.6); }
+  .g-send { width: 44px; height: 44px; border-radius: 14px; border: 0; background: #FFC83D; color: #1A1410; cursor: pointer; display: grid; place-items: center; flex: none; }
+
+  .g-sheet { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 0 14px 12px; }
+  .g-sheet[hidden] { display: none; }
+  .g-root[data-view="book"] .g-log, .g-root[data-view="book"] .g-chips, .g-root[data-view="book"] .g-input,
+  .g-root[data-view="lead"] .g-log, .g-root[data-view="lead"] .g-chips, .g-root[data-view="lead"] .g-input,
+  .g-root[data-view="booked"] .g-log, .g-root[data-view="booked"] .g-chips { display: none; }
+  .g-sheet__bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 2px; }
+  .g-back { background: none; border: 0; color: #FFD970; font-size: 14px; cursor: pointer; padding: 8px 0; }
+  .g-ext { color: #9DA0A6; font-size: 13px; text-decoration: underline; }
+  .g-cal { flex: 1; border-radius: 14px; overflow: hidden; background: #161B22; border: 1px solid #1F262F; min-height: 0; }
+  .g-cal iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .g-cal-handoff { padding: 22px; display: flex; flex-direction: column; gap: 16px; color: #C5BFAE; font-size: 15px; line-height: 1.5; }
+  .g-note { font-size: 13px; color: #9DA0A6; padding: 10px; margin: 0; }
+  .g-lead { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+  .g-lead label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #C5BFAE; }
+  .g-lead input { background: #161B22; border: 1px solid #1F262F; color: #F5EFE0; border-radius: 12px; padding: 12px; font-size: 16px; }
+  .g-opt { color: #9DA0A6; }
+  .g-hp { position: absolute !important; left: -9999px; }
+  .g-booked { align-items: center; justify-content: center; text-align: center; }
+  .g-booked__big { font-size: 28px; font-weight: 700; color: #FFC83D; margin: 0; }
+
+  .g-spotlight { animation: g-spot 1.6s ease-out 1; }
+  @keyframes g-spot { 0% { box-shadow: 0 0 0 0 rgba(255,200,61,.0) inset; } 25% { box-shadow: 0 0 0 2px rgba(255,200,61,.55) inset; } 100% { box-shadow: 0 0 0 0 rgba(255,200,61,0) inset; } }
+
+  @media (max-width: 639px) {
+    .g-root { right: 10px; left: 10px; bottom: max(10px, env(safe-area-inset-bottom)); align-items: stretch; }
+    .g-root .g-launch { align-self: flex-end; }
+    .g-panel { width: 100%; height: min(78dvh, 640px); border-radius: 22px; }
+    .g-peek { max-width: 100%; align-self: stretch; }
+    .g-peek__body { flex: 1; }
+    .g-launch__label { display: none; }
+    .g-launch { padding: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .g-panel, .g-peek, .g-msg { animation: none; }
+    .g-typing span { animation: none; opacity: .7; }
+    .g-spotlight { animation: none; outline: 2px solid rgba(255,200,61,.6); outline-offset: -2px; }
+  }
+</style>

@@ -1,7 +1,11 @@
 ---
 import '../styles/global.css';
+import '../styles/site.css';
+import { CONTACT } from '../lib/site/contact';
+import { SERVICES } from '../lib/site/services';
 import Nav from '../components/Nav.astro';
 import Clarity from '../components/Clarity.astro';
+import Guide from '../components/Guide.astro';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -16,6 +20,12 @@ interface Props {
   schema?: object | object[];
   /** noindex flag (for placeholder pages). */
   noindex?: boolean;
+  /** Hide the docked site guide (the /talk page has its own full-page duck). */
+  hideGuide?: boolean;
+  /** Extra class on <body>, e.g. for the 3D homepage. */
+  bodyClass?: string;
+  /** Breadcrumb trail for BreadcrumbList schema, e.g. [{name:'Services', path:'/services/'}]. */
+  crumbs?: { name: string; path: string }[];
 }
 
 const DEFAULT_OG_IMAGE = '/og-default.png';
@@ -27,6 +37,9 @@ const {
   canonical: canonicalProp,
   schema,
   noindex = false,
+  hideGuide = Astro.url.pathname.startsWith('/talk'),
+  bodyClass = '',
+  crumbs,
 } = Astro.props;
 
 const SITE = 'https://www.rubberducktechsolutions.com';
@@ -62,9 +75,60 @@ const orgSchema = {
   ],
 };
 
+// LocalBusiness-family entity for search and AI answers: what RDTS does, who
+// runs it, where it serves, and how to book. Only facts stated on this site.
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${SITE}/#business`,
+  name: 'Rubber Duck Tech Solutions',
+  url: SITE,
+  image: `${SITE}/og-default.png`,
+  logo: `${SITE}/logo-rdts.webp`,
+  parentOrganization: { '@id': `${SITE}/#organization` },
+  founder: { '@id': `${SITE}/about/#long-nguyen` },
+  description: 'Solo AI consultant and software developer: custom software and websites, WordPress, page speed and local SEO, AI agents and automation, team AI training, and an ongoing AI partner retainer.',
+  areaServed: [{ '@type': 'City', name: 'Kansas City' }, { '@type': 'Country', name: 'United States' }],
+  address: { '@type': 'PostalAddress', addressLocality: CONTACT.city, addressRegion: CONTACT.region, addressCountry: CONTACT.country },
+  email: CONTACT.email,
+  ...(CONTACT.phone ? { telephone: CONTACT.phone.e164 } : {}),
+  knowsAbout: ['AI agents', 'AI automation', 'Claude Code', 'MCP servers', 'Custom software', 'WordPress', 'Page speed', 'Local SEO', 'GA4 and GTM', 'HubSpot'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Services',
+    itemListElement: SERVICES.map((sv) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: sv.name, url: `${SITE}/services/${sv.slug}/`, description: sv.description } })),
+  },
+  potentialAction: {
+    '@type': 'ReserveAction',
+    name: 'Book a free call',
+    target: CONTACT.booking,
+  },
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE}/about/#long-nguyen`,
+  name: 'Long Nguyen',
+  jobTitle: 'AI consultant and software engineer',
+  url: `${SITE}/about/`,
+  worksFor: { '@id': `${SITE}/#organization` },
+  address: { '@type': 'PostalAddress', addressLocality: CONTACT.city, addressRegion: CONTACT.region, addressCountry: CONTACT.country },
+  knowsAbout: ['AI consulting', 'AI agents', 'Local LLMs', 'Fine-tuning', 'Retrieval-augmented generation', 'Full-stack web development', 'WordPress', 'Local SEO', 'Page speed'],
+  sameAs: [CONTACT.linkedin, CONTACT.github],
+};
+const crumbSchema = crumbs?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ name: 'Home', path: '/' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.path, SITE).toString() })),
+} : null;
+
 const schemas = schema
-  ? (Array.isArray(schema) ? [orgSchema, ...schema] : [orgSchema, schema])
-  : [orgSchema];
+  ? (Array.isArray(schema) ? [orgSchema, serviceSchema, personSchema, ...schema] : [orgSchema, serviceSchema, personSchema, schema])
+  : [orgSchema, serviceSchema, personSchema];
+if (crumbSchema) schemas.push(crumbSchema);
+const GSC = import.meta.env.PUBLIC_GSC_VERIFICATION;
+const BING = import.meta.env.PUBLIC_BING_VERIFICATION;
 ---
 
 <!doctype html>
@@ -101,6 +165,7 @@ const schemas = schema
 
     {/* Favicons */}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable summary" />
     <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
     <link rel="apple-touch-icon" href="/logo-rdts-duck.webp" />
 
@@ -111,9 +176,11 @@ const schemas = schema
 
     {/* Theme color matches dark hero bg */}
     <meta name="theme-color" content="#0E1116" />
+    {GSC && <meta name="google-site-verification" content={GSC} />}
+    {BING && <meta name="msvalidate.01" content={BING} />}
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="V9BC1ANBy0gEGYbu0Nd+kw" async></script>
   </head>
-  <body class="antialiased bg-ink text-bone">
+  <body class:list={["antialiased bg-ink text-bone site", bodyClass]}>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-saffron focus:text-coal focus:px-3 focus:py-2 focus:rounded-pill focus:font-medium focus:text-sm"
@@ -128,73 +195,78 @@ const schemas = schema
     </main>
 
     {/* === FOOTER === */}
-    <footer class="section-dark border-t border-ink-border">
+    <footer class="section-dark border-t border-ink-border relative z-[1]">
       <div class="container-x py-14 lg:py-20">
+        <div class="foot-cta glass p-7 lg:p-10 mb-14">
+          <div>
+            <div class="text-[22px] lg:text-[28px] font-semibold tracking-tight2 text-bone mb-2">Not sure where AI fits in your business?</div>
+            <p class="text-bone-dim text-[15px] max-w-[52ch]">Book a free call. Long will tell you what to use, what to build and what you can stop paying for.</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a class="btn btn-primary" href={CONTACT.booking} data-guide-book>Book a free call →</a>
+            <a class="btn btn-outline-light" href={`mailto:${CONTACT.email}`}>Email Long</a>
+          </div>
+        </div>
         <div class="grid grid-cols-12 gap-x-6 gap-y-10">
-          <div class="col-span-12 lg:col-span-5">
+          <div class="col-span-12 lg:col-span-4">
             <div class="flex items-center gap-3 mb-4">
               <img src="/logo-rdts-duck.webp" alt="Rubber Duck Tech Solutions logo" width="44" height="44" class="w-11 h-11 object-contain shrink-0" />
               <div>
-                <div class="font-bold text-bone text-[18px] tracking-tight2">RDTS</div>
-                <div class="text-bone-mute text-[13px]">Rubber Duck Tech Solutions</div>
+                <div class="font-bold text-bone text-[18px] tracking-tight2">Rubber Duck Tech Solutions</div>
+                <div class="text-bone-mute text-[13px]">AI consulting &amp; development</div>
               </div>
             </div>
-            <p class="text-bone-dim text-[14px] leading-relaxed max-w-[40ch] mb-5">
-              AI consultant &amp; developer for growing companies. Custom software, AI integration,
-              and team training — project or retainer. By Long Nguyen, solo.
+            <p class="text-bone-dim text-[14px] leading-relaxed max-w-[40ch] mb-4">
+              Long Nguyen helps businesses use AI properly: the right tools, agents that do real work,
+              and the software and websites around them.
             </p>
-            <p class="text-bone-mute text-[12px] leading-relaxed max-w-[40ch]">
-              A trade name of Long Win LLC, registered in Missouri.
-            </p>
+            <address class="not-italic text-[14px] text-bone-dim leading-relaxed">
+              <a class="link-saffron" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a><br/>
+              {CONTACT.phone && <><a class="link-saffron" href={`tel:${CONTACT.phone.e164}`}>{CONTACT.phone.display}</a><br/></>}
+              {CONTACT.city}, {CONTACT.regionName} · working remote across the US
+            </address>
           </div>
-
           <div class="col-span-6 lg:col-span-3">
-            <div class="label label--dim mb-4">Setup</div>
+            <div class="label label--dim mb-4">Services</div>
             <ul class="space-y-2 text-[14px] text-bone-dim">
-              <li><a href="/solutions/claude-code-setup/" class="inline-block py-0.5 hover:text-saffron transition-colors">Claude Code setup</a></li>
-              <li><a href="/solutions/cursor-setup/" class="inline-block py-0.5 hover:text-saffron transition-colors">Cursor setup</a></li>
-              <li><a href="/solutions/openclaw-setup/" class="inline-block py-0.5 hover:text-saffron transition-colors">OpenClaw setup</a></li>
-              <li><a href="/solutions/" class="inline-block py-0.5 hover:text-saffron transition-colors">All setups →</a></li>
-              <li><a href="/services/" class="inline-block py-0.5 hover:text-saffron transition-colors">All services →</a></li>
+              {SERVICES.map((sv) => (
+                <li><a href={`/services/${sv.slug}/`} class="inline-block py-0.5 hover:text-saffron transition-colors">{sv.name}</a></li>
+              ))}
             </ul>
           </div>
-
           <div class="col-span-6 lg:col-span-2">
             <div class="label label--dim mb-4">Studio</div>
             <ul class="space-y-2 text-[14px] text-bone-dim">
-              <li><a href="/about/" class="inline-block py-0.5 hover:text-saffron transition-colors">About</a></li>
               <li><a href="/work/" class="inline-block py-0.5 hover:text-saffron transition-colors">Work</a></li>
+              <li><a href="/about/" class="inline-block py-0.5 hover:text-saffron transition-colors">About Long</a></li>
               <li><a href="/learn/" class="inline-block py-0.5 hover:text-saffron transition-colors">Learn</a></li>
-              <li><a href="/talk/" class="inline-block py-0.5 hover:text-saffron transition-colors">Talk to the duck</a></li>
+              <li><a href="/solutions/" class="inline-block py-0.5 hover:text-saffron transition-colors">Tool setups</a></li>
               <li><a href="/contact/" class="inline-block py-0.5 hover:text-saffron transition-colors">Contact</a></li>
             </ul>
           </div>
-
-          <div class="col-span-12 lg:col-span-2">
+          <div class="col-span-12 lg:col-span-3">
             <div class="label label--dim mb-4">Status</div>
             <div class="status-pill mb-4">
               <span class="status-pill__dot"></span>
-              <span>Available</span>
+              <span>Taking new projects</span>
             </div>
-            <p class="text-bone-mute text-[12px] leading-relaxed mb-5">
-              AI consultant &amp; developer<br/>booking select engagements
-            </p>
-            <div class="flex gap-4 text-bone-mute text-[12px]">
-              <a href="https://www.linkedin.com/in/long-nguyen-a3b6326a/" target="_blank" rel="noopener" class="inline-block py-1 hover:text-saffron transition-colors">LinkedIn</a>
-              <a href="https://github.com/LongPNguyen" target="_blank" rel="noopener" class="inline-block py-1 hover:text-saffron transition-colors">GitHub</a>
+            <div class="flex gap-4 text-bone-mute text-[13px]">
+              <a href={CONTACT.linkedin} target="_blank" rel="noopener" class="inline-block py-1 hover:text-saffron transition-colors">LinkedIn</a>
+              <a href={CONTACT.github} target="_blank" rel="noopener" class="inline-block py-1 hover:text-saffron transition-colors">GitHub</a>
             </div>
           </div>
         </div>
-
         <div class="border-t border-ink-border mt-12 pt-6 flex flex-col sm:flex-row justify-between gap-3 text-[12px] text-bone-mute">
-          <span>© 2026 Long Win LLC</span>
-          <span class="font-mono">// shipped from Missouri</span>
+          <span>© 2026 Long Win LLC. Rubber Duck Tech Solutions is a trade name of Long Win LLC, registered in Missouri.</span>
+          <span class="font-mono">// built in public</span>
         </div>
       </div>
     </footer>
 
     {/* Analytics — Vercel (page views + custom conversion events) + Speed
         Insights + Microsoft Clarity (heatmaps/replay, env-gated). Cookie-free. */}
+    {!hideGuide && <Guide />}
+
     <Analytics />
     <SpeedInsights />
     <Clarity />

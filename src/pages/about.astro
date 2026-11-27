@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
+import { WORK } from '../lib/site/work';
 import headshot from '../assets/long-headshot.webp';
 
 const title = 'About Long Nguyen — AI consultant & developer at RDTS';
@@ -98,7 +99,7 @@ const personSchema = {
 
           <p>
             I spent those early years as the in-house web developer at two marketing
-            agencies — first as a junior, then as the engineer the founder went to when something had
+            agencies, Go Local Interactive and Jubilant Digital Marketing — first as a junior, then as the engineer the founder went to when something had
             to actually work. Both shops sold creative work as the headline product. Both quietly
             depended on whatever automation glue I could rig up to make the operational side stay
             standing.
@@ -155,38 +156,25 @@ const personSchema = {
   </Section>
 
   {/* CREDIBILITY MARKERS */}
-  <Section tone="cream" label="The receipts">
-    <div class="grid grid-cols-12 gap-x-4 lg:gap-x-8 gap-y-10">
+  <Section tone="dark" label="The receipts">
+    <div class="grid grid-cols-12 gap-x-6 gap-y-8">
       <div class="col-span-12 lg:col-span-5">
-        <h2 class="display-h2 mb-5">Ships things.<br/>Keeps up with AI.</h2>
-        <p class="text-[15px] text-coal-dim leading-[1.65] max-w-[44ch] mb-6">
-          The two things you want from an AI consultant and developer: real engineering chops and genuine
-          fluency with current AI. Two builds that show both:
+        <h2 class="display-h2 mb-5">Ships things.<br/><span class="accent-saffron">Goes deep on AI.</span></h2>
+        <p class="text-[16px] text-bone-dim leading-[1.65] max-w-[44ch] mb-6">
+          Before RDTS: in-house web developer at Go Local Interactive (custom WordPress and PHP builds)
+          and Jubilant Digital Marketing (HubSpot, local SEO, Google Tag Manager and GA4). Since then:
+          AI systems across language, voice, video, motion, image and 3D models.
         </p>
+        <a href="/work/" class="link-saffron">All case studies →</a>
       </div>
-
-      <div class="col-span-12 lg:col-span-7 space-y-5">
-        <div class="card-cream p-6">
-          <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 mb-2">
-            <h3 class="text-[24px] font-semibold tracking-tight2 text-coal">LeedECard</h3>
-            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute whitespace-nowrap">SaaS · live</span>
-          </div>
-          <p class="text-[15px] text-coal-dim leading-[1.65]">
-            Digital business cards with lead capture and AI follow-up. QR and link sharing, booking
-            links, scored leads, AI-drafted follow-up emails. Next.js with Stripe billing.
-          </p>
-        </div>
-
-        <div class="card-cream p-6">
-          <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3 mb-2">
-            <h3 class="text-[24px] font-semibold tracking-tight2 text-coal">Dragon Wagon</h3>
-            <span class="font-mono text-[11px] tracking-spec uppercase text-coal-mute whitespace-nowrap">site + tooling · 2024</span>
-          </div>
-          <p class="text-[15px] text-coal-dim leading-[1.65]">
-            Marketing site + content automation backend. The kind of "we need a real engineer for the
-            ops layer behind our public-facing site" project that's a textbook RDTS engagement.
-          </p>
-        </div>
+      <div class="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {WORK.filter((w) => w.featured).slice(0, 4).map((w) => (
+          <a href={`/work/${w.slug}/`} class="glass glass--link p-6 block group">
+            <div class="font-mono text-[11px] tracking-spec uppercase text-saffron mb-2">{w.kind}</div>
+            <h3 class="text-[20px] font-semibold tracking-tight2 text-bone mb-2 group-hover:text-saffron transition-colors">{w.name} →</h3>
+            <p class="text-[14px] text-bone-dim leading-[1.55]">{w.summary}</p>
+          </a>
+        ))}
       </div>
     </div>
   </Section>

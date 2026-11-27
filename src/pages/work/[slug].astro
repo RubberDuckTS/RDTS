@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { WORK, type CaseStudy } from '../../lib/site/work';
+import { SERVICE_BY_SLUG } from '../../lib/site/services';
+import { CONTACT } from '../../lib/site/contact';
+
+export function getStaticPaths() {
+  return WORK.map(w => ({ params: { slug: w.slug }, props: { w } }));
+}
+const { w } = Astro.props as { w: CaseStudy };
+const url = `${CONTACT.site}/work/${w.slug}/`;
+const title = `${w.name}: ${w.kind} | Rubber Duck Tech Solutions`;
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  '@id': `${url}#case-study`,
+  name: w.name,
+  headline: `${w.name}: ${w.summary}`,
+  description: w.summary,
+  url,
+  creator: { '@id': `${CONTACT.site}/about/#long-nguyen` },
+  keywords: w.stack.join(', '),
+};
+const services = w.services.map(s => SERVICE_BY_SLUG[s]).filter(Boolean);
+---
+<BaseLayout title={title} description={w.summary} schema={articleSchema} crumbs={[{ name: 'Work', path: '/work/' }, { name: w.name, path: `/work/${w.slug}/` }]}>
+  <section class="page-hero" data-guide-section="hero">
+    <div class="container-x relative">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/work/">Work</a> / <span aria-current="page">{w.name}</span></nav>
+      <div class="font-mono text-[12px] tracking-spec uppercase text-saffron mb-4">{w.kind}</div>
+      <h1 class="display-h1 max-w-[20ch] mb-6">{w.name}</h1>
+      <p class="answer">{w.summary}</p>
+      {w.link && <p class="mt-5"><a class="link-saffron text-[16px]" href={w.link.href} target="_blank" rel="noopener">{w.link.label} ↗</a></p>}
+    </div>
+  </section>
+
+  {w.numbers && (
+    <section class="chapter chapter--tight pt-0" data-guide-section="proof">
+      <div class="container-x">
+        <div class="stat-row">
+          {w.numbers.map(n => <div class="glass stat"><b>{n.value}</b><span>{n.label}</span></div>)}
+        </div>
+        <p class="mt-3 text-[12.5px] text-bone-mute">Measured by Long on in-house hardware.</p>
+      </div>
+    </section>
+  )}
+
+  <section class="chapter chapter--tight">
+    <div class="container-x grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-5">
+        <h2 class="display-h2 mb-5">The problem</h2>
+        <p class="text-[17px] text-bone-dim leading-[1.65]">{w.problem}</p>
+        <h2 class="text-[22px] font-semibold tracking-tight2 text-bone mt-10 mb-3">Where it stands</h2>
+        <p class="text-[16px] text-bone-dim leading-[1.65]">{w.result}</p>
+      </div>
+      <div class="lg:col-span-7">
+        <div class="glass p-6 lg:p-8">
+          <h2 class="text-[22px] font-semibold tracking-tight2 text-bone mb-5">What Long built</h2>
+          <ul class="tick-list">{w.built.map(b => <li>{b}</li>)}</ul>
+          <h3 class="label mt-8 mb-4">Stack</h3>
+          <ul class="chips">{w.stack.map(t => <li>{t}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter chapter--tight">
+    <div class="container-x">
+      <div class="label mb-5">What this means for your business</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {services.map(s => (
+          <a href={`/services/${s.slug}/`} class="glass glass--link p-6 block group">
+            <h3 class="text-[19px] font-semibold tracking-tight2 text-bone group-hover:text-saffron transition-colors">{s.name} →</h3>
+            <p class="text-[14.5px] text-bone-dim mt-2">{s.question}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand head="Want something like this for your business?" ask={`I saw the ${w.name} case study`} />
+</BaseLayout>

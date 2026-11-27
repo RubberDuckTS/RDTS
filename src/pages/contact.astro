@@ -1,68 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/Section.astro';
-
-const title = "Contact Rubber Duck Tech Solutions: email or book a call";
-const description = 'The duck is the main intake. If you would rather email or book a call directly, here are the links. Long replies within a business day.';
-
-const calendlyUrl = 'https://calendly.com/nguy4227/let-s-connect-project-role-or-collaboration';
+import { CONTACT } from '../lib/site/contact';
+const title = 'Contact Long Nguyen: Book a Free Call | Rubber Duck Tech Solutions';
+const description = 'Book a free 15 to 45 minute call with Long Nguyen, email long@rubberducktechsolutions.com, or ask the duck on this site. Based in Kansas City, working remote across the US.';
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Rubber Duck Tech Solutions',
+  url: `${CONTACT.site}/contact/`,
+  mainEntity: { '@id': `${CONTACT.site}/#business` },
+};
 ---
-
-<BaseLayout title={title} description={description}>
-  <section class="section-dark">
-    <div class="container-x pt-8 sm:pt-20 lg:pt-28 pb-12 lg:pb-16">
-      <div class="status-pill mb-6"><span class="status-pill__dot"></span><span>// AI consultant &amp; developer</span></div>
-      <h1 class="display-h1 mb-6 max-w-[20ch]">
-        Prefer to skip<br/>
-        the <span class="accent-saffron">duck</span>?
-      </h1>
-      <p class="text-[18px] text-bone-dim leading-[1.6] max-w-[58ch]">
-        The duck is the main way in. In a short chat it reads what your team is trying to do with
-        AI and whether a retainer or a one-off fits, then sends me a brief. It's faster than
-        email, and we get to a real number on the first call. If you'd still rather not, the
-        two links below work.
-      </p>
-    </div>
-  </section>
-
-  <Section tone="cream">
-    <div class="grid grid-cols-12 gap-x-4 lg:gap-x-8 gap-y-6">
-      <div class="col-span-12 lg:col-span-8 lg:col-start-3">
-        <div class="card-cream p-5 sm:p-7 lg:p-8 mb-5">
-          <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">Email</div>
-          {/* The address can't hyphenate: break after the @ on narrow phones
-              instead of pushing the page wider than the viewport. */}
-          <h2 class="text-[clamp(17px,5.4vw,22px)] sm:text-[26px] font-semibold tracking-tight2 text-coal mb-3 [overflow-wrap:anywhere]">
-            <a href="mailto:long@rubberducktechsolutions.com" class="link-coal">long@<wbr />rubberducktechsolutions.com</a>
-          </h2>
-          <p class="text-[15px] text-coal-dim leading-[1.65]">
-            Tell me what your company does, what the AI situation looks like right now, and your
-            rough budget range. I read everything and reply within a business day. If you're
-            emailing because the duck broke, mention that.
-          </p>
+<BaseLayout title={title} description={description} schema={contactSchema} crumbs={[{ name: 'Contact', path: '/contact/' }]}>
+  <section class="page-hero" data-guide-section="book">
+    <div class="container-x relative">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <span aria-current="page">Contact</span></nav>
+      <p class="eyebrow-q">How do I reach Long?</p>
+      <h1 class="display-h1 max-w-[16ch] mb-7">Three ways in. Pick whichever is easiest.</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+        <div class="glass p-7">
+          <h2 class="text-[22px] font-semibold text-bone mb-2">Book a free call</h2>
+          <p class="text-[15px] text-bone-dim mb-6">15, 30 or 45 minutes on Google Meet. Long reads your notes before you meet.</p>
+          <a class="btn btn-primary" href={CONTACT.booking} data-guide-book>Pick a time →</a>
         </div>
-
-        <div class="card-cream p-7 lg:p-8 mb-8">
-          <div class="font-mono text-[10px] tracking-spec uppercase text-coal-mute mb-3">Book a call</div>
-          <h2 class="text-[26px] font-semibold tracking-tight2 text-coal mb-3">30 minutes, calendar straight to mine</h2>
-          <p class="text-[15px] text-coal-dim leading-[1.65] mb-5">
-            For when you'd rather talk than type. Pick a slot, no email back-and-forth.
-          </p>
-          <a
-            href={calendlyUrl}
-            target="_blank"
-            rel="noopener"
-            class="btn btn-outline-dark text-[14px]"
-          >Open Calendly →</a>
+        <div class="glass p-7">
+          <h2 class="text-[22px] font-semibold text-bone mb-2">Email</h2>
+          <p class="text-[15px] text-bone-dim mb-6">Write as much or as little as you like. Replies within one business day.</p>
+          <a class="btn btn-outline-light" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
         </div>
-
-        <div class="text-center">
-          <a href="/talk/" class="btn btn-primary">Or talk to the duck →</a>
-          <p class="text-[13px] text-coal-mute mt-4">
-            Honestly, the duck is faster. It already knows the shapes I work in.
-          </p>
+        <div class="glass p-7">
+          <h2 class="text-[22px] font-semibold text-bone mb-2">Ask the duck</h2>
+          <p class="text-[15px] text-bone-dim mb-6">The guide in the corner answers questions now and passes your notes to Long.</p>
+          <a class="btn btn-outline-light" href="/talk/" data-guide-open>Open the guide</a>
         </div>
       </div>
+      {CONTACT.phone && <p class="mt-8 text-bone-dim">Prefer the phone? <a class="link-saffron" href={`tel:${CONTACT.phone.e164}`}>{CONTACT.phone.display}</a></p>}
+      <p class="mt-8 text-[14px] text-bone-mute">Rubber Duck Tech Solutions · {CONTACT.city}, {CONTACT.regionName} · working remote with businesses across the US.</p>
     </div>
-  </Section>
+  </section>
 </BaseLayout>
